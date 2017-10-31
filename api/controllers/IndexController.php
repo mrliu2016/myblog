@@ -3,6 +3,8 @@
 namespace app\api\controllers;
 
 use app\common\components\WeiXinApi;
+use app\common\models\User;
+use app\common\services\Constants;
 
 class IndexController extends BaseController
 {
@@ -29,6 +31,6 @@ class IndexController extends BaseController
 
     public function actionTest()
     {
-        var_dump(WeiXinApi::getAccessToken('wxc157967034c8f60b', 'c098668310efd73a1fa1df5d436fe299'));
+        self::jsonReturnSuccess(Constants::CODE_SUCCESS, User::queryById(100001));
     }
 }

@@ -1,27 +1,28 @@
 <?php
 
 $dev = [
-    'class'    => 'yii\db\Connection',
-    'dsn'      => 'mysql:host=rm-2zez85v6e1ctm49aao.mysql.rds.aliyuncs.com;dbname=disseminate',
-    'username' => 'phpuser',
-    'password' => 'MyNewPass4!',
-    'charset'  => 'utf8',
+    'class' => 'yii\db\Connection',
+    'dsn' => 'mysql:host=drds7e7z8arsc9y0public.drds.aliyuncs.com;dbname=live_dev',
+    'username' => 'live_dev',
+    'password' => 'MyNewPass4',
+    'emulatePrepare' => false,
+    'charset' => 'utf8',
 ];
 
 $online = [
-    'class'       => 'yii\db\Connection',
-    'dsn'         => 'mysql:host=rm-2zeq4rg223it7lofzo.mysql.rds.aliyuncs.com;port=3306;dbname=disseminate',
-    'username'    => 'phpuser',
-    'password'    => 'MyNewPass4!',
+    'class' => 'yii\db\Connection',
+    'dsn' => 'mysql:host=drds7e7z8arsc9y0public.drds.aliyuncs.com;dbname=live',
+    'username' => 'live',
+    'password' => 'MyNewPass4',
     'emulatePrepare' => false,
-    'charset'     => 'utf8',
+    'charset' => 'utf8',
     'slaveConfig' => [
-        'username' => 'phpuser',
-        'password' => 'MyNewPass4!',
+        'username' => 'live',
+        'password' => 'MyNewPass4',
     ],
-    'slaves'      => [
+    'slaves' => [
         [
-            'dsn' => 'mysql:host=rm-2zeq4rg223it7lofzo.mysql.rds.aliyuncs.com;port=3306;dbname=disseminate',
+            'dsn' => 'mysql:host=drds7e7z8arsc9y0public.drds.aliyuncs.com;dbname=live',
             'charset' => 'utf8',
         ],
     ],
