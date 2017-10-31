@@ -1,0 +1,35 @@
+.card-div {
+    width: 226px;
+    min-height: 350px;
+    position: relative;
+    padding: 1px;
+}
+
+.card-div .img-a {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    display: block;
+}
+
+.card-body-extra {
+    position: relative;
+    padding: 2px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 3px;
+}
+
+.h6-extra {
+    margin-bottom: 2px;
+}
+
+.p-extra {
+    margin-bottom: 3px;
+}
+
+.hr-extra {
+    margin-bottom: 8px;
+}

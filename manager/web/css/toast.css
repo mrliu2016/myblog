@@ -1,0 +1,215 @@
+.toast-mask {
+    position         : fixed;
+    z-index          : 1024;
+    top              : 0;
+    right            : 0;
+    bottom           : 0;
+    left             : 0;
+    font-size        : 16px;
+    background-color : transparent;
+}
+
+.toast {
+    position      : absolute;
+    top           : 54px;
+    left          : 50%;
+    transform     : translate(-50%, 0);
+    width         : auto;
+    max-width     : 90%;
+    height        : 44px;
+    padding       : 8px 16px;
+    font-family   : "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+    font-size     : 16px;
+    text-align    : center;
+    border-radius : 4px;
+    background    : #FFFFFF;
+    box-shadow    : 0 2px 8px rgba(0, 0, 0, 0.2);
+    text-overflow : ellipsis;
+    white-space   : nowrap;
+    overflow      : hidden;
+    box-sizing    : border-box;
+}
+
+.toast * {
+    box-sizing : border-box;
+}
+
+.toast:before {
+    content        : '';
+    display        : inline-block;
+    width          : 0;
+    height         : 100%;
+    font-size      : 0;
+    vertical-align : middle;
+}
+
+.toast.middle {
+    top       : 50%;
+    transform : translate(-50%, -50%);
+}
+
+.toast-enter {
+    opacity : 0;
+    top     : -54px;
+}
+
+.toast-enter-active {
+    transition : all .5s ease;
+}
+
+.toast-leave {
+    opacity : 1;
+}
+
+.toast-leave-active {
+    transition : all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+    opacity    : 0;
+}
+
+.toast-icon {
+    position      : relative;
+    top           : 5px;
+    display       : inline-block;
+    width         : 18px;
+    height        : 18px;
+    font-size     : 14px;
+    color         : #FFFFFF;
+    margin-right  : 4px;
+    border-radius : 50%;
+}
+
+.toast-icon.info-icon {
+    background-color : #2DB7F5;
+}
+
+.toast-icon.info-icon:before {
+    content          : '';
+    position         : absolute;
+    top              : 3px;
+    left             : 8px;
+    width            : 2px;
+    height           : 2px;
+    border-radius    : 50%;
+    background-color : #FFFFFF;
+}
+
+.toast-icon.info-icon:after {
+    content          : '';
+    position         : absolute;
+    top              : 6px;
+    left             : 8px;
+    width            : 2px;
+    height           : 8px;
+    border-radius    : 1px;
+    background-color : #FFFFFF;
+}
+
+.toast-icon.success-icon {
+    background-color : #5FBC29;
+}
+
+.toast-icon.success-icon:before,
+.toast-icon.success-icon:after {
+    content          : '';
+    position         : absolute;
+    width            : 1px;
+    border-radius    : 1px;
+    background-color : #FFFFFF;
+}
+
+.toast-icon.success-icon:before {
+    top       : 7px;
+    left      : 5px;
+    height    : 6px;
+    transform : rotate(-40deg);
+}
+
+.toast-icon.success-icon:after {
+    top       : 4px;
+    left      : 10px;
+    height    : 10px;
+    transform : rotate(45deg);
+}
+
+.toast-icon.error-icon {
+    background-color : #FF3858;
+}
+
+.toast-icon.error-icon:before {
+    content          : '';
+    position         : absolute;
+    top              : 12px;
+    left             : 8px;
+    width            : 2px;
+    height           : 2px;
+    border-radius    : 50%;
+    background-color : #FFFFFF;
+}
+
+.toast-icon.error-icon:after {
+    content          : '';
+    position         : absolute;
+    top              : 3px;
+    left             : 8px;
+    width            : 2px;
+    height           : 8px;
+    border-radius    : 1px;
+    background-color : #FFFFFF;
+}
+
+.toast-icon.warn-icon {
+    background-color : #FF8A0C;
+}
+
+.toast-icon.warn-icon:before {
+    content          : '';
+    position         : absolute;
+    top              : 12px;
+    left             : 8px;
+    width            : 2px;
+    height           : 2px;
+    border-radius    : 50%;
+    background-color : #FFFFFF;
+}
+
+.toast-icon.warn-icon:after {
+    content          : '';
+    position         : absolute;
+    top              : 3px;
+    left             : 8px;
+    width            : 2px;
+    height           : 8px;
+    border-radius    : 1px;
+    background-color : #FFFFFF;
+}
+
+.toast-icon.loading-icon {
+    background-color : #FFFFFF;
+}
+
+.toast-icon.toast-spin {
+    border-top        : 1px solid #FFFFFF;
+    border-right      : 1px solid #2DB7F5;
+    border-bottom     : 1px solid #2DB7F5;
+    border-left       : 1px solid #2DB7F5;
+    animation         : 0.85s spin infinite;
+    -webkit-animation : 0.85s spin infinite;
+    -moz-animation    : 0.85s spin infinite;
+    -o-animation      : 0.85s spin infinite;
+}
+
+.message {
+    position : relative;
+    top      : 3px;
+}
+
+@keyframes spin {
+    0% {
+        transform-origin : 50% 50%;
+        transform        : rotate(0deg);
+    }
+    100% {
+        transform-origin : 50% 50%;
+        transform        : rotate(360deg);
+    }
+}

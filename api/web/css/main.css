@@ -1,0 +1,134 @@
+p{
+    font-size: 14px;
+    color:#333;
+
+}
+h5{
+    font-size: 16px;
+    color: #000;
+}
+.placeholder {
+    margin: 5px 0px;
+    padding: 10px 0px;
+    background-color: #ebebeb;
+    text-align: center;
+    color: #333;
+    display:inline-block;
+    border:2px solid #f0f0f0;
+}
+.placeholder-but {
+    margin: 5px 0px;
+    padding: 10px 0px;
+    background-color: #fff;
+    text-align: center;
+    color: #333;
+    display:inline-block;
+    border:2px solid #f0f0f0;
+}
+
+
+
+/*文章打分*/
+.container{
+    background-color: #fff;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+}
+.slider-value{
+    position: absolute;
+    top:0;
+    left: 40%;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #fff;
+    line-height: 40px;
+}
+.solider-bodys{
+    background-color: #f7ee07;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    position: relative;
+}
+.height-line{
+    height:10px;
+}
+.solider-main{
+    background-color: #bdbdbd;
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+    flex: 1;
+    margin-left: 20px;
+    margin-right:20px;
+    margin-top: 10px;
+    position: relative;
+}
+.solider-text{
+    text-align: center;
+    color:#333;
+    line-height: 32px;
+    padding-top: 20px;
+}
+.solider-box{
+    position: relative;
+    height: 100px;
+    margin-top: 15px;
+}
+.solider-inner{
+    margin-top: 50px;
+}
+.solider-but{
+    width: 100px;
+    background-color: #f7ee07;
+    border:2px solid #4b4b4b;
+    color:#4b4b4b;
+    height: 40px;
+    line-height: 40px;
+}
+.solider-button{
+    height: 70px;
+    margin-top: 20px;
+}
+.intro{
+    margin-top: 30px;
+}
+.receive-but{
+    background-color: #ff9800;
+    color: #fff;
+    border:2px solid #4b4b4b;
+    font-size: 14px;
+    width:150px;
+}
+.intro_main{
+    margin-top: 20px;
+}
+.thumb{
+    width: 46px;
+    height: 46px;
+    border-radius: 23px;
+}
+.cell-list p{
+    margin-top: 10px;
+    font-size: 20px;
+}
+.cell-list-center{
+    text-align: center;
+}
+/*任务规则*/
+.rules-top{
+    margin-top:50px;
+}
+.rules-top p{
+    padding-left:30px;
+    line-height: 28px;
+}
+.erwei{
+    width:160px;
+    height: 160px;
+    margin-bottom: 50px;
+}
+.rules-bottom{
+    margin-bottom: 100px;
+}

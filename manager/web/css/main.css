@@ -1,0 +1,91 @@
+
+.clearfix:after {visibility:hidden;display:block;font-size:0;content:" ";clear:both;height:0;}
+.login_body{
+	background-image: url(../img/login1.jpg);
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover;
+	width: 100%;
+	height: 100%;
+	font-family: "微软雅黑";
+}
+.main{
+	position: absolute;
+	top:0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	
+}
+.container_main h2{
+	margin-top: 100px;
+	color: #49e9ff;
+	text-align: center;
+	letter-spacing: 10px;
+	font-size: 94px;
+	line-height: 150px;
+	font-weight: bold;
+}
+#loginForm{
+	
+	margin-top: 20px;
+	text-align: center;
+}
+.form_main{
+	margin: 0 auto;
+	width: 435px;
+	background-color:#fff;
+	color: #666;
+	height: 314px;
+
+}
+.formlist{
+	width: 340px;
+	margin: 60px auto auto auto;
+	border:1px solid #ababab;
+	position: relative;
+
+}
+.formlist:hover{
+	border:1px solid #00c2de;
+}
+
+.formlist input{
+	width: 280px;
+	border:none;
+	height: 45px;
+	color: #333;
+	padding-left: 30px;
+}
+.dl{
+	width: 314px;
+	background-color: #00c2d1;
+	border:none;
+	color: #fff;
+    height: 45px;
+    line-height: 45px;
+    margin-bottom: 34px;
+    letter-spacing: 5px;
+    font-size: 18px;
+}
+.dl:hover{
+		background-color: #00899e;
+}
+.bdbg{
+	position: absolute;
+	line-height: 45px;
+	color: #4a4a4a;
+	font-size: 18px;
+	left: 10px;
+	font-weight: normal;
+}
+.form_list_pwd{
+	margin-top: 24px;
+}
+.txt{
+	background-color: #fff;
+}
+input:-webkit-autofill {
+-webkit-box-shadow: 0 0 0px 1000px white inset;
+
+}
