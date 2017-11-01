@@ -35,9 +35,12 @@ class UserController extends BaseController
         RedisClient::getInstance()->set($token, json_encode(['userName' => $result['userName'], 'token' => $token]));
         RedisClient::getInstance()->expire($token, Constants::LOGIN_TOKEN_EXPIRES);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '登陆成功', [
-            'id' => $result['id'],
-            'userName' => $result['userName'],
+            'userId' => $result['id'],
+            'nickName' => $result['nickName'],
             'token' => $token,
+            'avatar' => $result['avatar'],
+            'mobile' => $result['mobile'],
+            'roomId' => '',
         ]);
     }
 
