@@ -5,7 +5,7 @@ $dev = [
     'dsn' => 'mysql:host=drds7e7z8arsc9y0public.drds.aliyuncs.com;dbname=live_dev',
     'username' => 'live_dev',
     'password' => 'MyNewPass4',
-    'emulatePrepare' => false,
+    'emulatePrepare' => true,
     'charset' => 'utf8',
 ];
 
