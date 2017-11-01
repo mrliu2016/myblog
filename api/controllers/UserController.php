@@ -31,7 +31,7 @@ class UserController extends BaseController
         if (empty($result)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '用户名或密码错误', []);
         }
-        $token = Token::generateToken($result['userName']);
+        $token = Token::generateToken($result['id']);
         RedisClient::getInstance()->set($token, json_encode(['userName' => $result['userName'], 'token' => $token]));
         RedisClient::getInstance()->expire($token, Constants::LOGIN_TOKEN_EXPIRES);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '登陆成功', [
@@ -41,6 +41,7 @@ class UserController extends BaseController
             'avatar' => $result['avatar'],
             'mobile' => $result['mobile'],
             'roomId' => '',
+            'level' => $result['level'],
         ]);
     }
 
