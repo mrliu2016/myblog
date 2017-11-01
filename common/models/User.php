@@ -85,10 +85,6 @@ class User extends ActiveRecord
 
     }
 
-    public static function insertAuthorizeInfo($params)
-    {
-    }
-
     /**
      * 根据sql更新表数据
      * @param string $sql
@@ -112,6 +108,10 @@ class User extends ActiveRecord
         return $command->queryAll();
     }
 
+    /**
+     * @param $result
+     * @return array
+     */
     private static function processLoginInfo($result)
     {
         return [
@@ -127,5 +127,30 @@ class User extends ActiveRecord
                 'token' => Token::generateToken($result[Constants::CODE_SUCCESS]['id'])
             ]
         ];
+    }
+
+    public static function veriFied($params)
+    {
+        $model = static::find()->andWhere(['id' => $params['id']])->one();
+        $model->idCard = $params['idCard'];
+        $model->realName = $params['realName'];
+        $model->save();
+        return $model->id;
+    }
+
+    public static function setPassworld($params)
+    {
+        $model = static::find()->andWhere(['id' => $params['id']])->one();
+        $model->password = $params['password'];
+        $model->save();
+        return $model->id;
+    }
+
+    public static function bindPhone($params)
+    {
+        $model = static::find()->andWhere(['id' => $params['id']])->one();
+        $model->mobile = $params['mobile'];
+        $model->save();
+        return $model->id;
     }
 }

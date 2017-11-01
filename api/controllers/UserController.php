@@ -31,13 +31,17 @@ class UserController extends BaseController
         if (empty($result)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '用户名或密码错误', []);
         }
-        $token = Token::generateToken($result['userName']);
+        $token = Token::generateToken($result['id']);
         RedisClient::getInstance()->set($token, json_encode(['userName' => $result['userName'], 'token' => $token]));
         RedisClient::getInstance()->expire($token, Constants::LOGIN_TOKEN_EXPIRES);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '登陆成功', [
-            'id' => $result['id'],
-            'userName' => $result['userName'],
+            'userId' => $result['id'],
+            'nickName' => $result['nickName'],
             'token' => $token,
+            'avatar' => $result['avatar'],
+            'mobile' => $result['mobile'],
+            'roomId' => '',
+            'level' => $result['level'],
         ]);
     }
 
@@ -53,5 +57,44 @@ class UserController extends BaseController
         }
         RedisClient::getInstance()->del($headers['token']);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '退出成功', []);
+    }
+
+    public function actionVerified()
+    {
+        $params = array(
+            'id' => \Yii::$app->request->post('id'),
+            'idCard' => \Yii::$app->request->post('idCard'),
+            'realName' => \Yii::$app->request->post('realName'),
+        );
+        if (empty($params['idCard']) || strlen($params['idCard']) != 18 || !ctype_digit(substr($params['idCard'], 0, 17)) || empty($params['realName'])) {
+            $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
+        }
+        $dat['id'] = User::veriFied($params);
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '实名成功', []);
+    }
+
+    public function actionSetPassword()
+    {
+        $params = array(
+            'id' => \Yii::$app->request->post('id'),
+            'password' => md5(\Yii::$app->request->post('password')),
+        );
+        if (User::setPassworld($params)) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '设置密码成功', []);
+        }
+    }
+
+    public function actionBindPhone()
+    {
+        $params = array(
+            'id' => \Yii::$app->request->post('id'),
+            'mobile' => \Yii::$app->request->post('mobile'),
+        );
+        if (empty($params['mobile']) || !is_string($params['mobile']) || strlen($params['mobile']) != 11 || !ctype_digit($params['mobile'])) {
+            $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
+        }
+        if (User::bindPhone($params)) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '绑定手机成功', []);
+        }
     }
 }
