@@ -32,7 +32,7 @@ class UserController extends BaseController
             $this->jsonReturnError(Constants::CODE_FAILED, '用户名或密码错误', []);
         }
         $token = Token::generateToken($result['userName']);
-        RedisClient::getInstance()->set($token, ['userName' => $result['userName'], 'token' => $token]);
+        RedisClient::getInstance()->set($token, json_encode(['userName' => $result['userName'], 'token' => $token]));
         RedisClient::getInstance()->expire($token, Constants::LOGIN_TOKEN_EXPIRES);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '登陆成功', [
             'id' => $result['id'],
@@ -41,5 +41,17 @@ class UserController extends BaseController
         ]);
     }
 
-
+    public function actionLogout()
+    {
+        $headers = \Yii::$app->request->headers;
+        if (!isset($headers['token'])) {
+            $this->jsonReturnError(Constants::CODE_FAILED, 'missing token!');
+        }
+        $usinfo = json_decode(RedisClient::getInstance()->get($headers['token']), true);
+        if ($headers['token'] != $usinfo['token']) {
+            $this->jsonReturnError(Constants::CODE_FAILED, 'token错误');
+        }
+        RedisClient::getInstance()->del($headers['token']);
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '退出成功', []);
+    }
 }
