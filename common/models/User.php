@@ -17,4 +17,9 @@ class User extends ActiveRecord
         $sql = 'select * from ' . self::tableName() . ' where id= ' . $id;
         return $cn->createCommand($sql)->queryOne();
     }
+
+    public static function checkLogin($mobile, $password)
+    {
+        return static::find()->andWhere(['mobile' => $mobile])->andWhere(['password' => $password])->asArray()->one();
+    }
 }
