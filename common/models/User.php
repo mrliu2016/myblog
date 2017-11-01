@@ -22,4 +22,29 @@ class User extends ActiveRecord
     {
         return static::find()->andWhere(['mobile' => $mobile])->andWhere(['password' => $password])->asArray()->one();
     }
+
+    public static function veriFied($params)
+    {
+        $model = static::find()->andWhere(['id' => $params['id']])->one();
+        $model->idCard = $params['idCard'];
+        $model->realName = $params['realName'];
+        $model->save();
+        return $model->id;
+    }
+
+    public static function setPassworld($params)
+    {
+        $model = static::find()->andWhere(['id' => $params['id']])->one();
+        $model->password = $params['password'];
+        $model->save();
+        return $model->id;
+    }
+
+    public static function bindPhone($params)
+    {
+        $model = static::find()->andWhere(['id' => $params['id']])->one();
+        $model->mobile = $params['mobile'];
+        $model->save();
+        return $model->id;
+    }
 }
