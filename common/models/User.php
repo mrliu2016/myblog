@@ -153,4 +153,10 @@ class User extends ActiveRecord
         $model->save();
         return $model->id;
     }
+
+    public static function informationUpdate($params)
+    {
+        $information = static::find()->andWhere(['id' => $params['id']])->one();
+
+    }
 }

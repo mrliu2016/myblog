@@ -97,4 +97,17 @@ class UserController extends BaseController
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '绑定手机成功', []);
         }
     }
+
+    public function actionPersonalInformation()
+    {
+        $params = array(
+            'id'=>\Yii::$app->request->post('id'),
+            'avatar'=> \Yii::$app->request->post('avatar'),
+            'nickName'=>\Yii::$app->request->post('nickName'),
+            'province'=>\Yii::$app->request->post('province'),
+            'city'=>\Yii::$app->request->post('city'),
+            'description'=>\Yii::$app->request->post('description'),
+        );
+        User::informationUpdate($params);
+    }
 }
