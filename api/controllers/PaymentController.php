@@ -2,7 +2,7 @@
 
 namespace app\api\controllers;
 
-use app\common\models\Order;
+use app\common\models\Payment;
 use app\common\services\Constants;
 use Yii;
 
@@ -15,7 +15,7 @@ class PaymentController extends BaseController
     {
         $params = Yii::$app->request->post();
         $params['price'] = 0.01;
-        $result = Order::weiXinPay($params,Constants::WEI_XIN_JS_TRADE);
+        $result = Payment::weiXinPay($params,Constants::WEI_XIN_JS_TRADE);
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['message'], []);
         }
@@ -29,7 +29,7 @@ class PaymentController extends BaseController
     {
         $params = Yii::$app->request->post();
         $params['price'] = 0.01;
-        $result = Order::weiXinPay($params,Constants::WEI_XIN_APP_TRADE);
+        $result = Payment::weiXinPay($params,Constants::WEI_XIN_APP_TRADE);
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['message'], []);
         }

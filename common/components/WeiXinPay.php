@@ -65,9 +65,10 @@ class WeiXinPay
      * @param string $payKey 支付密钥
      * @param string $body 商品描述
      * @param string $attach 附加参数
+     * @param string $detail 详情
      * @return array
      */
-    public static function weiXinAppPay($openId, $orderId, $totalFee, $appId, $mchId, $payKey, $body = '', $attach = '')
+    public static function weiXinAppPay($openId, $orderId, $totalFee, $appId, $mchId, $payKey, $body = '', $attach = '', $detail = '')
     {
         $weiXinConfig = Yii::$app->params['weiXin'];
         $unifiedOrder = new WxPayUnifiedOrder();
@@ -75,7 +76,7 @@ class WeiXinPay
         $unifiedOrder->setMchId($mchId);
         $unifiedOrder->setPayKey($payKey);
         $unifiedOrder->setBody(!empty($body) ? $body : 'GOODS BODY');
-        $unifiedOrder->setDetail(!empty($body) ? $body : 'DETAIL');
+        $unifiedOrder->setDetail(!empty($detail) ? $detail : 'DETAIL');
         $unifiedOrder->setFeeType('CNY');
         $unifiedOrder->setNotifyUrl($weiXinConfig['notifyUrl']);
         $unifiedOrder->setTimeStart(date("YmdHms"));

@@ -25,7 +25,19 @@ $params = [
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
-            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
+            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=',
+        ],
+        'app' => [
+            'wxAppId' => 'wx70a3358e75e061f7',
+            'wxMchId' => '1440798702',
+            'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',
+            'wxAppSecret' => '32d60c56204a0622f6895574cb240c25'
+        ],
+        'jsApi' => [
+            'wxAppId' => 'wxc157967034c8f60b',
+            'wxMchId' => '1487372672',
+            'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
+            'wxAppSecret' => ''
         ],
         'appId' => 1,
         'pushQrCode' => 'http://userservice.oss-cn-beijing.aliyuncs.com/project_wechat/2017/10/13/11/1835_3171.jpg',
@@ -56,6 +68,18 @@ $params = [
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
             'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
         ],
+        'app' => [
+            'wxAppId' => 'wx70a3358e75e061f7',
+            'wxMchId' => '1440798702',
+            'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',
+            'wxAppSecret' => '32d60c56204a0622f6895574cb240c25'
+        ],
+        'jsApi' => [
+            'wxAppId' => 'wxc157967034c8f60b',
+            'wxMchId' => '1487372672',
+            'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
+            'wxAppSecret' => ''
+        ],
         'appId' => 1,
         'pushQrCode' => 'http://userservice.oss-cn-beijing.aliyuncs.com/project_wechat/2017/10/13/11/1835_3171.jpg',
     ],
@@ -85,6 +109,18 @@ $params = [
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
             'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
         ],
+        'app' => [
+            'wxAppId' => 'wx70a3358e75e061f7',
+            'wxMchId' => '1440798702',
+            'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',
+            'wxAppSecret' => '32d60c56204a0622f6895574cb240c25'
+        ],
+        'jsApi' => [
+            'wxAppId' => 'wxc157967034c8f60b',
+            'wxMchId' => '1487372672',
+            'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
+            'wxAppSecret' => ''
+        ],
         'appId' => 1,
         'pushQrCode' => 'http://userservice.oss-cn-beijing.aliyuncs.com/project_wechat/2017/10/13/11/1835_3171.jpg',
     ],
@@ -113,6 +149,18 @@ $params = [
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
             'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
+        ],
+        'app' => [
+            'wxAppId' => 'wx70a3358e75e061f7',
+            'wxMchId' => '1440798702',
+            'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',
+            'wxAppSecret' => '32d60c56204a0622f6895574cb240c25'
+        ],
+        'jsApi' => [
+            'wxAppId' => 'wxc157967034c8f60b',
+            'wxMchId' => '1487372672',
+            'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
+            'wxAppSecret' => ''
         ],
         'appId' => 1,
         'pushQrCode' => 'http://userservice.oss-cn-beijing.aliyuncs.com/project_wechat/2017/10/13/11/1835_3171.jpg',
