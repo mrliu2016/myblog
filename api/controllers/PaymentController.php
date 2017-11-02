@@ -14,6 +14,7 @@ class PaymentController extends BaseController
     public function actionWeiXinJsPay()
     {
         $params = Yii::$app->request->post();
+        $params['price'] = 0.01;
         $result = Order::weiXinPay($params,Constants::WEI_XIN_JS_TRADE);
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['message'], []);
@@ -27,6 +28,7 @@ class PaymentController extends BaseController
     public function actionWeiXinAppPay()
     {
         $params = Yii::$app->request->post();
+        $params['price'] = 0.01;
         $result = Order::weiXinPay($params,Constants::WEI_XIN_APP_TRADE);
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['message'], []);
