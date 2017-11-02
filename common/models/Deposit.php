@@ -72,6 +72,58 @@ class Deposit extends ActiveRecord
     }
 
     /**
+     * 充值记录
+     * @param $params
+     * @return array
+     */
+    public static function depositRecord($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        $result = $find->select('id,price,orderIdAlias,source,status,FROM_UNIXTIME(orderCreateTime) as created,orderPayTime')
+            ->asArray()->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->orderBy('orderCreateTime desc')->all();
+        foreach ($result as $key => $value) {
+            $result[$key]['id'] = intval($value['id']);
+            $result[$key]['price'] = strval($value['price'] / Constants::CENT);
+            $result[$key]['orderPayTime'] = !empty($value['orderPayTime'])
+                ? date('Y-m-d H:i:s', strtotime($value['orderPayTime'])) : '';
+            $result[$key]['source'] = ($value['source'] == 0) ? '微信' : '其他';
+        }
+        return [
+            'code' => Constants::CODE_SUCCESS,
+            'message' => '订单列表',
+            'data' => [
+                'page' => intval($params['page']),
+                'size' => intval($params['size']),
+                'page_cnt' => Constants::CODE_SUCCESS,
+                'total_cnt' => Constants::CODE_SUCCESS,
+                'list' => $result
+            ]
+        ];
+    }
+
+    /**
+     * 绑定查询条件
+     *
+     * @param object $find
+     * @param [] $params
+     * @return mixed
+     */
+    public static function buildParams($find, $params)
+    {
+        if (!empty($params['userId'])) {
+            $find->andWhere(['userId' => $params['userId']]);
+        }
+        return $find;
+    }
+
+    /**
      * 订单别名
      *
      * @return string
