@@ -90,7 +90,7 @@ class WxPayApi
             && $result['result_code'] == 'SUCCESS') {
             return ['code' => Constants::CODE_SUCCESS, 'message' => 'success!', 'data' => $result];
         }
-        return ['code' => Constants::CODE_FAILED, 'message' => 'order query failed!'];
+        return ['code' => Constants::CODE_FAILED, 'message' => $result['trade_state_desc']];
     }
 
     /**

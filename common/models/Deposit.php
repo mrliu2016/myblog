@@ -49,43 +49,6 @@ class Deposit extends ActiveRecord
     }
 
     /**
-     * @param $taskId
-     * @param $unionId
-     * @param int $orderId
-     * @param int $priceReal
-     * @param string $payType
-     * @return array|bool
-     */
-    public static function createTaskOrderId($taskId, $unionId, $orderId = 0, $priceReal = 0, $payType = Constants::PAY_TYPE_WEI_XIN)
-    {
-        $model = static::findOne(['taskId' => $taskId, 'unionId' => $unionId]);
-        if (empty($model)) {
-            return false;
-        }
-        switch ($model->payStatus) {
-            case Constants::TASK_PAY_STATUS_SUCCESS:
-                return [
-                    'code' => Constants::CODE_FAILED,
-                    'msg' => '已支付!'
-                ];
-                break;
-        }
-        switch ($payType) {
-            case Constants::PAY_TYPE_COUPON:
-                $model->priceCoupon = $priceReal;
-                break;
-        }
-        $model->orderId = $orderId;
-        $model->payType = $payType;
-        $model->priceReal = $priceReal;
-        $result = $model->save();
-        return [
-            'code' => $result ? Constants::CODE_SUCCESS : Constants::CODE_FAILED,
-            'msg' => ''
-        ];
-    }
-
-    /**
      * @param $orderId
      * @param $transactionId
      * @param $timeEnd
@@ -106,24 +69,6 @@ class Deposit extends ActiveRecord
         $model->updated = time();
         $result = $model->save();
         return $result ? ['userId' => $model->userId, 'price' => $model->price] : [];
-    }
-
-    public static function h5UpdateTaskMember($orderId, $transactionId, $timeEnd, $payStatus = Constants::TASK_PAY_STATUS_CREATE)
-    {
-        $model = static::findOne(['orderId' => $orderId]);
-        if (empty($model)) {
-            return false;
-        }
-        if (intval($model->payStatus) == Constants::TASK_PAY_STATUS_SUCCESS) {
-            return true;
-        }
-        if (!empty($transactionId)) {
-            $model->transactionId = $transactionId;
-        }
-        $model->payStatus = $payStatus;
-        $model->updated = time();
-        $model->save();
-        return $model->taskId;
     }
 
     /**

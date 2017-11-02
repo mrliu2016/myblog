@@ -50,14 +50,22 @@ class Payment
      */
     public static function queryOrder($params = [])
     {
-        $application = Application::queryById($params['appId']);
-        if (isset($params['transaction_id']) && !empty($params['transaction_id'])) {
-            return WeiXinPay::weiXinOrderQuery($params['transaction_id'], $application['wxAppId'],
-                $application['wxMchId'], $application['wxPayKey'], false);
-        }
-        if (isset($params['out_trade_no']) && !empty($params['out_trade_no'])) {
-            return WeiXinPay::weiXinOrderQuery($params['out_trade_no'], $application['wxAppId'],
-                $application['wxMchId'], $application['wxPayKey'], true);
+        $type = isset($params['type']) ? (!empty($params['type']) ? $params['type'] : '') : '';
+        switch ($type) {
+            case Constants::WEI_XIN_APP_TRADE:
+                $weiXinConfig = Yii::$app->params['app'];
+                return WeiXinPay::weiXinOrderQuery($params['orderId'], $weiXinConfig['wxAppId'],
+                    $weiXinConfig['wxMchId'], $weiXinConfig['wxPayKey'], true);
+                break;
+            case Constants::WEI_XIN_JS_TRADE:
+                $weiXinConfig = Yii::$app->params['jsApi'];
+                return WeiXinPay::weiXinOrderQuery($params['orderId'], $weiXinConfig['wxAppId'],
+                    $weiXinConfig['wxMchId'], $weiXinConfig['wxPayKey'], true);
+                break;
+            default:
+                return [
+                    'code' => Constants::CODE_FAILED, 'message' => '查询订单失败!',];
+                break;
         }
     }
 }

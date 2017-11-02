@@ -85,6 +85,11 @@ class User extends ActiveRecord
 
     }
 
+    /**
+     * 更新用户余额
+     * @param $userId
+     * @param $balance
+     */
     public static function updateUserBalance($userId, $balance)
     {
         $sql = 'update ' . User::tableName()
