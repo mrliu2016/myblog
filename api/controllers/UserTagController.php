@@ -16,12 +16,12 @@ class UserTagController extends BaseController
         exit;
     }
 
+    //用户标签列表
     public function actionList()
     {
         $params = Yii::$app->request->get();
         $params['defaultPageSize'] = self::PAGE_SIZE;
-        $result = UserTag::queryInfo($params);
-        $count = UserTag::queryInfoNum($params);
-        var_dump($result);
+        $list = UserTag::queryInfo($params);
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'success', $list);
     }
 }
