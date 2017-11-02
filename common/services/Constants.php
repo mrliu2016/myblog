@@ -35,4 +35,22 @@ class Constants
 
     const WEI_XIN_JS_TRADE = 'JS_API';
     const WEI_XIN_APP_TRADE = 'APP';
+
+
+    /**
+     * 订单
+     */
+    const ORDER_STATUS_ALL = 'ORDER_ALL'; // 所有订单
+    const ORDER_STATUS_PENDING_PAYMENT = 'CREATED'; // 待付款
+    const ORDER_STATUS_PAYMENT = 'PAID'; // 已付款
+    const ORDER_STATUS_TRANSACTION_CANCELLED = 'CANCELLED'; // 交易取消
+    const ORDER_STATUS_TRANSACTION_CLOSED = 'CLOSED'; // 交易关闭
+    const ORDER_STATUS_COMPLETED = 'COMPLETED'; // 交易完成
+    const ORDER_STATUS_REFUND = 'REFUND'; // 退款中
+    const ORDER_STATUS_REFUND_END = 'REFUND_END'; // 已退款
+
+    const ORDER_STATUS_APPROVAL_PENDING = 'APPROVAL'; // 待审核
+    const ORDER_STATUS_APPROVAL_APPROVAL_ING = 'APPROVAL_ING'; // 审核中
+    const ORDER_STATUS_APPROVAL_THROUGH = 'THROUGH'; // 审核通过
+    const ORDER_STATUS_APPROVAL_REFUSE = 'REFUSE'; // 审核不通过
 }
