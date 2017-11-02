@@ -167,6 +167,12 @@ class User extends ActiveRecord
         return $model->id;
     }
 
+
+    public static function informationUpdate($params)
+    {
+        $information = static::find()->andWhere(['id' => $params['id']])->one();
+
+    }
     public static function updateUserLocation($userId, $longitude, $latitude)
     {
         $model = static::find()->andWhere(['id' => $userId])->one();

@@ -100,7 +100,19 @@ class UserController extends BaseController
         }
     }
 
-    //上报位置
+    public function actionPersonalInformation()
+    {
+        $params = array(
+            'id' => \Yii::$app->request->post('id'),
+            'avatar' => \Yii::$app->request->post('avatar'),
+            'nickName' => \Yii::$app->request->post('nickName'),
+            'province' => \Yii::$app->request->post('province'),
+            'city' => \Yii::$app->request->post('city'),
+            'description' => \Yii::$app->request->post('description'),
+        );
+        User::informationUpdate($params);
+    }
+
     public function actionLocation(){
         $params = Yii::$app->request->post();
         $result = UserService::updateUserLocation($params);
