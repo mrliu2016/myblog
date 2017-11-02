@@ -153,4 +153,12 @@ class User extends ActiveRecord
         $model->save();
         return $model->id;
     }
+
+    public static function updateUserLocation($userId, $longitude, $latitude)
+    {
+        $model = static::find()->andWhere(['id' => $userId])->one();
+        $model->longitude = $longitude;
+        $model->latitude = $latitude;
+        $model->save();
+    }
 }

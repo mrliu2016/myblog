@@ -4,11 +4,11 @@ namespace app\common\models;
 
 use yii\db\ActiveRecord;
 
-class UserTag extends ActiveRecord
+class Tag extends ActiveRecord
 {
     public static function tableName()
     {
-        return 't_user_tag';
+        return 't_tag';
     }
 
     public static function queryById($id)
@@ -27,13 +27,6 @@ class UserTag extends ActiveRecord
         $find = static::find();
         $find = self::buildParams($find, $params);
         $result = $find->asArray()->orderBy('created desc')->offset($offset)->limit($params['defaultPageSize'])->all();
-        foreach ($result as $key => $value) {
-            $tag = Tag::queryById($value['tagId']);
-            unset($result[$key]);
-            $result[$key]['tagId'] = $tag['id'];
-            $result[$key]['name'] = $tag['name'];
-            $result[$key]['remark'] = $tag['remark'];
-        }
         return $result;
     }
 
@@ -46,8 +39,9 @@ class UserTag extends ActiveRecord
 
     public static function buildParams($find, $params)
     {
-        if (!empty($params['userId'])) {
-            $find->andWhere(['userId' => $params['userId']]);
+        if (!empty($params['name'])) $params['name'] = trim($params['name']);
+        if (!empty($params['name'])) {
+            $find->andWhere(['like', 'params', substr($params['name'],2)]);
         }
         return $find;
     }
