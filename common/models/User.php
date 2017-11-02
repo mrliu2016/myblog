@@ -85,9 +85,12 @@ class User extends ActiveRecord
 
     }
 
-    public static function updateUserBalance($userId,$balance)
+    public static function updateUserBalance($userId, $balance)
     {
-
+        $sql = 'update ' . User::tableName()
+            . ' set balance = balance + ' . intval($balance)
+            . ' where id = ' . $userId;
+        static::updateBySqlCondition($sql);
     }
 
     /**
