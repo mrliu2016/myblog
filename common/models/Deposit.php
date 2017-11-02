@@ -72,11 +72,11 @@ class Deposit extends ActiveRecord
     }
 
     /**
-     * 充值记录
      * @param $params
+     * @param string $field
      * @return array
      */
-    public static function depositRecord($params)
+    public static function depositRecord($params,$field = '')
     {
         $offset = 0;
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
@@ -84,7 +84,7 @@ class Deposit extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->select('id,price,orderIdAlias,source,status,FROM_UNIXTIME(orderCreateTime) as created,orderPayTime')
+        $result = $find->select($field)
             ->asArray()->offset($offset)
             ->limit($params['defaultPageSize'])
             ->orderBy('orderCreateTime desc')->all();
@@ -106,6 +106,13 @@ class Deposit extends ActiveRecord
                 'list' => $result
             ]
         ];
+    }
+
+    public static function queryInfoNum($params)
+    {
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        return $find->count();
     }
 
     /**

@@ -17,7 +17,7 @@ class DepositController extends BaseController
     {
         $params = Yii::$app->request->get();
         $params['defaultPageSize'] = isset($params['size']) ? $params['size'] : self::PAGE_SIZE;
-        $result = Deposit::depositRecord($params);
+        $result = Deposit::depositRecord($params, 'id,price,orderIdAlias,source,status,FROM_UNIXTIME(orderCreateTime) as created,orderPayTime');
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['message'], []);
         }
