@@ -13,6 +13,8 @@ use app\common\components\Token;
 use app\common\components\RedisClient;
 use app\common\models\User;
 use app\common\services\Constants;
+use app\common\services\UserService;
+use Yii;
 
 class UserController extends BaseController
 {
@@ -96,5 +98,15 @@ class UserController extends BaseController
         if (User::bindPhone($params)) {
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '绑定手机成功', []);
         }
+    }
+
+    //上报位置
+    public function actionLocation(){
+        $params = Yii::$app->request->post();
+        $result = UserService::updateUserLocation($params);
+        if ($result['code'] == Constants::CODE_FAILED) {
+            $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
+        }
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
 }

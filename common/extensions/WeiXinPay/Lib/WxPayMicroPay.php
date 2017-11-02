@@ -153,7 +153,7 @@ class WxPayMicroPay extends WxPayDataBase
      * 设置商品名称明细列表
      * @param string $value
      **/
-    public function SetDetail($value)
+    public function setDetail($value)
     {
         $this->values['detail'] = $value;
     }
@@ -162,7 +162,7 @@ class WxPayMicroPay extends WxPayDataBase
      * 获取商品名称明细列表的值
      * @return 值
      **/
-    public function GetDetail()
+    public function getDetail()
     {
         return $this->values['detail'];
     }
@@ -265,7 +265,7 @@ class WxPayMicroPay extends WxPayDataBase
      * 设置符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型
      * @param string $value
      **/
-    public function SetFee_type($value)
+    public function setFeeType($value)
     {
         $this->values['fee_type'] = $value;
     }
@@ -274,7 +274,7 @@ class WxPayMicroPay extends WxPayDataBase
      * 获取符合ISO 4217标准的三位字母代码，默认人民币：CNY，其他值列表详见货币类型的值
      * @return 值
      **/
-    public function GetFee_type()
+    public function getFeeType()
     {
         return $this->values['fee_type'];
     }
