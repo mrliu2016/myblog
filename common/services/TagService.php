@@ -6,14 +6,12 @@ use app\common\models\UserTag;
 
 class TagService
 {
-    const PAGE_SIZE = 10;
-
     public static function getUserTagList($params)
     {
         if (!isset($params['userId'])) {
             return ['code' => Constants::CODE_FAILED, 'msg' => 'parameter error'];
         }
-        $params['defaultPageSize'] = self::PAGE_SIZE;
+        $params['defaultPageSize'] = 100;
         $list = UserTag::queryInfo($params);
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $list];
     }
