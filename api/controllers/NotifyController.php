@@ -3,7 +3,8 @@
 namespace app\api\controllers;
 
 use app\common\components\WeiXinPay;
-use app\common\models\TaskMember;
+use app\common\models\Deposit;
+use app\common\models\User;
 use app\common\services\Constants;
 
 class NotifyController extends BaseController
@@ -18,11 +19,13 @@ class NotifyController extends BaseController
         $result = WeiXinPay::notifyProcess($result);
         ll($result, 'notify_process.log');
         if ($result['code'] == Constants::CODE_SUCCESS) {
-            $resultTaskMember = TaskMember::updateTaskMember(
+            $res = Deposit::updateDeposit(
                 $result['notify']['out_trade_no'], $result['notify']['transaction_id'],
-                $result['notify']['time_end'], Constants::TASK_PAY_STATUS_SUCCESS
+                $result['notify']['time_end'], Constants::ORDER_STATUS_COMPLETED
             );
-            if ($resultTaskMember) {
+
+            if ($res) {
+                User::updateUserBalance($res['userId'],$res['price']);
                 echo $result['data'];
             }
         }

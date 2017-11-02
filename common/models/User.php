@@ -85,6 +85,11 @@ class User extends ActiveRecord
 
     }
 
+    public static function updateUserBalance($userId,$balance)
+    {
+
+    }
+
     /**
      * 根据sql更新表数据
      * @param string $sql

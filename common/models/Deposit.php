@@ -89,24 +89,23 @@ class Deposit extends ActiveRecord
      * @param $orderId
      * @param $transactionId
      * @param $timeEnd
-     * @param int $payStatus
-     * @return bool
+     * @param string $status
+     * @return array | boolean
      */
-    public static function updateTaskMember($orderId, $transactionId, $timeEnd, $payStatus = Constants::TASK_PAY_STATUS_CREATE)
+    public static function updateDeposit($orderId, $transactionId, $timeEnd, $status = Constants::ORDER_STATUS_COMPLETED)
     {
-        $model = static::findOne(['orderId' => $orderId]);
+        $model = static::findOne(['orderIdAlias' => $orderId]);
         if (empty($model)) {
             return false;
         }
         if (!empty($transactionId)) {
             $model->transactionId = $transactionId;
         }
-        $model->payStatus = $payStatus;
+        $model->status = $status;
+        $model->orderPayTime = $timeEnd;
         $model->updated = time();
-        $model->save();
-        Task::updateTaskRealCoupon($model->taskId, $model->priceReal);
-        RedisClient::getInstance()->lpush(Constants::PAY_SUCCESS_JOIN_TASK, $model->id);
-        return $model->taskId;
+        $result = $model->save();
+        return $result ? ['userId' => $model->userId, 'price' => $model->price] : [];
     }
 
     public static function h5UpdateTaskMember($orderId, $transactionId, $timeEnd, $payStatus = Constants::TASK_PAY_STATUS_CREATE)
