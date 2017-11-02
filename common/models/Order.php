@@ -33,7 +33,7 @@ class Order extends ActiveRecord
                 $application['wxMchId'] = '1440798702';
                 $application['wxPayKey'] = 'QxKjAppPw1357924QxKjAppPw1357924';
                 $result = WeiXinPay::weiXinAppPay($user['openId'], $orderId, $params['price'], $application['wxAppId'],
-                    $application['wxMchId'], $application['wxPayKey'], $taskResult['name'], $taskResult['name'], $taskResult['name']);
+                    $application['wxMchId'], $application['wxPayKey'], $taskResult['name'], $taskResult['name']);
                 break;
             case Constants::WEI_XIN_JS_TRADE:
                 $result = WeiXinPay::weiXinJsPay($user['openId'], $orderId, $params['price'], $application['wxAppId'],
