@@ -44,7 +44,7 @@ class User extends ActiveRecord
                 return static::weiBo($params);
                 break;
             default:
-                return ['code' => Constants::CODE_FAILED, 'msg' => '登陆失败!'];
+                return ['code' => Constants::CODE_FAILED, 'message' => '登陆失败!'];
                 break;
         }
     }
@@ -67,7 +67,7 @@ class User extends ActiveRecord
             if (!static::updateBySqlCondition($insertSql)) {
                 return [
                     'code' => Constants::CODE_FAILED,
-                    'msg' => '登陆失败!'
+                    'message' => '登陆失败!'
                 ];
             }
             $result = static::queryBySQLCondition($querySql);
@@ -116,7 +116,7 @@ class User extends ActiveRecord
     {
         return [
             'code' => Constants::CODE_SUCCESS,
-            'msg' => '登陆成功!',
+            'message' => '登陆成功!',
             'data' => [
                 'userId' => intval($result[Constants::CODE_SUCCESS]['id']),
                 'roomId' => intval($result[Constants::CODE_SUCCESS]['roomId']),

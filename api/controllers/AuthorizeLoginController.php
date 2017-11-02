@@ -13,9 +13,9 @@ class AuthorizeLoginController extends BaseController
         $params = Yii::$app->request->post();
         $result = User::authorizeLogin($params);
         if ($result['code'] == Constants::CODE_FAILED) {
-            $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
+            $this->jsonReturnError(Constants::CODE_FAILED, $result['message'], []);
         } else {
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['message'], $result['data']);
         }
     }
 }
