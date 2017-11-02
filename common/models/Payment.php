@@ -17,7 +17,7 @@ class Payment
     public static function weiXinPay($params = [], $payType = Constants::WEI_XIN_APP_TRADE)
     {
         $result = [];
-        $orderId = Order::orderIdAlias();
+        $orderId = Deposit::orderIdAlias();
         $user['openId'] = 'o0P9800xU2o5yUQskZ2frc_nM7C8';
         $taskResult['name'] = '测试支付';
         switch ($payType) {
