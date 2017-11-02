@@ -19,22 +19,22 @@ class WxPayApi
     {
         //检测必填参数
         if (!$inputObj->isOutTradeNoSet()) {
-            return ['code' => Constants::CODE_FAILED, 'msg' => 'out_trade_no!'];
+            return ['code' => Constants::CODE_FAILED, 'message' => 'out_trade_no!'];
         } else if (!$inputObj->IsBodySet()) {
-            return ['code' => Constants::CODE_FAILED, 'msg' => 'body!'];
+            return ['code' => Constants::CODE_FAILED, 'message' => 'body!'];
         } else if (!$inputObj->IsTotal_feeSet()) {
-            return ['code' => Constants::CODE_FAILED, 'msg' => '缺少统一支付接口必填参数total_fee!'];
+            return ['code' => Constants::CODE_FAILED, 'message' => '缺少统一支付接口必填参数total_fee!'];
         } else if (!$inputObj->IsTrade_typeSet()) {
-            return ['code' => Constants::CODE_FAILED, 'msg' => '缺少统一支付接口必填参数trade_type!'];
+            return ['code' => Constants::CODE_FAILED, 'msmessageg' => '缺少统一支付接口必填参数trade_type!'];
         }
         if ($inputObj->getTradeType() == "JSAPI" && !$inputObj->IsOpenidSet()) {
             return [
-                'code' => Constants::CODE_FAILED, 'msg' => '统一支付接口中，缺少必填参数openid！trade_type为JSAPI时，openid为必填参数!'
+                'code' => Constants::CODE_FAILED, 'message' => '统一支付接口中，缺少必填参数openid！trade_type为JSAPI时，openid为必填参数!'
             ];
         }
         if ($inputObj->getTradeType() == "NATIVE" && !$inputObj->IsProduct_idSet()) {
             return [
-                'code' => Constants::CODE_FAILED, 'msg' => '统一支付接口中，缺少必填参数product_id！trade_type为JSAPI时，product_id为必填参数!'
+                'code' => Constants::CODE_FAILED, 'message' => '统一支付接口中，缺少必填参数product_id！trade_type为JSAPI时，product_id为必填参数!'
             ];
         }
         //异步通知url未设置，则使用配置文件中的url
@@ -53,9 +53,9 @@ class WxPayApi
         if ($result['return_code'] == 'SUCCESS'
             && ($result['return_msg'] == 'OK')
             && $result['result_code'] == 'SUCCESS') {
-            return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success!', 'data' => $result];
+            return ['code' => Constants::CODE_SUCCESS, 'message' => 'success!', 'data' => $result];
         }
-        return ['code' => Constants::CODE_FAILED, 'msg' => 'failed!'];
+        return ['code' => Constants::CODE_FAILED, 'message' => 'failed!'];
     }
 
     /**
@@ -75,7 +75,7 @@ class WxPayApi
         if (!$inputObj->isOutTradeNoSet() && !$inputObj->isTransactionIdSet()) {
             return [
                 'code' => Constants::CODE_FAILED,
-                'msg' => '订单查询接口中，out_trade_no、transaction_id至少填一个!'
+                'message' => '订单查询接口中，out_trade_no、transaction_id至少填一个!'
             ];
         }
         $inputObj->setAppId($inputObj->getAppId());//公众账号ID
@@ -88,9 +88,9 @@ class WxPayApi
         if ($result['return_code'] == 'SUCCESS'
             && ($result['trade_state'] == 'SUCCESS')
             && $result['result_code'] == 'SUCCESS') {
-            return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success!', 'data' => $result];
+            return ['code' => Constants::CODE_SUCCESS, 'message' => 'success!', 'data' => $result];
         }
-        return ['code' => Constants::CODE_FAILED, 'msg' => 'order query failed!'];
+        return ['code' => Constants::CODE_FAILED, 'message' => 'order query failed!'];
     }
 
     /**
