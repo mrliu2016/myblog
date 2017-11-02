@@ -3,10 +3,10 @@
 namespace app\api\controllers;
 
 use app\common\services\Constants;
-use app\common\services\TagService;
+use app\common\services\FollowService;
 use Yii;
 
-class UserTagController extends BaseController
+class FollowController extends BaseController
 {
     public function actionError()
     {
@@ -14,11 +14,11 @@ class UserTagController extends BaseController
         exit;
     }
 
-    //用户标签列表
-    public function actionList()
+    //关注
+    public function actionAttention()
     {
-        $params = Yii::$app->request->get();
-        $result = TagService::getUserTagList($params);
+        $params = Yii::$app->request->post();
+        $result = FollowService::attention($params);
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
         }
