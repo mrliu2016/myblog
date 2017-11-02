@@ -13,6 +13,8 @@ use app\common\components\Token;
 use app\common\components\RedisClient;
 use app\common\models\User;
 use app\common\services\Constants;
+use app\common\services\UserService;
+use Yii;
 
 class UserController extends BaseController
 {
@@ -101,13 +103,22 @@ class UserController extends BaseController
     public function actionPersonalInformation()
     {
         $params = array(
-            'id'=>\Yii::$app->request->post('id'),
-            'avatar'=> \Yii::$app->request->post('avatar'),
-            'nickName'=>\Yii::$app->request->post('nickName'),
-            'province'=>\Yii::$app->request->post('province'),
-            'city'=>\Yii::$app->request->post('city'),
-            'description'=>\Yii::$app->request->post('description'),
+            'id' => \Yii::$app->request->post('id'),
+            'avatar' => \Yii::$app->request->post('avatar'),
+            'nickName' => \Yii::$app->request->post('nickName'),
+            'province' => \Yii::$app->request->post('province'),
+            'city' => \Yii::$app->request->post('city'),
+            'description' => \Yii::$app->request->post('description'),
         );
         User::informationUpdate($params);
+    }
+
+    public function actionLocation(){
+        $params = Yii::$app->request->post();
+        $result = UserService::updateUserLocation($params);
+        if ($result['code'] == Constants::CODE_FAILED) {
+            $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
+        }
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
 }

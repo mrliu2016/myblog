@@ -86,6 +86,19 @@ class User extends ActiveRecord
     }
 
     /**
+     * 更新用户余额
+     * @param $userId
+     * @param $balance
+     */
+    public static function updateUserBalance($userId, $balance)
+    {
+        $sql = 'update ' . User::tableName()
+            . ' set balance = balance + ' . intval($balance)
+            . ' where id = ' . $userId;
+        static::updateBySqlCondition($sql);
+    }
+
+    /**
      * 根据sql更新表数据
      * @param string $sql
      * @return int
@@ -154,9 +167,17 @@ class User extends ActiveRecord
         return $model->id;
     }
 
+
     public static function informationUpdate($params)
     {
         $information = static::find()->andWhere(['id' => $params['id']])->one();
 
+    }
+    public static function updateUserLocation($userId, $longitude, $latitude)
+    {
+        $model = static::find()->andWhere(['id' => $userId])->one();
+        $model->longitude = $longitude;
+        $model->latitude = $latitude;
+        $model->save();
     }
 }
