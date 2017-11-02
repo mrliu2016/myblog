@@ -15,7 +15,7 @@ class PaymentController extends BaseController
     {
         $params = Yii::$app->request->post();
         $params['price'] = 0.01;
-        $params['userId'] = 3452;
+        $params['userId'] = 100002;
         $result = Payment::weiXinPay($params,Constants::WEI_XIN_JS_TRADE);
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['message'], []);
@@ -30,7 +30,7 @@ class PaymentController extends BaseController
     {
         $params = Yii::$app->request->post();
         $params['price'] = 0.01;
-        $params['userId'] = 3452;
+        $params['userId'] = 100002;
         $result = Payment::weiXinPay($params,Constants::WEI_XIN_APP_TRADE);
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['message'], []);

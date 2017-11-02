@@ -4,11 +4,11 @@ namespace app\common\models;
 
 use yii\db\ActiveRecord;
 
-class Tag extends ActiveRecord
+class Gift extends ActiveRecord
 {
     public static function tableName()
     {
-        return 't_tag';
+        return 't_gift';
     }
 
     public static function queryById($id)
