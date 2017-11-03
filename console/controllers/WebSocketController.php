@@ -19,8 +19,11 @@ class WebSocketController extends Controller
             if (!empty($frame->data)) {
                 $message = json_decode($frame->data, true);
                 switch ($message['messageType']) {
-                    case $message['messageType'] == Constants::MESSAGE_TYPE_BARRAGE_REQ:
+                    case Constants::MESSAGE_TYPE_BARRAGE_REQ:
                         LiveService::barrageRequest($server, $frame, $message);
+                        break;
+                    case Constants::MESSAGE_TYPE_SERVER_INFO_REQ:
+                        LiveService::serverInfoRequest($server, $frame, $message);
                         break;
                     default:
                         $server->push($frame->fd, json_encode(["message not match", $frame->fd]));

@@ -14,6 +14,9 @@ class Constants
     const WEB_SOCKET_IP = '127.0.0.1';
     const WEB_SOCKET_PORT = '9502';
     const MESSAGE_TYPE_BARRAGE_REQ = 'barrage_req';
+    const MESSAGE_TYPE_BARRAGE_RES = 'barrage_res';
+    const MESSAGE_TYPE_SERVER_INFO_REQ = 'server_info_req';
+    const MESSAGE_TYPE_SERVER_INFO_RES = 'server_info_res';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';
