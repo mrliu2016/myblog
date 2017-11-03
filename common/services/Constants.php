@@ -53,4 +53,6 @@ class Constants
     const ORDER_STATUS_APPROVAL_APPROVAL_ING = 'APPROVAL_ING'; // 审核中
     const ORDER_STATUS_APPROVAL_THROUGH = 'THROUGH'; // 审核通过
     const ORDER_STATUS_APPROVAL_REFUSE = 'REFUSE'; // 审核不通过
+
+    const EARTH_RADIUS = 6371; //地球半径，平均半径为6371km
 }

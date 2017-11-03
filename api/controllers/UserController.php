@@ -109,4 +109,14 @@ class UserController extends BaseController
         }
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
+
+    //附近的人
+    public function actionNearby(){
+        $params = Yii::$app->request->get();
+        $result = UserService::nearby($params);
+        if ($result['code'] == Constants::CODE_FAILED) {
+            $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
+        }
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
+    }
 }
