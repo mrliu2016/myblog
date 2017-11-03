@@ -3,6 +3,7 @@
 namespace app\common\services;
 
 use app\common\models\Follow;
+use app\common\models\User;
 
 class FollowService
 {
@@ -22,8 +23,25 @@ class FollowService
         if (!isset($params['userId'])) {
             return ['code' => Constants::CODE_FAILED, 'msg' => 'parameter error'];
         }
-        $params['defaultPageSize'] = self::PAGE_SIZE;
-        $list = Follow::queryInfo($params);
-        return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $list];
+        $page = isset($params['page']) ? (int)$params['page'] : 1;
+        $size = isset($params['pageSize']) ? (int)$params['pageSize'] : self::PAGE_SIZE;
+        $params['defaultPageSize'] = $size;
+        $list = array();
+        $result = Follow::queryInfo($params);
+        foreach ($result as $key => $value) {
+            $item = array();
+            $item["userId"] = (int)$value['id'];
+            $user = User::queryById($value['userIdFollow']);
+            $item["avatar"] = $user['avatar'];
+            $item["nickName"] = $user['nickName'];
+            $item["level"] = (int)$user['level'];
+            $item["description"] = $user['description'];
+            $item["updated"] = date('Y-m-d H:i:s',$value['updated']);
+            $list[] = $item;
+        }
+        $total_cnt = (int)Follow::queryInfoNum($params);;
+        $page_cnt = ceil($total_cnt / $size);
+        $data = compact('total_cnt', 'page', 'size', 'page_cnt', 'list');
+        return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $data];
     }
 }

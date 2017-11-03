@@ -41,6 +41,8 @@ class UserService
             } else {
                 $result['list'][$key]["distance"] = $distance . "m";
             }
+            $result['list'][$key]["userId"] = (int)$value['userId'];
+            $result['list'][$key]["level"] = (int)$value['level'];
         }
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $result];
     }

@@ -181,20 +181,20 @@ class User extends ActiveRecord
         $model->save();
     }
 
-    public static function getNearUserList($userId, $squares, $lng, $lat, $page, $pageSize)
+    public static function getNearUserList($userId, $squares, $lng, $lat, $page, $size)
     {
-        $offset = ($page - 1) * $pageSize;
+        $offset = ($page - 1) * $size;
         $cn = \Yii::$app->db;
         $sqlCnt = "select count(id) as cnt";
-        $sql = "select *";
+        $sql = "select id as userId,avatar,nickName,level,description,latitude,longitude";
         $sqlStr = " from " . self::tableName() . " where id!={$userId} and latitude<>0 and latitude>{$squares['right-bottom']['lat']} and latitude<{$squares['left-top']['lat']} and longitude>{$squares['left-top']['lng']} and longitude<{$squares['right-bottom']['lng']}";
         $sql .= $sqlStr . ' order by abs(longitude -' . $lng . ')+abs(latitude -' . $lat . ')';
-        $sql .= ' limit ' . $offset . ',' . $pageSize . '';
+        $sql .= ' limit ' . $offset . ',' . $size . '';
         $list = $cn->createCommand($sql)->queryAll();
         $sqlCnt = $sqlCnt . $sqlStr;
         $total_cnt = $cn->createCommand($sqlCnt)->queryOne();
         $total_cnt = (int)$total_cnt['cnt'];
-        $page_cnt = ceil($total_cnt / $pageSize);
-        return compact('total_cnt', 'page', 'size', 'page_cnt', 'list');;
+        $page_cnt = ceil($total_cnt / $size);
+        return compact('total_cnt', 'page', 'size', 'page_cnt', 'list');
     }
 }

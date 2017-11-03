@@ -26,7 +26,7 @@ class Follow extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->asArray()->orderBy('created desc')->offset($offset)->limit($params['defaultPageSize'])->all();
+        $result = $find->asArray()->orderBy('updated desc')->offset($offset)->limit($params['defaultPageSize'])->all();
         return $result;
     }
 
@@ -42,6 +42,7 @@ class Follow extends ActiveRecord
         if (!empty($params['userId'])) {
             $find->andWhere(['userId' => $params['userId']]);
         }
+        $find->andWhere(['status' => 1]);
         return $find;
     }
 
