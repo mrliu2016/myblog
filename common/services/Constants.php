@@ -17,6 +17,9 @@ class Constants
     const MESSAGE_TYPE_BARRAGE_RES = 'barrage_res';
     const MESSAGE_TYPE_SERVER_INFO_REQ = 'server_info_req';
     const MESSAGE_TYPE_SERVER_INFO_RES = 'server_info_res';
+    const MESSAGE_TYPE_GIFT_REQ = 'gift_req';
+    const MESSAGE_TYPE_GIFT_RES = 'gift_res';
+    const MESSAGE_TYPE_HEARTBEAT_REQ = 'heartbeat_req';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';
