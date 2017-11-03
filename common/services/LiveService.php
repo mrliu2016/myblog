@@ -2,6 +2,8 @@
 
 namespace app\common\services;
 
+use app\common\models\User;
+use app\common\models\Video;
 use Yii;
 
 class LiveService
@@ -10,6 +12,7 @@ class LiveService
     public static function barrageRequest($server, $frame, $message)
     {
         echo 'receive message:' . json_encode($message);
+        $param = $message['data'];
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_BARRAGE_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
         $respondMessage['message'] = 'hello world!';
@@ -27,6 +30,7 @@ class LiveService
     public static function serverInfoRequest($server, $frame, $message)
     {
         echo 'receive message:' . json_encode($message);
+        $param = $message['data'];
         $respondMessage = array();
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_SERVER_INFO_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
@@ -50,8 +54,9 @@ class LiveService
     public static function giftRequest($server, $frame, $message)
     {
         echo 'receive message:' . json_encode($message);
-        if (empty($message["roomId"]) || empty($message["userId"]) || empty($message["userIdTo"]) || empty($message["giftId"])
-            || empty($message["price"]) || empty($message["num"])
+        $param = $message['data'];
+        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"])
+            || empty($param["price"]) || empty($param["num"])
         ) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
@@ -60,12 +65,12 @@ class LiveService
             $server->push($frame->fd, json_encode($respondMessage));
             return;
         }
-        $roomId = $message["roomId"];
-        $userId = $message["userId"];
-        $userIdTo = $message["userIdTo"];
-        $giftId = $message["giftId"];
-        $price = $message["price"];
-        $num = $message["num"];
+        $roomId = $param["roomId"];
+        $userId = $param["userId"];
+        $userIdTo = $param["userIdTo"];
+        $giftId = $param["giftId"];
+        $price = $param["price"];
+        $num = $param["num"];
         $balance = 100;
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
@@ -87,5 +92,25 @@ class LiveService
     public static function heartbeatRequest($server, $frame, $message)
     {
         echo 'receive message:' . json_encode($message);
+        $param = $message['data'];
+        if (empty($param["roomId"]) || empty($param["userId"]) || !isset($param["isMaster"])
+        ) {
+            return;
+        }
+        $roomId = $param["roomId"];
+        $userId = $param["userId"];
+        $isMaster = $param["isMaster"]; //1主播 0粉丝
+        if ($isMaster == 1) {
+            $video = Video::findLastRecord($userId, $roomId);
+            if(empty($video)){
+                //直播开始
+                Video::create($userId,$roomId);
+            }else{
+                //更新直播结束时间
+                Video::updateEndTime($video);
+            }
+            //更新用户直播时间
+            User::updateLiveTime($userId);
+        }
     }
 }

@@ -14,11 +14,13 @@ class User extends ActiveRecord
         return 't_user';
     }
 
-    public static function queryById($id)
+    public static function queryById($id, $isObject = false)
     {
-        $cn = \Yii::$app->db;
-        $sql = 'select * from ' . self::tableName() . ' where id= ' . $id;
-        return $cn->createCommand($sql)->queryOne();
+        if ($isObject) {
+            return static::find()->where(['id' => $id])->one();
+        } else {
+            return static::find()->where(['id' => $id])->asArray()->one();
+        }
     }
 
     public static function checkLogin($mobile, $password)
@@ -196,5 +198,16 @@ class User extends ActiveRecord
         $total_cnt = (int)$total_cnt['cnt'];
         $page_cnt = ceil($total_cnt / $size);
         return compact('total_cnt', 'page', 'size', 'page_cnt', 'list');
+    }
+
+    //心跳更新直播时间
+    public static function updateLiveTime($userId)
+    {
+        $user = self::queryById($userId,true);
+        if(!empty($user)){
+            $user->liveTime = time();
+            $user->updated = time();
+            $user->save();
+        }
     }
 }
