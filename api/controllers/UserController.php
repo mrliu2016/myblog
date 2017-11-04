@@ -14,6 +14,7 @@ use app\common\components\RedisClient;
 use app\common\models\User;
 use app\common\services\Constants;
 use app\common\services\UserService;
+use app\common\components\SMSHelper;
 use Yii;
 
 class UserController extends BaseController
@@ -117,10 +118,10 @@ class UserController extends BaseController
 
     public function actionGetPersonal()
     {
-        $userid = Yii::$app->request->post("userid");
+        $userid = Yii::$app->request->post('userid');
         $list = User::queryById($userid, true);
         if (!empty($list)) {
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '成功', $list);
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '获取个人信息成功', $list);
         }
     }
 
@@ -144,4 +145,36 @@ class UserController extends BaseController
         }
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
+
+    //手机号注册
+    public function actionPhoneRegister()
+    {
+        $mobile = Yii::$app->request->post('mobile');
+        $password = \Yii::$app->request->post('password');
+        if (empty($mobile) || empty($password)) {
+            $this->jsonReturnError(Constants::CODE_FAILED, '非空选项', []);
+        }
+        if (!is_string($mobile) || strlen($mobile) != 11 || !ctype_digit($mobile)) {
+            $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
+        }
+        if (User::Register($mobile, md5($password))) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '注册成功', []);
+        }
+    }
+
+    //发送验证码
+    public function actionVerificationCode()
+    {
+        $mobile = Yii::$app->request->post('mobile');
+        if (strlen($mobile) != 11 || !is_string($mobile) || !ctype_digit($mobile)) {
+            self::jsonReturnError(Constants::CODE_FAILED, '手机号错误', []);
+        }
+        $dat['code'] = Token::code();
+        if (SMSHelper::send($dat['code'], $mobile)) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '验证码发送成功', $dat['code']);
+        } else {
+            $this->jsonReturnError(Constants::CODE_FAILED, '验证码发送失败', []);
+        }
+    }
+
 }

@@ -20,7 +20,7 @@ class Token
      */
     public static function generateToken($salt)
     {
-        return md5(md5(static::generateRandomString(10)).$salt);
+        return md5(md5(static::generateRandomString(10)) . $salt);
     }
 
     /**
@@ -39,5 +39,21 @@ class Token
             $random_str .= $characters[rand(0, $characters_len - 1)];
         }
         return $random_str;
+    }
+
+    //随机生成验证码
+    public static function code()
+    {
+        $length = 6;
+        $table = '0123456789';
+        $code = '';
+        if ($length <= 0 || empty($table)) {
+            return $code;
+        }
+        $max_size = strlen($table) - 1;
+        while ($length-- > 0) {
+            $code .= $table[rand(0, $max_size)];
+        }
+        return $code;
     }
 }
