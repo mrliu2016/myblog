@@ -169,12 +169,18 @@ class User extends ActiveRecord
         return $model->id;
     }
 
-
     public static function informationUpdate($params)
     {
         $information = static::find()->andWhere(['id' => $params['id']])->one();
-
+        $information->avatar = $params['avatar'];
+        $information->nickName = $params['nickName'];
+        $information->province = $params['province'];
+        $information->city = $params['city'];
+        $information->description = $params['description'];
+        $information->save();
+        return $information->id;
     }
+
     public static function updateUserLocation($userId, $longitude, $latitude)
     {
         $model = static::find()->andWhere(['id' => $userId])->one();
@@ -203,8 +209,8 @@ class User extends ActiveRecord
     //心跳更新直播时间
     public static function updateLiveTime($userId)
     {
-        $user = self::queryById($userId,true);
-        if(!empty($user)){
+        $user = self::queryById($userId, true);
+        if (!empty($user)) {
             $user->liveTime = time();
             $user->updated = time();
             $user->save();

@@ -34,7 +34,7 @@ class UserController extends BaseController
             $this->jsonReturnError(Constants::CODE_FAILED, '用户名或密码错误', []);
         }
         $token = Token::generateToken($result['id']);
-        RedisClient::getInstance()->set($token, json_encode(['userName' => $result['userName'], 'token' => $token]));
+        RedisClient::getInstance()->set($token, json_encode(['userid' => $result['id'], 'token' => $token]));
         RedisClient::getInstance()->expire($token, Constants::LOGIN_TOKEN_EXPIRES);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '登陆成功', [
             'userId' => $result['id'],
@@ -110,10 +110,22 @@ class UserController extends BaseController
             'city' => \Yii::$app->request->post('city'),
             'description' => \Yii::$app->request->post('description'),
         );
-        User::informationUpdate($params);
+        if (User::informationUpdate($params)) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '成功', []);
+        }
     }
 
-    public function actionLocation(){
+    public function actionGetPersonal()
+    {
+        $userid = Yii::$app->request->post("userid");
+        $list = User::queryById($userid, true);
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '成功', $list);
+        }
+    }
+
+    public function actionLocation()
+    {
         $params = Yii::$app->request->post();
         $result = UserService::updateUserLocation($params);
         if ($result['code'] == Constants::CODE_FAILED) {
@@ -123,7 +135,8 @@ class UserController extends BaseController
     }
 
     //附近的人
-    public function actionNearby(){
+    public function actionNearby()
+    {
         $params = Yii::$app->request->get();
         $result = UserService::nearby($params);
         if ($result['code'] == Constants::CODE_FAILED) {
