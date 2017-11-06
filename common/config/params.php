@@ -40,7 +40,11 @@ $params = [
             'wxAppSecret' => ''
         ],
         'appId' => 1,
-        'pushQrCode' => 'http://userservice.oss-cn-beijing.aliyuncs.com/project_wechat/2017/10/13/11/1835_3171.jpg',
+        'cdn' => [
+            'hls' => 'zbj-pull2.3ttech.cn',
+            'pull' => 'zbj-pull.3ttech.cn',
+            'push' => 'zbj-push.3ttech.cn',
+        ],
     ],
 
     'dev' => [
@@ -81,7 +85,11 @@ $params = [
             'wxAppSecret' => ''
         ],
         'appId' => 1,
-        'pushQrCode' => 'http://userservice.oss-cn-beijing.aliyuncs.com/project_wechat/2017/10/13/11/1835_3171.jpg',
+        'cdn' => [
+            'hls' => 'zbj-pull2.3ttech.cn',
+            'pull' => 'zbj-pull.3ttech.cn',
+            'push' => 'zbj-push.3ttech.cn',
+        ],
     ],
 
     'pre' => [
@@ -122,7 +130,11 @@ $params = [
             'wxAppSecret' => ''
         ],
         'appId' => 1,
-        'pushQrCode' => 'http://userservice.oss-cn-beijing.aliyuncs.com/project_wechat/2017/10/13/11/1835_3171.jpg',
+        'cdn' => [
+            'hls' => 'zbj-pull2.3ttech.cn',
+            'pull' => 'zbj-pull.3ttech.cn',
+            'push' => 'zbj-push.3ttech.cn',
+        ],
     ],
 
     'online' => [
@@ -163,7 +175,11 @@ $params = [
             'wxAppSecret' => ''
         ],
         'appId' => 1,
-        'pushQrCode' => 'http://userservice.oss-cn-beijing.aliyuncs.com/project_wechat/2017/10/13/11/1835_3171.jpg',
+        'cdn' => [
+            'hls' => 'zbj-pull2.3ttech.cn',
+            'pull' => 'zbj-pull.3ttech.cn',
+            'push' => 'zbj-push.3ttech.cn',
+        ],
     ],
 
 ];

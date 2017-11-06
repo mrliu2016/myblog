@@ -15,17 +15,30 @@ class LiveService
     {
         echo 'receive message:' . json_encode($message);
         $param = $message['data'];
+        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["nickName"]) || empty($param["avatar"]) || empty($param["message"])
+        ) {
+            return;
+        }
+        $roomId = $param["roomId"];
+        $userId = $param["userId"];
+        $nickName = $param["nickName"];
+        $avatar = $param["avatar"];
+        $message = $param["message"];
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_BARRAGE_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
-        $respondMessage['message'] = 'hello world!';
+        $respondMessage['message'] = $message;
         $data = array(
-            'roomId' => 123,
-            'userId' => 321,
-            'nickName' => "nickName",
-            'avatar' => "http://avatar.jpg",
+            'roomId' => $roomId,
+            'userId' => $userId,
+            'nickName' => $nickName,
+            'avatar' => $avatar,
         );
         $respondMessage['data'] = $data;
-        $server->push($frame->fd, json_encode($respondMessage));
+        //广播房间全体成员
+        $roomAll = $server->connections;
+        foreach ($roomAll as $fd) {
+            $server->push($fd, json_encode($respondMessage));
+        }
     }
 
     //服务器信息
@@ -37,14 +50,11 @@ class LiveService
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_SERVER_INFO_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
         $respondMessage['message'] = '';
+        $roomIp = '47.94.92.113';
         $data = array(
-            'cdn' => array(
-                'hls' => 'zbj-pull2.3ttech.cn',
-                'pull' => 'zbj-pull.3ttech.cn',
-                'push' => 'zbj-push.3ttech.cn',
-            ),
+            'cdn' => Yii::$app->params['cdn'],
             'roomServer' => array(
-                'ip' => '47.94.92.113',
+                'ip' => $roomIp,
                 'port' => 9502
             )
         );
@@ -55,7 +65,6 @@ class LiveService
     //送礼物
     public static function giftRequest($server, $frame, $message)
     {
-        echo 'receive message:' . json_encode($message);
         $param = $message['data'];
         if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"]) || empty($param["num"])
         ) {
@@ -135,10 +144,9 @@ class LiveService
             'num' => $num,
         );
         $respondMessage['data'] = $data;
-        //房间所有成员
         $roomAll = $server->connections;
-        foreach($roomAll as $fd){
-            $server->push($frame->fd, json_encode($respondMessage));
+        foreach ($roomAll as $fd) {
+            $server->push($fd, json_encode($respondMessage));
         }
 
 
