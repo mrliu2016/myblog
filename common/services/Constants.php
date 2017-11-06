@@ -19,6 +19,7 @@ class Constants
     const MESSAGE_TYPE_SERVER_INFO_RES = 'server_info_res';
     const MESSAGE_TYPE_GIFT_REQ = 'gift_req';
     const MESSAGE_TYPE_GIFT_RES = 'gift_res';
+    const MESSAGE_TYPE_GIFT_NOTIFY_RES = 'gift_notify_res';
     const MESSAGE_TYPE_HEARTBEAT_REQ = 'heartbeat_req';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';

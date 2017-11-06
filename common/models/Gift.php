@@ -11,11 +11,13 @@ class Gift extends ActiveRecord
         return 't_gift';
     }
 
-    public static function queryById($id)
+    public static function queryById($id, $isObject = false)
     {
-        $cn = \Yii::$app->db;
-        $sql = 'select * from ' . self::tableName() . ' where id= ' . $id;
-        return $cn->createCommand($sql)->queryOne();
+        if ($isObject) {
+            return static::find()->where(['id' => $id])->one();
+        } else {
+            return static::find()->where(['id' => $id])->asArray()->one();
+        }
     }
 
     public static function queryInfo($params)

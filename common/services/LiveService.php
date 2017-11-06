@@ -2,6 +2,8 @@
 
 namespace app\common\services;
 
+use app\common\models\Gift;
+use app\common\models\Order;
 use app\common\models\User;
 use app\common\models\Video;
 use Yii;
@@ -55,8 +57,7 @@ class LiveService
     {
         echo 'receive message:' . json_encode($message);
         $param = $message['data'];
-        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"])
-            || empty($param["price"]) || empty($param["num"])
+        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"]) || empty($param["num"])
         ) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
@@ -69,9 +70,41 @@ class LiveService
         $userId = $param["userId"];
         $userIdTo = $param["userIdTo"];
         $giftId = $param["giftId"];
-        $price = $param["price"];
         $num = $param["num"];
-        $balance = 100;
+        $gift = Gift::queryById($giftId);
+        if (empty($gift)) {
+            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
+            $respondMessage['code'] = Constants::CODE_FAILED;
+            $respondMessage['message'] = '礼物不存在';
+            $respondMessage['data'] = array();
+            $server->push($frame->fd, json_encode($respondMessage));
+            return;
+        }
+        $user = User::queryById($userId, true);
+        if (empty($user)) {
+            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
+            $respondMessage['code'] = Constants::CODE_FAILED;
+            $respondMessage['message'] = '用户不存在';
+            $respondMessage['data'] = array();
+            $server->push($frame->fd, json_encode($respondMessage));
+            return;
+        }
+        $price = $gift["price"];
+        $balance = $user['balance'];
+        $priceReal = $price * $num;
+        if ($balance - $priceReal < 0) {
+            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
+            $respondMessage['code'] = Constants::CODE_FAILED;
+            $respondMessage['message'] = '余额不足';
+            $respondMessage['data'] = array();
+            $server->push($frame->fd, json_encode($respondMessage));
+            return;
+        }
+        //购买礼物记录
+        Order::create($giftId, $userId, $userIdTo, $price, $num);
+        $balance = $balance - $priceReal;
+        //更新余额
+        User::updateUserBalance($userId, -$priceReal);
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
         $respondMessage['message'] = '';
@@ -86,6 +119,29 @@ class LiveService
         );
         $respondMessage['data'] = $data;
         $server->push($frame->fd, json_encode($respondMessage));
+        unset($respondMessage);
+        //广播房间全体成员
+        $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_NOTIFY_RES;
+        $respondMessage['code'] = Constants::CODE_SUCCESS;
+        $respondMessage['message'] = '';
+        $data = array(
+            'roomId' => $roomId,
+            'userId' => $userId,
+            'nickName' => $user->nickName,
+            'avatar' => $user->avatar,
+            'level' => $user->level,
+            'userIdTo' => $userIdTo,
+            'giftId' => $giftId,
+            'num' => $num,
+        );
+        $respondMessage['data'] = $data;
+        //房间所有成员
+        $roomAll = $server->connections;
+        foreach($roomAll as $fd){
+            $server->push($frame->fd, json_encode($respondMessage));
+        }
+
+
     }
 
     //心跳
@@ -102,10 +158,10 @@ class LiveService
         $isMaster = $param["isMaster"]; //1主播 0粉丝
         if ($isMaster == 1) {
             $video = Video::findLastRecord($userId, $roomId);
-            if(empty($video)){
+            if (empty($video)) {
                 //直播开始
-                Video::create($userId,$roomId);
-            }else{
+                Video::create($userId, $roomId);
+            } else {
                 //更新直播结束时间
                 Video::updateEndTime($video);
             }
