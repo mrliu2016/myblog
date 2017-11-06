@@ -125,6 +125,7 @@ class UserController extends BaseController
         }
     }
 
+    //上报位置
     public function actionLocation()
     {
         $params = Yii::$app->request->post();
