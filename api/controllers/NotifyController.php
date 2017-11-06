@@ -6,6 +6,7 @@ use app\common\components\WeiXinPay;
 use app\common\models\Deposit;
 use app\common\models\User;
 use app\common\services\Constants;
+use app\common\services\VideoService;
 
 class NotifyController extends BaseController
 {
@@ -29,5 +30,15 @@ class NotifyController extends BaseController
                 echo $result['data'];
             }
         }
+    }
+
+    //更新视频录播地址和视频封面图
+    public function actionVideo(){
+        $params = \Yii::$app->request->get();
+        $result = VideoService::updateVideoInfo($params);
+        if ($result['code'] == Constants::CODE_FAILED) {
+            $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
+        }
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
 }

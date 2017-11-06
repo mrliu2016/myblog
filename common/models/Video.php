@@ -77,4 +77,16 @@ class Video extends ActiveRecord
         $video->updated = time();
         $video->save();
     }
+
+    //更新视频录制地址和视频封面
+    public static function updateVideoInfo($roomId, $videoSrc, $imgSrc)
+    {
+        $video = static::find()->where(['roomId' => $roomId])->one();
+        if (!empty($video)) {
+            $video->videoSrc = $videoSrc;
+            $video->imgSrc = $imgSrc;
+            $video->updated = time();
+            $video->save();
+        }
+    }
 }
