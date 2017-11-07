@@ -24,7 +24,7 @@ class DepositController extends BaseController
     /**
      * 充值记录
      */
-    public function actionDepositRecord()
+    public function actionRecord()
     {
         $params = Yii::$app->request->getQueryParams();
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
@@ -38,5 +38,10 @@ class DepositController extends BaseController
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count
         ]);
+    }
+
+    public function actionWithdraw()
+    {
+        echo '提现';
     }
 }
