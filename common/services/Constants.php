@@ -21,6 +21,8 @@ class Constants
     const MESSAGE_TYPE_GIFT_RES = 'gift_res';
     const MESSAGE_TYPE_GIFT_NOTIFY_RES = 'gift_notify_res';
     const MESSAGE_TYPE_HEARTBEAT_REQ = 'heartbeat_req';
+    const MESSAGE_TYPE_JOIN_REQ = 'join_req';
+    const MESSAGE_TYPE_JOIN_RES = 'join_res';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';
