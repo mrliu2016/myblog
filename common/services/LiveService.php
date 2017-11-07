@@ -234,7 +234,7 @@ class LiveService
                 'nickName' => $params['nickName'],
                 'level' => intval($user['level']),
                 'income' => floatval($user['balance'] / Constants::CENT),
-//                'avatarList'=>
+                'avatarList' => LiveService::getUserInfoListByRoomId($params['roomId'])
             ],
         ];
         $server->push($frame->fd, json_encode($resMessage));
@@ -246,5 +246,15 @@ class LiveService
         $index = $roomId % 2;
         $roomServer = Yii::$app->params['wsServer'][$index];
         return $roomServer['ip'];
+    }
+
+    public static function getUserInfoListByRoomId($roomId)
+    {
+        $ip = self::getWsIp($roomId);
+        $key = 'WSRoomUser_' . $ip . '_' . $roomId;
+        $redis = RedisClient::getInstance();
+        $result = $redis->hGetAll($key);
+        if (empty($result)) return [];
+        return array_values($result);
     }
 }

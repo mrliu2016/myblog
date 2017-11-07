@@ -3,6 +3,7 @@
 namespace app\manager\controllers;
 
 use app\common\models\User;
+use app\common\services\LiveService;
 use Yii;
 use yii\data\Pagination;
 
@@ -33,6 +34,16 @@ class UserController extends BaseController
 
     public function actionIndex()
     {
+        echo '<pre>';
+        LiveService::getUserInfoListByRoomId(124);
+        exit();
+        $info['userId'] = 123;
+        $info['nickName'] = 'jinhongxin';
+        $info['avatar'] = 'https://img3.doubanio.com/view/photo/albumcover/public/p2500714030.jpg';
+        $info['level'] = 5;
+        echo json_encode($info);
+        exit();
+
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;;
         $result = User::queryInfo($params);
