@@ -2,14 +2,11 @@
 
 namespace app\manager\controllers;
 
-use app\common\components\OSS;
-use app\common\extensions\OSS\OssClient;
 use app\common\models\User;
-use app\common\services\Constants;
 use Yii;
 use yii\data\Pagination;
 
-class IndexController extends BaseController
+class UserController extends BaseController
 {
     public function actions()
     {
@@ -36,15 +33,16 @@ class IndexController extends BaseController
 
     public function actionIndex()
     {
-//        $user = User::queryById(100001);
-//        var_dump($user);
-//        exit();
-//        $application = Application::queryById(1);
-//        var_dump($application);
-//        exit();
-        $userName = $this->user->userName;
-        return $this->render('index', array(
-            'userName' => $userName
-        ));
+        $params = Yii::$app->request->getQueryParams();
+        $params['defaultPageSize'] = self::PAGE_SIZE;;
+        $result = User::queryInfo($params);
+        $count = User::queryInfoNum($params);
+        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        return $this->render('index', [
+            'itemList' => $result,
+            'pagination' => self::pagination($pageNo, $count),
+            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count
+        ]);
     }
 }

@@ -2,6 +2,8 @@
 
 namespace app\common\models;
 
+use app\common\components\WeiXinApi;
+use app\common\components\WeiXinPay;
 use app\common\services\Constants;
 use yii\db\ActiveRecord;
 
@@ -46,6 +48,12 @@ class Withdraw extends ActiveRecord
 
     public static function agreeWithdraw($params)
     {
-
+        $application = [];
+        $withdrawUser = [];
+        $user = [];
+        $withdrawDetail = [];
+        $result = WeiXinPay::transfers($application['wxAppId'], $application['wxMchId'], $application['wxPayKey'], $withdrawDetail['id'],
+            $user['openId'], $withdrawUser['name'], intval($withdrawDetail['price']),
+            isset($params['desc']) ? $params['desc'] : '企业付款', $application['sslCert'], $application['sslKey']);
     }
 }

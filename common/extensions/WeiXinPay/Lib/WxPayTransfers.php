@@ -238,5 +238,28 @@ class WxPayTransfers extends WxPayDataBase
         return array_key_exists('desc', $this->values);
     }
 
+    /**
+     * 真实姓名
+     * @param $value
+     */
+    public function setCheckName($value)
+    {
+        $this->values['check_name'] = $value;
+    }
 
+    /**
+     * @return mixed
+     */
+    public function getCheckName()
+    {
+        return $this->values['check_name'];
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCheckNameSet()
+    {
+        return array_key_exists('check_name', $this->values);
+    }
 }

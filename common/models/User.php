@@ -226,4 +226,31 @@ class User extends ActiveRecord
             $user->save();
         }
     }
+
+    public static function queryInfo($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        return $find->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
+    }
+
+    public static function queryInfoNum($params)
+    {
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        return $find->count();
+    }
+
+    private static function buildParams($find, $params)
+    {
+        if (!empty($params['id'])) {
+            $find->andWhere('id=' . $params['id']);
+        }
+        return $find;
+    }
 }
+

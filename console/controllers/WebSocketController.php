@@ -35,6 +35,9 @@ class WebSocketController extends Controller
                     case Constants::MESSAGE_TYPE_HEARTBEAT_REQ://心跳
                         LiveService::heartbeatRequest($server, $frame, $message);
                         break;
+                    case Constants::MESSAGE_TYPE_JOIN_REQ: // 进入房间 含机器人
+                        LiveService::joinRoomAndAI($server, $frame, $message);
+                        break;
                     default:
                         $server->push($frame->fd, json_encode(["message not match", $frame->fd]));
                 }

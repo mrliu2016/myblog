@@ -97,6 +97,38 @@ class WeiXinPay
             'data' => ($result['code'] == Constants::CODE_FAILED) ? [] : $result['data']
         ];
     }
+    
+    /**
+     * 企业付款
+     *
+     * @param string $mchAppId AppId
+     * @param string $mchId 商户号
+     * @param string $payKey 支付秘钥
+     * @param string $partnerTradeNo 商户交易号
+     * @param string $openId openId
+     * @param string $reUserName 真实姓名
+     * @param int $amount 提现金额(分)
+     * @param string $desc 描述
+     * @param string $sslCert 证书文件
+     * @param string $sslKey 证书key
+     *
+     * @return array
+     */
+    public static function transfers($mchAppId, $mchId, $payKey, $partnerTradeNo, $openId, $reUserName, $amount, $desc, $sslCert, $sslKey)
+    {
+        $weiXinConfig = Yii::$app->params['weiXin'];
+        $transfers = new WxPayTransfers();
+        $transfers->setAppId($mchAppId);
+        $transfers->setMchId($mchId);
+        $transfers->setPayKey($payKey);
+        $transfers->setPartnerTradeNo($partnerTradeNo);
+        $transfers->setOpenId($openId);
+        $transfers->setReUserName($reUserName);
+        $transfers->setAmount(intval($amount));
+        $transfers->setCheckName('FORCE_CHECK');
+        $transfers->setDesc(isset($desc) ? $desc : '企业付款');
+        return WxPayApi::transfers($weiXinConfig['transfers'], $transfers, $sslCert, $sslKey);
+    }
 
     /**
      * @param $query
@@ -198,34 +230,6 @@ class WeiXinPay
             'message' => 'app api parameters success!',
             'data' => $weiXinAppApi->getValues()
         ];
-    }
-
-    /**
-     * 企业付款
-     *
-     * @param string $mchAppId AppId
-     * @param string $mchId 商户号
-     * @param string $partnerTradeNo 商户交易号
-     * @param string $openId openId
-     * @param string $reUserName 真实姓名
-     * @param int $amount 提现金额(分)
-     * @param string $desc 描述
-     * @param string $sslCert 证书文件
-     * @param string $sslKey 证书key
-     * @return array
-     */
-    public static function transfers($mchAppId, $mchId, $partnerTradeNo, $openId, $reUserName, $amount, $desc, $sslCert, $sslKey)
-    {
-        $weiXinConfig = Yii::$app->params['weiXin'];
-        $transfers = new WxPayTransfers();
-        $transfers->setAppId($mchAppId);
-        $transfers->setMchId($mchId);
-        $transfers->setPartnerTradeNo($partnerTradeNo);
-        $transfers->setOpenId($openId);
-        $transfers->setReUserName($reUserName);
-        $transfers->setAmount(intval($amount));
-        $transfers->setDesc(isset($desc) ? $desc : '企业付款');
-        return WxPayApi::transfers($weiXinConfig['transfers'], $transfers, $sslCert, $sslKey);
     }
 
     /**

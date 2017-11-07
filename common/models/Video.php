@@ -6,6 +6,9 @@ use yii\db\ActiveRecord;
 
 class Video extends ActiveRecord
 {
+    const TYPE_LIVE = 1;
+    const TYPE_RECORD = 2;
+
     public static function tableName()
     {
         return 't_video';
@@ -44,6 +47,15 @@ class Video extends ActiveRecord
         if (!empty($params['name'])) $params['name'] = trim($params['name']);
         if (!empty($params['name'])) {
             $find->andWhere(['like', 'name', $params['name']]);
+        }
+        if (!empty($params['type']) && $params['type'] == self::TYPE_LIVE) {
+            $find->andWhere('videoSrc=""');
+        }
+        if (!empty($params['type']) && $params['type'] == self::TYPE_RECORD) {
+            $find->andWhere('videoSrc<>""');
+        }
+        if (!empty($params['userId'])) {
+            $find->andWhere(['userId'=>$params['userId']]);
         }
         return $find;
     }

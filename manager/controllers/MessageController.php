@@ -2,14 +2,10 @@
 
 namespace app\manager\controllers;
 
-use app\common\components\OSS;
-use app\common\extensions\OSS\OssClient;
-use app\common\models\User;
-use app\common\services\Constants;
 use Yii;
 use yii\data\Pagination;
 
-class IndexController extends BaseController
+class MessageController extends BaseController
 {
     public function actions()
     {
@@ -36,15 +32,11 @@ class IndexController extends BaseController
 
     public function actionIndex()
     {
-//        $user = User::queryById(100001);
-//        var_dump($user);
-//        exit();
-//        $application = Application::queryById(1);
-//        var_dump($application);
-//        exit();
-        $userName = $this->user->userName;
-        return $this->render('index', array(
-            'userName' => $userName
-        ));
+        return $this->render('index', []);
+    }
+
+    public function actionKey()
+    {
+        return $this->render('key', []);
     }
 }

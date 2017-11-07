@@ -179,6 +179,67 @@ class LiveService
         }
     }
 
+    /**
+     * 进入房间 含机器人
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    public static function joinRoomAndAI($server, $frame, $message)
+    {
+        /**
+         *
+         * 单人广播
+         * {
+         * messageType: "join_res",
+         * code ：0
+         * message: "文明用语"
+         * data: {
+         * roomId: 333,
+         * avatar: "avatar",
+         * nickName: "nickName",
+         * level: "level",
+         * income: 123,
+         * avatarList: [
+         * {
+         * userId: 123,
+         * nickName: "nickName",
+         * avatar: "avatar",
+         * level: "level"
+         * }
+         * ],
+         * count: 2222,
+         * }
+         * }
+         *
+         */
+        $params = $message['data'];
+        $user = User::queryById($params["userId"]);
+        if (!isset($params["roomId"]) || !isset($params["userId"])) {
+            return [
+                'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
+                'code' => Constants::CODE_FAILED,
+                'message' => Yii::$app->params['civilization'],
+                'data' => []
+            ];
+        }
+        $resMessage = [
+            'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
+            'code' => Constants::CODE_SUCCESS,
+            'message' => Yii::$app->params['civilization'],
+            'data' => [
+                'roomId' => $params['roomId'],
+                'avatar' => $params['avatar'],
+                'nickName' => $params['nickName'],
+                'level' => intval($user['level']),
+                'income' => floatval($user['balance'] / Constants::CENT),
+//                'avatarList'=>
+            ],
+        ];
+        $server->push($frame->fd, json_encode($resMessage));
+    }
+
     //获取webSocket服务ip
     public static function getWsIp($roomId)
     {
