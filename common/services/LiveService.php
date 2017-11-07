@@ -8,6 +8,7 @@ use app\common\models\Order;
 use app\common\models\User;
 use app\common\models\Video;
 use Yii;
+use yii\base\Exception;
 
 class LiveService
 {
@@ -244,6 +245,30 @@ class LiveService
             ],
         ];
         $server->push($frame->fd, json_encode($resMessage));
+
+
+        $messageAll = [
+            'messageType' => Constants::MESSAGE_TYPE_JOIN_NOTIFY_RES,
+            'code' => Constants::CODE_SUCCESS,
+            'message' => '',
+            'data' => [
+                'roomId' => $params['roomId'],
+                'userId' => $params['userId'],
+                'avatar' => $params['avatar'],
+                'nickName' => $params['nickName'],
+                'level' => intval($user['level']),
+                'count' => LiveService::roomMemberNum($params['roomId'])
+            ],
+        ];
+        $fdList = LiveService::fdListByRoomId($params['roomId']);
+        foreach ($fdList as $fd) {
+            try {
+//                echo $fd . '---' . "/r/n";
+                $server->push($fd, json_encode($messageAll));
+            } catch (Exception $ex) {
+
+            }
+        }
     }
 
     //获取webSocket服务ip
@@ -289,5 +314,26 @@ class LiveService
             $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
+
+        $keyWSRoom = 'WSRoom_' . $roomId;
+        $redis->incr($keyWSRoom);
+    }
+
+    public static function fdListByRoomId($roomId)
+    {
+        $ip = self::getWsIp($roomId);
+        $keyWSRoomFD = 'WSRoomFD_' . $ip . '_' . $roomId;
+        $redis = RedisClient::getInstance();
+        $result = $redis->hGetAll($keyWSRoomFD);
+        if (empty($result)) return [];
+        return array_keys($result);
+    }
+
+    public static function roomMemberNum($roomId)
+    {
+        $keyWSRoom = 'WSRoom_' . $roomId;
+        $redis = RedisClient::getInstance();
+        $num = $redis->get($keyWSRoom);
+        return intval($num);
     }
 }

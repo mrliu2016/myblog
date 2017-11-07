@@ -35,7 +35,8 @@ class UserController extends BaseController
     public function actionIndex()
     {
         echo '<pre>';
-        LiveService::getUserInfoListByRoomId(124);
+        $list = LiveService::fdListByRoomId(124);
+        echo json_encode($list);
         exit();
         $info['userId'] = 123;
         $info['nickName'] = 'jinhongxin';
