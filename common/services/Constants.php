@@ -22,6 +22,8 @@ class Constants
     const MESSAGE_TYPE_GIFT_NOTIFY_RES = 'gift_notify_res';
     const MESSAGE_TYPE_HEARTBEAT_REQ = 'heartbeat_req';
 
+    const WSGIFTORDER = 'WSGiftOrder';
+
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';
     const LOGIN_TYPE_WEI_BO = 'WEI_BO';

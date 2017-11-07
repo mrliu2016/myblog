@@ -2,6 +2,7 @@
 
 namespace app\common\services;
 
+use app\common\components\RedisClient;
 use app\common\models\Gift;
 use app\common\models\Order;
 use app\common\models\User;
@@ -64,7 +65,7 @@ class LiveService
         $data = array(
             'cdn' => Yii::$app->params['cdn'],
             'roomServer' => Yii::$app->params['wsServer'][$index]
-    );
+        );
         $respondMessage['data'] = $data;
         $server->push($frame->fd, json_encode($respondMessage));
     }
@@ -82,33 +83,21 @@ class LiveService
             $server->push($frame->fd, json_encode($respondMessage));
             return;
         }
+        $redis = RedisClient::getInstance();
         $roomId = $param["roomId"];
         $userId = $param["userId"];
         $userIdTo = $param["userIdTo"];
         $giftId = $param["giftId"];
+        $price = $param["price"];
         $num = $param["num"];
-        $gift = Gift::queryById($giftId);
-        if (empty($gift)) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
-            $respondMessage['code'] = Constants::CODE_FAILED;
-            $respondMessage['message'] = '礼物不存在';
-            $respondMessage['data'] = array();
-            $server->push($frame->fd, json_encode($respondMessage));
-            return;
+        $balance = $redis->hget('WSUserBalance', $userId);
+        if ($balance === false) {
+            $user = User::queryById($userId);
+            $balance = $user['balance'];
         }
-        $user = User::queryById($userId, true);
-        if (empty($user)) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
-            $respondMessage['code'] = Constants::CODE_FAILED;
-            $respondMessage['message'] = '用户不存在';
-            $respondMessage['data'] = array();
-            $server->push($frame->fd, json_encode($respondMessage));
-            return;
-        }
-        $price = $gift["price"];
-        $balance = $user['balance'];
         $priceReal = $price * $num;
-        if ($balance - $priceReal < 0) {
+        $balance = $balance - $priceReal;
+        if ($balance < 0) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
             $respondMessage['message'] = '余额不足';
@@ -116,11 +105,18 @@ class LiveService
             $server->push($frame->fd, json_encode($respondMessage));
             return;
         }
-        //购买礼物记录
-        Order::create($giftId, $userId, $userIdTo, $price, $num);
-        $balance = $balance - $priceReal;
         //更新余额
-        User::updateUserBalance($userId, -$priceReal);
+        $redis->hset('WSUserBalance', $userId, $balance);
+        //购买礼物队列
+        $order = array(
+            'giftId' => $giftId,
+            'userId' => $userId,
+            'userIdTo' => $userIdTo,
+            'num' => $num,
+            'price' => $price
+        );
+        $redis->lpush('WSGiftOrder', base64_encode(json_encode($order)));
+        //单人广播
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
         $respondMessage['message'] = '';
@@ -143,9 +139,9 @@ class LiveService
         $data = array(
             'roomId' => $roomId,
             'userId' => $userId,
-            'nickName' => $user->nickName,
-            'avatar' => $user->avatar,
-            'level' => $user->level,
+            'nickName' => '',
+            'avatar' => '',
+            'level' => 1,
             'userIdTo' => $userIdTo,
             'giftId' => $giftId,
             'num' => $num,
@@ -155,8 +151,6 @@ class LiveService
         foreach ($roomAll as $fd) {
             $server->push($fd, json_encode($respondMessage));
         }
-
-
     }
 
     //心跳
@@ -186,7 +180,8 @@ class LiveService
     }
 
     //获取webSocket服务ip
-    public static function getWsIp($roomId){
+    public static function getWsIp($roomId)
+    {
         $index = $roomId % 2;
         $roomServer = Yii::$app->params['wsServer'][$index];
         return $roomServer['ip'];

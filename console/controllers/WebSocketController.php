@@ -2,6 +2,10 @@
 
 namespace app\console\controllers;
 
+use app\common\components\RedisClient;
+use app\common\models\Gift;
+use app\common\models\Order;
+use app\common\models\User;
 use app\common\services\Constants;
 use app\common\services\LiveService;
 use yii\console\Controller;
@@ -41,5 +45,34 @@ class WebSocketController extends Controller
             echo "connection close: {$fd}\n";
         });
         $server->start();
+    }
+
+    //送礼物消费队列
+    public function actionGiftOrder()
+    {
+        $redis = RedisClient::getInstance();
+        while ($order = $redis->rpop(Constants::WSGIFTORDER)) {
+            $order = json_decode(base64_decode($order), true);
+            $giftId = $order['giftId'];
+            $userId = $order['userId'];
+            $userIdTo = $order['userIdTo'];
+            $price = $order['price'];
+            $num = $order['num'];
+            $user = User::queryById($userId);
+            if (!empty($user)) {
+                $gift = Gift::queryById($giftId);
+                if(!empty($gift)){
+                    $priceReal = $gift['price'] * $num;
+                    //更新余额
+                    $stat = User::updateUserBalance($userId, -$priceReal);
+                    if ($stat > 0) {
+                        //购买礼物记录
+                        Order::create($giftId, $userId, $userIdTo, $price, $num);
+                        $balance = $user['balance'] - $priceReal;
+                        $redis->hset('WSUserBalance', $userId, $balance);
+                    }
+                }
+            }
+        }
     }
 }
