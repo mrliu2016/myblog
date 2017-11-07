@@ -106,8 +106,8 @@ class User extends ActiveRecord
     {
         $sql = 'update ' . User::tableName()
             . ' set balance = balance + ' . intval($balance)
-            . ' where id = ' . $userId;
-        static::updateBySqlCondition($sql);
+            . ' where id = ' . $userId . ' and balance>0';
+        return static::updateBySqlCondition($sql);
     }
 
     /**

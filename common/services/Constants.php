@@ -24,6 +24,8 @@ class Constants
     const MESSAGE_TYPE_JOIN_REQ = 'join_req';
     const MESSAGE_TYPE_JOIN_RES = 'join_res';
 
+    const WSGIFTORDER = 'WSGiftOrder';
+
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';
     const LOGIN_TYPE_WEI_BO = 'WEI_BO';
