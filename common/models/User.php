@@ -28,13 +28,13 @@ class User extends ActiveRecord
         return static::find()->andWhere(['mobile' => $mobile])->andWhere(['password' => $password])->asArray()->one();
     }
 
-    public static function Register($mobile,$password)
+    public static function Register($mobile, $password)
     {
-           $model = new self();
-           $model->mobile = $mobile;
-           $model->password = $password;
-           $model->save();
-           return $model->id;
+        $model = new self();
+        $model->mobile = $mobile;
+        $model->password = $password;
+        $model->save();
+        return $model->id;
     }
 
 
@@ -106,8 +106,8 @@ class User extends ActiveRecord
     {
         $sql = 'update ' . User::tableName()
             . ' set balance = balance + ' . intval($balance)
-            . ' where id = ' . $userId;
-        static::updateBySqlCondition($sql);
+            . ' where id = ' . $userId . ' and balance>0';
+        return static::updateBySqlCondition($sql);
     }
 
     /**
@@ -226,4 +226,31 @@ class User extends ActiveRecord
             $user->save();
         }
     }
+
+    public static function queryInfo($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        return $find->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
+    }
+
+    public static function queryInfoNum($params)
+    {
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        return $find->count();
+    }
+
+    private static function buildParams($find, $params)
+    {
+        if (!empty($params['id'])) {
+            $find->andWhere('id=' . $params['id']);
+        }
+        return $find;
+    }
 }
+

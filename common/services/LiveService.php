@@ -8,6 +8,7 @@ use app\common\models\Order;
 use app\common\models\User;
 use app\common\models\Video;
 use Yii;
+use yii\base\ErrorException;
 
 class LiveService
 {
@@ -74,7 +75,8 @@ class LiveService
     public static function giftRequest($server, $frame, $message)
     {
         $param = $message['data'];
-        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"]) || empty($param["num"])
+        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"]) || empty($param["price"])
+            || empty($param["num"]) || empty($param["nickName"]) || empty($param["avatar"]) || empty($param["level"])
         ) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
@@ -83,33 +85,24 @@ class LiveService
             $server->push($frame->fd, json_encode($respondMessage));
             return;
         }
+        $redis = RedisClient::getInstance();
         $roomId = $param["roomId"];
         $userId = $param["userId"];
         $userIdTo = $param["userIdTo"];
         $giftId = $param["giftId"];
+        $price = $param["price"];
         $num = $param["num"];
-        $gift = Gift::queryById($giftId);
-        if (empty($gift)) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
-            $respondMessage['code'] = Constants::CODE_FAILED;
-            $respondMessage['message'] = '礼物不存在';
-            $respondMessage['data'] = array();
-            $server->push($frame->fd, json_encode($respondMessage));
-            return;
+        $nickName = $param["nickName"];
+        $avatar = $param["avatar"];
+        $level = $param["level"];
+        $balance = $redis->hget('WSUserBalance', $userId);
+        if ($balance === false) {
+            $user = User::queryById($userId);
+            $balance = $user['balance'];
         }
-        $user = User::queryById($userId, true);
-        if (empty($user)) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
-            $respondMessage['code'] = Constants::CODE_FAILED;
-            $respondMessage['message'] = '用户不存在';
-            $respondMessage['data'] = array();
-            $server->push($frame->fd, json_encode($respondMessage));
-            return;
-        }
-        $price = $gift["price"];
-        $balance = $user['balance'];
         $priceReal = $price * $num;
-        if ($balance - $priceReal < 0) {
+        $balance = $balance - $priceReal;
+        if ($balance < 0) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
             $respondMessage['message'] = '余额不足';
@@ -117,11 +110,18 @@ class LiveService
             $server->push($frame->fd, json_encode($respondMessage));
             return;
         }
-        //购买礼物记录
-        Order::create($giftId, $userId, $userIdTo, $price, $num);
-        $balance = $balance - $priceReal;
         //更新余额
-        User::updateUserBalance($userId, -$priceReal);
+        $redis->hset('WSUserBalance', $userId, $balance);
+        //购买礼物队列
+        $order = array(
+            'giftId' => $giftId,
+            'userId' => $userId,
+            'userIdTo' => $userIdTo,
+            'num' => $num,
+            'price' => $price
+        );
+        $redis->lpush('WSGiftOrder', base64_encode(json_encode($order)));
+        //单人广播
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
         $respondMessage['message'] = '';
@@ -144,9 +144,9 @@ class LiveService
         $data = array(
             'roomId' => $roomId,
             'userId' => $userId,
-            'nickName' => $user->nickName,
-            'avatar' => $user->avatar,
-            'level' => $user->level,
+            'nickName' => $nickName,
+            'avatar' => $avatar,
+            'level' => $level,
             'userIdTo' => $userIdTo,
             'giftId' => $giftId,
             'num' => $num,
@@ -156,8 +156,6 @@ class LiveService
         foreach ($roomAll as $fd) {
             $server->push($fd, json_encode($respondMessage));
         }
-
-
     }
 
     //心跳
@@ -208,7 +206,7 @@ class LiveService
          * nickName: "nickName",
          * level: "level",
          * income: 123,
-         * avatarList: [
+         * userList: [
          * {
          * userId: 123,
          * nickName: "nickName",
@@ -321,6 +319,8 @@ class LiveService
      */
     public static function joinRoomSendSingleMessage($roomServer, $server, $frame, $params, $user)
     {
+        //用户进入房间
+        LiveService::roomJoin($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
         $resMessage = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
             'code' => Constants::CODE_SUCCESS,
@@ -332,10 +332,35 @@ class LiveService
                 'level' => intval($user['level']),
                 'income' => floatval($user['balance'] / Constants::CENT),
                 'count' => intval(RedisClient::getInstance()->get(Constants::WS_ROOM_USER_COUNT . $params['roomId'])),
-                'avatarList' => static::getRoomUserList($roomServer, $params['roomId'])
+                'avatarList' => static::getRoomUserList($roomServer, $params['roomId']),
+                'userList' => LiveService::getUserInfoListByRoomId($params['roomId'])
             ],
         ];
         $server->push($frame->fd, json_encode($resMessage));
+
+
+        $messageAll = [
+            'messageType' => Constants::MESSAGE_TYPE_JOIN_NOTIFY_RES,
+            'code' => Constants::CODE_SUCCESS,
+            'message' => '',
+            'data' => [
+                'roomId' => $params['roomId'],
+                'userId' => $params['userId'],
+                'avatar' => $params['avatar'],
+                'nickName' => $params['nickName'],
+                'level' => intval($user['level']),
+                'count' => LiveService::roomMemberNum($params['roomId'])
+            ],
+        ];
+        $fdList = LiveService::fdListByRoomId($params['roomId']);
+        foreach ($fdList as $fd) {
+            try {
+//                echo $fd . '---' . "/r/n";
+                $server->push($fd, json_encode($messageAll));
+            } catch (ErrorException $ex) {
+
+            }
+        }
     }
 
     /**
@@ -355,5 +380,63 @@ class LiveService
             }
         }
         return $result;
+    }
+
+    //返回房间内用户信息
+    public static function getUserInfoListByRoomId($roomId)
+    {
+        $ip = self::getWsIp($roomId);
+        $keyWSRoomUser = 'WSRoomUser_' . $ip . '_' . $roomId;
+        $redis = RedisClient::getInstance();
+        $result = $redis->hGetAll($keyWSRoomUser);
+        if (empty($result)) return [];
+        return array_values($result);
+    }
+
+    //加入房间
+    public static function roomJoin($fd, $userId, $roomId, $role, $avatar, $nickName, $level)
+    {
+        $ip = self::getWsIp($roomId);
+        $keyWSRoomLocation = 'WSRoomLocation_' . $ip;
+        $redis = RedisClient::getInstance();
+        $redis->hset($keyWSRoomLocation, $fd, $roomId . '_' . $userId . '_' . $role);
+
+        $keyWSRoomFD = 'WSRoomFD_' . $ip . '_' . $roomId;
+        $keyWSRoomFDTimeout = 48 * 60 * 60;
+        $redis->hset($keyWSRoomFD, $fd, $userId);
+        $redis->expire($keyWSRoomFD, $keyWSRoomFDTimeout);
+
+        $keyWSRoomUser = 'WSRoomUser_' . $ip . '_' . $roomId;
+        $num = $redis->hLen($keyWSRoomUser);
+        if ($num < Constants::NUM_WS_ROOM_USER) {
+            $keyWSRoomUserTimeout = 48 * 60 * 60;
+            $userInfo['userId'] = $userId;
+            $userInfo['nickName'] = $nickName;
+            $userInfo['avatar'] = $avatar;
+            $userInfo['level'] = $level;
+            $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
+            $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
+        }
+
+        $keyWSRoom = 'WSRoom_' . $roomId;
+        $redis->incr($keyWSRoom);
+    }
+
+    public static function fdListByRoomId($roomId)
+    {
+        $ip = self::getWsIp($roomId);
+        $keyWSRoomFD = 'WSRoomFD_' . $ip . '_' . $roomId;
+        $redis = RedisClient::getInstance();
+        $result = $redis->hGetAll($keyWSRoomFD);
+        if (empty($result)) return [];
+        return array_keys($result);
+    }
+
+    public static function roomMemberNum($roomId)
+    {
+        $keyWSRoom = 'WSRoom_' . $roomId;
+        $redis = RedisClient::getInstance();
+        $num = $redis->get($keyWSRoom);
+        return intval($num);
     }
 }

@@ -115,6 +115,17 @@ class Deposit extends ActiveRecord
         return $find->count();
     }
 
+    public static function queryInfo($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        return $find->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
+    }
+
     /**
      * 绑定查询条件
      *

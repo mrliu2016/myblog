@@ -6,9 +6,37 @@
  */
 return [
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '基础信息', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '用户管理', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '用户', 'href' => '/index/index'],
+            ['permissionId' => '/application/index', 'name' => '用户', 'href' => '/user/index'],
+        ],
+    ],
+    [
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '直播管理', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level2' => [
+            ['permissionId' => '/application/index', 'name' => '直播管理', 'href' => '/live/index?type=1'],
+            ['permissionId' => '/application/index', 'name' => '直播回放', 'href' => '/live/record?type=2'],
+        ],
+    ],
+    [
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '充值&提现', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level2' => [
+            ['permissionId' => '/application/index', 'name' => '充值历史', 'href' => '/deposit/index'],
+            ['permissionId' => '/application/index', 'name' => '提现审核', 'href' => '/deposit/withdraw'],
+        ],
+    ],
+    [
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '礼物', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level2' => [
+            ['permissionId' => '/application/index', 'name' => '模版', 'href' => '/gift/template'],
+            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
+        ],
+    ],
+    [
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '消息', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level2' => [
+            ['permissionId' => '/application/index', 'name' => '消息', 'href' => '/message/index'],
+            ['permissionId' => '/application/index', 'name' => '关键字', 'href' => '/message/key'],
         ],
     ],
 ];

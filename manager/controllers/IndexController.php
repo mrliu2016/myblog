@@ -36,9 +36,9 @@ class IndexController extends BaseController
 
     public function actionIndex()
     {
-        $user = User::queryById(100001);
-        var_dump($user);
-        exit();
+//        $user = User::queryById(100001);
+//        var_dump($user);
+//        exit();
 //        $application = Application::queryById(1);
 //        var_dump($application);
 //        exit();

@@ -2,14 +2,22 @@
 
 namespace app\manager\controllers;
 
-use app\common\models\Deposit;
-use app\common\models\Withdraw;
+use app\common\models\Video;
 use Yii;
 use yii\data\Pagination;
 
-class DepositController extends BaseController
+class LiveController extends BaseController
 {
-    const PAGE_SIZE = 10;
+    public function actions()
+    {
+        return [
+            'error' => [
+                'class' => 'yii\web\ErrorAction',
+            ]
+        ];
+    }
+
+    const PAGE_SIZE = 15;
     public $enableCsrfValidation = false;
 
     private static function pagination($pageNo, $count)
@@ -22,30 +30,13 @@ class DepositController extends BaseController
         return $pagination;
     }
 
-    /**
-     * 充值记录
-     */
-    public function actionRecord()
-    {
-        $params = Yii::$app->request->getQueryParams();
-        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
-        $params['defaultPageSize'] = isset($params['size']) ? $params['size'] : self::PAGE_SIZE;
-        $result = Deposit::queryInfo($params);
-        $count = Deposit::queryInfoNum($params);
-        return $this->render('deposit_record', [
-            'itemList' => $result['data']['list'],
-            'pagination' => self::pagination($pageNo, $count),
-            'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
-        ]);
-    }
 
     public function actionIndex()
     {
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;;
-        $result = Deposit::queryInfo($params);
-        $count = Deposit::queryInfoNum($params);
+        $result = Video::queryInfo($params);
+        $count = Video::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
             'itemList' => $result,
@@ -55,14 +46,14 @@ class DepositController extends BaseController
         ]);
     }
 
-    public function actionWithdraw()
+    public function actionRecord()
     {
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;;
-        $result = Withdraw::queryInfo($params);
-        $count = Withdraw::queryInfoNum($params);
+        $result = Video::queryInfo($params);
+        $count = Video::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
-        return $this->render('withdraw', [
+        return $this->render('record', [
             'itemList' => $result,
             'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
