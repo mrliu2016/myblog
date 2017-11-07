@@ -184,4 +184,11 @@ class LiveService
             User::updateLiveTime($userId);
         }
     }
+
+    //获取webSocket服务ip
+    public static function getWsIp($roomId){
+        $index = $roomId % 2;
+        $roomServer = Yii::$app->params['wsServer'][$index];
+        return $roomServer['ip'];
+    }
 }
