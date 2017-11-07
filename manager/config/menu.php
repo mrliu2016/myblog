@@ -14,8 +14,8 @@ return [
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '直播管理', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '直播管理', 'href' => '/live/index'],
-            ['permissionId' => '/application/index', 'name' => '直播回放', 'href' => '/live/record'],
+            ['permissionId' => '/application/index', 'name' => '直播管理', 'href' => '/live/index?type=1'],
+            ['permissionId' => '/application/index', 'name' => '直播回放', 'href' => '/live/record?type=2'],
         ],
     ],
     [
