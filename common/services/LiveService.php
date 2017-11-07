@@ -3,12 +3,10 @@
 namespace app\common\services;
 
 use app\common\components\RedisClient;
-use app\common\models\Gift;
-use app\common\models\Order;
 use app\common\models\User;
 use app\common\models\Video;
 use Yii;
-use yii\base\Exception;
+use yii\base\ErrorException;
 
 class LiveService
 {
@@ -265,7 +263,7 @@ class LiveService
             try {
 //                echo $fd . '---' . "/r/n";
                 $server->push($fd, json_encode($messageAll));
-            } catch (Exception $ex) {
+            } catch (ErrorException $ex) {
 
             }
         }
