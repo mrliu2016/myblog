@@ -74,7 +74,8 @@ class LiveService
     public static function giftRequest($server, $frame, $message)
     {
         $param = $message['data'];
-        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"]) || empty($param["num"])
+        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"]) || empty($param["price"])
+            || empty($param["num"]) || empty($param["nickName"]) || empty($param["avatar"]) || empty($param["level"])
         ) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
@@ -90,6 +91,9 @@ class LiveService
         $giftId = $param["giftId"];
         $price = $param["price"];
         $num = $param["num"];
+        $nickName = $param["nickName"];
+        $avatar = $param["avatar"];
+        $level = $param["level"];
         $balance = $redis->hget('WSUserBalance', $userId);
         if ($balance === false) {
             $user = User::queryById($userId);
@@ -139,9 +143,9 @@ class LiveService
         $data = array(
             'roomId' => $roomId,
             'userId' => $userId,
-            'nickName' => '',
-            'avatar' => '',
-            'level' => 1,
+            'nickName' => $nickName,
+            'avatar' => $avatar,
+            'level' => $level,
             'userIdTo' => $userIdTo,
             'giftId' => $giftId,
             'num' => $num,
