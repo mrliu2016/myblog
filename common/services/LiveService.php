@@ -228,6 +228,8 @@ class LiveService
                 'data' => []
             ];
         }
+        //用户进入房间
+        LiveService::roomJoin($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
         $resMessage = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
             'code' => Constants::CODE_SUCCESS,
@@ -252,13 +254,40 @@ class LiveService
         return $roomServer['ip'];
     }
 
+    //返回房间内用户信息
     public static function getUserInfoListByRoomId($roomId)
     {
         $ip = self::getWsIp($roomId);
-        $key = 'WSRoomUser_' . $ip . '_' . $roomId;
+        $keyWSRoomUser = 'WSRoomUser_' . $ip . '_' . $roomId;
         $redis = RedisClient::getInstance();
-        $result = $redis->hGetAll($key);
+        $result = $redis->hGetAll($keyWSRoomUser);
         if (empty($result)) return [];
         return array_values($result);
+    }
+
+    //加入房间
+    public static function roomJoin($fd, $userId, $roomId, $role, $avatar, $nickName, $level)
+    {
+        $ip = self::getWsIp($roomId);
+        $keyWSRoomLocation = 'WSRoomLocation_' . $ip;
+        $redis = RedisClient::getInstance();
+        $redis->hset($keyWSRoomLocation, $fd, $roomId . '_' . $userId . '_' . $role);
+
+        $keyWSRoomFD = 'WSRoomFD_' . $ip . '_' . $roomId;
+        $keyWSRoomFDTimeout = 48 * 60 * 60;
+        $redis->hset($keyWSRoomFD, $fd, $userId);
+        $redis->expire($keyWSRoomFD, $keyWSRoomFDTimeout);
+
+        $keyWSRoomUser = 'WSRoomUser_' . $ip . '_' . $roomId;
+        $num = $redis->hLen($keyWSRoomUser);
+        if ($num < Constants::NUM_WS_ROOM_USER) {
+            $keyWSRoomUserTimeout = 48 * 60 * 60;
+            $userInfo['userId'] = $userId;
+            $userInfo['nickName'] = $nickName;
+            $userInfo['avatar'] = $avatar;
+            $userInfo['level'] = $level;
+            $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
+            $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
+        }
     }
 }
