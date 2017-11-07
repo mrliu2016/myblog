@@ -56,4 +56,29 @@ class Withdraw extends ActiveRecord
             $user['openId'], $withdrawUser['name'], intval($withdrawDetail['price']),
             isset($params['desc']) ? $params['desc'] : '企业付款', $application['sslCert'], $application['sslKey']);
     }
+    public static function queryInfo($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        return $find->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
+    }
+
+    public static function queryInfoNum($params)
+    {
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        return $find->count();
+    }
+
+    private static function buildParams($find, $params)
+    {
+        if (!empty($params['userId'])) {
+            $find->andWhere('userId=' . $params['userId']);
+        }
+        return $find;
+    }
 }

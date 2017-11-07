@@ -2,6 +2,8 @@
 
 namespace app\manager\controllers;
 
+use app\common\models\Gift;
+use app\common\models\Order;
 use Yii;
 use yii\data\Pagination;
 
@@ -32,11 +34,31 @@ class GiftController extends BaseController
 
     public function actionTemplate()
     {
-        return $this->render('template', []);
+        $params = Yii::$app->request->getQueryParams();
+        $params['defaultPageSize'] = self::PAGE_SIZE;;
+        $result = Gift::queryInfo($params);
+        $count = Gift::queryInfoNum($params);
+        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        return $this->render('template', [
+            'itemList' => $result,
+            'pagination' => self::pagination($pageNo, $count),
+            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count
+        ]);
     }
 
     public function actionOrder()
     {
-        return $this->render('order', []);
+        $params = Yii::$app->request->getQueryParams();
+        $params['defaultPageSize'] = self::PAGE_SIZE;;
+        $result = Order::queryInfo($params);
+        $count = Order::queryInfoNum($params);
+        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        return $this->render('order', [
+            'itemList' => $result,
+            'pagination' => self::pagination($pageNo, $count),
+            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count
+        ]);
     }
 }

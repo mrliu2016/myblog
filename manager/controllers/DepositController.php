@@ -3,6 +3,7 @@
 namespace app\manager\controllers;
 
 use app\common\models\Deposit;
+use app\common\models\Withdraw;
 use Yii;
 use yii\data\Pagination;
 
@@ -29,8 +30,7 @@ class DepositController extends BaseController
         $params = Yii::$app->request->getQueryParams();
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         $params['defaultPageSize'] = isset($params['size']) ? $params['size'] : self::PAGE_SIZE;
-        $result = Deposit::depositRecord($params,
-            'id,price,orderIdAlias,source,status,FROM_UNIXTIME(orderCreateTime) as created,orderPayTime');
+        $result = Deposit::queryInfo($params);
         $count = Deposit::queryInfoNum($params);
         return $this->render('deposit_record', [
             'itemList' => $result['data']['list'],
@@ -40,8 +40,33 @@ class DepositController extends BaseController
         ]);
     }
 
+    public function actionIndex()
+    {
+        $params = Yii::$app->request->getQueryParams();
+        $params['defaultPageSize'] = self::PAGE_SIZE;;
+        $result = Deposit::queryInfo($params);
+        $count = Deposit::queryInfoNum($params);
+        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        return $this->render('index', [
+            'itemList' => $result,
+            'pagination' => self::pagination($pageNo, $count),
+            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count
+        ]);
+    }
+
     public function actionWithdraw()
     {
-        return $this->render('withdraw', []);
+        $params = Yii::$app->request->getQueryParams();
+        $params['defaultPageSize'] = self::PAGE_SIZE;;
+        $result = Withdraw::queryInfo($params);
+        $count = Withdraw::queryInfoNum($params);
+        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        return $this->render('withdraw', [
+            'itemList' => $result,
+            'pagination' => self::pagination($pageNo, $count),
+            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count
+        ]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace app\manager\controllers;
 
+use app\common\models\KeyWord;
 use Yii;
 use yii\data\Pagination;
 
@@ -37,6 +38,16 @@ class MessageController extends BaseController
 
     public function actionKey()
     {
-        return $this->render('key', []);
+        $params = Yii::$app->request->getQueryParams();
+        $params['defaultPageSize'] = self::PAGE_SIZE;;
+        $result = KeyWord::queryInfo($params);
+        $count = KeyWord::queryInfoNum($params);
+        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        return $this->render('key', [
+            'itemList' => $result,
+            'pagination' => self::pagination($pageNo, $count),
+            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count
+        ]);
     }
 }

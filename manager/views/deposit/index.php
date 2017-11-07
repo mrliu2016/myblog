@@ -1,13 +1,13 @@
 <?php
 use yii\widgets\LinkPager;
 
-$this->title = '直播管理';
+$this->title = '提现审核';
 ?>
 
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <form method="get" action="/live/index" class="form-horizontal" id="searchForm"
+            <form method="get" action="/deposit/index" class="form-horizontal" id="searchForm"
                   name="searchForm">
                 <fieldset style="height: 20px">
                     <div class="form-group">
@@ -16,7 +16,6 @@ $this->title = '直播管理';
                                     name="searchBtn">查询
                             </button>
                             <div class="col-md-2">
-                                <input type="hidden" name="type" value="1"/>
                                 <input type="text" style="width: 120px" id="content" name="userId"
                                        class="form-control datepicker-pop"
                                     <?php if (!empty($params['userId'])): ?>
@@ -34,10 +33,15 @@ $this->title = '直播管理';
                 <thead>
                 <tr>
                     <th class="col-md-1">id</th>
-                    <th class="col-md-1">用户</th>
-                    <th class="col-md-1">房间Id</th>
-                    <th class="col-md-1">时间</th>
-                    <th class="col-md-1">操作</th>
+                    <th class="col-md-1">用户id</th>
+                    <th class="col-md-1">充值金额</th>
+                    <th class="col-md-1">佣金</th>
+                    <th class="col-md-1">订单号</th>
+                    <th class="col-md-1">第三方交易号</th>
+                    <th class="col-md-1">渠道</th>
+                    <th class="col-md-1">订单状态</th>
+                    <th class="col-md-1">下单时间</th>
+                    <th class="col-md-1">完成时间</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -50,11 +54,28 @@ $this->title = '直播管理';
                             <?= $item['userId'] ?>
                         </td>
                         <td>
-                            <?= $item['roomId'] ?>
+                            <?= $item['price'] ?>
                         </td>
                         <td>
-                            <?= date('Y-m-d H:i:s', $item['startTime']) ?>
-                            <?= date('Y-m-d H:i:s', $item['endTime']) ?>
+                            <?= $item['commission'] ?>
+                        </td>
+                        <td>
+                            <?= $item['orderIdAlias'] ?>
+                        </td>
+                        <td>
+                            <?= $item['transactionId'] ?>
+                        </td>
+                        <td>
+                            <?= $item['source'] ?>
+                        </td>
+                        <td>
+                            <?= $item['status'] ?>
+                        </td>
+                        <td>
+                            <?= $item['orderCreateTime'] ?>
+                        </td>
+                        <td>
+                            <?= $item['orderPayTime'] ?>
                         </td>
                         <td>
                         </td>

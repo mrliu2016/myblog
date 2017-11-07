@@ -21,7 +21,7 @@ return [
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '充值&提现', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '充值历史', 'href' => '/deposit/record'],
+            ['permissionId' => '/application/index', 'name' => '充值历史', 'href' => '/deposit/index'],
             ['permissionId' => '/application/index', 'name' => '提现审核', 'href' => '/deposit/withdraw'],
         ],
     ],
