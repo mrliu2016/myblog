@@ -46,18 +46,25 @@ class LiveService
     {
         echo 'receive message:' . json_encode($message);
         $param = $message['data'];
+        if (empty($param["roomId"])
+        ) {
+            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_SERVER_INFO_RES;
+            $respondMessage['code'] = Constants::CODE_FAILED;
+            $respondMessage['message'] = 'parameter error';
+            $respondMessage['data'] = array();
+            $server->push($frame->fd, json_encode($respondMessage));
+            return;
+        }
+        $roomId = $param["roomId"];
+        $index = $roomId % 2;
         $respondMessage = array();
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_SERVER_INFO_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
         $respondMessage['message'] = '';
-        $roomIp = '47.94.92.113';
         $data = array(
             'cdn' => Yii::$app->params['cdn'],
-            'roomServer' => array(
-                'ip' => $roomIp,
-                'port' => 9502
-            )
-        );
+            'roomServer' => Yii::$app->params['wsServer'][$index]
+    );
         $respondMessage['data'] = $data;
         $server->push($frame->fd, json_encode($respondMessage));
     }
@@ -237,5 +244,12 @@ class LiveService
             ],
         ];
         $server->push($frame->fd, json_encode($resMessage));
+    }
+
+    //获取webSocket服务ip
+    public static function getWsIp($roomId){
+        $index = $roomId % 2;
+        $roomServer = Yii::$app->params['wsServer'][$index];
+        return $roomServer['ip'];
     }
 }

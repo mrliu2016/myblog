@@ -46,6 +46,16 @@ $params = [
             'push' => 'zbj-push.3ttech.cn',
         ],
         'civilization' => 'civilization',
+        'wsServer' => [
+            [
+                'ip' => '47.94.92.113',
+                'port' => 9502,
+            ],
+            [
+                'ip' => '101.37.71.61',
+                'port' => 9502,
+            ]
+        ]
     ],
 
     'dev' => [
@@ -92,6 +102,16 @@ $params = [
             'push' => 'zbj-push.3ttech.cn',
         ],
         'civilization' => 'civilization',
+        'wsServer' => [
+            [
+                'ip' => '47.94.92.113',
+                'port' => 9502,
+            ],
+            [
+                'ip' => '101.37.71.61',
+                'port' => 9502,
+            ]
+        ]
     ],
 
     'pre' => [
@@ -138,6 +158,16 @@ $params = [
             'push' => 'zbj-push.3ttech.cn',
         ],
         'civilization' => 'civilization',
+        'wsServer' => [
+            [
+                'ip' => '47.94.92.113',
+                'port' => 9502,
+            ],
+            [
+                'ip' => '101.37.71.61',
+                'port' => 9502,
+            ]
+        ],
     ],
 
     'online' => [
@@ -184,6 +214,16 @@ $params = [
             'push' => 'zbj-push.3ttech.cn',
         ],
         'civilization' => 'civilization',
+        'wsServer' => [
+            [
+                'ip' => '47.94.92.113',
+                'port' => 9502,
+            ],
+            [
+                'ip' => '101.37.71.61',
+                'port' => 9502,
+            ]
+        ]
     ],
 
 ];
