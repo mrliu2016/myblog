@@ -45,6 +45,7 @@ $params = [
             'pull' => 'zbj-pull.3ttech.cn',
             'push' => 'zbj-push.3ttech.cn',
         ],
+        'civilization' => 'civilization',
     ],
 
     'dev' => [
@@ -90,6 +91,7 @@ $params = [
             'pull' => 'zbj-pull.3ttech.cn',
             'push' => 'zbj-push.3ttech.cn',
         ],
+        'civilization' => 'civilization',
     ],
 
     'pre' => [
@@ -135,6 +137,7 @@ $params = [
             'pull' => 'zbj-pull.3ttech.cn',
             'push' => 'zbj-push.3ttech.cn',
         ],
+        'civilization' => 'civilization',
     ],
 
     'online' => [
@@ -180,6 +183,7 @@ $params = [
             'pull' => 'zbj-pull.3ttech.cn',
             'push' => 'zbj-push.3ttech.cn',
         ],
+        'civilization' => 'civilization',
     ],
 
 ];
