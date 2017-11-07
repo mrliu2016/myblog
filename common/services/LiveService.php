@@ -201,7 +201,7 @@ class LiveService
          * nickName: "nickName",
          * level: "level",
          * income: 123,
-         * avatarList: [
+         * userList: [
          * {
          * userId: 123,
          * nickName: "nickName",
@@ -234,7 +234,7 @@ class LiveService
                 'nickName' => $params['nickName'],
                 'level' => intval($user['level']),
                 'income' => floatval($user['balance'] / Constants::CENT),
-                'avatarList' => LiveService::getUserInfoListByRoomId($params['roomId'])
+                'userList' => LiveService::getUserInfoListByRoomId($params['roomId'])
             ],
         ];
         $server->push($frame->fd, json_encode($resMessage));
