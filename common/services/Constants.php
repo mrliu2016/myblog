@@ -11,7 +11,7 @@ class Constants
     // token 有限期
     const LOGIN_TOKEN_EXPIRES = 86400;
 
-    const WEB_SOCKET_IP = '127.0.0.1';
+    const WEB_SOCKET_IP = '0.0.0.0';
     const WEB_SOCKET_PORT = '9502';
     const MESSAGE_TYPE_BARRAGE_REQ = 'barrage_req';
     const MESSAGE_TYPE_BARRAGE_RES = 'barrage_res';
