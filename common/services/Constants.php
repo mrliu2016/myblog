@@ -24,6 +24,11 @@ class Constants
     const MESSAGE_TYPE_JOIN_REQ = 'join_req';
     const MESSAGE_TYPE_JOIN_RES = 'join_res';
 
+    const WS_ROOM_LOCATION = 'WSRoomLocation';
+    const WS_ROOM_FD = 'WSRoomFD';
+    const WS_ROOM_USER = 'WSRoomUser';
+    const WS_ROOM_USER_COUNT = 'WSRoom';
+
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';
     const LOGIN_TYPE_WEI_BO = 'WEI_BO';

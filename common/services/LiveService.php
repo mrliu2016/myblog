@@ -2,6 +2,7 @@
 
 namespace app\common\services;
 
+use app\common\components\RedisClient;
 use app\common\models\Gift;
 use app\common\models\Order;
 use app\common\models\User;
@@ -64,7 +65,7 @@ class LiveService
         $data = array(
             'cdn' => Yii::$app->params['cdn'],
             'roomServer' => Yii::$app->params['wsServer'][$index]
-    );
+        );
         $respondMessage['data'] = $data;
         $server->push($frame->fd, json_encode($respondMessage));
     }
@@ -221,7 +222,6 @@ class LiveService
          *
          */
         $params = $message['data'];
-        $user = User::queryById($params["userId"]);
         if (!isset($params["roomId"]) || !isset($params["userId"])) {
             return [
                 'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
@@ -230,26 +230,130 @@ class LiveService
                 'data' => []
             ];
         }
+        $user = User::queryById($params["userId"]);
+        $roomServer = static::getWsIp($params["userId"]);
+        static::setWSRoomLocationServer($roomServer, $frame, $params);
+        static::setWSRoomFD($roomServer, $frame, $params);
+        static::setWSRoomUser($roomServer, $frame, $params, $user);
+        static::setWSRoom($roomServer, $frame, $params);
+        static::joinRoomSendSingleMessage($roomServer, $server, $frame, $params, $user);
+    }
+
+    //获取webSocket服务ip
+    public static function getWsIp($roomId)
+    {
+        $index = $roomId % 2;
+        $roomServer = Yii::$app->params['wsServer'][$index];
+        return $roomServer['ip'];
+    }
+
+    /**
+     * 设置房间、WS服务器
+     *
+     * @param $roomServer
+     * @param $frame
+     * @param $params
+     */
+    public static function setWSRoomLocationServer($roomServer, $frame, $params)
+    {
+        RedisClient::getInstance()->hset(
+            Constants::WS_ROOM_LOCATION . $roomServer,
+            $frame->fd,
+            $params['roomId'] . '_' . $params['userId'] . '_' . $params['isMaster']
+        );
+    }
+
+    /**
+     * 设置房间号、WSIP、FD、用户信息
+     * @param $roomServer
+     * @param $frame
+     * @param $params
+     */
+    public static function setWSRoomFD($roomServer, $frame, $params)
+    {
+        RedisClient::getInstance()->hset(
+            Constants::WS_ROOM_FD . $roomServer . $params['roomId'],
+            $frame->fd,
+            $params['userId']
+        );
+    }
+
+    /**
+     * 设置房间、WSIP、用户
+     * @param $roomServer
+     * @param $frame
+     * @param $params
+     * @param $user
+     */
+    public static function setWSRoomUser($roomServer, $frame, $params, $user)
+    {
+        $data = [
+            'userId' => intval($user['id']),
+            'nickName' => $user['nickName'],
+            'avatar' => $user['avatar'],
+            'level' => $user['level']
+        ];
+        RedisClient::getInstance()->hset(
+            Constants::WS_ROOM_USER . $roomServer . $params['roomId'],
+            $params['userId'],
+            json_encode($data)
+        );
+    }
+
+    /**
+     * @param $roomServer
+     * @param $frame
+     * @param $params
+     */
+    public static function setWSRoom($roomServer, $frame, $params)
+    {
+        RedisClient::getInstance()->incr(Constants::WS_ROOM_USER_COUNT . $params['roomId']);
+    }
+
+    /**
+     * 发送单人信息
+     *
+     * @param $roomServer
+     * @param $server
+     * @param $frame
+     * @param $params
+     * @param $user
+     */
+    public static function joinRoomSendSingleMessage($roomServer, $server, $frame, $params, $user)
+    {
         $resMessage = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
             'code' => Constants::CODE_SUCCESS,
             'message' => Yii::$app->params['civilization'],
             'data' => [
                 'roomId' => $params['roomId'],
-                'avatar' => $params['avatar'],
-                'nickName' => $params['nickName'],
+                'avatar' => $user['avatar'],
+                'nickName' => $user['nickName'],
                 'level' => intval($user['level']),
                 'income' => floatval($user['balance'] / Constants::CENT),
-//                'avatarList'=>
+                'count' => intval(RedisClient::getInstance()->get(Constants::WS_ROOM_USER_COUNT . $params['roomId'])),
+                'avatarList' => static::getRoomUserList($roomServer, $params['roomId'])
             ],
         ];
         $server->push($frame->fd, json_encode($resMessage));
     }
 
-    //获取webSocket服务ip
-    public static function getWsIp($roomId){
-        $index = $roomId % 2;
-        $roomServer = Yii::$app->params['wsServer'][$index];
-        return $roomServer['ip'];
+    /**
+     * 获取房间用户列表
+     *
+     * @param $roomServer
+     * @param $roomId
+     * @return array
+     */
+    public static function getRoomUserList($roomServer, $roomId)
+    {
+        $result = [];
+        $userList = RedisClient::getInstance()->hVals(Constants::WS_ROOM_USER . $roomServer . $roomId);
+        if (!empty($userList)) {
+            foreach ($userList as $key => $value) {
+                $result[$key] = json_decode($value, true);
+            }
+        }
+        return $result;
     }
 }

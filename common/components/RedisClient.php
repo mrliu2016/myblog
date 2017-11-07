@@ -96,6 +96,11 @@ class RedisClient
         return $this->redis->hGet($key, $field);
     }
 
+    public function hVals($key)
+    {
+        return $this->redis->hVals($key);
+    }
+
     public function hGetAll($key)
     {
         return $this->redis->hGetAll($key);
