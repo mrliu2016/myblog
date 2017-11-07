@@ -42,6 +42,6 @@ class DepositController extends BaseController
 
     public function actionWithdraw()
     {
-        echo '提现';
+        return $this->render('withdraw', []);
     }
 }

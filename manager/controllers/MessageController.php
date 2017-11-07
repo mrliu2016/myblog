@@ -32,11 +32,11 @@ class MessageController extends BaseController
 
     public function actionIndex()
     {
-        echo '消息';
+        return $this->render('index', []);
     }
 
     public function actionKey()
     {
-        echo '关键字';
+        return $this->render('key', []);
     }
 }

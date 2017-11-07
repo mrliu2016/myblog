@@ -32,11 +32,11 @@ class GiftController extends BaseController
 
     public function actionTemplate()
     {
-        echo '模版';
+        return $this->render('template', []);
     }
 
     public function actionOrder()
     {
-        echo '购买';
+        return $this->render('order', []);
     }
 }

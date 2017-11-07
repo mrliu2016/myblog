@@ -28,8 +28,8 @@ return [
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '礼物', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '礼物模版', 'href' => '/gift/template'],
-            ['permissionId' => '/application/index', 'name' => '礼物赠送', 'href' => '/gift/order'],
+            ['permissionId' => '/application/index', 'name' => '模版', 'href' => '/gift/template'],
+            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
         ],
     ],
     [

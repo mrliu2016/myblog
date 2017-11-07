@@ -32,11 +32,11 @@ class LiveController extends BaseController
 
     public function actionIndex()
     {
-        echo '直播管理';
+        return $this->render('index', []);
     }
 
     public function actionRecord()
     {
-        echo '直播回放';
+        return $this->render('record', []);
     }
 }

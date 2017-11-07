@@ -32,6 +32,6 @@ class UserController extends BaseController
 
     public function actionIndex()
     {
-        echo '用户管理';
+        return $this->render('index', []);
     }
 }
