@@ -45,7 +45,6 @@ $params = [
             'pull' => 'zbj-pull.3ttech.cn',
             'push' => 'zbj-push.3ttech.cn',
         ],
-        'civilization' => 'civilization',
         'wsServer' => [
             [
                 'ip' => '47.94.92.113',
@@ -101,7 +100,6 @@ $params = [
             'pull' => 'zbj-pull.3ttech.cn',
             'push' => 'zbj-push.3ttech.cn',
         ],
-        'civilization' => 'civilization',
         'wsServer' => [
             [
                 'ip' => '47.94.92.113',
@@ -157,7 +155,6 @@ $params = [
             'pull' => 'zbj-pull.3ttech.cn',
             'push' => 'zbj-push.3ttech.cn',
         ],
-        'civilization' => 'civilization',
         'wsServer' => [
             [
                 'ip' => '47.94.92.113',
@@ -213,7 +210,6 @@ $params = [
             'pull' => 'zbj-pull.3ttech.cn',
             'push' => 'zbj-push.3ttech.cn',
         ],
-        'civilization' => 'civilization',
         'wsServer' => [
             [
                 'ip' => '47.94.92.113',
