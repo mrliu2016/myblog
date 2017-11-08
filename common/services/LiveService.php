@@ -194,21 +194,48 @@ class LiveService
     public static function joinRoomAndAI($server, $frame, $message)
     {
         $params = $message['data'];
-        if (!isset($params["roomId"]) || !isset($params["userId"])) {
-            return [
-                'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
-                'code' => Constants::CODE_FAILED,
-                'message' => Yii::$app->params['civilization'],
-                'data' => []
-            ];
+        //用户进入房间
+        self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
+        $resMessage = [
+            'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
+            'code' => Constants::CODE_SUCCESS,
+            'message' => Constants::WS_NOTICE,
+            'data' => [
+                'roomId' => $params['roomId'],
+                'userId' => $params["masterUserId"],
+                'avatar' => $params["masterAvatar"],
+                'nickName' => $params["masterNickName"],
+                'level' => intval($params["masterLevel"]),
+//                'income' => floatval($user['balance'] / Constants::CENT),
+                'count' => intval(RedisClient::getInstance()->get(Constants::WS_ROOM_USER_COUNT . $params['roomId'])),
+                'avatarList' => static::getRoomUserList($params['roomId']),
+                'userList' => LiveService::getUserInfoListByRoomId($params['roomId'])
+            ],
+        ];
+        $server->push($frame->fd, json_encode($resMessage));
+
+
+        $messageAll = [
+            'messageType' => Constants::MESSAGE_TYPE_JOIN_NOTIFY_RES,
+            'code' => Constants::CODE_SUCCESS,
+            'message' => '',
+            'data' => [
+                'roomId' => $params['roomId'],
+                'userId' => $params['userId'],
+                'avatar' => $params['avatar'],
+                'nickName' => $params['nickName'],
+                'level' => intval($params['level']),
+                'count' => LiveService::roomMemberNum($params['roomId'])
+            ],
+        ];
+        $fdList = LiveService::fdListByRoomId($params['roomId']);
+        foreach ($fdList as $fd) {
+            try {
+                $server->push($fd, json_encode($messageAll));
+            } catch (ErrorException $ex) {
+
+            }
         }
-        $user = User::queryById($params["userId"]);
-        $roomServer = static::getWsIp($params["userId"]);
-//        static::setWSRoomLocationServer($roomServer, $frame, $params);
-//        static::setWSRoomFD($roomServer, $frame, $params);
-//        static::setWSRoomUser($roomServer, $frame, $params, $user);
-//        static::setWSRoom($roomServer, $frame, $params);
-        static::joinRoomSendSingleMessage($roomServer, $server, $frame, $params, $user);
     }
 
     //获取webSocket服务ip
@@ -282,60 +309,60 @@ class LiveService
         RedisClient::getInstance()->incr(Constants::WS_ROOM_USER_COUNT . $params['roomId']);
     }
 
-    /**
-     * 发送单人信息
-     *
-     * @param $roomServer
-     * @param $server
-     * @param $frame
-     * @param $params
-     * @param $user
-     */
-    public static function joinRoomSendSingleMessage($roomServer, $server, $frame, $params, $user)
-    {
-        //用户进入房间
-        LiveService::roomJoin($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
-        $resMessage = [
-            'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
-            'code' => Constants::CODE_SUCCESS,
-            'message' => Constants::WS_NOTICE,
-            'data' => [
-                'roomId' => $params['roomId'],
-                'avatar' => $user['avatar'],
-                'nickName' => $user['nickName'],
-                'level' => intval($user['level']),
-                'income' => floatval($user['balance'] / Constants::CENT),
-                'count' => intval(RedisClient::getInstance()->get(Constants::WS_ROOM_USER_COUNT . $params['roomId'])),
-                'avatarList' => static::getRoomUserList($roomServer, $params['roomId']),
-                'userList' => LiveService::getUserInfoListByRoomId($params['roomId'])
-            ],
-        ];
-        $server->push($frame->fd, json_encode($resMessage));
-
-
-        $messageAll = [
-            'messageType' => Constants::MESSAGE_TYPE_JOIN_NOTIFY_RES,
-            'code' => Constants::CODE_SUCCESS,
-            'message' => '',
-            'data' => [
-                'roomId' => $params['roomId'],
-                'userId' => $params['userId'],
-                'avatar' => $params['avatar'],
-                'nickName' => $params['nickName'],
-                'level' => intval($user['level']),
-                'count' => LiveService::roomMemberNum($params['roomId'])
-            ],
-        ];
-        $fdList = LiveService::fdListByRoomId($params['roomId']);
-        foreach ($fdList as $fd) {
-            try {
-//                echo $fd . '---' . "/r/n";
-                $server->push($fd, json_encode($messageAll));
-            } catch (ErrorException $ex) {
-
-            }
-        }
-    }
+//    /**
+//     * 发送单人信息
+//     *
+//     * @param $roomServer
+//     * @param $server
+//     * @param $frame
+//     * @param $params
+//     * @param $user
+//     */
+//    public static function joinRoomSendSingleMessage($roomServer, $server, $frame, $params, $user)
+//    {
+//        //用户进入房间
+//        LiveService::roomJoin($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
+//        $resMessage = [
+//            'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
+//            'code' => Constants::CODE_SUCCESS,
+//            'message' => Constants::WS_NOTICE,
+//            'data' => [
+//                'roomId' => $params['roomId'],
+//                'avatar' => $user['avatar'],
+//                'nickName' => $user['nickName'],
+//                'level' => intval($user['level']),
+//                'income' => floatval($user['balance'] / Constants::CENT),
+//                'count' => intval(RedisClient::getInstance()->get(Constants::WS_ROOM_USER_COUNT . $params['roomId'])),
+//                'avatarList' => static::getRoomUserList($roomServer, $params['roomId']),
+//                'userList' => LiveService::getUserInfoListByRoomId($params['roomId'])
+//            ],
+//        ];
+//        $server->push($frame->fd, json_encode($resMessage));
+//
+//
+//        $messageAll = [
+//            'messageType' => Constants::MESSAGE_TYPE_JOIN_NOTIFY_RES,
+//            'code' => Constants::CODE_SUCCESS,
+//            'message' => '',
+//            'data' => [
+//                'roomId' => $params['roomId'],
+//                'userId' => $params['userId'],
+//                'avatar' => $params['avatar'],
+//                'nickName' => $params['nickName'],
+//                'level' => intval($user['level']),
+//                'count' => LiveService::roomMemberNum($params['roomId'])
+//            ],
+//        ];
+//        $fdList = LiveService::fdListByRoomId($params['roomId']);
+//        foreach ($fdList as $fd) {
+//            try {
+////                echo $fd . '---' . "/r/n";
+//                $server->push($fd, json_encode($messageAll));
+//            } catch (ErrorException $ex) {
+//
+//            }
+//        }
+//    }
 
     /**
      * 获取房间用户列表
@@ -344,10 +371,10 @@ class LiveService
      * @param $roomId
      * @return array
      */
-    public static function getRoomUserList($roomServer, $roomId)
+    public static function getRoomUserList($roomId)
     {
         $result = [];
-        $userList = RedisClient::getInstance()->hVals(Constants::WS_ROOM_USER . $roomServer . $roomId);
+        $userList = RedisClient::getInstance()->hVals(Constants::WS_ROOM_USER . self::getWsIp($roomId) . $roomId);
         if (!empty($userList)) {
             foreach ($userList as $key => $value) {
                 $result[$key] = json_decode($value, true);
@@ -368,7 +395,7 @@ class LiveService
     }
 
     //加入房间
-    public static function roomJoin($fd, $userId, $roomId, $role, $avatar, $nickName, $level)
+    private static function join($fd, $userId, $roomId, $role, $avatar, $nickName, $level)
     {
         //服务器fd映射关系，异常退出用
         $ip = self::getWsIp($roomId);
