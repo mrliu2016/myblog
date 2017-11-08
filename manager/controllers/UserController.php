@@ -34,17 +34,6 @@ class UserController extends BaseController
 
     public function actionIndex()
     {
-        echo '<pre>';
-        $list = LiveService::fdListByRoomId(124);
-        echo json_encode($list);
-        exit();
-        $info['userId'] = 123;
-        $info['nickName'] = 'jinhongxin';
-        $info['avatar'] = 'https://img3.doubanio.com/view/photo/albumcover/public/p2500714030.jpg';
-        $info['level'] = 5;
-        echo json_encode($info);
-        exit();
-
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;;
         $result = User::queryInfo($params);
