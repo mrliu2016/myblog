@@ -27,10 +27,10 @@ class Constants
 
     const WSGIFTORDER = 'WSGiftOrder';
 
-    const WS_ROOM_LOCATION = 'WSRoomLocation';
-    const WS_ROOM_FD = 'WSRoomFD';
-    const WS_ROOM_USER = 'WSRoomUser';
-    const WS_ROOM_USER_COUNT = 'WSRoom';
+    const WS_ROOM_LOCATION = 'WSRoomLocation_';
+    const WS_ROOM_FD = 'WSRoomFD_';
+    const WS_ROOM_USER = 'WSRoomUser_';
+    const WS_ROOM_USER_COUNT = 'WSRoom_';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';

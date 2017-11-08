@@ -230,10 +230,10 @@ class LiveService
         }
         $user = User::queryById($params["userId"]);
         $roomServer = static::getWsIp($params["userId"]);
-        static::setWSRoomLocationServer($roomServer, $frame, $params);
-        static::setWSRoomFD($roomServer, $frame, $params);
-        static::setWSRoomUser($roomServer, $frame, $params, $user);
-        static::setWSRoom($roomServer, $frame, $params);
+//        static::setWSRoomLocationServer($roomServer, $frame, $params);
+//        static::setWSRoomFD($roomServer, $frame, $params);
+//        static::setWSRoomUser($roomServer, $frame, $params, $user);
+//        static::setWSRoom($roomServer, $frame, $params);
         static::joinRoomSendSingleMessage($roomServer, $server, $frame, $params, $user);
     }
 
