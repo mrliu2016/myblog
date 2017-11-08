@@ -71,6 +71,11 @@ class RedisClient
         return $this->redis->incr($key);
     }
 
+    public function decr($key)
+    {
+        return $this->redis->decr($key);
+    }
+
     public function expire($key, $ttl)
     {
         return $this->redis->expire($key, $ttl);

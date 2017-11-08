@@ -191,32 +191,6 @@ class LiveService
      */
     public static function joinRoomAndAI($server, $frame, $message)
     {
-        /**
-         *
-         * 单人广播
-         * {
-         * messageType: "join_res",
-         * code ：0
-         * message: "文明用语"
-         * data: {
-         * roomId: 333,
-         * avatar: "avatar",
-         * nickName: "nickName",
-         * level: "level",
-         * income: 123,
-         * userList: [
-         * {
-         * userId: 123,
-         * nickName: "nickName",
-         * avatar: "avatar",
-         * level: "level"
-         * }
-         * ],
-         * count: 2222,
-         * }
-         * }
-         *
-         */
         $params = $message['data'];
         $user = User::queryById($params["userId"]);
         if (!isset($params["roomId"]) || !isset($params["userId"])) {
@@ -291,16 +265,19 @@ class LiveService
     //加入房间
     public static function roomJoin($fd, $userId, $roomId, $role, $avatar, $nickName, $level)
     {
+        //服务器fd映射关系，异常退出用
         $ip = self::getWsIp($roomId);
         $keyWSRoomLocation = 'WSRoomLocation_' . $ip;
         $redis = RedisClient::getInstance();
         $redis->hset($keyWSRoomLocation, $fd, $roomId . '_' . $userId . '_' . $role);
 
+        //房间的fd列表，群发消息用
         $keyWSRoomFD = 'WSRoomFD_' . $ip . '_' . $roomId;
         $keyWSRoomFDTimeout = 48 * 60 * 60;
         $redis->hset($keyWSRoomFD, $fd, $userId);
         $redis->expire($keyWSRoomFD, $keyWSRoomFDTimeout);
 
+        //房间用户头像保存100个
         $keyWSRoomUser = 'WSRoomUser_' . $ip . '_' . $roomId;
         $num = $redis->hLen($keyWSRoomUser);
         if ($num < Constants::NUM_WS_ROOM_USER) {
@@ -317,6 +294,7 @@ class LiveService
         $redis->incr($keyWSRoom);
     }
 
+    //房间fd列表
     public static function fdListByRoomId($roomId)
     {
         $ip = self::getWsIp($roomId);
@@ -327,11 +305,68 @@ class LiveService
         return array_keys($result);
     }
 
+    //房间成员数量
     public static function roomMemberNum($roomId)
     {
         $keyWSRoom = 'WSRoom_' . $roomId;
         $redis = RedisClient::getInstance();
         $num = $redis->get($keyWSRoom);
         return intval($num);
+    }
+
+    public static function leaveRoom($server, $frame, $message)
+    {
+        $params = $message['data'];
+        if (!empty($params)) {
+            $messageAll = [
+                'messageType' => Constants::MESSAGE_TYPE_LEAVE_RES,
+                'code' => Constants::CODE_SUCCESS,
+                'message' => '',
+                'data' => [
+                    'roomId' => $params['roomId'],
+                    'isMaster' => $params['isMaster'],
+                    'userId' => $params['userId'],
+                    'avatar' => $params['avatar'],
+                    'nickName' => $params['nickName'],
+                    'level' => $params['level'],
+                    'count' => LiveService::roomMemberNum($params['roomId'])
+                ],
+            ];
+            //处理用户离开房间数据
+            self::leave($frame->fd, $params['roomId']);
+            $fdList = LiveService::fdListByRoomId($params['roomId']);
+            foreach ($fdList as $fd) {
+                try {
+                    $server->push($fd, json_encode($messageAll));
+                } catch (ErrorException $ex) {
+
+                }
+            }
+        }
+    }
+
+    //处理离开房间
+    private static function leave($fdId, $roomId)
+    {
+        $ip = self::getWsIp($roomId);
+        $redis = RedisClient::getInstance();
+        $keyWSRoomLocation = 'WSRoomLocation_' . $ip;
+        $info = $redis->hget($keyWSRoomLocation, $fdId);
+        if (!empty($info)) {
+            //删除服务器fd 映射关系
+            $redis->hdel($keyWSRoomLocation, $fdId);
+            //删除房间用户
+            $keyWSRoomFD = 'WSRoomFD_' . $ip . '_' . $roomId;
+            $userId = $redis->hget($keyWSRoomFD, $fdId);
+            if (!empty($userId)) {
+                $redis->hdel($keyWSRoomFD, $fdId);
+                //删除房间用户头像
+                $keyWSRoomUser = 'WSRoomUser_' . $ip . '_' . $roomId;
+                $redis->hdel($keyWSRoomUser, $userId);
+            }
+        }
+        //房间人数-1
+        $keyWSRoom = 'WSRoom_' . $roomId;
+        $redis->decr($keyWSRoom);
     }
 }
