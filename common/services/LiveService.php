@@ -478,10 +478,13 @@ class LiveService
     //获取用户余额
     public static function getWSUserBalance($userId)
     {
+        $redis = RedisClient::getInstance();
         $balance = $redis->hget('WSUserBalance', $userId);
         if ($balance === false) {
             $user = User::queryById($userId);
             $balance = $user['balance'];
+            $redis->hset('WSUserBalance', $userId, $balance);
+            $redis->expire('WSUserBalance', 3600 * 24);
         }
         return $balance;
     }
