@@ -41,6 +41,9 @@ class WebSocketController extends Controller
                     case Constants::MESSAGE_TYPE_LEAVE_REQ: // 离开房间
                         LiveService::leaveRoom($server, $frame, $message);
                         break;
+                    case Constants::MESSAGE_TYPE_GAG_REQ: // 禁言
+                        LiveService::gag($server, $frame, $message);
+                        break;
                     case Constants::MESSAGE_TYPE_KICK_REQ: // 踢人
                         LiveService::kickUser($server, $frame, $message);
                         break;
@@ -70,7 +73,7 @@ class WebSocketController extends Controller
             $user = User::queryById($userId);
             if (!empty($user)) {
                 $gift = Gift::queryById($giftId);
-                if(!empty($gift)){
+                if (!empty($gift)) {
                     $priceReal = $gift['price'] * $num;
                     //更新余额
                     $stat = User::updateUserBalance($userId, -$priceReal);
