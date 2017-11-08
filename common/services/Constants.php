@@ -29,6 +29,9 @@ class Constants
     const MESSAGE_TYPE_KICK_REQ = 'kick_req';
     const MESSAGE_TYPE_KICK_RES = 'kick_res';
 
+    const MESSAGE_TYPE_GAG_REQ = 'gag_req';
+    const MESSAGE_TYPE_GAG_RES = 'gag_res';
+
     const WSGIFTORDER = 'WSGiftOrder';
 
     const WS_ROOM_LOCATION = 'WSRoomLocation_';
