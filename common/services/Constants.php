@@ -6,6 +6,8 @@ class Constants
 {
     const CODE_SUCCESS = 0;
     const CODE_FAILED = -1;
+    const CODE_WARNING = -1; //警告
+    const CODE_CLOSE = -2; //强制退出
 
 
     // token 有限期
@@ -38,6 +40,8 @@ class Constants
     const WS_ROOM_FD = 'WSRoomFD_';
     const WS_ROOM_USER = 'WSRoomUser_';
     const WS_ROOM_USER_COUNT = 'WSRoom_';
+    const WSWARNING = 'WSWarning';
+    const WSCLOSE = 'WSClose';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';

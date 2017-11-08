@@ -179,6 +179,7 @@ class LiveService
         ) {
             return;
         }
+        $redis = RedisClient::getInstance();
         $roomId = $param["roomId"];
         $userId = $param["userId"];
         $isMaster = $param["isMaster"]; //1主播 0粉丝
@@ -193,6 +194,24 @@ class LiveService
             }
             //更新用户直播时间
             User::updateLiveTime($userId);
+        }
+        $Warning = $redis->hget(Constants::WSWARNING, $userId);
+        if ($Warning !== false) {
+            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
+            $respondMessage['code'] = Constants::CODE_WARNING;
+            $respondMessage['message'] = $Warning;
+            $respondMessage['data'] = array();
+            $server->push($frame->fd, json_encode($respondMessage));
+            $redis->hdel(Constants::WSWARNING, $userId);
+        }
+        $close = $redis->hget(Constants::WSCLOSE, $userId);
+        if ($close !== false) {
+            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
+            $respondMessage['code'] = Constants::CODE_CLOSE;
+            $respondMessage['message'] = $close;
+            $respondMessage['data'] = array();
+            $server->push($frame->fd, json_encode($respondMessage));
+            $redis->hdel(Constants::WSCLOSE, $userId);
         }
     }
 
