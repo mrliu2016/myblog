@@ -35,7 +35,9 @@ class MessageController extends BaseController
     public function actionIndex()
     {
         if (Yii::$app->request->isPost) {
-            Message::send($_POST['type'], $_POST['userId'], $_POST['message']);
+            if (!empty($_POST['userId'])) {
+                Message::send($_POST['type'], $_POST['userId'], $_POST['message']);
+            }
         }
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;;

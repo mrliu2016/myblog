@@ -22,7 +22,12 @@ class Message extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        return $find->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
+        $list = $find->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
+        foreach ($list as &$item) {
+            if ($item['type'] == Constants::WS_MESSAGE_TYPE_WARNING) $item['type'] = '警告';
+            if ($item['type'] == Constants::WS_MESSAGE_TYPE_CLOSE) $item['type'] = '强制退出';
+        }
+        return $list;
     }
 
     public static function queryInfoNum($params)
