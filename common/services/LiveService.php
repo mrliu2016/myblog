@@ -458,4 +458,9 @@ class LiveService
         }
         return $balance;
     }
+
+    public static function kickUser($server, $frame, $message)
+    {
+
+    }
 }

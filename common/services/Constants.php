@@ -26,6 +26,8 @@ class Constants
     const MESSAGE_TYPE_JOIN_NOTIFY_RES = 'join_notify_res';
     const MESSAGE_TYPE_LEAVE_REQ = 'leave_req';
     const MESSAGE_TYPE_LEAVE_RES = 'leave_res';
+    const MESSAGE_TYPE_KICK_REQ = 'kick_req';
+    const MESSAGE_TYPE_KICK_RES = 'kick_res';
 
     const WSGIFTORDER = 'WSGiftOrder';
 
