@@ -459,4 +459,55 @@ class LiveService
         }
         return $balance;
     }
+
+    //禁言
+    public static function gag($server, $frame, $message)
+    {
+        $params = $message['data'];
+        if (!empty($params)) {
+            if (self::isManager($params['roomId'], $frame->fd)) {
+                $messageAll = [
+                    'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
+                    'code' => Constants::CODE_SUCCESS,
+                    'message' => '',
+                    'data' => [
+                        'roomId' => $params['roomId'],
+                        'userId' => $params['userId'],
+                        'expiry' => $params['expiry'],
+                    ],
+                ];
+                $fdList = LiveService::fdListByRoomId($params['roomId']);
+                foreach ($fdList as $fd) {
+                    try {
+                        $server->push($fd, json_encode($messageAll));
+                    } catch (ErrorException $ex) {
+                        var_dump($ex);
+                    }
+                }
+            } else {
+                $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GAG_RES;
+                $respondMessage['code'] = Constants::CODE_FAILED;
+                $respondMessage['message'] = 'permission deny';
+                $respondMessage['data'] = [];
+                $server->push($frame->fd, json_encode($respondMessage));
+            }
+        }
+    }
+
+    /*
+     * 是否有房间管理员权限
+     * roomId_userId_role
+     * 0观众1主播
+     * */
+    private static function isManager($roomId, $fd)
+    {
+        $ip = self::getWsIp($roomId);
+        $keyWSRoomLocation = Constants::WS_ROOM_LOCATION . $ip;
+        $redis = RedisClient::getInstance();
+        $userInfo = $redis->hget($keyWSRoomLocation, $fd);
+        if (empty($userInfo)) return false;
+        $userInfo = explode('_', $userInfo);
+        if (empty($userInfo[2])) return false;
+        return true;
+    }
 }
