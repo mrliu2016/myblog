@@ -41,9 +41,11 @@ class WebSocketController extends Controller
                     case Constants::MESSAGE_TYPE_LEAVE_REQ: // 离开房间
                         LiveService::leaveRoom($server, $frame, $message);
                         break;
-
                     case Constants::MESSAGE_TYPE_GAG_REQ: // 禁言
                         LiveService::gag($server, $frame, $message);
+                        break;
+                    case Constants::MESSAGE_TYPE_KICK_REQ: // 踢人
+                        LiveService::kickUser($server, $frame, $message);
                         break;
                     default:
                         $server->push($frame->fd, json_encode(["message not match", $frame->fd]));
