@@ -49,9 +49,13 @@ class LiveService
         );
         $respondMessage['data'] = $data;
         //广播房间全体成员
-        $roomAll = $server->connections;
+        $roomAll = LiveService::fdListByRoomId($roomId);
         foreach ($roomAll as $fd) {
-            $server->push($fd, json_encode($respondMessage));
+            try {
+                $server->push($fd, json_encode($respondMessage));
+            } catch (ErrorException $ex) {
+
+            }
         }
     }
 
@@ -164,9 +168,13 @@ class LiveService
             'num' => $num,
         );
         $respondMessage['data'] = $data;
-        $roomAll = $server->connections;
+        $roomAll = LiveService::fdListByRoomId($roomId);
         foreach ($roomAll as $fd) {
-            $server->push($fd, json_encode($respondMessage));
+            try {
+                $server->push($fd, json_encode($respondMessage));
+            } catch (ErrorException $ex) {
+
+            }
         }
     }
 
