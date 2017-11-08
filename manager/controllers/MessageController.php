@@ -3,6 +3,7 @@
 namespace app\manager\controllers;
 
 use app\common\models\KeyWord;
+use app\common\models\Message;
 use Yii;
 use yii\data\Pagination;
 
@@ -33,6 +34,23 @@ class MessageController extends BaseController
 
     public function actionIndex()
     {
+        if (Yii::$app->request->isPost) {
+            if (!empty($_POST['userId'])) {
+                Message::send($_POST['type'], $_POST['userId'], $_POST['message']);
+            }
+        }
+        $params = Yii::$app->request->getQueryParams();
+        $params['defaultPageSize'] = self::PAGE_SIZE;;
+        $result = Message::queryInfo($params);
+        $count = Message::queryInfoNum($params);
+        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        return $this->render('index', [
+            'itemList' => $result,
+            'pagination' => self::pagination($pageNo, $count),
+            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count
+        ]);
+
         return $this->render('index', []);
     }
 

@@ -46,5 +46,15 @@ class KeyWord extends ActiveRecord
         }
         return $find;
     }
+
+    public static function queryAllKeyWords()
+    {
+        $data = array();
+        $result = static::find()->asArray()->select('name')->all();
+        foreach ($result as $value) {
+            $data[] = $value['name'];
+        }
+        return $data;
+    }
 }
 

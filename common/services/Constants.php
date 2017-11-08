@@ -6,6 +6,8 @@ class Constants
 {
     const CODE_SUCCESS = 0;
     const CODE_FAILED = -1;
+    const CODE_WARNING = -1; //警告
+    const CODE_CLOSE = -2; //强制退出
 
 
     // token 有限期
@@ -38,6 +40,8 @@ class Constants
     const WS_ROOM_FD = 'WSRoomFD_';
     const WS_ROOM_USER = 'WSRoomUser_';
     const WS_ROOM_USER_COUNT = 'WSRoom_';
+    const WSWARNING = 'WSWarning';
+    const WSCLOSE = 'WSClose';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';
@@ -77,10 +81,11 @@ class Constants
     const ORDER_STATUS_APPROVAL_APPROVAL_ING = 'APPROVAL_ING'; // 审核中
     const ORDER_STATUS_APPROVAL_THROUGH = 'THROUGH'; // 审核通过
     const ORDER_STATUS_APPROVAL_REFUSE = 'REFUSE'; // 审核不通过
-
     const EARTH_RADIUS = 6371; //地球半径，平均半径为6371km
-
     const NUM_WS_ROOM_USER = 100;//每个房间最多保存100个用户的信息
-
     const WS_NOTICE = '文明用语';
+    const WS_MESSAGE_TYPE_WARNING = 0;  //ws 警告
+    const WS_MESSAGE_TYPE_CLOSE = 1;  //ws 强制关闭
+    const WS_KEY_WARNING = 'WSWarning';
+    const WS_KEY_CLOSE = 'WSClose';
 }

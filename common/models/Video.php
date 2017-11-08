@@ -73,7 +73,7 @@ class Video extends ActiveRecord
         $video->roomId = $roomId;
         $video->startTime = time();
         $video->endTime = time();
-        $video->vidoeSrc = '';
+        $video->videoSrc = '';
         $video->imgSrc = '';
         $video->remark = $remark;
         $video->created = time();
