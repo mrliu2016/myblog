@@ -207,8 +207,7 @@ class LiveService
                 'nickName' => $params["masterNickName"],
                 'level' => intval($params["masterLevel"]),
                 'income' => intval(self::getWSUserBalance($params["userId"]) / Constants::CENT),
-                'count' => intval(RedisClient::getInstance()->get(Constants::WS_ROOM_USER_COUNT . $params['roomId'])),
-                'avatarList' => static::getRoomUserList($params['roomId']),
+                'count' => LiveService::roomMemberNum($params['roomId']),
                 'userList' => LiveService::getUserInfoListByRoomId($params['roomId'])
             ],
         ];
@@ -308,24 +307,24 @@ class LiveService
 //        RedisClient::getInstance()->incr(Constants::WS_ROOM_USER_COUNT . $params['roomId']);
 //    }
 
-    /**
-     * 获取房间用户列表
-     *
-     * @param $roomServer
-     * @param $roomId
-     * @return array
-     */
-    public static function getRoomUserList($roomId)
-    {
-        $result = [];
-        $userList = RedisClient::getInstance()->hVals(Constants::WS_ROOM_USER . self::getWsIp($roomId) . $roomId);
-        if (!empty($userList)) {
-            foreach ($userList as $key => $value) {
-                $result[$key] = json_decode($value, true);
-            }
-        }
-        return $result;
-    }
+//    /**
+//     * 获取房间用户列表
+//     *
+//     * @param $roomServer
+//     * @param $roomId
+//     * @return array
+//     */
+//    public static function getRoomUserList($roomId)
+//    {
+//        $result = [];
+//        $userList = RedisClient::getInstance()->hVals(Constants::WS_ROOM_USER . self::getWsIp($roomId) . $roomId);
+//        if (!empty($userList)) {
+//            foreach ($userList as $key => $value) {
+//                $result[$key] = json_decode($value, true);
+//            }
+//        }
+//        return $result;
+//    }
 
     //返回房间内用户信息
     public static function getUserInfoListByRoomId($roomId)
