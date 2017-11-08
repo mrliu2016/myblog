@@ -474,4 +474,15 @@ class LiveService
         $keyWSRoom = 'WSRoom_' . $roomId;
         $redis->decr($keyWSRoom);
     }
+
+    //获取用户余额
+    public static function getWSUserBalance($userId)
+    {
+        $balance = $redis->hget('WSUserBalance', $userId);
+        if ($balance === false) {
+            $user = User::queryById($userId);
+            $balance = $user['balance'];
+        }
+        return $balance;
+    }
 }
