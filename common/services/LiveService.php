@@ -232,7 +232,7 @@ class LiveService
             try {
                 $server->push($fd, json_encode($messageAll));
             } catch (ErrorException $ex) {
-
+                self::leave($fd, $params['roomId']);
             }
         }
     }
@@ -245,122 +245,67 @@ class LiveService
         return $roomServer['ip'];
     }
 
-    /**
-     * 设置房间、WS服务器
-     *
-     * @param $roomServer
-     * @param $frame
-     * @param $params
-     */
-    public static function setWSRoomLocationServer($roomServer, $frame, $params)
-    {
-        RedisClient::getInstance()->hset(
-            Constants::WS_ROOM_LOCATION . $roomServer,
-            $frame->fd,
-            $params['roomId'] . '_' . $params['userId'] . '_' . $params['isMaster']
-        );
-    }
-
-    /**
-     * 设置房间号、WSIP、FD、用户信息
-     * @param $roomServer
-     * @param $frame
-     * @param $params
-     */
-    public static function setWSRoomFD($roomServer, $frame, $params)
-    {
-        RedisClient::getInstance()->hset(
-            Constants::WS_ROOM_FD . $roomServer . $params['roomId'],
-            $frame->fd,
-            $params['userId']
-        );
-    }
-
-    /**
-     * 设置房间、WSIP、用户
-     * @param $roomServer
-     * @param $frame
-     * @param $params
-     * @param $user
-     */
-    public static function setWSRoomUser($roomServer, $frame, $params, $user)
-    {
-        $data = [
-            'userId' => intval($user['id']),
-            'nickName' => $user['nickName'],
-            'avatar' => $user['avatar'],
-            'level' => $user['level']
-        ];
-        RedisClient::getInstance()->hset(
-            Constants::WS_ROOM_USER . $roomServer . $params['roomId'],
-            $params['userId'],
-            json_encode($data)
-        );
-    }
-
-    /**
-     * @param $roomServer
-     * @param $frame
-     * @param $params
-     */
-    public static function setWSRoom($roomServer, $frame, $params)
-    {
-        RedisClient::getInstance()->incr(Constants::WS_ROOM_USER_COUNT . $params['roomId']);
-    }
-
 //    /**
-//     * 发送单人信息
+//     * 设置房间、WS服务器
 //     *
 //     * @param $roomServer
-//     * @param $server
+//     * @param $frame
+//     * @param $params
+//     */
+//    public static function setWSRoomLocationServer($roomServer, $frame, $params)
+//    {
+//        RedisClient::getInstance()->hset(
+//            Constants::WS_ROOM_LOCATION . $roomServer,
+//            $frame->fd,
+//            $params['roomId'] . '_' . $params['userId'] . '_' . $params['isMaster']
+//        );
+//    }
+
+//    /**
+//     * 设置房间号、WSIP、FD、用户信息
+//     * @param $roomServer
+//     * @param $frame
+//     * @param $params
+//     */
+//    public static function setWSRoomFD($roomServer, $frame, $params)
+//    {
+//        RedisClient::getInstance()->hset(
+//            Constants::WS_ROOM_FD . $roomServer . $params['roomId'],
+//            $frame->fd,
+//            $params['userId']
+//        );
+//    }
+
+//    /**
+//     * 设置房间、WSIP、用户
+//     * @param $roomServer
 //     * @param $frame
 //     * @param $params
 //     * @param $user
 //     */
-//    public static function joinRoomSendSingleMessage($roomServer, $server, $frame, $params, $user)
+//    public static function setWSRoomUser($roomServer, $frame, $params, $user)
 //    {
-//        //用户进入房间
-//        LiveService::roomJoin($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
-//        $resMessage = [
-//            'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
-//            'code' => Constants::CODE_SUCCESS,
-//            'message' => Constants::WS_NOTICE,
-//            'data' => [
-//                'roomId' => $params['roomId'],
-//                'avatar' => $user['avatar'],
-//                'nickName' => $user['nickName'],
-//                'level' => intval($user['level']),
-//                'income' => floatval($user['balance'] / Constants::CENT),
-//                'count' => intval(RedisClient::getInstance()->get(Constants::WS_ROOM_USER_COUNT . $params['roomId'])),
-//                'avatarList' => static::getRoomUserList($roomServer, $params['roomId']),
-//                'userList' => LiveService::getUserInfoListByRoomId($params['roomId'])
-//            ],
+//        $data = [
+//            'userId' => intval($user['id']),
+//            'nickName' => $user['nickName'],
+//            'avatar' => $user['avatar'],
+//            'level' => $user['level']
 //        ];
-//        $server->push($frame->fd, json_encode($resMessage));
-//
-//
-//        $messageAll = [
-//            'messageType' => Constants::MESSAGE_TYPE_JOIN_NOTIFY_RES,
-//            'code' => Constants::CODE_SUCCESS,
-//            'message' => '',
-//            'data' => [
-//                'roomId' => $params['roomId'],
-//                'userId' => $params['userId'],
-//                'avatar' => $params['avatar'],
-//                'nickName' => $params['nickName'],
-//                'level' => intval($user['level']),
-//                'count' => LiveService::roomMemberNum($params['roomId'])
-//            ],
-//        ];
-//        $fdList = LiveService::fdListByRoomId($params['roomId']);
-//        foreach ($fdList as $fd) {
-//            try {
-////                echo $fd . '---' . "/r/n";
-//                $server->push($fd, json_encode($messageAll));
-//            } catch (ErrorException $ex) {
-//
-//            }
-//        }
+//        RedisClient::getInstance()->hset(
+//            Constants::WS_ROOM_USER . $roomServer . $params['roomId'],
+//            $params['userId'],
+//            json_encode($data)
+//        );
+//    }
+
+//    /**
+//     * @param $roomServer
+//     * @param $frame
+//     * @param $params
+//     */
+//    public static function setWSRoom($roomServer, $frame, $params)
+//    {
+//        RedisClient::getInstance()->incr(Constants::WS_ROOM_USER_COUNT . $params['roomId']);
 //    }
 
     /**
@@ -386,7 +331,7 @@ class LiveService
     public static function getUserInfoListByRoomId($roomId)
     {
         $ip = self::getWsIp($roomId);
-        $keyWSRoomUser = 'WSRoomUser_' . $ip . '_' . $roomId;
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomUser);
         if (empty($result)) return [];
@@ -398,18 +343,18 @@ class LiveService
     {
         //服务器fd映射关系，异常退出用
         $ip = self::getWsIp($roomId);
-        $keyWSRoomLocation = 'WSRoomLocation_' . $ip;
+        $keyWSRoomLocation = Constants::WS_ROOM_LOCATION . $ip;
         $redis = RedisClient::getInstance();
         $redis->hset($keyWSRoomLocation, $fd, $roomId . '_' . $userId . '_' . $role);
 
         //房间的fd列表，群发消息用
-        $keyWSRoomFD = 'WSRoomFD_' . $ip . '_' . $roomId;
+        $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $roomId;
         $keyWSRoomFDTimeout = 48 * 60 * 60;
         $redis->hset($keyWSRoomFD, $fd, $userId);
         $redis->expire($keyWSRoomFD, $keyWSRoomFDTimeout);
 
         //房间用户头像保存100个
-        $keyWSRoomUser = 'WSRoomUser_' . $ip . '_' . $roomId;
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
         $num = $redis->hLen($keyWSRoomUser);
         if ($num < Constants::NUM_WS_ROOM_USER) {
             $keyWSRoomUserTimeout = 48 * 60 * 60;
@@ -421,7 +366,7 @@ class LiveService
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
 
-        $keyWSRoom = 'WSRoom_' . $roomId;
+        $keyWSRoom = Constants::WS_ROOM_USER_COUNT . $roomId;
         $redis->incr($keyWSRoom);
     }
 
@@ -429,7 +374,7 @@ class LiveService
     public static function fdListByRoomId($roomId)
     {
         $ip = self::getWsIp($roomId);
-        $keyWSRoomFD = 'WSRoomFD_' . $ip . '_' . $roomId;
+        $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $roomId;
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomFD);
         if (empty($result)) return [];
@@ -439,7 +384,7 @@ class LiveService
     //房间成员数量
     public static function roomMemberNum($roomId)
     {
-        $keyWSRoom = 'WSRoom_' . $roomId;
+        $keyWSRoom = Constants::WS_ROOM_USER_COUNT . $roomId;
         $redis = RedisClient::getInstance();
         $num = $redis->get($keyWSRoom);
         return intval($num);
@@ -481,23 +426,23 @@ class LiveService
     {
         $ip = self::getWsIp($roomId);
         $redis = RedisClient::getInstance();
-        $keyWSRoomLocation = 'WSRoomLocation_' . $ip;
+        $keyWSRoomLocation = Constants::WS_ROOM_LOCATION . $ip;
         $info = $redis->hget($keyWSRoomLocation, $fdId);
         if (!empty($info)) {
             //删除服务器fd 映射关系
             $redis->hdel($keyWSRoomLocation, $fdId);
             //删除房间用户
-            $keyWSRoomFD = 'WSRoomFD_' . $ip . '_' . $roomId;
+            $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $roomId;
             $userId = $redis->hget($keyWSRoomFD, $fdId);
             if (!empty($userId)) {
                 $redis->hdel($keyWSRoomFD, $fdId);
                 //删除房间用户头像
-                $keyWSRoomUser = 'WSRoomUser_' . $ip . '_' . $roomId;
+                $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
                 $redis->hdel($keyWSRoomUser, $userId);
             }
         }
         //房间人数-1
-        $keyWSRoom = 'WSRoom_' . $roomId;
+        $keyWSRoom = Constants::WS_ROOM_USER_COUNT . $roomId;
         $redis->decr($keyWSRoom);
     }
 
