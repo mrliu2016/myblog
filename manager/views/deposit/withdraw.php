@@ -12,14 +12,21 @@ $this->title = '提现审核';
                 <fieldset style="height: 20px">
                     <div class="form-group">
                         <div class="col-sm-10">
+                            <div class="col-md-2">
+                                <input type="text" class="form-control" id="userId" name="userId" placeholder="请输入用户ID"
+                                    <?php if (!empty($params['userId'])): ?>
+                                        value="<?= $params['userId'] ?>"
+                                    <?php endif; ?>
+                                >
+                            </div>
                             <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
                                     name="searchBtn">查询
                             </button>
                             <div class="col-md-2">
-                                <input type="text" style="width: 120px" id="content" name="userId"
+                                <input type="text" style="width: 120px" id="content" name="queryTime"
                                        class="form-control datepicker-pop"
-                                    <?php if (!empty($params['userId'])): ?>
-                                        value="<?= $params['userId'] ?>"
+                                    <?php if (!empty($params['queryTime'])): ?>
+                                        value="<?= $params['queryTime'] ?>"
                                     <?php endif; ?>>
                             </div>
                         </div>
@@ -34,11 +41,16 @@ $this->title = '提现审核';
                 <tr>
                     <th class="col-md-1">用户id</th>
                     <th class="col-md-1">姓名</th>
-                    <th class="col-md-1">身份证</th>
+<!--                    <th class="col-md-1">身份证</th>-->
                     <th class="col-md-1">金额</th>
                     <th class="col-md-1">平台交易号</th>
-                    <th class="col-md-1">状态</th>
                     <th class="col-md-1">审核人</th>
+                    <th class="col-md-1">错误码</th>
+                    <th class="col-md-1">错误描述</th>
+                    <th class="col-md-1">交易完成时间</th>
+                    <th class="col-md-1">状态</th>
+                    <th class="col-md-1">原因</th>
+                    <th class="col-md-1">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -51,21 +63,34 @@ $this->title = '提现审核';
                             <?= $item['name'] ?>
                         </td>
                         <td>
-                            <?= $item['idCard'] ?>
-                        </td>
-                        <td>
                             <?= $item['price'] ?>
                         </td>
                         <td>
                             <?= $item['transactionId'] ?>
                         </td>
                         <td>
-                            <?= $item['status'] ?>
-                        </td>
-                        <td>
                             <?= $item['auditor'] ?>
                         </td>
                         <td>
+                            <?= $item['errorCode'] ?>
+                        </td>
+                        <td>
+                            <?= $item['errorCodeDescription'] ?>
+                        </td>
+                        <td>
+                            <?= $item['orderPayTime'] ?>
+                        </td>
+                        <td>
+                            <?= $item['status'] ?>
+                        </td>
+                        <td>
+                            <?= $item['remark'] ?>
+                        </td>
+                        <td>
+                            <?php if ($item['status'] == '未处理'){ ?>
+                                <a type="button" href="javascript:void(0);"
+                                   onclick="detail('<?= $item['id'] ?>','<?= $item['userId'] ?>','<?= $item['price'] ?>')">详情</a>
+                            <?php } ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -103,70 +128,79 @@ $this->title = '提现审核';
         language: 'zh-CN'
     });
 
-    function detail(serverName, begin, end) {
+    function detail(id, userId, price) {
         $.ajax({
-            url: "/report/lost-detail?serverName=" + serverName + '&beginTime=' + begin + '&endTime=' + end,
+            url: "/deposit/withdraw-detail?id="+id+"&userId=" + userId,
             type: "get",
             cache: false,
-            dataType: "text",
+            dataType: "json",
             success: function (data) {
-                html = '<div id="main_1" style="width:1200px;height:450px;float: left"></div>'
+                var info = eval(data);
+                var html = '<table class="table table-hover"><thead>' +
+                    '<tr><th class="col-md-1">可提现金额(元)</th><th class="col-md-1">申请提现金额(元)</th>' +
+                    '<tbody>';
+                html += '<tr><td>' + info.data.balance + '</td><td>' + price + '</td>';
+                html += '</tr></tbody></table>';
+                html += '<div class="row form-but"><input type="text" id="remarked" class="form-control col-md-3" name="mark" placeholder="拒绝原因/通过理由可以为空">';
+                html += ' <button type="button" class="mb-sm btn btn-primary ripple col-md-1" data-id="' + id + '" id="agree" data-userId="' + userId + '" name="agree"  onclick="agree(this)" >通过</button>';
+                html += ' <button type="button" class="mb-sm btn btn-primary ripple col-md-1" id="refused" data-id="' + id + '" name="refused" data-userId="' + userId + '" onclick="refuse(this)">拒绝</button></div>';
                 layer.open({
-                    title: serverName,
+                    title: '提现详情',
                     type: 1,
                     skin: 'layui-layer-rim', //加上边框
-                    area: ['1000px', '550px'], //宽高
+                    area: ['1250px', '450px'], //宽高
                     content: html
                 });
-
-                var client_array = data;
-                var client_js = eval('(' + client_array + ')');
-                // 初始化图表标签
-                var myChart = echarts.init(document.getElementById('main_1'));
-                options = {
-                    /* title : {
-                     text: '丢包率',
-                     x:'center'
-                     },*/
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-                    },
-                    legend: {
-                        orient: 'vertical',
-                        left: 'left',
-                        data: ['0~5%', '5%~10%', '10%~20%', '>20%', '成功']
-                    },
-                    series: [
-                        {
-                            name: '丢包率',
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['50%', '60%'],
-                            data: [
-                                {value: client_js['a'], name: '0~5%'},
-                                {value: client_js['b'], name: '5%~10%'},
-                                {value: client_js['c'], name: '10%~20%'},
-                                {value: client_js['d'], name: '>20%'},
-                                {value: client_js['e'], name: '成功'}
-                            ],
-                            itemStyle: {
-                                normal: {
-                                    label: {
-                                        show: true,
-                                        formatter: '{b} : {c} ({d}%)'
-                                    },
-                                    labelLine: {show: true}
-                                }
-                            }
-                        }
-                    ]
-                };
-                myChart.setOption(options);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('get issue');
             }
-        });
+
+        })
+    }
+
+    function agree(that) {
+        var that = that;
+        var userId = $(that).data("userId");
+        var id = $(that).data("id");
+        var data = {
+            id: id,
+            userId: userId
+        };
+        $.ajax({
+            url: "/deposit/agree",
+            type: "post",
+            cache: false,
+            dataType: "json",
+            data: data,
+            success: function (data) {
+                window.location.reload();
+            }
+        })
+    }
+
+    function refuse(that) {
+        var that = that;
+        var userId = $(that).data("userId");
+        var id = $(that).data("id");
+        var remark = $(that).parent().children("input[name='mark']").val();
+        var data = {
+            id: id,
+            userId: userId,
+            remark: 'remark'
+        };
+        // 请求参数：id，userId，remark
+        if (remark == '') {
+            layer.msg("拒绝原因不能为空")
+        } else {
+            $.ajax({
+                url: "/deposit/refuse",
+                type: "post",
+                cache: false,
+                dataType: "json",
+                data: data,
+                success: function (msg) {
+                    window.location.reload();
+                }
+            })
+        }
+
     }
 </script>

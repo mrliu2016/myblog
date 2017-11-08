@@ -4,6 +4,7 @@ namespace app\manager\controllers;
 
 use app\common\models\Deposit;
 use app\common\models\Withdraw;
+use app\common\services\Constants;
 use Yii;
 use yii\data\Pagination;
 
@@ -68,5 +69,47 @@ class DepositController extends BaseController
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count
         ]);
+    }
+
+    /**
+     * 提现详情
+     */
+    public function actionWithdrawDetail()
+    {
+        $params = Yii::$app->request->get();
+        $result = Withdraw::withdrawDetailRule($params);
+        if ($result) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result);
+        } else {
+            $this->jsonReturnError(Constants::CODE_FAILED, $result);
+        }
+    }
+
+    /**
+     * 同意
+     */
+    public function actionAgree()
+    {
+        $params = Yii::$app->request->post();
+        ll($params, 'actionAgree.log');
+        $result = Withdraw::agreeWithdraw($params);
+        if ($result['code'] == Constants::CODE_FAILED) {
+            $this->jsonReturnError(Constants::CODE_FAILED, $result['msg']);
+        }
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['data']);
+    }
+
+    /**
+     * 拒绝
+     */
+    public function actionRefuse()
+    {
+        $params = Yii::$app->request->post();
+        $result = Withdraw::refuseWithdraw($params);
+        if ($result) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result);
+        } else {
+            $this->jsonReturnError(Constants::CODE_FAILED, $result);
+        }
     }
 }

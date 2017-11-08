@@ -39,7 +39,6 @@ $params = [
             'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
             'wxAppSecret' => ''
         ],
-        'appId' => 1,
         'cdn' => [
             'hls' => 'zbj-pull2.3ttech.cn',
             'pull' => 'zbj-pull.3ttech.cn',
@@ -94,7 +93,6 @@ $params = [
             'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
             'wxAppSecret' => ''
         ],
-        'appId' => 1,
         'cdn' => [
             'hls' => 'zbj-pull2.3ttech.cn',
             'pull' => 'zbj-pull.3ttech.cn',
@@ -149,7 +147,6 @@ $params = [
             'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
             'wxAppSecret' => ''
         ],
-        'appId' => 1,
         'cdn' => [
             'hls' => 'zbj-pull2.3ttech.cn',
             'pull' => 'zbj-pull.3ttech.cn',
@@ -204,7 +201,6 @@ $params = [
             'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
             'wxAppSecret' => ''
         ],
-        'appId' => 1,
         'cdn' => [
             'hls' => 'zbj-pull2.3ttech.cn',
             'pull' => 'zbj-pull.3ttech.cn',
