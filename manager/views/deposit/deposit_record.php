@@ -50,7 +50,7 @@ $this->title = '充值历史';
                             <?= $item['id'] ?>
                         </td>
                         <td>
-                            <?= $item['name'] ?>
+                            <?= $item['userId'] ?>
                         </td>
                         <td>
                             <?= $statusEnum[$item['type']] ?>
