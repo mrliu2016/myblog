@@ -74,38 +74,10 @@ $menus = (new Menu())->getMenu();
 <script src="/vendor/jquery.steps/build/jquery.steps.js"></script>
 <script src="/vendor/select2/dist/js/select2.js"></script>
 <script src="/vendor/clockpicker/dist/bootstrap-clockpicker.js"></script>
-<!--<script src="/vendor/nouislider/distribute/nouislider.js"></script>
-<script src="/vendor/mjolnic-bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js"></script>
-<script src="/vendor/summernote/dist/summernote.js"></script>
-<script src="/vendor/dropzone/dist/dropzone.js"></script>
-<script src="/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
-<script src="/vendor/moment/min/moment-with-locales.js"></script>
-<script src="/vendor/gmaps/gmaps.js"></script>
-<script src="/vendor/jquery.bootgrid/dist/jquery.bootgrid.js"></script>
-<script src="/vendor/jquery.bootgrid/dist/jquery.bootgrid.fa.js"></script>
-<script src="/vendor/datatables/media/js/jquery.dataTables.js"></script>
-<script src="/vendor/nestable/jquery.nestable.js"></script>
-<script src="/vendor/sweetalert/dist/sweetalert-dev.js"></script>
-<script src="/vendor/masonry/dist/masonry.pkgd.js"></script>
-<script src="/vendor/imagesloaded/imagesloaded.pkgd.js"></script>
-<script src="/vendor/loaders.css/loaders.css.js"></script>
-<script src="/vendor/blueimp-gallery/js/blueimp-helper.js"></script>
-<script src="/vendor/blueimp-gallery/js/blueimp-gallery.js"></script>
-<script src="/vendor/blueimp-gallery/js/blueimp-gallery-fullscreen.js"></script>
-<script src="/vendor/blueimp-gallery/js/blueimp-gallery-indicator.js"></script>
-<script src="/vendor/blueimp-gallery/js/blueimp-gallery-video.js"></script>
-<script src="/vendor/blueimp-gallery/js/blueimp-gallery-vimeo.js"></script>
-<script src="/vendor/blueimp-gallery/js/blueimp-gallery-youtube.js"></script>
-<script src="/vendor/blueimp-gallery/js/jquery.blueimp-gallery.js"></script>
-<script src="/vendor/topojson/topojson.min.js"></script>
-<script src="/vendor/datamaps/dist/datamaps.all.js"></script>-->
 <script src="/js/app.js?time=201701"></script>
 <script src="/js/jquery.form.js"></script>
 <script src="/js/common.js"></script>
 <script src="/vendor/layer/layer.js"></script>
-<!--<script src="/js/main.js"></script>
-<script language="javascript" type="text/javascript" src="/vendor/echart/echarts.min.js"></script>-->
-
 <div class="layout-container">
     <header class="header-container">
         <nav>
@@ -117,7 +89,6 @@ $menus = (new Menu())->getMenu();
             </ul>
             <h2 class="header-title"><?= $this->title ?></h2>
             <ul class="pull-right">
-                <!--<li><a id="header-search" href="#" class="ripple"><em class="ion-ios-search-strong"></em></a></li>-->
                 <li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle has-badge ripple"><em
                             class="ion-person"></em></a>
                     <ul class="dropdown-menu dropdown-menu-right md-dropdown-menu">
@@ -126,7 +97,6 @@ $menus = (new Menu())->getMenu();
                         <li><a href="/user/logout"><em class="ion-log-out icon-fw"></em>退出</a></li>
                     </ul>
                 </li>
-                <!--<li><a id="header-settings" href="#" class="ripple"><em class="ion-gear-b"></em></a></li>-->
                 <li><a href="#" data-toggle-fullscreen="" class="ripple"><em class="ion-arrow-expand"></em></a></li>
             </ul>
         </nav>
@@ -136,7 +106,7 @@ $menus = (new Menu())->getMenu();
             <div class="pull-right pt-lg text-muted hidden"><em class="ion-close-round"></em></div>
             <a href="#" class="sidebar-header-logo"><img src="/img/logo.png" data-svg-replace="/img/logo.svg"
                                                          alt="Logo"><span
-                    class="sidebar-header-logo-text">微信管理</span></a>
+                    class="sidebar-header-logo-text">直播管理</span></a>
         </div>
         <div class="sidebar-content">
             <nav class="sidebar-nav">
