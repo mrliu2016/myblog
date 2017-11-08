@@ -206,14 +206,13 @@ class LiveService
                 'avatar' => $params["masterAvatar"],
                 'nickName' => $params["masterNickName"],
                 'level' => intval($params["masterLevel"]),
-//                'income' => floatval($user['balance'] / Constants::CENT),
+                'income' => intval(self::getWSUserBalance($params["userId"]) / Constants::CENT),
                 'count' => intval(RedisClient::getInstance()->get(Constants::WS_ROOM_USER_COUNT . $params['roomId'])),
                 'avatarList' => static::getRoomUserList($params['roomId']),
                 'userList' => LiveService::getUserInfoListByRoomId($params['roomId'])
             ],
         ];
         $server->push($frame->fd, json_encode($resMessage));
-
 
         $messageAll = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_NOTIFY_RES,
