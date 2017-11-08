@@ -232,7 +232,7 @@ class LiveService
         $resMessage = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
             'code' => Constants::CODE_SUCCESS,
-            'message' => Yii::$app->params['civilization'],
+            'message' => Constants::WS_NOTICE,
             'data' => [
                 'roomId' => $params['roomId'],
                 'avatar' => $params['avatar'],
