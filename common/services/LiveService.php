@@ -459,8 +459,42 @@ class LiveService
         return $balance;
     }
 
+    /**
+     * 踢人
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     *
+     */
     public static function kickUser($server, $frame, $message)
     {
-
+        $params = $message['data'];
+        $ip = self::getWsIp($params['roomId']);
+        $redis = RedisClient::getInstance();
+        // 判断adminUserId是否有权限踢人
+        $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $params['roomId'];
+        $adminUserId = $redis->hget($keyWSRoomFD, $frame->fd);
+        if ($adminUserId == $params['adminUserId']) {
+            $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $params['roomId'];
+            $user = $redis->hget($keyWSRoomUser, $params['userId']);
+            if (!empty($user)) {
+                $user = json_decode($user, true);
+                $messageAll = [
+                    'messageType' => Constants::MESSAGE_TYPE_KICK_RES,
+                    'code' => Constants::CODE_SUCCESS,
+                    'message' => '',
+                    'data' => [
+                        'roomId' => $params['roomId'],
+                        'userId' => $user['userId'],
+                        'avatar' => $user['avatar'],
+                        'nickName' => $user['nickName'],
+                        'level' => $user['level'],
+                        'count' => LiveService::roomMemberNum($params['roomId'])
+                    ],
+                ];
+                $server->push($frame->fd, json_encode($messageAll));
+            }
+        }
     }
 }
