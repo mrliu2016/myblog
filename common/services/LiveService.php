@@ -4,6 +4,7 @@ namespace app\common\services;
 
 use app\common\components\RedisClient;
 use app\common\models\Gift;
+use app\common\models\KeyWord;
 use app\common\models\Order;
 use app\common\models\User;
 use app\common\models\Video;
@@ -21,11 +22,22 @@ class LiveService
         ) {
             return;
         }
+        $redis = RedisClient::getInstance();
         $roomId = $param["roomId"];
         $userId = $param["userId"];
         $nickName = $param["nickName"];
         $avatar = $param["avatar"];
         $message = $param["message"];
+        $keyWords = $redis->get("WSKeyWord");
+        if ($keyWords === false) {
+            $keyWords = KeyWord::queryAllKeyWords();
+            $redis->set("WSKeyWord", base64_encode(json_encode($keyWords)));
+            $redis->expire("WSKeyWord", 3600 * 24);
+        } else {
+            $keyWords = json_decode(base64_decode($keyWords), true);
+        }
+        $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
+        $message = strtr($message, $keyWords);
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_BARRAGE_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
         $respondMessage['message'] = $message;
