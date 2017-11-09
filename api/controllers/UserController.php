@@ -172,7 +172,7 @@ class UserController extends BaseController
         }
         $dat['code'] = Token::code();
         if (SMSHelper::send($dat['code'], $mobile)) {
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '验证码发送成功', $dat['code']);
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '验证码发送成功', $dat);
         } else {
             $this->jsonReturnError(Constants::CODE_FAILED, '验证码发送失败', []);
         }
