@@ -252,5 +252,12 @@ class User extends ActiveRecord
         }
         return $find;
     }
+
+    public static function SearchUser($content)
+    {
+        $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM t_user WHERE nickName='$content' or mobile='$content' OR userName='$content'";
+        $row = static::findBySql($sql)->asArray()->all();
+        return $row;
+    }
 }
 

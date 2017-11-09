@@ -178,4 +178,16 @@ class UserController extends BaseController
         }
     }
 
+    //用户搜索
+    public function actionSearch()
+    {
+        $content = Yii::$app->request->post('content');
+       if(User::SearchUser($content))
+       {
+           $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '搜索成功', User::SearchUser($content));
+       } else {
+           $this->jsonReturnError(Constants::CODE_FAILED, '搜索失败', []);
+       }
+    }
+
 }
