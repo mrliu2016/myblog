@@ -120,9 +120,7 @@ class UserController extends BaseController
     {
         $userid = Yii::$app->request->post('userid');
         $list = User::queryById($userid, true);
-        if (!empty($list)) {
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '获取个人信息成功', $list);
-        }
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '获取个人信息成功', $list);
     }
 
     //上报位置
@@ -182,12 +180,11 @@ class UserController extends BaseController
     public function actionSearch()
     {
         $content = Yii::$app->request->post('content');
-       if(User::SearchUser($content))
-       {
-           $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '搜索成功', User::SearchUser($content));
-       } else {
-           $this->jsonReturnError(Constants::CODE_FAILED, '搜索失败', []);
-       }
+        if (User::SearchUser($content)) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '搜索成功', User::SearchUser($content));
+        } else {
+            $this->jsonReturnError(Constants::CODE_FAILED, '搜索失败', []);
+        }
     }
 
 }

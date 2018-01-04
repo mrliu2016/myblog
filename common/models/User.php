@@ -17,7 +17,7 @@ class User extends ActiveRecord
     public static function queryById($id, $isObject = false)
     {
         if ($isObject) {
-            return static::find()->where(['id' => $id])->one();
+            return static::find()->where(['id' => $id])->asArray()->one();
         } else {
             return static::find()->where(['id' => $id])->asArray()->one();
         }
@@ -255,7 +255,7 @@ class User extends ActiveRecord
 
     public static function SearchUser($content)
     {
-        $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM t_user WHERE nickName='$content' or mobile='$content' OR userName='$content'";
+        $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM t_user WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
         $row = static::findBySql($sql)->asArray()->all();
         return $row;
     }
