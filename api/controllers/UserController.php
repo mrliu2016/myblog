@@ -45,6 +45,7 @@ class UserController extends BaseController
             'mobile' => $result['mobile'],
             'roomId' => '',
             'level' => $result['level'],
+            'balance'=>$result['balance'],
         ]);
     }
 
