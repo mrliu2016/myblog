@@ -81,7 +81,7 @@ class UserController extends BaseController
     public function actionSetPassword()
     {
         $params = array(
-            'id' => \Yii::$app->request->post('id'),
+            'mobile' => \Yii::$app->request->post('mobile'),
             'password' => md5(\Yii::$app->request->post('password')),
         );
         if (User::setPassworld($params)) {

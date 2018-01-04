@@ -165,7 +165,7 @@ class User extends ActiveRecord
 
     public static function setPassworld($params)
     {
-        $model = static::find()->andWhere(['id' => $params['id']])->one();
+        $model = static::find()->andWhere(['mobile' => $params['mobile']])->one();
         $model->password = $params['password'];
         $model->save();
         return $model->id;
