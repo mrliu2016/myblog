@@ -62,6 +62,7 @@ class UserController extends BaseController
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '退出成功', []);
     }
 
+    //实名认证
     public function actionVerified()
     {
         $params = array(
@@ -76,6 +77,7 @@ class UserController extends BaseController
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '实名成功', []);
     }
 
+    //修改密码
     public function actionSetPassword()
     {
         $params = array(
@@ -87,6 +89,7 @@ class UserController extends BaseController
         }
     }
 
+    //手机号绑定
     public function actionBindPhone()
     {
         $params = array(
@@ -101,6 +104,7 @@ class UserController extends BaseController
         }
     }
 
+    //修改个人信息
     public function actionPersonalInformation()
     {
         $params = array(
@@ -116,6 +120,7 @@ class UserController extends BaseController
         }
     }
 
+    //获取个人信息
     public function actionGetPersonal()
     {
         $userid = Yii::$app->request->post('userid');
