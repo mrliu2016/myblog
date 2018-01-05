@@ -75,7 +75,7 @@ class UserController extends BaseController
             $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
         }
         $dat['id'] = User::veriFied($params);
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '实名成功', []);
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '实名成功', $dat);
     }
 
     //修改密码
