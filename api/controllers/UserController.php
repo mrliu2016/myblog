@@ -40,12 +40,13 @@ class UserController extends BaseController
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '登陆成功', [
             'userId' => $result['id'],
             'nickName' => $result['nickName'],
+            'userName' => $result['userName'],
             'token' => $token,
             'avatar' => $result['avatar'],
             'mobile' => $result['mobile'],
             'roomId' => '',
             'level' => $result['level'],
-            'balance'=>$result['balance'],
+            'balance' => $result['balance'],
         ]);
     }
 
@@ -186,11 +187,8 @@ class UserController extends BaseController
     public function actionSearch()
     {
         $content = Yii::$app->request->post('content');
-        if (User::SearchUser($content)) {
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '搜索成功', User::SearchUser($content));
-        } else {
-            $this->jsonReturnError(Constants::CODE_FAILED, '搜索失败', []);
-        }
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '搜索成功', User::SearchUser($content));
+
     }
 
 }
