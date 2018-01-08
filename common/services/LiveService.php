@@ -59,34 +59,6 @@ class LiveService
         }
     }
 
-    //服务器信息
-    public static function serverInfoRequest($server, $frame, $message)
-    {
-        echo 'receive message:' . json_encode($message);
-        $param = $message['data'];
-        if (empty($param["roomId"])
-        ) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_SERVER_INFO_RES;
-            $respondMessage['code'] = Constants::CODE_FAILED;
-            $respondMessage['message'] = 'parameter error';
-            $respondMessage['data'] = array();
-            $server->push($frame->fd, json_encode($respondMessage));
-            return;
-        }
-        $roomId = $param["roomId"];
-        $index = $roomId % 2;
-        $respondMessage = array();
-        $respondMessage['messageType'] = Constants::MESSAGE_TYPE_SERVER_INFO_RES;
-        $respondMessage['code'] = Constants::CODE_SUCCESS;
-        $respondMessage['message'] = '';
-        $data = array(
-            'cdn' => Yii::$app->params['cdn'],
-            'roomServer' => Yii::$app->params['wsServer'][$index]
-        );
-        $respondMessage['data'] = $data;
-        $server->push($frame->fd, json_encode($respondMessage));
-    }
-
     //送礼物
     public static function giftRequest($server, $frame, $message)
     {
@@ -587,5 +559,27 @@ class LiveService
         //role 0观众1主播
         if (empty($userInfo[2])) return false;
         return true;
+    }
+
+    //服务器信息
+    public static function serverInfo($param)
+    {
+        if (empty($param["roomId"])) {
+            return ['code' => Constants::CODE_FAILED, 'msg' => 'parameter error'];
+        }
+        $roomId = $param["roomId"];
+        $index = $roomId % 2;
+        $wsServer = Yii::$app->params['wsServer'][$index];
+        $data = array(
+            'roomServer' => [
+                'host' => $wsServer["domain"],
+                'port' => Constants::WEB_SOCKET_PORT,
+            ],
+            'roomServer-wss' => [
+                'host' => $wsServer["domain"],
+                'port' => Constants::WEB_SOCKET_PORT_SSL,
+            ]
+        );
+        return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $data];
     }
 }

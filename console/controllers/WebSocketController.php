@@ -15,7 +15,14 @@ class WebSocketController extends Controller
     //webSocket服务端
     public function actionServer()
     {
-        $server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT);
+        $server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL);
+        $setConfig = [
+            'ssl_key_file' => '/etc/nginx/cert/dev_api_demo.key',
+            'ssl_cert_file' => '/etc/nginx/cert/dev_api_demo.pem'];
+        $server->set($setConfig);
+        //添加一个监听端口，继续支持ws方式进行连接
+        $server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
+
         $server->on('open', function ($server, $req) {
             echo "connection open: {$req->fd}\n";
         });
@@ -25,9 +32,6 @@ class WebSocketController extends Controller
                 switch ($message['messageType']) {
                     case Constants::MESSAGE_TYPE_BARRAGE_REQ://弹幕
                         LiveService::barrageRequest($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_SERVER_INFO_REQ://服务器信息
-                        LiveService::serverInfoRequest($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_GIFT_REQ://送礼物
                         LiveService::giftRequest($server, $frame, $message);

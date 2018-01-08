@@ -47,13 +47,13 @@ $params = [
         'wsServer' => [
             [
                 'ip' => '47.94.92.113',
-                'port' => 9502,
+                'domain' => 'dev.api.demo.3ttech.cn'
             ],
             [
-                'ip' => '101.37.71.61',
-                'port' => 9502,
+                'ip' => '47.94.92.113',
+                'domain' => 'dev.api.demo.3ttech.cn'
             ]
-        ]
+        ],
     ],
 
     'dev' => [
@@ -101,13 +101,13 @@ $params = [
         'wsServer' => [
             [
                 'ip' => '47.94.92.113',
-                'port' => 9502,
+                'domain' => 'dev.api.demo.3ttech.cn'
             ],
             [
-                'ip' => '101.37.71.61',
-                'port' => 9502,
+                'ip' => '47.94.92.113',
+                'domain' => 'dev.api.demo.3ttech.cn'
             ]
-        ]
+        ],
     ],
 
     'pre' => [
@@ -155,11 +155,11 @@ $params = [
         'wsServer' => [
             [
                 'ip' => '47.94.92.113',
-                'port' => 9502,
+                'domain' => 'dev.api.demo.3ttech.cn'
             ],
             [
-                'ip' => '101.37.71.61',
-                'port' => 9502,
+                'ip' => '47.94.92.113',
+                'domain' => 'dev.api.demo.3ttech.cn'
             ]
         ],
     ],
@@ -209,13 +209,13 @@ $params = [
         'wsServer' => [
             [
                 'ip' => '47.94.92.113',
-                'port' => 9502,
+                'domain' => 'dev.api.demo.3ttech.cn'
             ],
             [
-                'ip' => '101.37.71.61',
-                'port' => 9502,
+                'ip' => '47.94.92.113',
+                'domain' => 'dev.api.demo.3ttech.cn'
             ]
-        ]
+        ],
     ],
 
 ];
