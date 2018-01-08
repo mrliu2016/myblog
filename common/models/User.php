@@ -255,7 +255,7 @@ class User extends ActiveRecord
 
     public static function SearchUser($content)
     {
-        $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM t_user WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
+        $sql = "SELECT id,userName,avatar,nickName,mobile,description,is_attention,level FROM t_user WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
         $row = static::findBySql($sql)->asArray()->all();
         return $row;
     }

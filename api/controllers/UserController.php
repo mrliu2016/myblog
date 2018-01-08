@@ -188,7 +188,6 @@ class UserController extends BaseController
     {
         $content = Yii::$app->request->post('content');
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '搜索成功', User::SearchUser($content));
-
     }
 
 }
