@@ -18,7 +18,7 @@ class LiveService
     {
         echo 'receive message:' . json_encode($message);
         $param = $message['data'];
-        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["nickName"]) || empty($param["avatar"]) || empty($param["message"])
+        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["nickName"]) || empty($param["message"])
         ) {
             return;
         }
