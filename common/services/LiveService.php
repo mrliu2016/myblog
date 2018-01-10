@@ -346,11 +346,12 @@ class LiveService
         $result = $redis->hGetAll($keyWSRoomUser);
         if (empty($result)) return [];
         ll($result,__FUNCTION__.'.log');
+        $tmp = [];
         foreach ($result as $key => $value) {
-            $result[$key] = json_decode($value, true);
+            $tmp[] = json_decode($value, true);
         }
         ll($result,__FUNCTION__.'.log');
-        ll(array_values($result),__FUNCTION__.'.log');
+        ll(array_values($tmp),__FUNCTION__.'.log');
         return array_values($result);
     }
 
