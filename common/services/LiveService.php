@@ -222,6 +222,7 @@ class LiveService
                 'userList' => LiveService::getUserInfoListByRoomId($params['roomId'])
             ],
         ];
+        ll($resMessage, __FUNCTION__ . '.log');
         $server->push($frame->fd, json_encode($resMessage));
 
         $messageAll = [
@@ -345,14 +346,10 @@ class LiveService
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomUser);
         if (empty($result)) return [];
-        ll($result,__FUNCTION__.'.log');
-        $tmp = [];
         foreach ($result as $key => $value) {
-            $tmp[] = json_decode($value, true);
+            $result[$key] = json_decode($value, true);
         }
-        ll($result,__FUNCTION__.'.log');
-        ll(array_values(array_values($tmp)),__FUNCTION__.'.log');
-        return array_values($tmp);
+        return array_values($result);
     }
 
     //加入房间
