@@ -406,6 +406,7 @@ class LiveService
 
     public static function leaveRoom($server, $frame, $message)
     {
+        ll(__METHOD__, __FUNCTION__ . '.log');
         $params = $message['data'];
         ll($params, __FUNCTION__ . '.log');
         if (!empty($params)) {
