@@ -345,6 +345,9 @@ class LiveService
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomUser);
         if (empty($result)) return [];
+        foreach ($result as $key => $value) {
+            $result[$key] = json_decode($value, true);
+        }
         return array_values($result);
     }
 
