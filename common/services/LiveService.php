@@ -426,8 +426,8 @@ class LiveService
             ];
             ll($messageAll, __FUNCTION__ . '.log');
             //处理用户离开房间数据
-            self::leave($frame->fd, $params['roomId']);
             $fdList = LiveService::fdListByRoomId($params['roomId']);
+            self::leave($frame->fd, $params['roomId']);
             ll($fdList, __FUNCTION__ . '.log');
             foreach ($fdList as $fd) {
                 try {
