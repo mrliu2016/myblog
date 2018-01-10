@@ -351,7 +351,7 @@ class LiveService
             $tmp[] = json_decode($value, true);
         }
         ll($result,__FUNCTION__.'.log');
-        ll(array_values($tmp),__FUNCTION__.'.log');
+        ll(array_values(array_values($tmp)),__FUNCTION__.'.log');
         return array_values($result);
     }
 
