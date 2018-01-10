@@ -259,5 +259,22 @@ class User extends ActiveRecord
         $row = static::findBySql($sql)->asArray()->all();
         return $row;
     }
+
+    public static function getHotList($page, $size)
+    {
+        $offset = ($page - 1) * $size;
+        $cn = \Yii::$app->db;
+        $sqlCnt = "select count(id) as cnt";
+        $sql = "select id as userId,avatar,nickName,level,description";
+        $sqlStr = " from " . self::tableName() . " where 1=1";
+        $sql .= $sqlStr;
+        $sql .= ' limit ' . $offset . ',' . $size . '';
+        $list = $cn->createCommand($sql)->queryAll();
+        $sqlCnt = $sqlCnt . $sqlStr;
+        $total_cnt = $cn->createCommand($sqlCnt)->queryOne();
+        $total_cnt = (int)$total_cnt['cnt'];
+        $page_cnt = ceil($total_cnt / $size);
+        return compact('total_cnt', 'page', 'size', 'page_cnt', 'list');
+    }
 }
 

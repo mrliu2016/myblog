@@ -101,4 +101,17 @@ class UserService
 
         return round($distance, $decimal);
     }
+
+    //人气
+    public static function hot($params)
+    {
+        $page = isset($params['page']) ? (int)$params['page'] : 1;
+        $pageSize = isset($params['pageSize']) ? (int)$params['pageSize'] : 10;
+        $result = User::getHotList($page, $pageSize);
+        foreach ($result['list'] as $key => $value) {
+            $result['list'][$key]["userId"] = (int)$value['userId'];
+            $result['list'][$key]["level"] = (int)$value['level'];
+        }
+        return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $result];
+    }
 }
