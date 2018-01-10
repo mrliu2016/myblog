@@ -222,7 +222,6 @@ class LiveService
                 'userList' => array_values(LiveService::getUserInfoListByRoomId($params['roomId']))
             ],
         ];
-        ll($resMessage, __FUNCTION__ . '.log');
         $server->push($frame->fd, json_encode($resMessage));
 
         $messageAll = [
@@ -349,7 +348,7 @@ class LiveService
         foreach ($result as $key => $value) {
             $result[$key] = json_decode($value, true);
         }
-        return array_values($result);
+        return $result;
     }
 
     //加入房间
