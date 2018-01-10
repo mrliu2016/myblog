@@ -56,7 +56,7 @@ class WebSocketController extends Controller
                         $server->push($frame->fd, json_encode(["message not match", $frame->fd]));
                 }
             }
-            ll($frame->data, 'webSocketMessage');
+            ll($frame->data, 'webSocketMessage.log');
         });
         $server->on('close', function ($server, $fd) {
             echo "connection close: {$fd}\n";

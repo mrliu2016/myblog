@@ -38,21 +38,24 @@ class LiveService
         }
         $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
         $message = strtr($message, $keyWords);
-        $respondMessage['messageType'] = Constants::MESSAGE_TYPE_BARRAGE_RES;
-        $respondMessage['code'] = Constants::CODE_SUCCESS;
-        $respondMessage['message'] = $message;
-        $data = array(
-            'roomId' => $roomId,
-            'userId' => $userId,
-            'nickName' => $nickName,
-            'avatar' => $avatar,
-        );
-        $respondMessage['data'] = $data;
+
+        $respondMessage = [
+            'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
+            'code' => Constants::CODE_SUCCESS,
+            'message' => $message,
+            'data' => [
+                'roomId' => $roomId,
+                'userId' => $userId,
+                'nickName' => $nickName,
+                'avatar' => $avatar,
+            ]
+        ];
         //广播房间全体成员
         $roomAll = LiveService::fdListByRoomId($roomId);
         foreach ($roomAll as $fd) {
             try {
                 $server->push($fd, json_encode($respondMessage));
+                ll(var_export(array_merge($respondMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
             } catch (ErrorException $ex) {
 
             }
