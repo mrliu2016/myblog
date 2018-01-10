@@ -43,6 +43,7 @@ class WebSocketController extends Controller
                         LiveService::joinRoomAndAI($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_LEAVE_REQ: // 离开房间
+                        ll($message,__FUNCTION__.'.log');
                         LiveService::leaveRoom($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_GAG_REQ: // 禁言

@@ -204,6 +204,7 @@ class LiveService
      */
     public static function joinRoomAndAI($server, $frame, $message)
     {
+        ll($message,__FUNCTION__.'.log');
         $params = $message['data'];
         //用户进入房间
         self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
