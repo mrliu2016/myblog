@@ -348,6 +348,7 @@ class LiveService
         foreach ($result as $key => $value) {
             $result[$key] = json_decode($value, true);
         }
+        ll($result,__FUNCTION__.'.log');
         return array_values($result);
     }
 
