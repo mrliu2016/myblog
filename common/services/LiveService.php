@@ -352,7 +352,7 @@ class LiveService
         }
         ll($result,__FUNCTION__.'.log');
         ll(array_values(array_values($tmp)),__FUNCTION__.'.log');
-        return array_values($result);
+        return array_values($tmp);
     }
 
     //加入房间
