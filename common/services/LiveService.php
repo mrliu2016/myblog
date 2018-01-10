@@ -219,7 +219,7 @@ class LiveService
                 'level' => intval($params["masterLevel"]),
                 'income' => intval(self::getWSUserBalance($params["userId"]) / Constants::CENT),
                 'count' => LiveService::roomMemberNum($params['roomId']),
-                'userList' => LiveService::getUserInfoListByRoomId($params['roomId'])
+                'userList' => array_values(LiveService::getUserInfoListByRoomId($params['roomId']))
             ],
         ];
         ll($resMessage, __FUNCTION__ . '.log');
