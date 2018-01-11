@@ -180,20 +180,30 @@ class LiveService
         }
         $Warning = $redis->hget(Constants::WSWARNING, $userId);
         if ($Warning !== false) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
+            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
             $respondMessage['code'] = Constants::CODE_WARNING;
             $respondMessage['message'] = $Warning;
-            $respondMessage['data'] = array();
+            $respondMessage['data'] = array(
+                'roomId' => $roomId,
+                'userId' => $userId,
+                'isMaster' => $isMaster
+            );
             $server->push($frame->fd, json_encode($respondMessage));
+            ll(var_export(array_merge($respondMessage, array("fd" => $frame->fd)), true), 'webSocketMessage.log');
             $redis->hdel(Constants::WSWARNING, $userId);
         }
         $close = $redis->hget(Constants::WSCLOSE, $userId);
         if ($close !== false) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
+            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
             $respondMessage['code'] = Constants::CODE_CLOSE;
             $respondMessage['message'] = $close;
-            $respondMessage['data'] = array();
+            $respondMessage['data'] = array(
+                'roomId' => $roomId,
+                'userId' => $userId,
+                'isMaster' => $isMaster
+            );
             $server->push($frame->fd, json_encode($respondMessage));
+            ll(var_export(array_merge($respondMessage, array("fd" => $frame->fd)), true), 'webSocketMessage.log');
             $redis->hdel(Constants::WSCLOSE, $userId);
         }
     }
