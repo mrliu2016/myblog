@@ -437,6 +437,7 @@ class LiveService
             //处理用户离开房间数据
             $fdList = LiveService::fdListByRoomId($params['roomId']);
             self::leave($frame->fd, $params['roomId']);
+            self::clearLMList($params);
             foreach ($fdList as $fd) {
                 try {
                     $server->push($fd, json_encode($messageAll));
@@ -557,6 +558,7 @@ class LiveService
                 $respondMessage['data'] = [];
                 $server->push($frame->fd, json_encode($respondMessage));
             }
+            self::clearLMList($params);
         }
     }
 
@@ -647,7 +649,7 @@ class LiveService
                 'introduction' => $messageInfo['introduction'],
             ];
             $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
-            $redis->hset($keyWSRoomUserLMList, $messageInfo['roomId'], json_encode($lmUser));
+            $redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUser));
             $redis->expire($keyWSRoomUserLMList, 172800); // 2天过期
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_LM_LIST_REQ,
@@ -701,7 +703,6 @@ class LiveService
                 ]
             ];
             $server->push($userInfo['fd'], json_encode($responseMessage));
-            ll(var_export(array_merge($responseMessage, array("fd" => $userInfo['fd'])), true), 'webSocketMessage.log');
         }
     }
 
@@ -721,7 +722,19 @@ class LiveService
                 ]
             ];
             $server->push($userInfo['fd'], json_encode($responseMessage));
-            ll(var_export(array_merge($responseMessage, array("fd" => $userInfo['fd'])), true), 'webSocketMessage.log');
         }
+    }
+
+    /**
+     * 清空连麦用户列表
+     *
+     * @param $params
+     */
+    public static function clearLMList($params)
+    {
+        $wsIp = self::getWsIp($params['roomId']);
+        $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $params['roomId'];
+        $redis = RedisClient::getInstance();
+        $redis->hdel($keyWSRoomUserLMList, $params['userId']);
     }
 }
