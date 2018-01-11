@@ -207,7 +207,6 @@ class LiveService
      */
     public static function joinRoomAndAI($server, $frame, $message)
     {
-        ll($message,__FUNCTION__.'.log');
         $params = $message['data'];
         //用户进入房间
         self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
@@ -588,5 +587,131 @@ class LiveService
             ]
         );
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $data];
+    }
+
+    /**
+     * 连麦请求
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    public static function requestLM($server, $frame, $message)
+    {
+        $messageInfo = $message['data'];
+        $wsIp = self::getWsIp($messageInfo['roomId']);
+        $redis = RedisClient::getInstance();
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
+        $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
+        if (!empty($userInfo) && $userInfo['role']) {
+            $responseMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_LM_REQ,
+                'data' => [
+                    'userId' => $messageInfo['userId'],
+                    'nickName' => $messageInfo['nickName']
+                ]
+            ];
+            $server->push($userInfo['fd'], json_encode($responseMessage));
+        }
+    }
+
+    /**
+     * 推送连麦用户列表
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    public static function requestLMList($server, $frame, $message)
+    {
+        $messageInfo = $message['data'];
+        $wsIp = self::getWsIp($messageInfo['roomId']);
+        $redis = RedisClient::getInstance();
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
+        $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
+        if (!empty($userInfo) && $userInfo['role']) {
+            $lmUser = [
+                'userId' => $messageInfo['userId'],
+                'nickName' => $messageInfo['nickName'],
+                'avatar' => $messageInfo['avatar'],
+                'introduction' => $messageInfo['introduction'],
+            ];
+            $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
+            $redis->hset($keyWSRoomUserLMList, $messageInfo['roomId'], json_encode($lmUser));
+            $redis->expire($keyWSRoomUserLMList, 172800); // 2天过期
+            $responseMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_LM_LIST_REQ,
+                'data' => [
+                    'userList' => array_values(LiveService::getUserLMListByRoomId($messageInfo['roomId']))
+                ]
+            ];
+            $server->push($userInfo['fd'], json_encode($responseMessage));
+        }
+    }
+
+    /**
+     * 获取连麦用户列表
+     *
+     * @param $roomId
+     * @return array
+     */
+    public static function getUserLMListByRoomId($roomId)
+    {
+        $wsIp = self::getWsIp($roomId);
+        $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $roomId;
+        $redis = RedisClient::getInstance();
+        $result = $redis->hGetAll($keyWSRoomUserLMList);
+        if (empty($result)) return [];
+        foreach ($result as $key => $value) {
+            $result[$key] = json_decode($value, true);
+        }
+        return $result;
+    }
+
+    /**
+     * 连麦响应
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    public static function responseLM($server, $frame, $message)
+    {
+        $messageInfo = $message['data'];
+        $wsIp = self::getWsIp($messageInfo['roomId']);
+        $redis = RedisClient::getInstance();
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
+        $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['userId']), true);
+        if (!empty($userInfo) && !$userInfo['role']) {
+            $responseMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_LM_RES,
+                'data' => [
+                    'userId' => $messageInfo['userId'],
+                    'type' => $messageInfo['type'] // 0：拒绝，1：同意
+                ]
+            ];
+            $server->push($userInfo['fd'], json_encode($responseMessage));
+            ll(var_export(array_merge($responseMessage, array("fd" => $userInfo['fd'])), true), 'webSocketMessage.log');
+        }
+    }
+
+    public static function responseLMList($server, $frame, $message)
+    {
+        $messageInfo = $message['data'];
+        $wsIp = self::getWsIp($messageInfo['roomId']);
+        $redis = RedisClient::getInstance();
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
+        $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['userId']), true);
+        if (!empty($userInfo) && !$userInfo['role']) {
+            $responseMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_LM_RES,
+                'data' => [
+                    'userId' => $messageInfo['userId'],
+                    'type' => $messageInfo['type'] // 0：拒绝，1：同意
+                ]
+            ];
+            $server->push($userInfo['fd'], json_encode($responseMessage));
+            ll(var_export(array_merge($responseMessage, array("fd" => $userInfo['fd'])), true), 'webSocketMessage.log');
+        }
     }
 }

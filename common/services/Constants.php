@@ -31,6 +31,11 @@ class Constants
     const MESSAGE_TYPE_LEAVE_RES = 'leave_res';
     const MESSAGE_TYPE_KICK_REQ = 'kick_req';
     const MESSAGE_TYPE_KICK_RES = 'kick_res';
+    const MESSAGE_TYPE_LM_REQ = 'lm_req'; // 连麦请求
+    const MESSAGE_TYPE_LM_RES = 'lm_res'; // 连麦响应
+    const MESSAGE_TYPE_LM_LIST_REQ = 'lm_list_req'; // 连麦请求
+    const MESSAGE_TYPE_LM_LIST_RES = 'lm_list_res'; // 连麦响应
+    const MESSAGE_TYPE_LM_USER_LIST_RES = 'lm_user_list_res'; // 连麦响应
 
     const MESSAGE_TYPE_GAG_REQ = 'gag_req';
     const MESSAGE_TYPE_GAG_RES = 'gag_res';
@@ -43,6 +48,7 @@ class Constants
     const WS_ROOM_USER_COUNT = 'WSRoom_';
     const WSWARNING = 'WSWarning';
     const WSCLOSE = 'WSClose';
+    const WS_ROOM_USER_LM_LIST = 'WSRoomUserLMList_';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';
