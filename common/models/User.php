@@ -17,7 +17,7 @@ class User extends ActiveRecord
     public static function queryById($id, $isObject = false)
     {
         if ($isObject) {
-            return static::find()->where(['id' => $id])->asArray()->one();
+            return static::find()->where(['id' => $id])->one();
         } else {
             return static::find()->where(['id' => $id])->asArray()->one();
         }
