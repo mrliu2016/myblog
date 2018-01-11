@@ -652,7 +652,7 @@ class LiveService
             $redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUser));
             $redis->expire($keyWSRoomUserLMList, 172800); // 2天过期
             $responseMessage = [
-                'messageType' => Constants::MESSAGE_TYPE_LM_LIST_REQ,
+                'messageType' => Constants::MESSAGE_TYPE_LM_LIST_RES,
                 'data' => [
                     'userList' => array_values(LiveService::getUserLMListByRoomId($messageInfo['roomId']))
                 ]
@@ -715,7 +715,7 @@ class LiveService
         $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['userId']), true);
         if (!empty($userInfo) && !$userInfo['role']) {
             $responseMessage = [
-                'messageType' => Constants::MESSAGE_TYPE_LM_RES,
+                'messageType' => Constants::MESSAGE_TYPE_LM_AGREE_RES,
                 'data' => [
                     'userId' => $messageInfo['userId'],
                     'type' => $messageInfo['type'] // 0：拒绝，1：同意

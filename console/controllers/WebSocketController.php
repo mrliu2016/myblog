@@ -54,7 +54,7 @@ class WebSocketController extends Controller
                     case Constants::MESSAGE_TYPE_LM_LIST_REQ: // 连麦请求列表
                         LiveService::requestLMList($server, $frame, $message);
                         break;
-                    case Constants::MESSAGE_TYPE_LM_LIST_RES: // 连麦相应列表
+                    case Constants::MESSAGE_TYPE_LM_AGREE_REQ: // 连麦相应列表
                         LiveService::responseLMList($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_GAG_REQ: // 禁言

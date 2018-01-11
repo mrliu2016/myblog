@@ -36,6 +36,8 @@ class Constants
     const MESSAGE_TYPE_LM_RES = 'lm_res'; // 连麦响应
     const MESSAGE_TYPE_LM_LIST_REQ = 'lm_list_req'; // 连麦请求
     const MESSAGE_TYPE_LM_LIST_RES = 'lm_list_res'; // 连麦响应
+    const MESSAGE_TYPE_LM_AGREE_REQ = 'lm_agree_req'; // 连麦同意请求
+    const MESSAGE_TYPE_LM_AGREE_RES = 'lm_agree_res'; // 连麦同意响应
     const MESSAGE_TYPE_LM_USER_LIST_RES = 'lm_user_list_res'; // 连麦响应
 
     const MESSAGE_TYPE_GAG_REQ = 'gag_req';
