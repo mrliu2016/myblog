@@ -406,9 +406,7 @@ class LiveService
 
     public static function leaveRoom($server, $frame, $message)
     {
-        ll(__METHOD__, __FUNCTION__ . '.log');
         $params = $message['data'];
-        ll($params, __FUNCTION__ . '.log');
         if (!empty($params)) {
             $messageAll = [
                 'messageType' => Constants::MESSAGE_TYPE_LEAVE_RES,
@@ -424,16 +422,13 @@ class LiveService
                     'count' => LiveService::roomMemberNum($params['roomId'])
                 ],
             ];
-            ll($messageAll, __FUNCTION__ . '.log');
             //处理用户离开房间数据
             $fdList = LiveService::fdListByRoomId($params['roomId']);
             self::leave($frame->fd, $params['roomId']);
-            ll($fdList, __FUNCTION__ . '.log');
             foreach ($fdList as $fd) {
                 try {
                     $server->push($fd, json_encode($messageAll));
                 } catch (ErrorException $ex) {
-
                     ll($ex->getMessage(), __FUNCTION__ . '.log');
                 }
             }
