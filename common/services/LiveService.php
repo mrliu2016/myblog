@@ -180,7 +180,7 @@ class LiveService
         }
         $Warning = $redis->hget(Constants::WSWARNING, $userId);
         if ($Warning !== false) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
+            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
             $respondMessage['code'] = Constants::CODE_WARNING;
             $respondMessage['message'] = $Warning;
             $respondMessage['data'] = array();
@@ -189,7 +189,7 @@ class LiveService
         }
         $close = $redis->hget(Constants::WSCLOSE, $userId);
         if ($close !== false) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
+            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
             $respondMessage['code'] = Constants::CODE_CLOSE;
             $respondMessage['message'] = $close;
             $respondMessage['data'] = array();
