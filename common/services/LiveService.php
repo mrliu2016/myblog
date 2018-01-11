@@ -189,6 +189,7 @@ class LiveService
                 'isMaster' => $isMaster
             );
             $server->push($frame->fd, json_encode($respondMessage));
+            ll(var_export(array_merge($respondMessage, array("fd" => $frame->fd)), true), 'webSocketMessage.log');
             $redis->hdel(Constants::WSWARNING, $userId);
         }
         $close = $redis->hget(Constants::WSCLOSE, $userId);
@@ -202,6 +203,7 @@ class LiveService
                 'isMaster' => $isMaster
             );
             $server->push($frame->fd, json_encode($respondMessage));
+            ll(var_export(array_merge($respondMessage, array("fd" => $frame->fd)), true), 'webSocketMessage.log');
             $redis->hdel(Constants::WSCLOSE, $userId);
         }
     }
