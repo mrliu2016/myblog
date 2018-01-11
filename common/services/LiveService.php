@@ -183,7 +183,11 @@ class LiveService
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
             $respondMessage['code'] = Constants::CODE_WARNING;
             $respondMessage['message'] = $Warning;
-            $respondMessage['data'] = array();
+            $respondMessage['data'] = array(
+                'roomId' => $roomId,
+                'userId' => $userId,
+                'isMaster' => $isMaster
+            );
             $server->push($frame->fd, json_encode($respondMessage));
             $redis->hdel(Constants::WSWARNING, $userId);
         }
@@ -192,7 +196,11 @@ class LiveService
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
             $respondMessage['code'] = Constants::CODE_CLOSE;
             $respondMessage['message'] = $close;
-            $respondMessage['data'] = array();
+            $respondMessage['data'] = array(
+                'roomId' => $roomId,
+                'userId' => $userId,
+                'isMaster' => $isMaster
+            );
             $server->push($frame->fd, json_encode($respondMessage));
             $redis->hdel(Constants::WSCLOSE, $userId);
         }
@@ -207,7 +215,7 @@ class LiveService
      */
     public static function joinRoomAndAI($server, $frame, $message)
     {
-        ll($message,__FUNCTION__.'.log');
+        ll($message, __FUNCTION__ . '.log');
         $params = $message['data'];
         //用户进入房间
         self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
