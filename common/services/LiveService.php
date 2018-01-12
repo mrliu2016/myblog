@@ -635,6 +635,7 @@ class LiveService
                 ]
             ];
             ll('ml_2', 'requestLMList.log');
+            ll($userInfo['fd'], 'requestLMList.log');
             $server->push($userInfo['fd'], json_encode($responseMessage));
         }
         ll('lm_4', 'requestLMList.log');
