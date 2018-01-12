@@ -713,7 +713,7 @@ class LiveService
                     'type' => $messageInfo['type'] // 0：拒绝，1：同意
                 ]
             ];
-            $server->push($userInfo['fd'], json_encode($responseMessage));
+            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
     }
 
@@ -732,7 +732,7 @@ class LiveService
                     'type' => $messageInfo['type'] // 0：拒绝，1：同意
                 ]
             ];
-            $server->push($userInfo['fd'], json_encode($responseMessage));
+            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
     }
 
