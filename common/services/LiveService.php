@@ -746,6 +746,10 @@ class LiveService
         $wsIp = self::getWsIp($params['roomId']);
         $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $params['roomId'];
         $redis = RedisClient::getInstance();
-        $redis->hdel($keyWSRoomUserLMList, $params['userId']);
+        if ($params['isMaster']) {
+            $redis->expire($keyWSRoomUserLMList, 0);
+        } else {
+            $redis->hdel($keyWSRoomUserLMList, $params['userId']);
+        }
     }
 }
