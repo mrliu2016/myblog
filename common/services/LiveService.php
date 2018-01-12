@@ -393,6 +393,8 @@ class LiveService
             $userInfo['nickName'] = $nickName;
             $userInfo['avatar'] = $avatar;
             $userInfo['level'] = $level;
+            $userInfo['fd'] = $fd;
+            $userInfo['role'] = $role;
             $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
@@ -641,11 +643,13 @@ class LiveService
      */
     public static function requestLMList($server, $frame, $message)
     {
+        ll($message, __FUNCTION__ . '.log');
         $messageInfo = $message['data'];
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
         $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
+        ll($userInfo, __FUNCTION__ . '.log');
         if (!empty($userInfo) && $userInfo['role']) {
             $lmUser = [
                 'userId' => $messageInfo['userId'],
@@ -662,7 +666,13 @@ class LiveService
                     'userList' => array_values(LiveService::getUserLMListByRoomId($messageInfo['roomId']))
                 ]
             ];
-            $server->push($userInfo['fd'], json_encode($responseMessage));
+            ll($responseMessage, __FUNCTION__ . '.log');
+            try {
+                $server->push($userInfo['fd'], json_encode($responseMessage));
+                ll('------success-----------', __FUNCTION__ . '.log');
+            } catch (ErrorException $ex) {
+                ll($ex->getMessage(), __FUNCTION__ . '.log');
+            }
         }
     }
 
