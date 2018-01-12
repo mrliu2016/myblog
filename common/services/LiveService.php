@@ -224,6 +224,7 @@ class LiveService
     {
         $params = $message['data'];
         ll($params, 'requestLMList.log');
+        ll($frame->fd, 'requestLMList.log');
         //用户进入房间
         self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
         $resMessage = [
