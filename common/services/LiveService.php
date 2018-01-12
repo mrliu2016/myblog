@@ -623,17 +623,21 @@ class LiveService
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
+        ll($keyWSRoomUser, 'requestLMList.log');
         $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
+        ll($userInfo, 'requestLMList.log');
         if (!empty($userInfo) && $userInfo['role']) {
             $responseMessage = [
-                'messageType' => Constants::MESSAGE_TYPE_LM_REQ,
+                'messageType' => Constants::MESSAGE_TYPE_LM_RES,
                 'data' => [
                     'userId' => $messageInfo['userId'],
                     'nickName' => $messageInfo['nickName']
                 ]
             ];
+            ll('ml_2', 'requestLMList.log');
             $server->push($userInfo['fd'], json_encode($responseMessage));
         }
+        ll('lm_4', 'requestLMList.log');
     }
 
     /**
