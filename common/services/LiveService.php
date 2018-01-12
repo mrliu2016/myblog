@@ -636,9 +636,9 @@ class LiveService
             ];
             ll('ml_2', 'requestLMList.log');
             ll('---34234==', 'requestLMList.log');
-            $server->push($frame->fd, json_encode($responseMessage));
+//            $server->push($frame->fd, json_encode($responseMessage));
             ll($frame->fd, 'requestLMList.log');
-            $server->push($userInfo['fd'], json_encode($responseMessage));
+            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
             ll('-------------', 'requestLMList.log');
             ll($userInfo['fd'], 'requestLMList.log');
         }
