@@ -29,7 +29,6 @@ class WebSocketController extends Controller
         $server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
                 $message = json_decode($frame->data, true);
-                ll($message,__FUNCTION__.'.log');
                 switch ($message['messageType']) {
                     case Constants::MESSAGE_TYPE_BARRAGE_REQ://弹幕
                         LiveService::barrageRequest($server, $frame, $message);
@@ -53,7 +52,6 @@ class WebSocketController extends Controller
                         LiveService::responseLM($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_LM_LIST_REQ: // 连麦请求列表
-                        ll($message,__FUNCTION__.'.log');
                         LiveService::requestLMList($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_LM_AGREE_REQ: // 连麦相应列表

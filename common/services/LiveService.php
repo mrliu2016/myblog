@@ -218,6 +218,7 @@ class LiveService
     public static function joinRoomAndAI($server, $frame, $message)
     {
         $params = $message['data'];
+        ll($params, 'requestLMList.log');
         //用户进入房间
         self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
         $resMessage = [
@@ -638,13 +639,14 @@ class LiveService
      */
     public static function requestLMList($server, $frame, $message)
     {
-        ll($message, __FUNCTION__ . '.log');
         $messageInfo = $message['data'];
+        ll(1, 'requestLMList.log');
+        ll($messageInfo, 'requestLMList.log');
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
         $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
-        ll($userInfo, __FUNCTION__ . '.log');
+        ll($userInfo, 'requestLMList.log');
         if (!empty($userInfo) && $userInfo['role']) {
             $lmUser = [
                 'userId' => $messageInfo['userId'],
