@@ -388,6 +388,7 @@ class LiveService
             $userInfo['nickName'] = $nickName;
             $userInfo['avatar'] = $avatar;
             $userInfo['level'] = $level;
+            $userInfo['fd'] = $fd;
             $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
