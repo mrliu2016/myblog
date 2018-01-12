@@ -223,8 +223,6 @@ class LiveService
     public static function joinRoomAndAI($server, $frame, $message)
     {
         $params = $message['data'];
-        ll($params, 'requestLMList.log');
-        ll($frame->fd, 'requestLMList.log');
         //用户进入房间
         self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
         $resMessage = [
@@ -623,9 +621,7 @@ class LiveService
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
-        ll($keyWSRoomUser, 'requestLMList.log');
         $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
-        ll($userInfo, 'requestLMList.log');
         if (!empty($userInfo) && $userInfo['role']) {
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_LM_RES,
@@ -634,15 +630,8 @@ class LiveService
                     'nickName' => $messageInfo['nickName']
                 ]
             ];
-            ll('ml_2', 'requestLMList.log');
-            ll('---34234==', 'requestLMList.log');
-//            $server->push($frame->fd, json_encode($responseMessage));
-            ll($frame->fd, 'requestLMList.log');
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
-            ll('-------------', 'requestLMList.log');
-            ll($userInfo['fd'], 'requestLMList.log');
         }
-        ll('lm_4', 'requestLMList.log');
     }
 
     /**
@@ -655,19 +644,11 @@ class LiveService
     public static function requestLMList($server, $frame, $message)
     {
         $messageInfo = $message['data'];
-        ll(1, 'requestLMList.log');
-        ll($messageInfo, 'requestLMList.log');
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
-        ll(4, 'requestLMList.log');
-        ll($keyWSRoomUser, 'requestLMList.log');
         $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
-        ll(2, 'requestLMList.log');
-        ll($userInfo, 'requestLMList.log');
         if (!empty($userInfo) && $userInfo['role']) {
-            ll(3, 'requestLMList.log');
-            ll($userInfo, 'requestLMList.log');
             $lmUser = [
                 'userId' => $messageInfo['userId'],
                 'nickName' => $messageInfo['nickName'],
@@ -683,16 +664,12 @@ class LiveService
                     'userList' => array_values(LiveService::getUserLMListByRoomId($messageInfo['roomId']))
                 ]
             ];
-            ll($responseMessage, __FUNCTION__ . '.log');
             try {
                 $server->push(intval($userInfo['fd']), json_encode($responseMessage));
-                ll('------success-----------', __FUNCTION__ . '.log');
             } catch (ErrorException $ex) {
                 ll($ex->getMessage(), __FUNCTION__ . '.log');
             }
         }
-        ll(9, 'requestLMList.log');
-        ll($userInfo, 'requestLMList.log');
     }
 
     /**
