@@ -46,15 +46,19 @@ class WebSocketController extends Controller
                         LiveService::leaveRoom($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_LM_REQ: // 连麦请求
+                        ll($message, 'requestLMList.log');
                         LiveService::requestLM($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_LM_RES: // 连麦相应
+                        ll($message, 'requestLMList.log');
                         LiveService::responseLM($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_LM_LIST_REQ: // 连麦请求列表
+                        ll($message, 'requestLMList.log');
                         LiveService::requestLMList($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_LM_AGREE_REQ: // 连麦相应列表
+                        ll($message, 'requestLMList.log');
                         LiveService::responseLMList($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_GAG_REQ: // 禁言
