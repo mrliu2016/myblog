@@ -81,6 +81,8 @@ class LiveService
         $userId = $param["userId"];
         $userIdTo = $param["userIdTo"];
         $giftId = $param["giftId"];
+        $giftName = $param["giftName"];
+        $giftImg = $param["giftImg"];
         $price = $param["price"];
         $num = $param["num"];
         $nickName = $param["nickName"];
@@ -140,6 +142,9 @@ class LiveService
             'level' => $level,
             'userIdTo' => $userIdTo,
             'giftId' => $giftId,
+            'giftName' => $giftName,
+            'giftImg' => $giftImg,
+            'price' => $price,
             'num' => $num,
         );
         $respondMessage['data'] = $data;
