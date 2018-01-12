@@ -664,6 +664,7 @@ class LiveService
             ll($responseMessage, __FUNCTION__ . '.log');
             try {
                 $server->push($userInfo['fd'], json_encode($responseMessage));
+                ll('------success-----------', __FUNCTION__ . '.log');
             } catch (ErrorException $ex) {
                 ll($ex->getMessage(), __FUNCTION__ . '.log');
             }
