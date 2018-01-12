@@ -651,9 +651,14 @@ class LiveService
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
+        ll(4, 'requestLMList.log');
+        ll($keyWSRoomUser, 'requestLMList.log');
         $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
+        ll(2, 'requestLMList.log');
         ll($userInfo, 'requestLMList.log');
         if (!empty($userInfo) && $userInfo['role']) {
+            ll(3, 'requestLMList.log');
+            ll($userInfo, 'requestLMList.log');
             $lmUser = [
                 'userId' => $messageInfo['userId'],
                 'nickName' => $messageInfo['nickName'],
@@ -677,6 +682,8 @@ class LiveService
                 ll($ex->getMessage(), __FUNCTION__ . '.log');
             }
         }
+        ll(9, 'requestLMList.log');
+        ll($userInfo, 'requestLMList.log');
     }
 
     /**
