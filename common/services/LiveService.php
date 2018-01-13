@@ -426,6 +426,7 @@ class LiveService
     public static function leaveRoom($server, $frame, $message)
     {
         $params = $message['data'];
+        ll($params, 'responseLMList.log');
         if (!empty($params)) {
             $messageAll = [
                 'messageType' => Constants::MESSAGE_TYPE_LEAVE_RES,
@@ -754,6 +755,7 @@ class LiveService
         $wsIp = self::getWsIp($params['roomId']);
         $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $params['roomId'];
         $redis = RedisClient::getInstance();
+        ll($params, 'responseLMList.log');
         if ($params['isMaster']) {
             $redis->expire($keyWSRoomUserLMList, 0);
         } else {
