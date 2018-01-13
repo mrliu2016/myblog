@@ -735,7 +735,7 @@ class LiveService
             ];
             ll(intval($userInfo['fd']), 'responseLMList.log');
             ll('-----2-----', 'responseLMList.log');
-            ll($server->exits(intval($userInfo['fd'])), 'responseLMList.log');
+            ll($server->exist(intval($userInfo['fd'])), 'responseLMList.log');
             ll(intval($userInfo['fd']), 'responseLMList.log');
             ll('-----3-----', 'responseLMList.log');
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
