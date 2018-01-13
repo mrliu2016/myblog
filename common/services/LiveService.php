@@ -705,7 +705,7 @@ class LiveService
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
         $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['userId']), true);
-        if (!empty($userInfo) && !$userInfo['role']) {
+        if (!empty($userInfo)) {
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_LM_RES,
                 'data' => [
@@ -734,6 +734,10 @@ class LiveService
                 ]
             ];
             ll(intval($userInfo['fd']), 'responseLMList.log');
+            ll('-----2-----', 'responseLMList.log');
+            ll($server->exits(intval($userInfo['fd'])), 'responseLMList.log');
+            ll(intval($userInfo['fd']), 'responseLMList.log');
+            ll('-----3-----', 'responseLMList.log');
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
             ll('---success----', 'responseLMList.log');
         }

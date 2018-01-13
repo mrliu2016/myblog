@@ -40,6 +40,7 @@ class WebSocketController extends Controller
                         LiveService::heartbeatRequest($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_JOIN_REQ: // 进入房间 含机器人
+                        ll($message, 'requestLMList.log');
                         LiveService::joinRoomAndAI($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_LEAVE_REQ: // 离开房间
