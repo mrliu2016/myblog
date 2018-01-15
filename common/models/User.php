@@ -32,8 +32,8 @@ class User extends ActiveRecord
     public static function profile($userId)
     {
         $userInfo = static::queryById($userId);
-        $userInfo['followees_cnt'] = Follow::queryInfoNum(['userId' => $userId]); // 我的关注
-        $userInfo['followers_cnt'] = Follow::queryInfoNum(['userIdFollow' => $userId]); // 关注我的
+        $userInfo['followees_cnt'] = intval(Follow::queryInfoNum(['userId' => $userId])); // 我的关注
+        $userInfo['followers_cnt'] = intval(Follow::queryInfoNum(['userIdFollow' => $userId])); // 关注我的
         $userInfo['balance'] = intval($userInfo['balance']);
         return $userInfo;
     }
