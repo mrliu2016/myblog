@@ -18,11 +18,11 @@ class User extends ActiveRecord
     {
         if ($isObject) {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,mobile,balance,level')
+                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description')
                 ->where(['id' => $id])->one();
         } else {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,mobile,balance,level')
+                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description')
                 ->where(['id' => $id])
                 ->asArray()
                 ->one();
