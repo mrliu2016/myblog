@@ -25,6 +25,17 @@ class FollowController extends BaseController
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
 
+    public function actionCancelAttention()
+    {
+        $params = Yii::$app->request->post();
+        $result = FollowService::cancelAttention($params);
+        if (!$result) {
+            $this->jsonReturnError(Constants::CODE_FAILED, '取消关注失败!');
+        }
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '取消关注成功!');
+
+    }
+
     //关注列表
     public function actionList()
     {

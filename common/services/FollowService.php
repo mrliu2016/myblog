@@ -18,6 +18,15 @@ class FollowService
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => []];
     }
 
+    public static function cancelAttention($params)
+    {
+        if (!isset($params['userId']) || !isset($params['userIdFollow'])) {
+            return false;
+        }
+        return Follow::updateChannelAttention($params['userId'], $params['userIdFollow']);
+    }
+
+
     public static function getUserFollowList($params)
     {
         if (!isset($params['userId'])) {
