@@ -17,10 +17,21 @@ class User extends ActiveRecord
     public static function queryById($id, $isObject = false)
     {
         if ($isObject) {
-            return static::find()->where(['id' => $id])->one();
+            return static::find()
+                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,followers_cnt,followees_cnt')
+                ->where(['id' => $id])->one();
         } else {
             return static::find()->where(['id' => $id])->asArray()->one();
         }
+    }
+
+    public static function profile($userId)
+    {
+        $userInfo = static::queryById($userId);
+        $userInfo['followees_cnt'] = Follow::queryInfoNum(['userId' => $userId]); // 我的关注
+        $userInfo['followers_cnt'] = Follow::queryInfoNum(['userIdFollow' => $userId]); // 关注我的
+        $userInfo['balance'] = intval($userInfo['balance']);
+        return $userInfo;
     }
 
     public static function checkLogin($mobile, $password)

@@ -42,6 +42,9 @@ class Follow extends ActiveRecord
         if (!empty($params['userId'])) {
             $find->andWhere(['userId' => $params['userId']]);
         }
+        if (!empty($params['userIdFollow'])) {
+            $find->andWhere(['userIdFollow' => $params['userIdFollow']]);
+        }
         $find->andWhere(['status' => 1]);
         return $find;
     }

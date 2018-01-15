@@ -130,7 +130,7 @@ class UserController extends BaseController
     public function actionGetPersonal()
     {
         $userid = Yii::$app->request->post('userid');
-        $list = User::queryById($userid, true);
+        $list = User::profile($userid);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '获取个人信息成功', $list);
     }
 
