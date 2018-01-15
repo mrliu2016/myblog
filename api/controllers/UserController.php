@@ -37,17 +37,21 @@ class UserController extends BaseController
         $token = Token::generateToken($result['id']);
         RedisClient::getInstance()->set($token, json_encode(['userid' => $result['id'], 'token' => $token]));
         RedisClient::getInstance()->expire($token, Constants::LOGIN_TOKEN_EXPIRES);
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '登陆成功', [
-            'userId' => $result['id'],
-            'nickName' => $result['nickName'],
-            'userName' => $result['userName'],
-            'token' => $token,
-            'avatar' => $result['avatar'],
-            'mobile' => $result['mobile'],
-            'roomId' => '',
-            'level' => $result['level'],
-            'balance' => $result['balance'],
-        ]);
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '登录成功',
+            [
+                'userId' => intval($result['id']),
+                'nickName' => $result['nickName'],
+                'userName' => $result['userName'],
+                'token' => $token,
+                'avatar' => $result['avatar'],
+                'mobile' => $result['mobile'],
+                'roomId' => '',
+                'level' => $result['level'],
+                'balance' => $result['balance'],
+            ]
+        );
     }
 
     public function actionLogout()

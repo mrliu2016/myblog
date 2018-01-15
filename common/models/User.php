@@ -33,6 +33,10 @@ class User extends ActiveRecord
         $model = new self();
         $model->mobile = $mobile;
         $model->password = $password;
+        $model->userName = $mobile;
+        $model->nickName = substr($mobile, 0, 3) . "****" . substr($mobile, 7, 4);
+        $model->created = time();
+        $model->updated = time();
         $model->save();
         return $model->id;
     }
@@ -63,7 +67,7 @@ class User extends ActiveRecord
 
     /**
      * @param $params
-     * @return array
+     * @return array|bool
      */
     public static function weiXin($params)
     {
@@ -77,10 +81,7 @@ class User extends ActiveRecord
                 . '\',\'' . $params['openId'] . '\',\'' . $params['unionId'] . '\',\'' . $params['province']
                 . '\',\'' . $params['city'] . '\',' . time() . ',' . time() . ')';
             if (!static::updateBySqlCondition($insertSql)) {
-                return [
-                    'code' => Constants::CODE_FAILED,
-                    'message' => '登陆失败!'
-                ];
+                return false;
             }
             $result = static::queryBySQLCondition($querySql);
         }
@@ -140,17 +141,14 @@ class User extends ActiveRecord
     private static function processLoginInfo($result)
     {
         return [
-            'code' => Constants::CODE_SUCCESS,
-            'message' => '登陆成功!',
-            'data' => [
-                'userId' => intval($result[Constants::CODE_SUCCESS]['id']),
-                'roomId' => intval($result[Constants::CODE_SUCCESS]['roomId']),
-                'nickName' => $result[Constants::CODE_SUCCESS]['nickName'],
-                'avatar' => $result[Constants::CODE_SUCCESS]['avatar'],
-                'mobile' => !empty($result[Constants::CODE_SUCCESS]['mobile']) ? $result[Constants::CODE_SUCCESS]['mobile'] : '',
-                'level' => !empty($result[Constants::CODE_SUCCESS]['level']) ? intval($result[Constants::CODE_SUCCESS]['level']) : Constants::CODE_SUCCESS,
-                'token' => Token::generateToken($result[Constants::CODE_SUCCESS]['id'])
-            ]
+            'userId' => intval($result[Constants::CODE_SUCCESS]['id']),
+            'roomId' => intval($result[Constants::CODE_SUCCESS]['roomId']),
+            'nickName' => $result[Constants::CODE_SUCCESS]['nickName'],
+            'avatar' => $result[Constants::CODE_SUCCESS]['avatar'],
+            'mobile' => !empty($result[Constants::CODE_SUCCESS]['mobile']) ? $result[Constants::CODE_SUCCESS]['mobile'] : '',
+            'level' => !empty($result[Constants::CODE_SUCCESS]['level']) ? intval($result[Constants::CODE_SUCCESS]['level']) : Constants::CODE_SUCCESS,
+            'token' => Token::generateToken($result[Constants::CODE_SUCCESS]['id']),
+            'balance' => $result[Constants::CODE_SUCCESS]['balance']
         ];
     }
 
