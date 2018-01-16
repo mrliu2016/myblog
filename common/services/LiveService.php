@@ -252,7 +252,8 @@ class LiveService
                 'avatar' => $params['avatar'],
                 'nickName' => $params['nickName'],
                 'level' => intval($params['level']),
-                'count' => LiveService::roomMemberNum($params['roomId'])
+                'count' => LiveService::roomMemberNum($params['roomId']),
+                'userList' => array_values(LiveService::getUserInfoListByRoomId($params['roomId']))
             ],
         ];
         $fdList = LiveService::fdListByRoomId($params['roomId']);
@@ -734,15 +735,8 @@ class LiveService
                     'type' => $messageInfo['type'] // 0：拒绝，1：同意
                 ]
             ];
-            ll(intval($userInfo['fd']), 'responseLMList.log');
-            ll('-----2-----', 'responseLMList.log');
-            ll($server->exist(intval($userInfo['fd'])), 'responseLMList.log');
-            ll(intval($userInfo['fd']), 'responseLMList.log');
-            ll('-----3-----', 'responseLMList.log');
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
-            ll('---success----', 'responseLMList.log');
         }
-        ll('-------', 'responseLMList.log');
     }
 
     /**
