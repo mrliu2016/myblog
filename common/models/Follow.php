@@ -51,8 +51,10 @@ class Follow extends ActiveRecord
 
     public static function isAttention($userId, $observerUserId)
     {
-        $model = static::find()->andWhere(['userId' => $observerUserId])
+        $model = static::find()
+            ->andWhere(['userId' => $observerUserId])
             ->andWhere(['userIdFollow' => $userId])->one();
+        ll($model,__FUNCTION__.'.log');
         return $model ? true : false;
     }
 
