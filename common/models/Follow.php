@@ -49,6 +49,13 @@ class Follow extends ActiveRecord
         return $find;
     }
 
+    public static function isAttention($userId, $observerUserId)
+    {
+        $model = static::find()->andWhere(['userId' => $observerUserId])
+            ->andWhere(['userIdFollow' => $userId])->one();
+        return $model ? true : false;
+    }
+
     public static function attention($userId, $userIdFollow)
     {
         $model = new self();
@@ -63,7 +70,7 @@ class Follow extends ActiveRecord
     {
         $model = static::find()->andWhere(['userId' => $userId])
             ->andWhere(['userIdFollow' => $userIdFollow])->one();
-        if (!$model){
+        if (!$model) {
             return false;
         }
         $model->status = 0;

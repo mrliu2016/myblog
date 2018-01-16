@@ -129,8 +129,8 @@ class UserController extends BaseController
     //获取个人信息
     public function actionGetPersonal()
     {
-        $userid = Yii::$app->request->post('userid');
-        $list = User::profile($userid);
+        $params = Yii::$app->request->post();
+        $list = User::profile($params['userid'], $params['observerUserId']);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '获取个人信息成功', $list);
     }
 
