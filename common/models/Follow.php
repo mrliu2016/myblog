@@ -54,7 +54,6 @@ class Follow extends ActiveRecord
         $model = static::find()
             ->andWhere(['userId' => $observerUserId])
             ->andWhere(['userIdFollow' => $userId])->asArray()->one();
-        ll($model,__FUNCTION__.'.log');
         return $model ? true : false;
     }
 
