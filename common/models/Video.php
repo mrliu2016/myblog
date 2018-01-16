@@ -68,10 +68,10 @@ class Video extends ActiveRecord
             $flag = true;
             foreach ($userInfo as $userKey => $userValue) {
                 if ($value['userId'] == $userValue['id']) {
-                    $result[$key]['avatar'] = $value['avatar'];
-                    $result[$key]['nickName'] = $value['nickName'];
-                    $result[$key]['level'] = intval($value['level']);
-                    $result[$key]['description'] = $value['description'];
+                    $result[$key]['avatar'] = $userValue['avatar'];
+                    $result[$key]['nickName'] = $userValue['nickName'];
+                    $result[$key]['level'] = intval($userValue['level']);
+                    $result[$key]['description'] = $userValue['description'];
                     $flag = false;
                 }
             }
