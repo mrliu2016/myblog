@@ -4,6 +4,7 @@ namespace app\common\services;
 
 
 use app\common\models\User;
+use app\common\models\Video;
 
 class UserService
 {
@@ -31,9 +32,11 @@ class UserService
         $lat = $params['latitude'];
         $page = isset($params['page']) ? (int)$params['page'] : 1;
         $pageSize = isset($params['pageSize']) ? (int)$params['pageSize'] : 10;
+        $tmpUserId = '';
         $squares = self::_returnSquarePoint($lng, $lat);
         $result = User::getNearUserList($userId, $squares, $lng, $lat, $page, $pageSize);
         foreach ($result['list'] as $key => $value) {
+            $tmpUserId .= $value['userId'] . ',';
             $distance = self::_getDistance($lat, $lng, $value['latitude'], $value['longitude'], 1, 0);
             if ($distance > 1000) {
                 $distance = round($distance / 1000, 2);
@@ -43,6 +46,28 @@ class UserService
             }
             $result['list'][$key]["userId"] = (int)$value['userId'];
             $result['list'][$key]["level"] = (int)$value['level'];
+        }
+        $liveLIst = [];
+        if (!empty($tmpUserId)) {
+            $sql = 'select id,userId,roomId,startTime,endTime,imgSrc,remark,isLive from '
+                . Video::tableName() . ' where userId in(' . trim($tmpUserId, ',') . ') and isLive = 1';
+            $liveLIst = Video::queryBySQLCondition($sql);
+        }
+        foreach ($result['list'] as $key => $value) {
+            $flag = true;
+            foreach ($liveLIst as $itemKey => $itemValue){
+                if ($value['userId'] == $itemValue['userId']){
+                    $result['list'][$key]['imgSrc'] = $itemValue['imgSrc'];
+                    $result['list'][$key]['title'] = $itemValue['remark'];
+                    $result['list'][$key]['isLive'] = $itemValue['isLive'];
+                    $flag = false;
+                }
+            }
+            if ($flag){
+                $result['list'][$key]['imgSrc'] = '';
+                $result['list'][$key]['title'] = '';
+                $result['list'][$key]['isLive'] = 0;
+            }
         }
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $result];
     }
