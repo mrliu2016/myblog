@@ -2,6 +2,7 @@
 
 namespace app\api\controllers;
 
+use app\common\models\Video;
 use app\common\services\Constants;
 use app\common\services\UserService;
 use Yii;
@@ -23,5 +24,15 @@ class LiveController extends BaseController
             $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
         }
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
+    }
+
+    public function actionStartLive()
+    {
+        $params = Yii::$app->request->post();
+        $result = Video::create($params['userId'], $params['userId'], $params['title'], $params['imgSrc']);
+        if (!$result) {
+            $this->jsonReturnError(Constants::CODE_FAILED, '开播失败');
+        }
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '开播成功');
     }
 }

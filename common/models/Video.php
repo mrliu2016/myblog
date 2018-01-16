@@ -66,20 +66,19 @@ class Video extends ActiveRecord
     }
 
     //直播开始
-    public static function create($userId, $roomId, $remark = '')
+    public static function create($userId, $roomId, $remark = '',$imgSrc = '')
     {
-        $video = new self();
-        $video->userId = $userId;
-        $video->roomId = $roomId;
-        $video->startTime = time();
-        $video->endTime = time();
-        $video->videoSrc = '';
-        $video->imgSrc = '';
-        $video->remark = $remark;
-        $video->created = time();
-        $video->updated = time();
-        $video->save();
-        return $video;
+        $model = new self();
+        $model->userId = $userId;
+        $model->roomId = $roomId;
+        $model->startTime = time();
+        $model->endTime = time();
+        $model->imgSrc = $imgSrc;
+        $model->remark = $remark;
+        $model->created = time();
+        $model->updated = time();
+        $model->save();
+        return $model->id;
     }
 
     //心跳更新直播结束时间

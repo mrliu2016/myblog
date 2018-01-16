@@ -175,7 +175,7 @@ class LiveService
             $video = Video::findLastRecord($userId, $roomId);
             if (empty($video)) {
                 //直播开始
-                Video::create($userId, $roomId);
+//                Video::create($userId, $roomId);
             } else {
                 //更新直播结束时间
                 Video::updateEndTime($video);
