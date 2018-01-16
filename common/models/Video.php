@@ -160,12 +160,10 @@ class Video extends ActiveRecord
         $model = static::find()
             ->where(['id' => $liveId])
             ->one();
-        if (!empty($model)) {
-            $model->isLive = 0;
-            $model->endTime = time();
-            $model->updated = time();
-            $model->save();
-        }
+        $model->isLive = 0;
+        $model->endTime = time();
+        $model->updated = time();
+        $model->save();
         return true;
     }
 
