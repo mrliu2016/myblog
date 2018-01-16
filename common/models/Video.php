@@ -3,6 +3,7 @@
 namespace app\common\models;
 
 use yii\db\ActiveRecord;
+use Yii;
 
 class Video extends ActiveRecord
 {
@@ -31,7 +32,56 @@ class Video extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->asArray()->orderBy('created desc')->offset($offset)->limit($params['defaultPageSize'])->all();
+        $result = $find->asArray()
+            ->orderBy('created desc')
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->all();
+        return $result;
+    }
+
+    public static function queryHot($params)
+    {
+        $offset = 0;
+        $userId = '';
+        $userInfo = [];
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive')
+            ->asArray()
+            ->orderBy('startTime desc')
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->all();
+        foreach ($result as $key => $value) {
+            $userId .= $value['userId'] . ',';
+        }
+        if (!empty($userId)) {
+            $sql = 'select id,avatar,nickName,level,description from '
+                . User::tableName() . ' where id in(' . trim($userId, ',') . ')';
+            $userInfo = static::queryBySQLCondition($sql);
+        }
+        foreach ($result as $key => $value) {
+            $flag = true;
+            foreach ($userInfo as $userKey => $userValue) {
+                if ($value['userId'] == $userValue['id']) {
+                    $result[$key]['avatar'] = $value['avatar'];
+                    $result[$key]['nickName'] = $value['nickName'];
+                    $result[$key]['level'] = intval($value['level']);
+                    $result[$key]['description'] = $value['description'];
+                    $flag = false;
+                }
+            }
+            if ($flag) {
+                $result[$key]['avatar'] = '';
+                $result[$key]['nickName'] = '';
+                $result[$key]['level'] = 0;
+                $result[$key]['description'] = '';
+            }
+        }
         return $result;
     }
 
@@ -53,6 +103,9 @@ class Video extends ActiveRecord
         }
         if (!empty($params['type']) && $params['type'] == self::TYPE_RECORD) {
             $find->andWhere('videoSrc<>""');
+        }
+        if (!empty($params['userId'])) {
+            $find->andWhere(['userId' => $params['userId']]);
         }
         if (!empty($params['userId'])) {
             $find->andWhere(['userId' => $params['userId']]);
@@ -113,5 +166,42 @@ class Video extends ActiveRecord
             $model->save();
         }
         return true;
+    }
+
+    /**
+     * 更新用户余额
+     * @param $userId
+     * @param $balance
+     */
+    public static function updateUserBalance($userId, $balance)
+    {
+        $sql = 'update ' . User::tableName()
+            . ' set balance = balance + ' . intval($balance)
+            . ' where id = ' . $userId . ' and balance>0';
+        return static::updateBySqlCondition($sql);
+    }
+
+    /**
+     * @param string $sql
+     * @return int
+     * @throws \yii\db\Exception
+     */
+    public static function updateBySqlCondition($sql = '')
+    {
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        return $command->execute();
+    }
+
+    /**
+     * @param string $sql
+     * @return array
+     * @throws \yii\db\Exception
+     */
+    public static function queryBySQLCondition($sql = '')
+    {
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        return $command->queryAll();
     }
 }
