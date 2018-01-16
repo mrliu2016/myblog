@@ -170,6 +170,18 @@ class Video extends ActiveRecord
     }
 
     /**
+     * @param $userId
+     * @return array
+     * @throws \yii\db\Exception
+     */
+    public static function isLive($userId)
+    {
+        $sql = 'select id,userId,isLive from ' . static::tableName()
+            . ' where userId = ' . $userId . ' and isLive = 1';
+        return static::queryBySQLCondition($sql);
+    }
+
+    /**
      * 更新用户余额
      * @param $userId
      * @param $balance

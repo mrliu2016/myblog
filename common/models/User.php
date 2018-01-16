@@ -29,6 +29,12 @@ class User extends ActiveRecord
         }
     }
 
+    /**
+     * @param $userId
+     * @param $observerUserId
+     * @return array|null|ActiveRecord
+     * @throws \yii\db\Exception
+     */
     public static function profile($userId, $observerUserId)
     {
         $userInfo = static::queryById($userId);
@@ -36,6 +42,7 @@ class User extends ActiveRecord
         $userInfo['followers_cnt'] = intval(Follow::queryInfoNum(['userIdFollow' => $userId])); // 关注我的
         $userInfo['balance'] = intval($userInfo['balance']);
         $userInfo['isAttention'] = intval(Follow::isAttention($userId, $observerUserId) ? 1 : 0);
+        $userInfo['isLive'] = intval(Video::isLive($userId) ? 1 : 0);
         return $userInfo;
     }
 
