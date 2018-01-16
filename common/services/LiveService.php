@@ -66,7 +66,6 @@ class LiveService
     public static function giftRequest($server, $frame, $message)
     {
         $param = $message['data'];
-        ll($param, __FUNCTION__ . '.log');
         if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"]) || empty($param["price"])
             || empty($param["num"]) || empty($param["nickName"]) || empty($param["avatar"]) || empty($param["level"])
         ) {
@@ -90,7 +89,6 @@ class LiveService
         $avatar = $param["avatar"];
         $level = $param["level"];
         $balance = $redis->hget('WSUserBalance', $userId);
-        ll($balance, __FUNCTION__ . '.log');
         if ($balance == false) {
             $user = User::queryById($userId);
             $balance = $user['balance'];
