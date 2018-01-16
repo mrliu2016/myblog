@@ -2,6 +2,8 @@
 
 namespace app\api\controllers;
 
+use app\common\models\Follow;
+use app\common\models\User;
 use app\common\models\Video;
 use app\common\services\Constants;
 use app\common\services\UserService;
@@ -52,7 +54,17 @@ class LiveController extends BaseController
     public function actionTerminationLive()
     {
         $params = Yii::$app->request->post();
+        ll($params, __FUNCTION__ . '.log');
         $result = Video::terminationLive(intval($params['liveId']), $params['userId']);
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '结束直播');
+        $userInfo = User::queryById($params['userId']);
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '结束直播',
+            [
+                'isAttention' => intval(Follow::isAttention($params['userId'], $params['observerUserId']) ? 1 : 0),
+                'avatar' => $userInfo['avatar'],
+                'nickName' => $userInfo['nickName']
+            ]
+        );
     }
 }
