@@ -65,6 +65,7 @@ class Video extends ActiveRecord
             $userInfo = static::queryBySQLCondition($sql);
         }
         foreach ($result as $key => $value) {
+            $result[$key]['startTime'] = date('Y.m.d H:i', $value['startTime']);
             $flag = true;
             foreach ($userInfo as $userKey => $userValue) {
                 if ($value['userId'] == $userValue['id']) {
