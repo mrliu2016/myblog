@@ -108,8 +108,8 @@ class Video extends ActiveRecord
         if (!empty($params['userId'])) {
             $find->andWhere(['userId' => $params['userId']]);
         }
-        if (isset($params['isLIve'])) {
-            $find->andWhere(['isLIve' => $params['isLIve']]);
+        if (isset($params['isLive'])) {
+            $find->andWhere(['isLive' => $params['isLive']]);
         }
         return $find;
     }
