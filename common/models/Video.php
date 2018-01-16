@@ -155,16 +155,17 @@ class Video extends ActiveRecord
         }
     }
 
+    /**
+     * @param $liveId
+     * @param $userId
+     * @return int
+     * @throws \yii\db\Exception
+     */
     public static function terminationLive($liveId, $userId)
     {
-        $model = static::find()
-            ->where(['id' => $liveId])
-            ->one();
-        $model->isLive = 0;
-        $model->endTime = time();
-        $model->updated = time();
-        $model->save();
-        return true;
+        $sql = 'update ' . static::tableName()
+            . ' set isLive = 0,endTime=' . time() . ',updated=' . time() . ' where id = ' . $liveId;
+        return static::updateBySqlCondition($sql);
     }
 
     /**

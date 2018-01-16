@@ -39,7 +39,7 @@ class FollowService
         $result = Follow::queryInfo($params);
         foreach ($result as $key => $value) {
             $item = array();
-            $item["userId"] = (int)$value['id'];
+            $item["userId"] = (int)$value['userIdFollow'];
             $user = User::queryById($value['userIdFollow']);
             $item["avatar"] = $user['avatar'];
             $item["nickName"] = $user['nickName'];
