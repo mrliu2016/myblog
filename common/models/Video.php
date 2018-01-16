@@ -55,7 +55,7 @@ class Video extends ActiveRecord
             $find->andWhere('videoSrc<>""');
         }
         if (!empty($params['userId'])) {
-            $find->andWhere(['userId'=>$params['userId']]);
+            $find->andWhere(['userId' => $params['userId']]);
         }
         return $find;
     }
@@ -66,7 +66,7 @@ class Video extends ActiveRecord
     }
 
     //直播开始
-    public static function create($userId, $roomId, $remark = '',$imgSrc = '')
+    public static function create($userId, $roomId, $remark = '', $imgSrc = '')
     {
         $model = new self();
         $model->userId = $userId;
@@ -99,5 +99,19 @@ class Video extends ActiveRecord
             $video->updated = time();
             $video->save();
         }
+    }
+
+    public static function terminationLive($liveId, $userId)
+    {
+        $model = static::find()
+            ->where(['id' => $liveId])
+            ->one();
+        if (!empty($model)) {
+            $model->isLive = 0;
+            $model->endTime = time();
+            $model->updated = time();
+            $model->save();
+        }
+        return true;
     }
 }

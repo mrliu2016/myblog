@@ -35,4 +35,11 @@ class LiveController extends BaseController
         }
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '开播成功');
     }
+
+    public function actionTerminationLive()
+    {
+        $params = Yii::$app->request->post();
+        $result = Video::terminationLive($params['liveId'],$params['userId']);
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '结束直播');
+    }
 }
