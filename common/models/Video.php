@@ -52,6 +52,7 @@ class Video extends ActiveRecord
         $find = self::buildParams($find, $params);
         $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive')
             ->asArray()
+            ->andWhere(['isLive' => $params['isLive']])
             ->orderBy('startTime desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])
@@ -104,9 +105,6 @@ class Video extends ActiveRecord
         }
         if (!empty($params['type']) && $params['type'] == self::TYPE_RECORD) {
             $find->andWhere('videoSrc<>""');
-        }
-        if (!empty($params['userId'])) {
-            $find->andWhere(['userId' => $params['userId']]);
         }
         if (!empty($params['userId'])) {
             $find->andWhere(['userId' => $params['userId']]);
