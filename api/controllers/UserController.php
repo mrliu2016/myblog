@@ -191,7 +191,12 @@ class UserController extends BaseController
     public function actionSearch()
     {
         $content = Yii::$app->request->post('content');
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '搜索成功', User::SearchUser($content));
+        $observerUserId = Yii::$app->request->post('observerUserId');
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '搜索成功',
+            User::SearchUser($content, $observerUserId)
+        );
     }
 
 }
