@@ -429,6 +429,8 @@ class LiveService
         $params = $message['data'];
         ll($params, 'responseLMList.log');
         if (!empty($params)) {
+            //处理用户离开房间数据
+            self::leave($frame->fd, $params['roomId']);
             $messageAll = [
                 'messageType' => Constants::MESSAGE_TYPE_LEAVE_RES,
                 'code' => Constants::CODE_SUCCESS,
@@ -440,12 +442,11 @@ class LiveService
                     'avatar' => $params['avatar'],
                     'nickName' => $params['nickName'],
                     'level' => $params['level'],
-                    'count' => LiveService::roomMemberNum($params['roomId'])
+                    'count' => LiveService::roomMemberNum($params['roomId']),
+                    'userList' => array_values(LiveService::getUserInfoListByRoomId($params['roomId']))
                 ],
             ];
-            //处理用户离开房间数据
             $fdList = LiveService::fdListByRoomId($params['roomId']);
-            self::leave($frame->fd, $params['roomId']);
             self::clearLMList($params);
             foreach ($fdList as $fd) {
                 try {
