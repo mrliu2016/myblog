@@ -89,7 +89,7 @@ class LiveService
         $avatar = $param["avatar"];
         $level = $param["level"];
         $balance = $redis->hget('WSUserBalance', $userId);
-        if ($balance === false) {
+        if ($balance == false) {
             $user = User::queryById($userId);
             $balance = $user['balance'];
         }
@@ -443,10 +443,11 @@ class LiveService
                     'count' => LiveService::roomMemberNum($params['roomId'])
                 ],
             ];
-            //处理用户离开房间数据
             $fdList = LiveService::fdListByRoomId($params['roomId']);
+            //处理用户离开房间数据
             self::leave($frame->fd, $params['roomId']);
             self::clearLMList($params);
+            $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
             foreach ($fdList as $fd) {
                 try {
                     $server->push($fd, json_encode($messageAll));
