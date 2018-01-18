@@ -213,6 +213,9 @@ class UserController extends BaseController
     public function actionCheckPhone()
     {
         $mobile = Yii::$app->request->post('mobile');
+        if (!is_string($mobile) || strlen($mobile) != 11 || !ctype_digit($mobile)) {
+            $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
+        }
         $dat = User::queryByPhone($mobile);
         if (empty($dat)) {
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '可以注册', []);
