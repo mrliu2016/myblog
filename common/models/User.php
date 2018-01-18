@@ -98,7 +98,7 @@ class User extends ActiveRecord
      */
     public static function weiXin($params)
     {
-        $querySql = 'select id,id as roomId,nickName,userName,avatar,mobile,level from '
+        $querySql = 'select id,id as roomId,nickName,userName,avatar,mobile,balance,level from '
             . static::tableName()
             . ' where wxOpenId = \'' . $params['openId'] . '\'';
         $result = static::queryBySQLCondition($querySql);
