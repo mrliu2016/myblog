@@ -29,6 +29,10 @@ class User extends ActiveRecord
         }
     }
 
+    public static function queryByPhone($mobile){
+         return static::find()->andWhere(['mobile'=>$mobile])->asArray()->one();
+    }
+
     /**
      * @param $userId
      * @param $observerUserId

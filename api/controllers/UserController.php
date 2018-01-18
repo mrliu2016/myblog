@@ -90,8 +90,13 @@ class UserController extends BaseController
             'mobile' => \Yii::$app->request->post('mobile'),
             'password' => md5(\Yii::$app->request->post('password')),
         );
-        if (User::setPassworld($params)) {
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '设置密码成功', []);
+        $dat = User::queryByPhone($params['mobile']);
+        if (!empty($dat)) {
+            if (User::setPassworld($params)) {
+                $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '设置密码成功', []);
+            }
+        } else {
+            $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未被注册', []);
         }
     }
 
@@ -167,8 +172,13 @@ class UserController extends BaseController
         if (!is_string($mobile) || strlen($mobile) != 11 || !ctype_digit($mobile)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
         }
-        if (User::Register($mobile, md5($password))) {
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '注册成功', []);
+        $dat = User::queryByPhone($mobile);
+        if (empty($dat)) {
+            if (User::Register($mobile, md5($password))) {
+                $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '注册成功', []);
+            }
+        } else {
+            $this->jsonReturnError(Constants::CODE_FAILED, '该手机号已被注册', []);
         }
     }
 
