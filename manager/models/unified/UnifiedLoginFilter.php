@@ -20,6 +20,16 @@ class UnifiedLoginFilter extends ActionFilter
             return false;
         }
         Yii::$app->controller->user = unserialize(base64_decode($ticketFromCookie));
+        //登录区分环境
+        $env = (YII_ENV_PRE || YII_ENV_ONLINE) ? 'online' : 'dev';
+        if (Yii::$app->controller->user->environment <> $env) {
+            setcookie(Constants::COOKIE_UNIFIED_LOGIN, null, time() - 1000, "/", Constants::COOKIE_DOMAIN);
+            Yii::$app->getResponse()->redirect($loginUrl);
+        }
+        //验证登录服务域名
+        if (is_array(Yii::$app->controller->user->domain) && !in_array($_SERVER['HTTP_HOST'], Yii::$app->controller->user->domain)) {
+            Yii::$app->getResponse()->redirect($loginUrl);
+        }
         return parent::beforeAction($action);
     }
 }

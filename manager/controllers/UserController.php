@@ -46,4 +46,11 @@ class UserController extends BaseController
             'count' => $count
         ]);
     }
+
+    public function actionLogout()
+    {
+        setcookie(Constants::COOKIE_UNIFIED_LOGIN, null, time() - 1000, "/", Constants::COOKIE_DOMAIN);
+        $loginUrl = Yii::$app->params["ucDomain"] . "/user/login?redirect=" . Yii::$app->request->getHostInfo();
+        Yii::$app->getResponse()->redirect($loginUrl);
+    }
 }
