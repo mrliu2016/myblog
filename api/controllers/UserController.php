@@ -209,4 +209,15 @@ class UserController extends BaseController
         );
     }
 
+    //检查手机号是否被注册过
+    public function actionCheckPhone()
+    {
+        $mobile = Yii::$app->request->post('mobile');
+        $dat = User::queryByPhone($mobile);
+        if (empty($dat)) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '可以注册', []);
+        } else {
+            $this->jsonReturnError(Constants::CODE_FAILED, '已被注册', []);
+        }
+    }
 }
