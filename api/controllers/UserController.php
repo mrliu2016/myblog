@@ -218,9 +218,9 @@ class UserController extends BaseController
         }
         $dat = User::queryByPhone($mobile);
         if (empty($dat)) {
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '可以注册', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未注册', []);
         } else {
-            $this->jsonReturnError(Constants::CODE_FAILED, '已被注册', []);
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '可以', []);
         }
     }
 }
