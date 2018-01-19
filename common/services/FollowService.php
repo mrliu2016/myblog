@@ -35,10 +35,9 @@ class FollowService
         }
         $page = isset($params['page']) ? (int)$params['page'] : 1;
         $size = isset($params['pageSize']) ? (int)$params['pageSize'] : self::PAGE_SIZE;
-        $params['defaultPageSize'] = $size;
         $list = [];
         $liveLIst = [];
-        $result = Follow::queryInfo($params);
+        $result = Follow::getUserFollowLive($params['userId'],$page,$size);
         $userId = '';
         foreach ($result as $key => $value) {
             $userId .= $value['userIdFollow'] . ',';
@@ -61,7 +60,7 @@ class FollowService
         foreach ($list as $key => $value){
             $flag = true;
             foreach ($liveLIst as $itemKey => $itemValue){
-                if ($value['userIdFollow'] == $itemValue['userId']){
+                if ($value['userId'] == $itemValue['userId']){
                     $list[$key]['imgSrc'] = $itemValue['imgSrc'];
                     $list[$key]['title'] = $itemValue['remark'];
                     $list[$key]['isLive'] = $itemValue['isLive'];
