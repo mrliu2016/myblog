@@ -14,7 +14,6 @@ class IdentifyController extends BaseController
         } else {
             $params = [];
         }
-        ll($params, __FUNCTION__ . '.log');
         Video::identify(array_merge($params, $_POST));
     }
 }
