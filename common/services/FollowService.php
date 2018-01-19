@@ -56,7 +56,7 @@ class FollowService
             $item["nickName"] = $user['nickName'];
             $item["level"] = (int)$user['level'];
             $item["description"] = $user['description'];
-            $item["updated"] = date('Y-m-d H:i:s', $value['updated']);
+            $item["updated"] = $value['updated'];
             $list[] = $item;
         }
         if (!empty($userId)) {
@@ -72,6 +72,7 @@ class FollowService
                     $list[$key]['imgSrc'] = $itemValue['imgSrc'];
                     $list[$key]['title'] = $itemValue['remark'];
                     $list[$key]['isLive'] = $itemValue['isLive'];
+                    $list[$key]['startTime'] = $itemValue['startTime'];
                     $list[$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
                     $flag = false;
                 }
