@@ -167,8 +167,10 @@ class Video extends ActiveRecord
         $find = self::buildParams($find, $params);
         $result = $find->select('id,userId,roomId,isLive,updated')->orderBy('startTime desc')->all();
         $time = time();
+        ll($result, __FUNCTION__ . '.log');
         foreach ($result as $key => $value) {
-            if (($time - $value->updated) > 20){
+            if (($time - $value->updated) > 20) {
+                ll(3, __FUNCTION__ . '.log');
                 $value->isLive = 0;
                 $value->save();
             }
