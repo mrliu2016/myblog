@@ -2,6 +2,8 @@
 
 namespace app\common\services;
 
+use app\common\components\CdnUtils;
+use app\common\extensions\OSS\Model\CnameConfig;
 use app\common\models\Follow;
 use app\common\models\User;
 use app\common\models\Video;
@@ -27,7 +29,13 @@ class FollowService
         return Follow::updateChannelAttention($params['userId'], $params['userIdFollow']);
     }
 
-
+    /**
+     * 关注列表
+     *
+     * @param $params
+     * @return array
+     * @throws \yii\db\Exception
+     */
     public static function getUserFollowList($params)
     {
         if (!isset($params['userId'])) {
@@ -65,6 +73,7 @@ class FollowService
                     $list[$key]['imgSrc'] = $itemValue['imgSrc'];
                     $list[$key]['title'] = $itemValue['remark'];
                     $list[$key]['isLive'] = $itemValue['isLive'];
+                    $list[$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
                     $flag = false;
                 }
             }
@@ -72,6 +81,7 @@ class FollowService
                 $list[$key]['imgSrc'] = '';
                 $list[$key]['title'] = '';
                 $list[$key]['isLive'] = 0;
+                $list[$key]['pullRtmp'] = '';
             }
         }
 
