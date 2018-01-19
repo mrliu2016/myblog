@@ -21,6 +21,7 @@ class TranscribeController extends BaseController
         } else {
             $params = [];
         }
+        ll($params, __FUNCTION__ . '.log');
         $result = Video::transcribe(array_merge($params, $_POST));
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'ok');
     }
