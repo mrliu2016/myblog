@@ -250,4 +250,31 @@ class Video extends ActiveRecord
         $command = $connection->createCommand($sql);
         return $command->queryAll();
     }
+
+    /**
+     * 图片鉴黄
+     *
+     * @param $params
+     * @return bool
+     */
+    public static function identify($params)
+    {
+        try {
+            if (isset($params['DomainName'])) {
+                static::illegalContent($params, 0);
+            }
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    private static function illegalContent($params, $type)
+    {
+        $model = static::find()->where(['id' => $params['StreamName']])->one();
+        if (empty($model)){
+            return false;
+        }
+        $model->identifyYellow = json_encode($params);
+        return $model->save();
+    }
 }
