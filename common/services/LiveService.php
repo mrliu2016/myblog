@@ -179,6 +179,11 @@ class LiveService
                 //直播开始
 //                Video::create($userId, $roomId);
             } else {
+                //更新观众人数
+                $wsIp = self::getWsIp($roomId);
+                $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $roomId;
+                $viewerNum = $redis->hLen($keyWSRoomUser);
+                $video->viewerNum = $viewerNum;
                 //更新直播结束时间
                 Video::updateEndTime($video);
             }

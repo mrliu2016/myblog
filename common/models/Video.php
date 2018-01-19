@@ -140,6 +140,7 @@ class Video extends ActiveRecord
     //心跳更新直播结束时间
     public static function updateEndTime($video)
     {
+        $video->isLive = 1;
         $video->endTime = time();
         $video->updated = time();
         $video->save();
