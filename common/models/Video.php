@@ -2,6 +2,7 @@
 
 namespace app\common\models;
 
+use app\common\components\CdnUtils;
 use yii\db\ActiveRecord;
 use Yii;
 
@@ -65,6 +66,7 @@ class Video extends ActiveRecord
             $userInfo = static::queryBySQLCondition($sql);
         }
         foreach ($result as $key => $value) {
+            $result[$key]['pullRtmp'] = CdnUtils::getPullUrl($value['id']);
             $result[$key]['startTime'] = date('Y.m.d H:i', $value['startTime']);
             $flag = true;
             foreach ($userInfo as $userKey => $userValue) {

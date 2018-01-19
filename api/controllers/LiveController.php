@@ -53,7 +53,7 @@ class LiveController extends BaseController
             '开播成功',
             [
                 'liveId' => $result,
-                'pushRtmp' => CdnUtils::getPushUrl($params['userId'])
+                'pushRtmp' => CdnUtils::getPushUrl($result)
             ]
         );
     }
