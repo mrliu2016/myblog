@@ -54,6 +54,7 @@ $params = [
                 'domain' => 'dev.api.demo.3ttech.cn'
             ]
         ],
+        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
     ],
 
     'dev' => [
@@ -108,6 +109,7 @@ $params = [
                 'domain' => 'dev.api.demo.3ttech.cn'
             ]
         ],
+        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
     ],
 
     'pre' => [
@@ -162,6 +164,7 @@ $params = [
                 'domain' => 'dev.api.demo.3ttech.cn'
             ]
         ],
+        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
     ],
 
     'online' => [
@@ -216,6 +219,7 @@ $params = [
                 'domain' => 'dev.api.demo.3ttech.cn'
             ]
         ],
+        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
     ],
 
 ];

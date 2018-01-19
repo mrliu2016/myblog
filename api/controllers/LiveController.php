@@ -2,6 +2,7 @@
 
 namespace app\api\controllers;
 
+use app\common\components\CdnUtils;
 use app\common\models\Follow;
 use app\common\models\User;
 use app\common\models\Video;
@@ -38,6 +39,9 @@ class LiveController extends BaseController
         );
     }
 
+    /**
+     * 开始直播
+     */
     public function actionStartLive()
     {
         $params = Yii::$app->request->post();
@@ -45,7 +49,14 @@ class LiveController extends BaseController
         if (!$result) {
             $this->jsonReturnError(Constants::CODE_FAILED, '开播失败');
         }
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '开播成功', ['liveId' => $result]);
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '开播成功',
+            [
+                'liveId' => $result,
+                'pushRtmp' => CdnUtils::getPushUrl($params['userId'])
+            ]
+        );
     }
 
     /**
