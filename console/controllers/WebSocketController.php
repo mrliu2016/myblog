@@ -24,10 +24,11 @@ class WebSocketController extends Controller
         $server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
 
         $server->on('open', function ($server, $req) {
-            echo "connection open: {$req->fd}\n";
+            ll("{$req->fd} connection open", 'webSocketMessage.log');
         });
         $server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
+                ll("{$frame->fd} message:".$frame->data, 'webSocketMessage.log');
                 $message = json_decode($frame->data, true);
                 switch ($message['messageType']) {
                     case Constants::MESSAGE_TYPE_BARRAGE_REQ://弹幕
@@ -67,10 +68,10 @@ class WebSocketController extends Controller
                         $server->push($frame->fd, json_encode(["message not match", $frame->fd]));
                 }
             }
-            ll($frame->data, 'webSocketMessage.log');
         });
         $server->on('close', function ($server, $fd) {
-            echo "connection close: {$fd}\n";
+            ll("{$fd} connection close", 'webSocketMessage.log');
+            LiveService::fdClose($server, $fd);
         });
         $server->start();
     }
