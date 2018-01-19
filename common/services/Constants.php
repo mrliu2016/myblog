@@ -109,8 +109,8 @@ class Constants
      * 拉、推流鉴权
      */
     const AUTHORITY_APP_ID = '';
-    const AUTHORITY_KEY = 'wushuanglive';
-    const AUTHORITY_KEY_BAK = 'wushuang';
+    const AUTHORITY_KEY = '3ttechlive';
+    const AUTHORITY_KEY_BAK = '3ttechlive';
 
     const CDN_FACTORY_QCLOUD = 'qCloud';//腾讯云cdn
     const CDN_FACTORY_ALIYUN = 'aLiYun';//阿里云cdn
