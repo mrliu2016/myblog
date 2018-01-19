@@ -38,7 +38,8 @@ class LiveService
         }
         $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
         $message = strtr($message, $keyWords);
-
+        //fly 1 弹幕 0 普通的左下角
+        $fly = isset($param["fly"]) ? (int)$param["fly"] : 1;
         $respondMessage = [
             'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
             'code' => Constants::CODE_SUCCESS,
@@ -48,6 +49,7 @@ class LiveService
                 'userId' => $userId,
                 'nickName' => $nickName,
                 'avatar' => $avatar,
+                'fly' => $fly,
             ]
         ];
         //广播房间全体成员

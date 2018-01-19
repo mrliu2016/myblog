@@ -18,15 +18,19 @@ class User extends ActiveRecord
     {
         if ($isObject) {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description')
+                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description,isValid,idCard,realName')
                 ->where(['id' => $id])->one();
         } else {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description')
+                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description,isValid,idCard,realName')
                 ->where(['id' => $id])
                 ->asArray()
                 ->one();
         }
+    }
+
+    public static function queryByPhone($mobile){
+         return static::find()->andWhere(['mobile'=>$mobile])->asArray()->one();
     }
 
     /**
@@ -94,7 +98,7 @@ class User extends ActiveRecord
      */
     public static function weiXin($params)
     {
-        $querySql = 'select id,id as roomId,nickName,userName,avatar,mobile,level from '
+        $querySql = 'select id,id as roomId,nickName,userName,avatar,mobile,balance,level from '
             . static::tableName()
             . ' where wxOpenId = \'' . $params['openId'] . '\'';
         $result = static::queryBySQLCondition($querySql);

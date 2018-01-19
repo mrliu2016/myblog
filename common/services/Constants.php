@@ -57,6 +57,12 @@ class Constants
     const LOGIN_TYPE_QQ = 'QQ';
     const LOGIN_TYPE_WEI_BO = 'WEI_BO';
 
+
+    //统一登录相关
+    const COOKIE_UNIFIED_LOGIN = 'unifiedLoginTicket';
+    const COOKIE_DOMAIN = '.3ttech.cn';
+    const COOKIE_EXPIRE = 604800;
+
     // 分
     const CENT = 100;
 
