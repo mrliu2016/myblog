@@ -18,7 +18,6 @@ class User extends ActiveRecord
     {
         if ($isObject) {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description,isValid,idCard,realName')
                 ->where(['id' => $id])->one();
         } else {
             return static::find()
