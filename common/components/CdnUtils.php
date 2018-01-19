@@ -73,9 +73,9 @@ class CdnUtils
      */
     public static function aliWapPullStream($roomId)
     {
-        $pullUrl = 'http://ali.push.cdn.3ttechlive.3ttech.cn/live/' . $roomId . '.m3u8?';
+        $pullUrl = 'http://ali.push.cdn.3ttechlive.3ttech.cn/3ttechlive/' . $roomId . '.m3u8?';
         $timeSp = time();
-        $signStr = "/live/" . $roomId . ".m3u8-" . $timeSp . "-0-0-" . Constants::AUTHORITY_KEY;
+        $signStr = "/3ttechlive/" . $roomId . ".m3u8-" . $timeSp . "-0-0-" . Constants::AUTHORITY_KEY;
         return $pullUrl . "auth_key=" . $timeSp . "-0-0-" . md5($signStr);
     }
 
@@ -88,8 +88,8 @@ class CdnUtils
     public static function aliAppPushRtmpStream($roomId)
     {
         $timeSp = time();
-        $hashAuthority = '/live/' . $roomId . '-' . $timeSp . '-0-0-' . Constants::AUTHORITY_KEY;
-        $pushUrl = "rtmp://video-center-bj.alivecdn.com/live/" . $roomId . "?vhost=ali.push.cdn.3ttechlive.3ttech.cn";
+        $hashAuthority = '/3ttechlive/' . $roomId . '-' . $timeSp . '-0-0-' . Constants::AUTHORITY_KEY;
+        $pushUrl = "rtmp://video-center-bj.alivecdn.com/3ttechlive/" . $roomId . "?vhost=ali.push.cdn.3ttechlive.3ttech.cn";
         $pushUrl .= '&auth_key=' . $timeSp . '-0-0-' . md5($hashAuthority);
         return $pushUrl;
     }
@@ -103,8 +103,8 @@ class CdnUtils
     public static function aliAppPullRtmpStream($roomId)
     {
         $timeSp = time();
-        $hashAuthority = '/live/' . $roomId . '-' . $timeSp . '-0-0-' . Constants::AUTHORITY_KEY;
-        $pullUrl = "rtmp://ali.push.cdn.3ttechlive.3ttech.cn/live/" . $roomId . "?";
+        $hashAuthority = '/3ttechlive/' . $roomId . '-' . $timeSp . '-0-0-' . Constants::AUTHORITY_KEY;
+        $pullUrl = "rtmp://ali.push.cdn.3ttechlive.3ttech.cn/3ttechlive/" . $roomId . "?";
         $pullUrl .= 'auth_key=' . $timeSp . '-0-0-' . md5($hashAuthority);
         return $pullUrl;
     }
