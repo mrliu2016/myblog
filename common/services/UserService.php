@@ -67,6 +67,7 @@ class UserService
                     $result['list'][$key]['imgSrc'] = $itemValue['imgSrc'];
                     $result['list'][$key]['title'] = $itemValue['remark'];
                     $result['list'][$key]['isLive'] = $itemValue['isLive'];
+                    $result['list'][$key]['startTime'] = $itemValue['startTime'];
                     $result['list'][$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
                     $flag = false;
                 }

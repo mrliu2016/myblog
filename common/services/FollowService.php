@@ -43,10 +43,9 @@ class FollowService
         }
         $page = isset($params['page']) ? (int)$params['page'] : 1;
         $size = isset($params['pageSize']) ? (int)$params['pageSize'] : self::PAGE_SIZE;
-        $params['defaultPageSize'] = $size;
         $list = [];
         $liveLIst = [];
-        $result = Follow::queryInfo($params);
+        $result = Follow::getUserFollowLive($params['userId'],$page,$size);
         $userId = '';
         foreach ($result as $key => $value) {
             $userId .= $value['userIdFollow'] . ',';
@@ -57,7 +56,7 @@ class FollowService
             $item["nickName"] = $user['nickName'];
             $item["level"] = (int)$user['level'];
             $item["description"] = $user['description'];
-            $item["updated"] = date('Y-m-d H:i:s', $value['updated']);
+            $item["updated"] = $value['updated'];
             $list[] = $item;
         }
         if (!empty($userId)) {
@@ -69,10 +68,11 @@ class FollowService
         foreach ($list as $key => $value){
             $flag = true;
             foreach ($liveLIst as $itemKey => $itemValue){
-                if ($value['userIdFollow'] == $itemValue['userId']){
+                if ($value['userId'] == $itemValue['userId']){
                     $list[$key]['imgSrc'] = $itemValue['imgSrc'];
                     $list[$key]['title'] = $itemValue['remark'];
                     $list[$key]['isLive'] = $itemValue['isLive'];
+                    $list[$key]['startTime'] = $itemValue['startTime'];
                     $list[$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
                     $flag = false;
                 }
