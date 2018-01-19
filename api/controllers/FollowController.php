@@ -36,7 +36,11 @@ class FollowController extends BaseController
 
     }
 
-    //关注列表
+    /**
+     * 关注列表
+     *
+     * @throws \yii\db\Exception
+     */
     public function actionList()
     {
         $params = Yii::$app->request->get();

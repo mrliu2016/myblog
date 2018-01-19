@@ -168,10 +168,8 @@ class Video extends ActiveRecord
         $find = self::buildParams($find, $params);
         $result = $find->select('id,userId,roomId,isLive,updated')->orderBy('startTime desc')->all();
         $time = time();
-        ll($result, __FUNCTION__ . '.log');
         foreach ($result as $key => $value) {
             if (($time - $value->updated) > 20) {
-                ll(3, __FUNCTION__ . '.log');
                 $value->isLive = 0;
                 $value->save();
             }
@@ -213,6 +211,19 @@ class Video extends ActiveRecord
         $sql = 'update ' . User::tableName()
             . ' set balance = balance + ' . intval($balance)
             . ' where id = ' . $userId . ' and balance>0';
+        return static::updateBySqlCondition($sql);
+    }
+
+    /**
+     * 直播结束录制通知
+     * @param $params
+     * @return int
+     * @throws \yii\db\Exception
+     */
+    public static function transcribe($params)
+    {
+        $url = Yii::$app->params['liveUrl'] . '/' . $params['uri'];
+        $sql = 'update ' . static::tableName() . ' set videoSrc = \'' . $url . '\'' . ',isLive = 0 where id = ' . $params['stream'];
         return static::updateBySqlCondition($sql);
     }
 
