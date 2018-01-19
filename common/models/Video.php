@@ -215,6 +215,19 @@ class Video extends ActiveRecord
     }
 
     /**
+     * 直播结束录制通知
+     * @param $params
+     * @return int
+     * @throws \yii\db\Exception
+     */
+    public static function transcribe($params)
+    {
+        $url = Yii::$app->params['liveUrl'] . '/' . $params['uri'];
+        $sql = 'update ' . static::tableName() . ' set videoSrc = \'' . $url . '\'' . ',isLive = 0 where id = ' . $params['stream'];
+        return static::updateBySqlCondition($sql);
+    }
+
+    /**
      * @param string $sql
      * @return int
      * @throws \yii\db\Exception
