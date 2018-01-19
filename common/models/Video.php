@@ -224,6 +224,7 @@ class Video extends ActiveRecord
     {
         $url = Yii::$app->params['liveUrl'] . '/' . $params['uri'];
         $sql = 'update ' . static::tableName() . ' set videoSrc = \'' . $url . '\'' . ',isLive = 0 where id = ' . $params['stream'];
+        ll($sql,__FUNCTION__.'.log');
         return static::updateBySqlCondition($sql);
     }
 
