@@ -158,6 +158,24 @@ class Video extends ActiveRecord
     }
 
     /**
+     * 监控直播无心跳，更改直播状态
+     */
+    public static function monitorLive()
+    {
+        $find = static::find();
+        $params['isLive'] = 1;
+        $find = self::buildParams($find, $params);
+        $result = $find->select('id,userId,roomId,isLive,updated')->orderBy('startTime desc')->all();
+        $time = time();
+        foreach ($result as $key => $value) {
+            if (($time - $value->updated) > 20){
+                $value->isLive = 0;
+                $value->save();
+            }
+        }
+    }
+
+    /**
      * @param $liveId
      * @param $userId
      * @return int

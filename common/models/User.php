@@ -87,7 +87,7 @@ class User extends ActiveRecord
                 return static::weiBo($params);
                 break;
             default:
-                return ['code' => Constants::CODE_FAILED, 'message' => '登陆失败!'];
+                return [];
                 break;
         }
     }
