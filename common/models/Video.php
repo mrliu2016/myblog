@@ -217,8 +217,10 @@ class Video extends ActiveRecord
      */
     public static function terminationLive($liveId, $userId)
     {
+        ll($liveId,__FUNCTION__.'.log');
         $sql = 'update ' . static::tableName()
             . ' set isLive = 0,endTime=' . time() . ',updated=' . time() . ' where id = ' . $liveId;
+        ll($sql,__FUNCTION__.'.log');
         return static::updateBySqlCondition($sql);
     }
 
