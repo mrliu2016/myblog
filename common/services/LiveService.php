@@ -185,7 +185,9 @@ class LiveService
                 $wsIp = self::getWsIp($roomId);
                 $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $roomId;
                 $viewerNum = $redis->hLen($keyWSRoomUser);
-                $video->viewerNum = $viewerNum;
+                if ($viewerNum > $video->viewerNum){
+                    $video->viewerNum = $viewerNum;
+                }
                 //更新直播结束时间
                 Video::updateEndTime($video);
             }

@@ -65,7 +65,8 @@ class LiveController extends BaseController
     public function actionTerminationLive()
     {
         $params = Yii::$app->request->post();
-        $result = Video::terminationLive(intval($params['liveId']), $params['userId']);
+        Video::terminationLive(intval($params['liveId']), $params['userId']);
+        $result = Video::findLastRecord($params['userId'], $params['userId']);
         $userInfo = User::queryById($params['userId']);
         $this->jsonReturnSuccess(
             Constants::CODE_SUCCESS,
@@ -74,7 +75,7 @@ class LiveController extends BaseController
                 'isAttention' => intval(Follow::isAttention($params['userId'], $params['observerUserId']) ? 1 : 0),
                 'avatar' => $userInfo['avatar'],
                 'nickName' => $userInfo['nickName'],
-                'count' => LiveService::roomMemberNum($params['userId'])
+                'count' => $result->viewerNum
             ]
         );
     }
