@@ -97,7 +97,6 @@ class LiveService
             $balance = $user['balance'];
         }
         $priceReal = $price * $num * Constants::CENT;
-        ll($priceReal,__FUNCTION__.'.log');
         $balance = $balance - $priceReal;
         ll($balance,__FUNCTION__.'.log');
         if ($balance < 0) {
