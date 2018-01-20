@@ -53,22 +53,24 @@ class Follow extends ActiveRecord
     {
         $model = static::find()
             ->andWhere(['userId' => $observerUserId])
-            ->andWhere(['userIdFollow' => $userId])->asArray()->one();
+            ->andWhere(['userIdFollow' => $userId])
+            ->andWhere(['status' => 1])
+            ->asArray()->one();
         return $model ? true : false;
     }
 
     public static function attention($userId, $userIdFollow)
     {
         $model = static::find()->where(['userId' => $userId, 'userIdFollow' => $userIdFollow])->one();
-//        $model = static::find()->where(['userId' => $userId, 'userIdFollow' => $userIdFollow, 'status' => 1])->one();
         if(empty($model)){
             $model = new self();
-            $model->userId = $userId;
-            $model->userIdFollow = $userIdFollow;
-            $model->created = time();
-            $model->updated = time();
-            $model->save();
         }
+        $model->userId = $userId;
+        $model->userIdFollow = $userIdFollow;
+        $model->status = 1;
+        $model->created = time();
+        $model->updated = time();
+        $model->save();
     }
 
     public static function updateChannelAttention($userId, $userIdFollow)
