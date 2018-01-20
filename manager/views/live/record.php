@@ -35,7 +35,6 @@ $this->title = '直播回放';
                 <tr>
                     <th class="col-md-1">id</th>
                     <th class="col-md-1">用户</th>
-                    <th class="col-md-1">房间Id</th>
                     <th class="col-md-1">时间</th>
                     <th class="col-md-1">视频</th>
                     <th class="col-md-1">操作</th>
@@ -51,12 +50,8 @@ $this->title = '直播回放';
                             <?= $item['userId'] ?>
                         </td>
                         <td>
-                            <?= $item['roomId'] ?>
-                        </td>
-
-                        <td>
-                            <?= date('Y-m-d H:i:s', $item['startTime']) ?>
-                            <?= date('Y-m-d H:i:s', $item['endTime']) ?>
+                            开始:<?= date('Y-m-d H:i:s', $item['startTime']) ?> <br />
+                            结束:<?= date('Y-m-d H:i:s', $item['endTime']) ?>
                         </td>
                         <td>
                             <a href="<?= $item['videoSrc'] ?>"><img src="<?= $item['imgSrc'] ?>" width="120" height="65"></a>
