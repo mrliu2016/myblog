@@ -35,9 +35,9 @@ $this->title = '鉴黄';
                 <tr>
                     <th class="col-md-1">id</th>
                     <th class="col-md-1">用户</th>
-                    <th class="col-md-1">房间Id</th>
                     <th class="col-md-1">时间</th>
-                    <th class="col-md-1">黄图</th>
+                    <th class="col-md-1">图片</th>
+                    <th class="col-md-1">图片信息</th>
                     <th class="col-md-1">直播状态</th>
                 </tr>
                 </thead>
@@ -51,20 +51,22 @@ $this->title = '鉴黄';
                             <?= $item['userId'] ?>
                         </td>
                         <td>
-                            <?= $item['roomId'] ?>
-                        </td>
-
-                        <td>
-                            <?= date('Y-m-d H:i:s', $item['startTime']) ?>
-                            <?= date('Y-m-d H:i:s', $item['endTime']) ?>
+                            开始: <?= date('Y-m-d H:i:s', $item['startTime']) ?> <br/>
+                            结束:<?= date('Y-m-d H:i:s', $item['endTime']) ?>
                         </td>
                         <td>
-                            <img src="<?= $item['yellowurl']?>" width="150" height="85"></a>
+                            <img src="<?= $item['yellowurl'] ?>" width="150" height="85"></a>
                         </td>
                         <td>
-                            <?php if($item['isLive'] == 1){
+                            标签:性感<br/>
+                            场景:色情<br/>
+                            率:<?= $item['information']['Rate'] ?><br/>
+                            建议:审查
+                        </td>
+                        <td>
+                            <?php if ($item['isLive'] == 1) {
                                 echo "直播";
-                            } else if($item['isLive'] == 0){
+                            } else if ($item['isLive'] == 0) {
                                 echo "结束";
                             } ?>
                         </td>

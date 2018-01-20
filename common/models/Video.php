@@ -50,14 +50,21 @@ class Video extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->select("id,userId,roomId,startTime,endTime,identifyYellow,isLive")->asArray()
+        $result = $find->select("id,userId,startTime,endTime,identifyYellow,isLive")->asArray()
             ->orderBy('created desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])
             ->all();
-        foreach ($result as $k=>$value){
-            $yellow = json_decode($value['identifyYellow'],true);
-            $result[$k]['yellowurl'] = "http://".$yellow['OssBucket'].".".$yellow['OssEndpoint']."/".$yellow['OssObject'];
+        foreach ($result as $k => $value) {
+            $yellow = json_decode($value['identifyYellow'], true);
+            $result[$k]['yellowurl'] = "http://" . $yellow['OssBucket'] . "." . $yellow['OssEndpoint'] . "/" . $yellow['OssObject'];
+            $result[$k]['information'] = array(
+                'Label' => $yellow['Result'][0]['Result'][0]['Label'],
+                'Rate' => $yellow['Result'][0]['Result'][0]['Rate'],
+                'Scene' => $yellow['Result'][0]['Result'][0]['Scene'],
+                'Suggestion' => $yellow['Result'][0]['Result'][0]['Suggestion']
+            );
+            unset($result[$k]['identifyYellow']);
         }
         return $result;
     }

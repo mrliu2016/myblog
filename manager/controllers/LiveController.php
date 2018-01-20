@@ -63,7 +63,6 @@ class LiveController extends BaseController
     public function actionYellow(){
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;;
-        print_r($params);
         $result = Video::JianYellow($params);
         $count = Video::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;

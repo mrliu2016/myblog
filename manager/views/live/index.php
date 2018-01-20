@@ -54,8 +54,8 @@ $this->title = '直播管理';
                             <img src="<?= $item['imgSrc'] ?>" width="120" height="65">
                         </td>
                         <td>
-                            <?= date('Y-m-d H:i:s', $item['startTime']) ?>
-                            <?= date('Y-m-d H:i:s', $item['endTime']) ?>
+                             开始:<?= date('Y-m-d H:i:s', $item['startTime']) ?> <br />
+                            结束: <?= date('Y-m-d H:i:s', $item['endTime']) ?>
                         </td>
                         <td>
                             <?php if($item['isLive'] == 1){
