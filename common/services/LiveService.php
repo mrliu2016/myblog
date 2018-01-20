@@ -454,8 +454,7 @@ class LiveService
                     'userId' => $params['userId'],
                     'avatar' => $params['avatar'],
                     'nickName' => $params['nickName'],
-                    'level' => $params['level'],
-                    'count' => LiveService::roomMemberNum($params['roomId'])
+                    'level' => $params['level']
                 ],
             ];
             $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
@@ -463,6 +462,7 @@ class LiveService
             self::leave($frame->fd, $params['roomId']);
             self::clearLMList($params);
             $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
+            $messageAll['data']['count'] = LiveService::roomMemberNum($params['roomId']);
             foreach ($fdList as $fd) {
                 try {
                     $server->push($fd, json_encode($messageAll));
