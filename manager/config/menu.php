@@ -16,6 +16,7 @@ return [
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '直播管理', 'href' => '/live/index?type=1'],
             ['permissionId' => '/application/index', 'name' => '直播回放', 'href' => '/live/record?type=2'],
+            ['permissionId' => '/application/index', 'name' => '鉴黄', 'href' => '/live/yellow?type=3'],
         ],
     ],
     [

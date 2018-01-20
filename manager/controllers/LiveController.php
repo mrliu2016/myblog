@@ -30,7 +30,6 @@ class LiveController extends BaseController
         return $pagination;
     }
 
-
     public function actionIndex()
     {
         $params = Yii::$app->request->getQueryParams();
@@ -54,6 +53,21 @@ class LiveController extends BaseController
         $count = Video::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('record', [
+            'itemList' => $result,
+            'pagination' => self::pagination($pageNo, $count),
+            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count
+        ]);
+    }
+
+    public function actionYellow(){
+        $params = Yii::$app->request->getQueryParams();
+        $params['defaultPageSize'] = self::PAGE_SIZE;;
+        print_r($params);
+        $result = Video::JianYellow($params);
+        $count = Video::queryInfoNum($params);
+        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        return $this->render('yellow',[
             'itemList' => $result,
             'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),

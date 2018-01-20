@@ -1,13 +1,13 @@
 <?php
 use yii\widgets\LinkPager;
 
-$this->title = '直播回放';
+$this->title = '鉴黄';
 ?>
 
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <form method="get" action="/live/record" class="form-horizontal" id="searchForm"
+            <form method="get" action="/live/yellow" class="form-horizontal" id="searchForm"
                   name="searchForm">
                 <fieldset style="height: 20px">
                     <div class="form-group">
@@ -16,8 +16,8 @@ $this->title = '直播回放';
                                     name="searchBtn">查询
                             </button>
                             <div class="col-md-2">
-                                <input type="hidden" name="type" value="1"/>
-                                <input type="text" style="width: 120px" id="content" name="userId"
+                                <input type="hidden" name="type" value="3"/>
+                                <input type="text" placeholder="用户id" style="width: 120px" id="content" name="userId"
                                        class="form-control datepicker-pop"
                                     <?php if (!empty($params['userId'])): ?>
                                         value="<?= $params['userId'] ?>"
@@ -37,8 +37,8 @@ $this->title = '直播回放';
                     <th class="col-md-1">用户</th>
                     <th class="col-md-1">房间Id</th>
                     <th class="col-md-1">时间</th>
-                    <th class="col-md-1">视频</th>
-                    <th class="col-md-1">操作</th>
+                    <th class="col-md-1">黄图</th>
+                    <th class="col-md-1">直播状态</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -59,9 +59,14 @@ $this->title = '直播回放';
                             <?= date('Y-m-d H:i:s', $item['endTime']) ?>
                         </td>
                         <td>
-                            <a href="<?= $item['videoSrc'] ?>"><img src="<?= $item['imgSrc'] ?>" width="120" height="65"></a>
+                            <img src="<?= $item['yellowurl']?>" width="150" height="85"></a>
                         </td>
                         <td>
+                            <?php if($item['isLive'] == 1){
+                                echo "直播";
+                            } else if($item['isLive'] == 0){
+                                echo "结束";
+                            } ?>
                         </td>
                     </tr>
                 <?php endforeach; ?>
