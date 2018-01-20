@@ -42,6 +42,7 @@ class User extends ActiveRecord
     public static function profile($userId, $observerUserId)
     {
         $userInfo = static::queryById($userId);
+        $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] / Constants::CENT : 0;
         $userInfo['followees_cnt'] = intval(Follow::queryInfoNum(['userId' => $userId])); // 我的关注
         $userInfo['followers_cnt'] = intval(Follow::queryInfoNum(['userIdFollow' => $userId])); // 关注我的
         $userInfo['balance'] = intval($userInfo['balance']);
