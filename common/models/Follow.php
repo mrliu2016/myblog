@@ -67,6 +67,7 @@ class Follow extends ActiveRecord
             $model = new self();
             $model->userId = $userId;
             $model->userIdFollow = $userIdFollow;
+            $model->status = 1;
             $model->created = time();
             $model->updated = time();
             $model->save();
