@@ -108,6 +108,7 @@ class LiveService
         }
         //更新余额
         $redis->hset('WSUserBalance', $userId, $balance);
+        $balance = $redis->hget('WSUserBalance', $userId);
         //购买礼物队列
         $order = array(
             'giftId' => $giftId,
@@ -128,7 +129,7 @@ class LiveService
             'giftId' => $giftId,
             'price' => $price,
             'num' => $num,
-            'balance' => $balance,
+            'balance' => !empty($balance) ? $balance / Constants::CENT : 0,
         );
         $respondMessage['data'] = $data;
         $server->push($frame->fd, json_encode($respondMessage));
