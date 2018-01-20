@@ -70,7 +70,7 @@ class LiveService
     {
         $param = $message['data'];
         if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"]) || empty($param["price"])
-            || empty($param["num"]) || empty($param["nickName"]) || empty($param["avatar"]) || empty($param["level"])
+            || empty($param["num"]) || empty($param["nickName"]) || empty($param["level"])
         ) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
@@ -407,9 +407,6 @@ class LiveService
             $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
-
-        $keyWSRoom = Constants::WS_ROOM_USER_COUNT . $roomId;
-        $redis->incr($keyWSRoom);
     }
 
     //房间fd列表
@@ -433,9 +430,9 @@ class LiveService
     //房间成员数量
     public static function roomMemberNum($roomId)
     {
-        $keyWSRoom = Constants::WS_ROOM_USER_COUNT . $roomId;
-        $redis = RedisClient::getInstance();
-        $num = $redis->get($keyWSRoom);
+        $wsIp = self::getWsIp($roomId);
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $roomId;
+        $num = RedisClient::getInstance()->hLen($keyWSRoomUser);
         return intval($num);
     }
 
@@ -454,8 +451,7 @@ class LiveService
                     'userId' => $params['userId'],
                     'avatar' => $params['avatar'],
                     'nickName' => $params['nickName'],
-                    'level' => $params['level'],
-                    'count' => LiveService::roomMemberNum($params['roomId'])
+                    'level' => $params['level']
                 ],
             ];
             $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
@@ -463,6 +459,7 @@ class LiveService
             self::leave($frame->fd, $params['roomId']);
             self::clearLMList($params);
             $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
+            $messageAll['data']['count'] = LiveService::roomMemberNum($params['roomId']);
             foreach ($fdList as $fd) {
                 try {
                     $server->push($fd, json_encode($messageAll));
@@ -493,9 +490,6 @@ class LiveService
                 $redis->hdel($keyWSRoomUser, $userId);
             }
         }
-        //房间人数-1
-        $keyWSRoom = Constants::WS_ROOM_USER_COUNT . $roomId;
-        $redis->decr($keyWSRoom);
     }
 
     //获取用户余额
