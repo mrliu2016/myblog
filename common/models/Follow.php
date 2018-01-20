@@ -59,7 +59,8 @@ class Follow extends ActiveRecord
 
     public static function attention($userId, $userIdFollow)
     {
-        $model = static::find()->where(['userId' => $userId, 'userIdFollow' => $userIdFollow, 'status' => 1])->one();
+        $model = static::find()->where(['userId' => $userId, 'userIdFollow' => $userIdFollow])->one();
+//        $model = static::find()->where(['userId' => $userId, 'userIdFollow' => $userIdFollow, 'status' => 1])->one();
         if(empty($model)){
             $model = new self();
             $model->userId = $userId;
