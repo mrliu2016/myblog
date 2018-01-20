@@ -7,6 +7,7 @@ use app\common\models\Follow;
 use app\common\models\User;
 use app\common\models\Video;
 use app\common\services\Constants;
+use app\common\services\LiveService;
 use Yii;
 
 class LiveController extends BaseController
@@ -72,7 +73,8 @@ class LiveController extends BaseController
             [
                 'isAttention' => intval(Follow::isAttention($params['userId'], $params['observerUserId']) ? 1 : 0),
                 'avatar' => $userInfo['avatar'],
-                'nickName' => $userInfo['nickName']
+                'nickName' => $userInfo['nickName'],
+                'count' => LiveService::roomMemberNum($params['userId'])
             ]
         );
     }

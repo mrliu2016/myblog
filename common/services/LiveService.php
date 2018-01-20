@@ -98,7 +98,7 @@ class LiveService
         }
         $priceReal = $price * $num * Constants::CENT;
         $balance = $balance - $priceReal;
-        ll($balance,__FUNCTION__.'.log');
+        ll($balance, __FUNCTION__ . '.log');
         if ($balance < 0) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
@@ -457,10 +457,15 @@ class LiveService
             ];
             $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
             //处理用户离开房间数据
+            if ($params['isMaster']) {
+                $count = LiveService::roomMemberNum($params['roomId']);
+            } else {
+                $count = LiveService::roomMemberNum($params['roomId']) - 1;
+            }
             self::leave($frame->fd, $params['roomId']);
             self::clearLMList($params);
             $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
-            $messageAll['data']['count'] = LiveService::roomMemberNum($params['roomId']);
+            $messageAll['data']['count'] = $count;
             foreach ($fdList as $fd) {
                 try {
                     $server->push($fd, json_encode($messageAll));
