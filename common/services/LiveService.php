@@ -96,7 +96,7 @@ class LiveService
             $user = User::queryById($userId);
             $balance = $user['balance'];
         }
-        $priceReal = $price * $num;
+        $priceReal = $price * $num * Constants::CENT;
         $balance = $balance - $priceReal;
         if ($balance < 0) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
