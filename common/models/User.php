@@ -176,7 +176,8 @@ class User extends ActiveRecord
             'mobile' => !empty($result[Constants::CODE_SUCCESS]['mobile']) ? $result[Constants::CODE_SUCCESS]['mobile'] : '',
             'level' => !empty($result[Constants::CODE_SUCCESS]['level']) ? intval($result[Constants::CODE_SUCCESS]['level']) : Constants::CODE_SUCCESS,
             'token' => Token::generateToken($result[Constants::CODE_SUCCESS]['id']),
-            'balance' => $result[Constants::CODE_SUCCESS]['balance']
+            'balance' => !empty($result[Constants::CODE_SUCCESS]['balance'])
+                ? $result[Constants::CODE_SUCCESS]['balance'] / Constants::CENT : 0
         ];
     }
 
