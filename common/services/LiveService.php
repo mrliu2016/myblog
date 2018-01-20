@@ -2,6 +2,7 @@
 
 namespace app\common\services;
 
+use app\common\components\IPUtils;
 use app\common\components\RedisClient;
 use app\common\models\Gift;
 use app\common\models\KeyWord;
@@ -38,7 +39,8 @@ class LiveService
         }
         $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
         $message = strtr($message, $keyWords);
-
+        //fly 1 弹幕 0 普通的左下角
+        $fly = isset($param["fly"]) ? (int)$param["fly"] : 1;
         $respondMessage = [
             'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
             'code' => Constants::CODE_SUCCESS,
@@ -48,10 +50,11 @@ class LiveService
                 'userId' => $userId,
                 'nickName' => $nickName,
                 'avatar' => $avatar,
+                'fly' => $fly,
             ]
         ];
         //广播房间全体成员
-        $roomAll = LiveService::fdListByRoomId($roomId);
+        $roomAll = LiveService::fdListByRoomId($server, $roomId);
         foreach ($roomAll as $fd) {
             try {
                 $server->push($fd, json_encode($respondMessage));
@@ -148,7 +151,7 @@ class LiveService
             'num' => $num,
         );
         $respondMessage['data'] = $data;
-        $roomAll = LiveService::fdListByRoomId($roomId);
+        $roomAll = LiveService::fdListByRoomId($server, $roomId);
         foreach ($roomAll as $fd) {
             try {
                 $server->push($fd, json_encode($respondMessage));
@@ -177,6 +180,11 @@ class LiveService
                 //直播开始
 //                Video::create($userId, $roomId);
             } else {
+                //更新观众人数
+                $wsIp = self::getWsIp($roomId);
+                $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $roomId;
+                $viewerNum = $redis->hLen($keyWSRoomUser);
+                $video->viewerNum = $viewerNum;
                 //更新直播结束时间
                 Video::updateEndTime($video);
             }
@@ -256,7 +264,7 @@ class LiveService
                 'userList' => array_values(LiveService::getUserInfoListByRoomId($params['roomId']))
             ],
         ];
-        $fdList = LiveService::fdListByRoomId($params['roomId']);
+        $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
         foreach ($fdList as $fd) {
             try {
                 $server->push($fd, json_encode($messageAll));
@@ -405,13 +413,20 @@ class LiveService
     }
 
     //房间fd列表
-    public static function fdListByRoomId($roomId)
+    public static function fdListByRoomId($server, $roomId)
     {
         $ip = self::getWsIp($roomId);
         $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $roomId;
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomFD);
         if (empty($result)) return [];
+        foreach ($result as $fd => $userId) {
+            if (!$server->exist($fd)) {
+                //fd连接不存在或尚未完成握手，返回false
+                self::fdClose(null, $fd);
+                unset($result[$fd]);
+            }
+        }
         return array_keys($result);
     }
 
@@ -443,7 +458,7 @@ class LiveService
                     'count' => LiveService::roomMemberNum($params['roomId'])
                 ],
             ];
-            $fdList = LiveService::fdListByRoomId($params['roomId']);
+            $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
             //处理用户离开房间数据
             self::leave($frame->fd, $params['roomId']);
             self::clearLMList($params);
@@ -553,7 +568,7 @@ class LiveService
                         'expiry' => $params['expiry'],
                     ],
                 ];
-                $fdList = LiveService::fdListByRoomId($params['roomId']);
+                $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
                 foreach ($fdList as $fd) {
                     try {
                         $server->push($fd, json_encode($messageAll));
@@ -756,5 +771,45 @@ class LiveService
         } else {
             $redis->hdel($keyWSRoomUserLMList, $params['userId']);
         }
+    }
+
+    /**
+     * socket 异常断开
+     * @param $server
+     * @param $frame
+     */
+    public static function fdClose($server, $fd)
+    {
+        $responseMessage = [
+            'messageType' => "close",
+        ];
+        $local_ip = IPUtils::get_local_ip();
+        $redis = RedisClient::getInstance();
+        //服务器fd映射关系，异常退出用
+        $keyWSRoomLocation = Constants::WS_ROOM_LOCATION . $local_ip;
+        $info = $redis->hget($keyWSRoomLocation, $fd);
+        if (!empty($info)) {
+            $info = explode("_", $info);
+            $roomId = $info[0];
+            $userId = $info[1];
+            $roleId = $info[2];
+            // 房间用户信息
+            $keyWSRoomUser = Constants::WS_ROOM_USER . $local_ip . '_' . $roomId;
+            $redis->hdel($keyWSRoomUser, $userId);
+            //房间的fd列表
+            $keyWSRoomFD = Constants::WS_ROOM_FD . $local_ip . '_' . $roomId;
+            $redis->hdel($keyWSRoomFD, $fd);
+            //删除fd数据
+            $redis->hdel($keyWSRoomLocation, $fd);
+
+            $responseMessage['data'] = [
+                'data' => [
+                    'roomId' => $roomId,
+                    'userId' => $userId,
+                    'roleId' => $roleId
+                ]
+            ];
+        }
+        ll(var_export(array_merge($responseMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
     }
 }

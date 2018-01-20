@@ -3,6 +3,7 @@
 namespace app\common\services;
 
 
+use app\common\components\CdnUtils;
 use app\common\models\User;
 use app\common\models\Video;
 
@@ -21,7 +22,13 @@ class UserService
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => []];
     }
 
-    //附近的人
+    /**
+     * 附近的人
+     *
+     * @param $params
+     * @return array
+     * @throws \yii\db\Exception
+     */
     public static function nearby($params)
     {
         if (!isset($params['userId']) || !isset($params['longitude']) || !isset($params['latitude'])) {
@@ -55,18 +62,21 @@ class UserService
         }
         foreach ($result['list'] as $key => $value) {
             $flag = true;
-            foreach ($liveLIst as $itemKey => $itemValue){
-                if ($value['userId'] == $itemValue['userId']){
+            foreach ($liveLIst as $itemKey => $itemValue) {
+                if ($value['userId'] == $itemValue['userId']) {
                     $result['list'][$key]['imgSrc'] = $itemValue['imgSrc'];
                     $result['list'][$key]['title'] = $itemValue['remark'];
                     $result['list'][$key]['isLive'] = $itemValue['isLive'];
+                    $result['list'][$key]['startTime'] = $itemValue['startTime'];
+                    $result['list'][$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
                     $flag = false;
                 }
             }
-            if ($flag){
+            if ($flag) {
                 $result['list'][$key]['imgSrc'] = '';
                 $result['list'][$key]['title'] = '';
                 $result['list'][$key]['isLive'] = 0;
+                $result['list'][$key]['pullRtmp'] = '';
             }
         }
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $result];

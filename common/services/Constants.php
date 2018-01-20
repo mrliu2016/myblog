@@ -104,4 +104,15 @@ class Constants
     const WS_MESSAGE_TYPE_CLOSE = 1;  //ws 强制关闭
     const WS_KEY_WARNING = 'WSWarning';
     const WS_KEY_CLOSE = 'WSClose';
+
+    /**
+     * 拉、推流鉴权
+     */
+    const AUTHORITY_APP_ID = '';
+    const AUTHORITY_KEY = '3ttechlive';
+    const AUTHORITY_KEY_BAK = '3ttechlive';
+
+    const CDN_FACTORY_QCLOUD = 'qCloud';//腾讯云cdn
+    const CDN_FACTORY_ALIYUN = 'aLiYun';//阿里云cdn
+    const CDN_FACTORY_XYCDN = 'xyCDN';//星域cdn
 }

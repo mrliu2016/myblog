@@ -2,6 +2,7 @@
 
 namespace app\common\models;
 
+use app\common\components\CdnUtils;
 use yii\db\ActiveRecord;
 use Yii;
 
@@ -50,7 +51,7 @@ class Video extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive')
+        $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive,viewerNum')
             ->asArray()
             ->orderBy('startTime desc')
             ->offset($offset)
@@ -65,6 +66,7 @@ class Video extends ActiveRecord
             $userInfo = static::queryBySQLCondition($sql);
         }
         foreach ($result as $key => $value) {
+            $result[$key]['pullRtmp'] = CdnUtils::getPullUrl($value['id']);
             $result[$key]['startTime'] = date('Y.m.d H:i', $value['startTime']);
             $flag = true;
             foreach ($userInfo as $userKey => $userValue) {
@@ -138,6 +140,7 @@ class Video extends ActiveRecord
     //心跳更新直播结束时间
     public static function updateEndTime($video)
     {
+        $video->isLive = 1;
         $video->endTime = time();
         $video->updated = time();
         $video->save();
@@ -152,6 +155,24 @@ class Video extends ActiveRecord
             $video->imgSrc = $imgSrc;
             $video->updated = time();
             $video->save();
+        }
+    }
+
+    /**
+     * 监控直播无心跳，更改直播状态
+     */
+    public static function monitorLive()
+    {
+        $find = static::find();
+        $params['isLive'] = 1;
+        $find = self::buildParams($find, $params);
+        $result = $find->select('id,userId,roomId,isLive,updated')->orderBy('startTime desc')->all();
+        $time = time();
+        foreach ($result as $key => $value) {
+            if (($time - $value->updated) > 20) {
+                $value->isLive = 0;
+                $value->save();
+            }
         }
     }
 
@@ -194,6 +215,20 @@ class Video extends ActiveRecord
     }
 
     /**
+     * 直播结束录制通知
+     * @param $params
+     * @return int
+     * @throws \yii\db\Exception
+     */
+    public static function transcribe($params)
+    {
+        $url = Yii::$app->params['liveUrl'] . '/' . $params['uri'];
+        $sql = 'update ' . static::tableName() . ' set videoSrc = \'' . $url . '\'' . ',isLive = 0 where id = ' . $params['stream'];
+        ll($sql,__FUNCTION__.'.log');
+        return static::updateBySqlCondition($sql);
+    }
+
+    /**
      * @param string $sql
      * @return int
      * @throws \yii\db\Exception
@@ -215,5 +250,32 @@ class Video extends ActiveRecord
         $connection = Yii::$app->db;
         $command = $connection->createCommand($sql);
         return $command->queryAll();
+    }
+
+    /**
+     * 图片鉴黄
+     *
+     * @param $params
+     * @return bool
+     */
+    public static function identify($params)
+    {
+        try {
+            if (isset($params['DomainName'])) {
+                static::illegalContent($params, 0);
+            }
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+    private static function illegalContent($params, $type)
+    {
+        $model = static::find()->where(['id' => $params['StreamName']])->one();
+        if (empty($model)){
+            return false;
+        }
+        $model->identifyYellow = json_encode($params);
+        return $model->save();
     }
 }

@@ -18,7 +18,6 @@ class User extends ActiveRecord
     {
         if ($isObject) {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description,isValid,idCard,realName')
                 ->where(['id' => $id])->one();
         } else {
             return static::find()
@@ -29,8 +28,9 @@ class User extends ActiveRecord
         }
     }
 
-    public static function queryByPhone($mobile){
-         return static::find()->andWhere(['mobile'=>$mobile])->asArray()->one();
+    public static function queryByPhone($mobile)
+    {
+        return static::find()->andWhere(['mobile' => $mobile])->asArray()->one();
     }
 
     /**
@@ -87,7 +87,7 @@ class User extends ActiveRecord
                 return static::weiBo($params);
                 break;
             default:
-                return ['code' => Constants::CODE_FAILED, 'message' => '登陆失败!'];
+                return [];
                 break;
         }
     }
@@ -230,7 +230,7 @@ class User extends ActiveRecord
         $cn = \Yii::$app->db;
         $sqlCnt = "select count(id) as cnt";
         $sql = "select id as userId,avatar,nickName,level,description,latitude,longitude";
-        $sqlStr = " from " . self::tableName() . " where id!={$userId} and latitude<>0 and latitude>{$squares['right-bottom']['lat']} and latitude<{$squares['left-top']['lat']} and longitude>{$squares['left-top']['lng']} and longitude<{$squares['right-bottom']['lng']}";
+        $sqlStr = " from " . self::tableName() . " where id!={$userId} and liveTime>" . (time() - 30) . " and latitude<>0 and latitude>{$squares['right-bottom']['lat']} and latitude<{$squares['left-top']['lat']} and longitude>{$squares['left-top']['lng']} and longitude<{$squares['right-bottom']['lng']}";
         $sql .= $sqlStr . ' order by abs(longitude -' . $lng . ')+abs(latitude -' . $lat . ')';
         $sql .= ' limit ' . $offset . ',' . $size . '';
         $list = $cn->createCommand($sql)->queryAll();

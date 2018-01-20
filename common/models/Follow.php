@@ -59,12 +59,15 @@ class Follow extends ActiveRecord
 
     public static function attention($userId, $userIdFollow)
     {
-        $model = new self();
-        $model->userId = $userId;
-        $model->userIdFollow = $userIdFollow;
-        $model->created = time();
-        $model->updated = time();
-        $model->save();
+        $model = static::find()->where(['userId' => $userId, 'userIdFollow' => $userIdFollow, 'status' => 1])->one();
+        if(empty($model)){
+            $model = new self();
+            $model->userId = $userId;
+            $model->userIdFollow = $userIdFollow;
+            $model->created = time();
+            $model->updated = time();
+            $model->save();
+        }
     }
 
     public static function updateChannelAttention($userId, $userIdFollow)
@@ -77,5 +80,15 @@ class Follow extends ActiveRecord
         $model->status = 0;
         $model->updated = time();
         return $model->save();
+    }
+
+    //关注列表-直播
+    public static function getUserFollowLive($userId, $page, $size)
+    {
+        $offset = ($page - 1) * $size;
+        $sql = "select a.* from t_follow a,t_user b where a.userIdFollow=b.id and a.userId=" . $userId . " and b.liveTime>" . (time() - 30) . "";
+        $sql .= ' limit ' . $offset . ',' . $size . '';
+        $result = Video::queryBySQLCondition($sql);
+        return $result;
     }
 }
