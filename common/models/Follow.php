@@ -72,8 +72,7 @@ class Follow extends ActiveRecord
 
     public static function updateChannelAttention($userId, $userIdFollow)
     {
-        $model = static::find()->andWhere(['userId' => $userId])
-            ->andWhere(['userIdFollow' => $userIdFollow])->one();
+        $model = static::find()->where(['userId' => $userId, 'userIdFollow' => $userIdFollow, 'status' => 1])->one();
         if (!$model) {
             return false;
         }
