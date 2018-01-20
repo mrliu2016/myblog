@@ -33,7 +33,7 @@ class Video extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->asArray()
+        $result = $find->andWhere('imgSrc<>""')->asArray()
             ->orderBy('created desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])

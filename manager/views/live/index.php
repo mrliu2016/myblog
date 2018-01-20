@@ -35,7 +35,7 @@ $this->title = '直播管理';
                 <tr>
                     <th class="col-md-1">id</th>
                     <th class="col-md-1">用户</th>
-                    <th class="col-md-1">房间Id</th>
+                    <th class="col-md-1">视频封面</th>
                     <th class="col-md-1">时间</th>
                     <th class="col-md-1">操作</th>
                 </tr>
@@ -50,7 +50,7 @@ $this->title = '直播管理';
                             <?= $item['userId'] ?>
                         </td>
                         <td>
-                            <?= $item['roomId'] ?>
+                            <img src="<?= $item['imgSrc'] ?>" width="120" height="65">
                         </td>
                         <td>
                             <?= date('Y-m-d H:i:s', $item['startTime']) ?>
