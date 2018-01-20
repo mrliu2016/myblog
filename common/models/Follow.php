@@ -75,6 +75,7 @@ class Follow extends ActiveRecord
         $model = static::find()->andWhere(['userId' => $userId])
             ->andWhere(['userIdFollow' => $userIdFollow])->one();
         if (!$model) {
+            ll($userId,__FUNCTION__.'.log');
             return false;
         }
         $model->status = 0;

@@ -18,7 +18,6 @@ class FollowController extends BaseController
     public function actionAttention()
     {
         $params = Yii::$app->request->post();
-        ll($params,__FUNCTION__.'.log');
         $result = FollowService::attention($params);
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
@@ -29,6 +28,7 @@ class FollowController extends BaseController
     public function actionCancelAttention()
     {
         $params = Yii::$app->request->post();
+        ll($params,__FUNCTION__.'.log');
         $result = FollowService::cancelAttention($params);
         if (!$result) {
             $this->jsonReturnError(Constants::CODE_FAILED, '取消关注失败!');
