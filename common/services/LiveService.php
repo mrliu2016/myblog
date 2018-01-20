@@ -110,7 +110,6 @@ class LiveService
         }
         //更新余额
         $redis->hset('WSUserBalance', $userId, $balance);
-        $balance = $redis->hget('WSUserBalance', $userId);
         //购买礼物队列
         $order = array(
             'giftId' => $giftId,

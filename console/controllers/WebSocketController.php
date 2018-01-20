@@ -28,7 +28,7 @@ class WebSocketController extends Controller
         });
         $server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
-                ll("{$frame->fd} message:".$frame->data, 'webSocketMessage.log');
+                ll("{$frame->fd} message:" . $frame->data, 'webSocketMessage.log');
                 $message = json_decode($frame->data, true);
                 switch ($message['messageType']) {
                     case Constants::MESSAGE_TYPE_BARRAGE_REQ://弹幕
@@ -91,7 +91,7 @@ class WebSocketController extends Controller
             if (!empty($user)) {
                 $gift = Gift::queryById($giftId);
                 if (!empty($gift)) {
-                    $priceReal = $gift['price'] * $num;
+                    $priceReal = $gift['price'] * $num * Constants::CENT;
                     //更新余额
                     $stat = User::updateUserBalance($userId, -$priceReal);
                     if ($stat > 0) {

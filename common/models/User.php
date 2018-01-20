@@ -45,7 +45,6 @@ class User extends ActiveRecord
         $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] / Constants::CENT : 0;
         $userInfo['followees_cnt'] = intval(Follow::queryInfoNum(['userId' => $userId])); // 我的关注
         $userInfo['followers_cnt'] = intval(Follow::queryInfoNum(['userIdFollow' => $userId])); // 关注我的
-        $userInfo['balance'] = intval($userInfo['balance']);
         $userInfo['isAttention'] = intval(Follow::isAttention($userId, $observerUserId) ? 1 : 0);
         $userInfo['isLive'] = intval(Video::isLive($userId) ? 1 : 0);
         return $userInfo;
