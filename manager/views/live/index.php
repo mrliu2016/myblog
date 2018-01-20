@@ -37,7 +37,8 @@ $this->title = '直播管理';
                     <th class="col-md-1">用户</th>
                     <th class="col-md-1">视频封面</th>
                     <th class="col-md-1">时间</th>
-                    <th class="col-md-1">操作</th>
+                    <th class="col-md-1">状态</th>
+<!--                    <th class="col-md-1">操作</th>-->
                 </tr>
                 </thead>
                 <tbody>
@@ -57,7 +58,14 @@ $this->title = '直播管理';
                             <?= date('Y-m-d H:i:s', $item['endTime']) ?>
                         </td>
                         <td>
+                            <?php if($item['isLive'] == 1){
+                                 echo "直播";
+                            } else if($item['isLive'] == 0){
+                                echo "结束";
+                            } ?>
                         </td>
+<!--                        <td>-->
+<!--                        </td>-->
                     </tr>
                 <?php endforeach; ?>
                 </tbody>

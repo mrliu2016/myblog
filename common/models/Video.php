@@ -10,6 +10,7 @@ class Video extends ActiveRecord
 {
     const TYPE_LIVE = 1;
     const TYPE_RECORD = 2;
+    const TYPE_YELLOW = 3;
 
     public static function tableName()
     {
@@ -33,13 +34,34 @@ class Video extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->andWhere('imgSrc<>""')->asArray()
+        $result = $find->asArray()
             ->orderBy('created desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])
             ->all();
         return $result;
     }
+
+    public static function JianYellow($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        $result = $find->select("id,userId,roomId,startTime,endTime,identifyYellow,isLive")->asArray()
+            ->orderBy('created desc')
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->all();
+        foreach ($result as $k=>$value){
+            $yellow = json_decode($value['identifyYellow'],true);
+            $result[$k]['yellowurl'] = "http://".$yellow['OssBucket'].".".$yellow['OssEndpoint']."/".$yellow['OssObject'];
+        }
+        return $result;
+    }
+
 
     public static function queryHot($params)
     {
@@ -103,9 +125,13 @@ class Video extends ActiveRecord
         }
         if (!empty($params['type']) && $params['type'] == self::TYPE_LIVE) {
             $find->andWhere('videoSrc=""');
+            $find->andWhere('imgSrc<>""');
         }
         if (!empty($params['type']) && $params['type'] == self::TYPE_RECORD) {
             $find->andWhere('videoSrc<>""');
+        }
+        if (!empty($params['type']) && $params['type'] == self::TYPE_YELLOW) {
+            $find->andWhere('identifyYellow<>""');
         }
         if (!empty($params['userId'])) {
             $find->andWhere(['userId' => $params['userId']]);
@@ -224,7 +250,7 @@ class Video extends ActiveRecord
     {
         $url = Yii::$app->params['liveUrl'] . '/' . $params['uri'];
         $sql = 'update ' . static::tableName() . ' set videoSrc = \'' . $url . '\'' . ',isLive = 0 where id = ' . $params['stream'];
-        ll($sql,__FUNCTION__.'.log');
+        ll($sql, __FUNCTION__ . '.log');
         return static::updateBySqlCondition($sql);
     }
 
@@ -272,7 +298,7 @@ class Video extends ActiveRecord
     private static function illegalContent($params, $type)
     {
         $model = static::find()->where(['id' => $params['StreamName']])->one();
-        if (empty($model)){
+        if (empty($model)) {
             return false;
         }
         $model->identifyYellow = json_encode($params);
