@@ -97,7 +97,9 @@ class LiveService
             $balance = $user['balance'];
         }
         $priceReal = $price * $num * Constants::CENT;
+        ll($priceReal,__FUNCTION__.'.log');
         $balance = $balance - $priceReal;
+        ll($balance,__FUNCTION__.'.log');
         if ($balance < 0) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
