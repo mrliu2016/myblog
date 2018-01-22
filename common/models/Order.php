@@ -19,6 +19,7 @@ class Order extends ActiveRecord
         $model->price = $price;
         $model->priceReal = $price;
         $model->num = $num;
+        $model->userId = $userId;
         $model->userIdReceive = $userIdReceive;
         $model->created = time();
         $model->updated = time();
