@@ -30,6 +30,9 @@ class UserController extends BaseController
         if (strlen($mobile) != 11 || !is_string($mobile) || !ctype_digit($mobile)) {
             self::jsonReturnError(Constants::CODE_FAILED, '手机号错误', []);
         }
+         if(empty(User::queryByPhone($mobile))){
+             $this->jsonReturnError(Constants::CODE_FAILED, '手机号未注册', []);
+         }
         $result = User::checkLogin($mobile, md5($password));
         if (empty($result)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '用户名或密码错误', []);
