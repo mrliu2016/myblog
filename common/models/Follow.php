@@ -62,7 +62,7 @@ class Follow extends ActiveRecord
     public static function attention($userId, $userIdFollow)
     {
         $model = static::find()->where(['userId' => $userId, 'userIdFollow' => $userIdFollow])->one();
-        if(empty($model)){
+        if (empty($model)) {
             $model = new self();
         }
         $model->userId = $userId;
@@ -88,7 +88,7 @@ class Follow extends ActiveRecord
     public static function getUserFollowLive($userId, $page, $size)
     {
         $offset = ($page - 1) * $size;
-        $sql = "select a.* from t_follow a,t_user b where a.userIdFollow=b.id and a.userId=" . $userId . " and b.liveTime>" . (time() - 30) . "";
+        $sql = "select a.* from t_follow a,t_user b where a.userIdFollow=b.id and a.userId=" . $userId . " and a.status=1 and b.liveTime>" . (time() - 30) . "";
         $sql .= ' limit ' . $offset . ',' . $size . '';
         $result = Video::queryBySQLCondition($sql);
         return $result;
