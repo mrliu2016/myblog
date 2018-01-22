@@ -47,4 +47,21 @@ class Gift extends ActiveRecord
         }
         return $find;
     }
+
+    public static function deleteGift($id)
+    {
+        return static::find()->andWhere(['id' => $id])->one()->delete();
+    }
+
+    public static function created($params)
+    {
+        $model = new self();
+        $model->name = $params['name'];
+        $model->imgSrc = $params['imgSrc'];
+        $model->price = $params['price']*100;
+        $model->created = time();
+        $model->updated = time();
+        $model->save();
+        return $model->id;
+    }
 }
