@@ -50,11 +50,13 @@ $this->title = '直播回放';
                             <?= $item['userId'] ?>
                         </td>
                         <td>
-                            开始:<?= date('Y-m-d H:i:s', $item['startTime']) ?> <br />
+                            开始:<?= date('Y-m-d H:i:s', $item['startTime']) ?> <br/>
                             结束:<?= date('Y-m-d H:i:s', $item['endTime']) ?>
                         </td>
                         <td>
-                            <a href="<?= $item['videoSrc'] ?>"><img src="<?= $item['imgSrc'] ?>" width="120" height="65"></a>
+                            <a target="_blank" href="<?= $item['videoSrc'] ?>">
+                                <img src="<?= $item['imgSrc'] ?>" width="120" height="65">
+                            </a>
                         </td>
                         <td>
                         </td>
