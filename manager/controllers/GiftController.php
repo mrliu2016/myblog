@@ -6,6 +6,8 @@ use app\common\models\Gift;
 use app\common\models\Order;
 use Yii;
 use yii\data\Pagination;
+use app\common\components\OSS;
+use app\common\extensions\OSS\OssClient;
 
 class GiftController extends BaseController
 {
@@ -31,7 +33,6 @@ class GiftController extends BaseController
         return $pagination;
     }
 
-
     public function actionTemplate()
     {
         $params = Yii::$app->request->getQueryParams();
@@ -46,6 +47,33 @@ class GiftController extends BaseController
             'count' => $count
         ]);
     }
+
+    public function actionGiftDelete()
+    {
+        $id = Yii::$app->request->get('id');
+        $id = Gift::deleteGift($id);
+        if ($id) {
+            Yii::$app->getResponse()->redirect('/gift/template');
+        }
+    }
+
+    public function actionCreate()
+    {
+        if (Yii::$app->request->post()) {
+            if (!empty($_FILES['imgSrc']['tmp_name'])) {
+
+                $src = (new OSS())->upload($_FILES['imgSrc']['tmp_name'], $_FILES['imgSrc']['name'], 'gift');
+            }
+            $params = Yii::$app->request->post();
+            $params['imgSrc'] = $src;
+            if (Gift::created($params)) {
+                Yii::$app->getResponse()->redirect('/gift/template');
+            }
+        } else {
+            return $this->render('create');
+        }
+    }
+
 
     public function actionOrder()
     {

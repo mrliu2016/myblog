@@ -12,9 +12,12 @@ $this->title = '模版';
                 <fieldset style="height: 20px">
                     <div class="form-group">
                         <div class="col-sm-10">
+
                             <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
                                     name="searchBtn">查询
                             </button>
+                            <a href="/gift/create/"><button type="button" class="mb-sm btn btn-primary ripple">创建
+                            </button></a>
                             <div class="col-md-2">
                                 <input type="text" style="width: 120px" id="content" name="id"
                                        class="form-control datepicker-pop"
@@ -23,6 +26,7 @@ $this->title = '模版';
                                     <?php endif; ?>>
                             </div>
                         </div>
+                    </div>
                 </fieldset>
             </form>
         </div>
@@ -33,9 +37,9 @@ $this->title = '模版';
                 <thead>
                 <tr>
                     <th class="col-md-1">id</th>
-                    <th class="col-md-1">name</th>
-                    <th class="col-md-1">imgSrc</th>
-                    <th class="col-md-1">price</th>
+                    <th class="col-md-1">名称</th>
+                    <th class="col-md-1">图片</th>
+                    <th class="col-md-1">价格(分)</th>
                     <th class="col-md-1">操作</th>
                 </tr>
                 </thead>
@@ -55,6 +59,7 @@ $this->title = '模版';
                             <?= $item['price'] ?>
                         </td>
                         <td>
+                            <a href="/gift/gift-delete?id=<?=$item['id']?>">删除</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

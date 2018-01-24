@@ -185,7 +185,7 @@ class LiveService
                 $wsIp = self::getWsIp($roomId);
                 $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $roomId;
                 $viewerNum = $redis->hLen($keyWSRoomUser);
-                if ($viewerNum > $video->viewerNum){
+                if ($viewerNum > $video->viewerNum) {
                     $video->viewerNum = $viewerNum;
                 }
                 //更新直播结束时间
@@ -753,6 +753,9 @@ class LiveService
                     'type' => $messageInfo['type'] // 0：拒绝，1：同意
                 ]
             ];
+            $wsIp = self::getWsIp($messageInfo['roomId']);
+            $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
+            $redis->hdel($keyWSRoomUserLMList, $messageInfo['userId']);
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
     }
@@ -768,7 +771,7 @@ class LiveService
         $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $params['roomId'];
         $redis = RedisClient::getInstance();
         ll($params, 'responseLMList.log');
-        if ($params['isMaster']) {
+        if (isset($params['isMaster'])) {
             $redis->expire($keyWSRoomUserLMList, 0);
         } else {
             $redis->hdel($keyWSRoomUserLMList, $params['userId']);

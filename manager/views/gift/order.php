@@ -37,7 +37,6 @@ $this->title = '赠送';
                     <th class="col-md-1">价值</th>
                     <th class="col-md-1">购买人</th>
                     <th class="col-md-1">收件人</th>
-                    <th class="col-md-1">操作</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -57,8 +56,6 @@ $this->title = '赠送';
                         </td>
                         <td>
                             <?= $item['userIdReceive'] ?>
-                        </td>
-                        <td>
                         </td>
                     </tr>
                 <?php endforeach; ?>
