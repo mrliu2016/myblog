@@ -33,8 +33,7 @@ $this->title = '关键字';
                 <thead>
                 <tr>
                     <th class="col-md-1">id</th>
-                    <th class="col-md-1">name</th>
-                    <th class="col-md-1">remark</th>
+                    <th class="col-md-1">关键字</th>
                     <th class="col-md-1">操作</th>
                 </tr>
                 </thead>
@@ -46,9 +45,6 @@ $this->title = '关键字';
                         </td>
                         <td>
                             <?= $item['name'] ?>
-                        </td>
-                        <td>
-                            <?= $item['remark'] ?>
                         </td>
                         <td>
                         </td>

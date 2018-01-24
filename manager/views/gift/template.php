@@ -37,9 +37,9 @@ $this->title = '模版';
                 <thead>
                 <tr>
                     <th class="col-md-1">id</th>
-                    <th class="col-md-1">name</th>
-                    <th class="col-md-1">imgSrc</th>
-                    <th class="col-md-1">price</th>
+                    <th class="col-md-1">名称</th>
+                    <th class="col-md-1">图片</th>
+                    <th class="col-md-1">价格(分)</th>
                     <th class="col-md-1">操作</th>
                 </tr>
                 </thead>
