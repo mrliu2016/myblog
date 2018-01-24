@@ -69,7 +69,13 @@ class Video extends ActiveRecord
         return $result;
     }
 
-
+    /**
+     * 人气列表按照观看人数排序
+     *
+     * @param $params
+     * @return mixed
+     * @throws \yii\db\Exception
+     */
     public static function queryHot($params)
     {
         $offset = 0;
@@ -82,7 +88,7 @@ class Video extends ActiveRecord
         $find = self::buildParams($find, $params);
         $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive,viewerNum')
             ->asArray()
-            ->orderBy('startTime desc')
+            ->orderBy('viewerNum desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])
             ->all();
