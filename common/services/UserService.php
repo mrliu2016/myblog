@@ -56,7 +56,7 @@ class UserService
         }
         $liveLIst = [];
         if (!empty($tmpUserId)) {
-            $sql = 'select id,userId,roomId,startTime,endTime,imgSrc,remark,isLive from '
+            $sql = 'select id,userId,roomId,startTime,endTime,imgSrc,remark,isLive,viewerNum from '
                 . Video::tableName() . ' where userId in(' . trim($tmpUserId, ',') . ') and isLive = 1';
             $liveLIst = Video::queryBySQLCondition($sql);
         }
@@ -69,14 +69,16 @@ class UserService
                     $result['list'][$key]['isLive'] = $itemValue['isLive'];
                     $result['list'][$key]['startTime'] = $itemValue['startTime'];
                     $result['list'][$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
+                    $result['list'][$key]['viewerNum'] = $itemValue['viewerNum'];
                     $flag = false;
                 }
             }
             if ($flag) {
                 $result['list'][$key]['imgSrc'] = '';
                 $result['list'][$key]['title'] = '';
-                $result['list'][$key]['isLive'] = 0;
+                $result['list'][$key]['isLive'] = "0";
                 $result['list'][$key]['pullRtmp'] = '';
+                $result['list'][$key]['viewerNum'] = "0";
             }
         }
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $result];

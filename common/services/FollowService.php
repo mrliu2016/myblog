@@ -60,7 +60,7 @@ class FollowService
             $list[] = $item;
         }
         if (!empty($userId)) {
-            $sql = 'select id,userId,roomId,startTime,endTime,imgSrc,remark,isLive from '
+            $sql = 'select id,userId,roomId,startTime,endTime,imgSrc,remark,isLive,viewerNum from '
                 . Video::tableName() . ' where userId in(' . trim($userId, ',') . ') and isLive = 1';
             $liveLIst = Video::queryBySQLCondition($sql);
         }
@@ -74,14 +74,16 @@ class FollowService
                     $list[$key]['isLive'] = $itemValue['isLive'];
                     $list[$key]['startTime'] = $itemValue['startTime'];
                     $list[$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
+                    $list[$key]['viewerNum'] = $itemValue['viewerNum'];
                     $flag = false;
                 }
             }
             if ($flag){
                 $list[$key]['imgSrc'] = '';
                 $list[$key]['title'] = '';
-                $list[$key]['isLive'] = 0;
+                $list[$key]['isLive'] = "0";
                 $list[$key]['pullRtmp'] = '';
+                $list[$key]['viewerNum'] = "0";
             }
         }
 
