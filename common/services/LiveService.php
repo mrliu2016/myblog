@@ -836,7 +836,7 @@ class LiveService
         // 主播
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
         $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
-        if (!empty($userInfo) && $userInfo['role']) {
+        if (!empty($userInfo)) {
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_CLOSE_CALL_RES,
                 'data' => [
@@ -846,7 +846,7 @@ class LiveService
             ];
             $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
             $redis->hdel($keyWSRoomUserLMList, $messageInfo['userId']);
-            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+            $server->push($frame->fd, json_encode($responseMessage));
         }
     }
 }
