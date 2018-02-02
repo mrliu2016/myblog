@@ -64,6 +64,8 @@ class WebSocketController extends Controller
                     case Constants::MESSAGE_TYPE_KICK_REQ: // 踢人
                         LiveService::kickUser($server, $frame, $message);
                         break;
+                    case Constants::MESSAGE_TYPE_CLOSE_CALL_REQ: // 断开连麦
+                        LiveService::closeCall($server, $frame, $message);
                     default:
                         $server->push($frame->fd, json_encode(["message not match", $frame->fd]));
                 }
