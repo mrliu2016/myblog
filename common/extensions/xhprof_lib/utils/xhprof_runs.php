@@ -147,7 +147,7 @@ class XHProfRuns_Default implements iXHProfRuns
         // Use PHP serialize function to store the XHProf's
         // raw profiler data.
         $sql['rt'] = isset($xhprof_data['rt']) ? $xhprof_data['rt'] : '';
-        $xhprof_data = serialize($xhprof_data);
+        $xhprof_dataTmp = serialize($xhprof_data);
 
         if ($run_id === null) {
             $run_id = $this->gen_run_id($type);
@@ -157,7 +157,7 @@ class XHProfRuns_Default implements iXHProfRuns
         $file = fopen($file_name, 'w');
 
         if ($file) {
-            fwrite($file, $xhprof_data);
+            fwrite($file, $xhprof_dataTmp);
             fclose($file);
         } else {
             xhprof_error("Could not open $file_name\n");

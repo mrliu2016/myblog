@@ -7,14 +7,14 @@ if ($_xhprof['enable']) {
     $xhprof_data = xhprof_disable();
     $timeofaction = microtime_float() - $timeofaction;
     //本地文件记录
-    userBehaviorLog($timeofaction);
+    //userBehaviorLog($timeofaction);
     // save raw data for this profiler run using default
     // implementation of iXHProfRuns.
     try {
         $xhprof_runs = new XHProfRuns_Default();
         // save the run under a namespace "xhprof_foo"
         $xhprof_data['rt'] = $timeofaction;
-        $xhprof_data['uid'] = 99;
+        $xhprof_data['uid'] = empty(Yii::$app->controller->user) ? '0' : Yii::$app->controller->user->userId;
         $run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_foo");
     } catch (Exception $ecption) {
         file_put_contents(Yii::$app->getRuntimePath() . "/logs/app.log", $ecption->getMessage() . "\n", FILE_APPEND);

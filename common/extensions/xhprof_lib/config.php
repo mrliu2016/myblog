@@ -3,21 +3,23 @@ global $_xhprof;
 $_xhprof = array();
 
 // Change these:
-$_xhprof['dbhost'] = 'rm-2zez85v6e1ctm49aao.mysql.rds.aliyuncs.com';
-$_xhprof['dbuser'] = 'phpuser';
-$_xhprof['dbpass'] = 'MyNewPass4!';
+$_xhprof['dbhost'] = 'drds7e7z8arsc9y0public.drds.aliyuncs.com';
+$_xhprof['dbuser'] = 'xhprof_dev';
+$_xhprof['dbpass'] = 'MyNewPass4';
 $_xhprof['savepost'] = true;
-$_xhprof['dbname'] = 'xhprof';
+$_xhprof['dbname'] = 'xhprof_dev';
 $_xhprof['servername'] = '';
-$_xhprof['namespace'] = 'tradeCenter';
+$_xhprof['namespace'] = 'live' . '_' . YII_ENV;
 $_xhprof['url'] = 'http://url/to/xhprof/xhprof_html';
-$_xhprof['enable'] = YII_ENV_DEV ? true : false;
+$_xhprof['enable'] = YII_ENV_LOCAL ? false : rand(1, 1000) <= 1000 ? true : false;//统计分析命中率
 //Uncomment one of these, platform dependent. You may need to tune for your specific environment, but they're worth a try
 //These are good for linux and its derivatives.
 
 $_xhprof['dot_binary'] = '/usr/local/bin/dot';
 $_xhprof['dot_tempdir'] = '/tmp';
 $_xhprof['dot_errfile'] = '/tmp/xh_dot.err';
+//分析结果存放到xhprof.output_dir指定的目录中
+ini_set('xhprof.output_dir', '/var/www/html/xhprof');
 
 
 $exceptionURLs = array();
