@@ -674,6 +674,7 @@ class LiveService
                 'nickName' => $messageInfo['nickName'],
                 'avatar' => $messageInfo['avatar'],
                 'introduction' => $messageInfo['introduction'],
+                'type' => 1 // 申请连麦
             ];
             $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
             $redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUser));
@@ -744,7 +745,6 @@ class LiveService
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
         $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['userId']), true);
-        ll($userInfo, 'responseLMList.log');
         if (!empty($userInfo)) {
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_LM_AGREE_RES,
@@ -753,9 +753,12 @@ class LiveService
                     'type' => $messageInfo['type'] // 0：拒绝，1：同意
                 ]
             ];
-            $wsIp = self::getWsIp($messageInfo['roomId']);
-            $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
-            $redis->hdel($keyWSRoomUserLMList, $messageInfo['userId']);
+            if ($messageInfo['type'] == 1) {
+                $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
+                $lmUserInfo = json_decode($redis->hget($keyWSRoomUserLMList, $messageInfo['userId']), true);
+                $lmUserInfo['type'] = 2; // 2：同意连麦
+                $redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUserInfo));
+            }
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
     }
@@ -816,5 +819,34 @@ class LiveService
             ];
         }
         ll(var_export(array_merge($responseMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
+    }
+
+    /**
+     * 断开连麦
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    public static function closeCall($server, $frame, $message)
+    {
+        $messageInfo = $message['data'];
+        $wsIp = self::getWsIp($messageInfo['roomId']);
+        $redis = RedisClient::getInstance();
+        // 主播
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
+        $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
+        if (!empty($userInfo) && $userInfo['role']) {
+            $responseMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_CLOSE_CALL_RES,
+                'data' => [
+                    'userId' => $messageInfo['userId'],
+                    'type' => 3 // 3：断开连麦
+                ]
+            ];
+            $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
+            $redis->hdel($keyWSRoomUserLMList, $messageInfo['userId']);
+            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+        }
     }
 }

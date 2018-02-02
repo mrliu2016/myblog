@@ -66,6 +66,7 @@ class WebSocketController extends Controller
                         break;
                     case Constants::MESSAGE_TYPE_CLOSE_CALL_REQ: // 断开连麦
                         LiveService::closeCall($server, $frame, $message);
+                        break;
                     default:
                         $server->push($frame->fd, json_encode(["message not match", $frame->fd]));
                 }
