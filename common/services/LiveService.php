@@ -70,7 +70,7 @@ class LiveService
     {
         $param = $message['data'];
         if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"]) || empty($param["price"])
-            || empty($param["num"]) || empty($param["nickName"]) || empty($param["level"])
+            || empty($param["num"]) || empty($param["nickName"]) || !isset($param["level"])
         ) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
