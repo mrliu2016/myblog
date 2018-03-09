@@ -97,6 +97,7 @@ class LiveService
             if (!empty($user)) {
                 $balance = $user['balance'];
             } else {
+                //@todo 随机用户默认余额100元-测试
                 $balance = 100000;
             }
         }
