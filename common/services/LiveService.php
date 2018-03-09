@@ -94,7 +94,11 @@ class LiveService
         $balance = $redis->hget('WSUserBalance', $userId);
         if ($balance == false) {
             $user = User::queryById($userId);
-            $balance = $user['balance'];
+            if (!empty($user)) {
+                $balance = $user['balance'];
+            } else {
+                $balance = 100000;
+            }
         }
         $priceReal = $price * $num * Constants::CENT;
         $balance = $balance - $priceReal;
