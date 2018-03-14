@@ -13,6 +13,8 @@ class Constants
     // token 有限期
     const LOGIN_TOKEN_EXPIRES = 86400;
 
+    const DEFAULT_EXPIRES = 86400;
+
     const WEB_SOCKET_IP = '0.0.0.0';
     const WEB_SOCKET_PORT = '9505';
     const WEB_SOCKET_PORT_SSL = '9506';
@@ -54,9 +56,11 @@ class Constants
     const WSWARNING = 'WSWarning';
     const WSCLOSE = 'WSClose';
     const WS_ROOM_USER_LM_LIST = 'WSRoomUserLMList_';
+    const WS_USER_BALANCE = 'WSUserBalance';
 
     // 队列
     const QUEUE_WS_HEARTBEAT = 'WS_Heartbeat';
+    const QUEUE_WS_GIFT_ORDER = 'WSGiftOrder';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';

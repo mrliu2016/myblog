@@ -85,16 +85,16 @@ class LiveService
         $nickName = $param["nickName"];
         $avatar = $param["avatar"];
         $level = $param["level"];
-        $balance = $redis->hget('WSUserBalance', $userId);
-        if ($balance == false) {
-            $user = User::queryById($userId);
-            if (!empty($user)) {
-                $balance = $user['balance'];
-            } else {
-                //@todo 随机用户默认余额100元-测试
-                $balance = 100000;
-            }
-        }
+        $balance = $redis->hget(Constants::WS_USER_BALANCE, $userId);
+//        if ($balance == false) {
+//            $user = User::queryById($userId);
+//            if (!empty($user)) {
+//                $balance = $user['balance'];
+//            } else {
+//                //@todo 随机用户默认余额100元-测试
+//                $balance = 100000;
+//            }
+//        }
         $priceReal = $price * $num * Constants::CENT;
         $balance = $balance - $priceReal;
         ll($balance, __FUNCTION__ . '.log');
@@ -107,7 +107,7 @@ class LiveService
             return;
         }
         //更新余额
-        $redis->hset('WSUserBalance', $userId, $balance);
+        $redis->hset(Constants::WS_USER_BALANCE, $userId, $balance);
         //购买礼物队列
         $order = array(
             'giftId' => $giftId,
@@ -116,7 +116,7 @@ class LiveService
             'num' => $num,
             'price' => $price
         );
-        $redis->lpush('WSGiftOrder', base64_encode(json_encode($order)));
+        $redis->lpush(Constants::QUEUE_WS_GIFT_ORDER, base64_encode(json_encode($order)));
         //单人广播
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
@@ -226,7 +226,7 @@ class LiveService
         $params = $message['data'];
         //用户进入房间
         self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"],
-            $params["avatar"], $params["nickName"], $params["level"]);
+            $params["avatar"], $params["nickName"], $params["level"], $params['balance']);
         $roomMemberNum = LiveService::roomMemberNum($params['roomId']);
         $userList = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
         $resMessage = [
@@ -239,7 +239,7 @@ class LiveService
                 'avatar' => $params["masterAvatar"],
                 'nickName' => $params["masterNickName"],
                 'level' => intval($params["masterLevel"]),
-                'income' => intval(self::getWSUserBalance($params["userId"]) / Constants::CENT),
+                'income' => intval($params['balance']),
                 'count' => $roomMemberNum,
                 'userList' => $userList
             ],
@@ -382,7 +382,7 @@ class LiveService
     }
 
     //加入房间
-    private static function join($fd, $userId, $roomId, $role, $avatar, $nickName, $level)
+    private static function join($fd, $userId, $roomId, $role, $avatar, $nickName, $level, $balance)
     {
         //服务器fd映射关系，异常退出用
         $ip = self::getWsIp($roomId);
@@ -410,6 +410,10 @@ class LiveService
             $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
+
+        // 用户余额
+        $redis->hset(Constants::WS_USER_BALANCE, $userId, $balance);
+        $redis->expire(Constants::WS_USER_BALANCE, Constants::DEFAULT_EXPIRES);
     }
 
     //房间fd列表
