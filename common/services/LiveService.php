@@ -695,7 +695,7 @@ class LiveService
             ];
             $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
             $redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUser));
-            $redis->expire($keyWSRoomUserLMList, 172800); // 2天过期
+            $redis->expire($keyWSRoomUserLMList, Constants::DEFAULT_EXPIRES);
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_LM_LIST_RES,
                 'data' => [
