@@ -117,6 +117,7 @@ class LiveService
             'price' => $price
         );
         $redis->lpush(Constants::QUEUE_WS_GIFT_ORDER, base64_encode(json_encode($order)));
+        $redis->expire(Constants::QUEUE_WS_GIFT_ORDER, Constants::DEFAULT_EXPIRES);
         //单人广播
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
@@ -183,6 +184,7 @@ class LiveService
         if ($param["isMaster"] == 1) { //1主播 0粉丝
             $redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
                 base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId])));
+            $redis->expire(Constants::QUEUE_WS_HEARTBEAT, Constants::DEFAULT_EXPIRES);
         }
         $Warning = $redis->hget(Constants::WSWARNING, $userId);
         if ($Warning !== false) {
