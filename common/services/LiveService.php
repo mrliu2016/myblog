@@ -434,8 +434,8 @@ class LiveService
     public static function roomMemberNum($roomId)
     {
         $wsIp = self::getWsIp($roomId);
-        $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $roomId;
-        $num = RedisClient::getInstance()->hLen($keyWSRoomUser);
+        $keyWSRoomFD = Constants::WS_ROOM_FD . $wsIp . '_' . $roomId;
+        $num = RedisClient::getInstance()->hLen($keyWSRoomFD);
         return intval($num);
     }
 
