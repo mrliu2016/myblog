@@ -55,6 +55,9 @@ class Constants
     const WSCLOSE = 'WSClose';
     const WS_ROOM_USER_LM_LIST = 'WSRoomUserLMList_';
 
+    // 队列
+    const QUEUE_WS_HEARTBEAT = 'WS_Heartbeat';
+
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';
     const LOGIN_TYPE_WEI_BO = 'WEI_BO';

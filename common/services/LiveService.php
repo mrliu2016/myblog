@@ -11,6 +11,7 @@ use app\common\models\User;
 use app\common\models\Video;
 use Yii;
 use yii\base\ErrorException;
+use yii\base\Exception;
 
 class LiveService
 {
@@ -55,14 +56,7 @@ class LiveService
         ];
         //广播房间全体成员
         $roomAll = LiveService::fdListByRoomId($server, $roomId);
-        foreach ($roomAll as $fd) {
-            try {
-                $server->push($fd, json_encode($respondMessage));
-                ll(var_export(array_merge($respondMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
-            } catch (ErrorException $ex) {
-
-            }
-        }
+        static::broadcast($server, $roomAll, $respondMessage);
     }
 
     //送礼物
@@ -158,13 +152,20 @@ class LiveService
         );
         $respondMessage['data'] = $data;
         $roomAll = LiveService::fdListByRoomId($server, $roomId);
-        foreach ($roomAll as $fd) {
-            try {
-                $server->push($fd, json_encode($respondMessage));
-            } catch (ErrorException $ex) {
-
-            }
-        }
+        static::broadcast($server, $roomAll, $respondMessage);
+//        foreach ($roomAll as $fd) {
+//            try {
+//                if (!$server->exist($fd)) {
+//                    //fd连接不存在或尚未完成握手，返回false
+//                    self::fdClose(null, $fd);
+//                } else {
+//                    $server->push($fd, json_encode($respondMessage));
+//                }
+////                $server->push($fd, json_encode($respondMessage));
+//            } catch (ErrorException $ex) {
+//
+//            }
+//        }
     }
 
     //心跳
@@ -179,25 +180,9 @@ class LiveService
         $redis = RedisClient::getInstance();
         $roomId = $param["roomId"];
         $userId = $param["userId"];
-        $isMaster = $param["isMaster"]; //1主播 0粉丝
-        if ($isMaster == 1) {
-            $video = Video::findLastRecord($userId, $roomId);
-            if (empty($video)) {
-                //直播开始
-//                Video::create($userId, $roomId);
-            } else {
-                //更新观众人数
-                $wsIp = self::getWsIp($roomId);
-                $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $roomId;
-                $viewerNum = $redis->hLen($keyWSRoomUser);
-                if ($viewerNum > $video->viewerNum) {
-                    $video->viewerNum = $viewerNum;
-                }
-                //更新直播结束时间
-                Video::updateEndTime($video);
-            }
-            //更新用户直播时间
-            User::updateLiveTime($userId);
+        if ($param["isMaster"] == 1) { //1主播 0粉丝
+            $redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
+                base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId])));
         }
         $Warning = $redis->hget(Constants::WSWARNING, $userId);
         if ($Warning !== false) {
@@ -207,7 +192,7 @@ class LiveService
             $respondMessage['data'] = array(
                 'roomId' => $roomId,
                 'userId' => $userId,
-                'isMaster' => $isMaster
+                'isMaster' => $param["isMaster"]
             );
             $server->push($frame->fd, json_encode($respondMessage));
             ll(var_export(array_merge($respondMessage, array("fd" => $frame->fd)), true), 'webSocketMessage.log');
@@ -221,7 +206,7 @@ class LiveService
             $respondMessage['data'] = array(
                 'roomId' => $roomId,
                 'userId' => $userId,
-                'isMaster' => $isMaster
+                'isMaster' => $param["isMaster"]
             );
             $server->push($frame->fd, json_encode($respondMessage));
             ll(var_export(array_merge($respondMessage, array("fd" => $frame->fd)), true), 'webSocketMessage.log');
@@ -240,7 +225,10 @@ class LiveService
     {
         $params = $message['data'];
         //用户进入房间
-        self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"], $params["avatar"], $params["nickName"], $params["level"]);
+        self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"],
+            $params["avatar"], $params["nickName"], $params["level"]);
+        $roomMemberNum = LiveService::roomMemberNum($params['roomId']);
+        $userList = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
         $resMessage = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
             'code' => Constants::CODE_SUCCESS,
@@ -252,8 +240,8 @@ class LiveService
                 'nickName' => $params["masterNickName"],
                 'level' => intval($params["masterLevel"]),
                 'income' => intval(self::getWSUserBalance($params["userId"]) / Constants::CENT),
-                'count' => LiveService::roomMemberNum($params['roomId']),
-                'userList' => array_values(LiveService::getUserInfoListByRoomId($params['roomId']))
+                'count' => $roomMemberNum,
+                'userList' => $userList
             ],
         ];
         $server->push($frame->fd, json_encode($resMessage));
@@ -268,24 +256,31 @@ class LiveService
                 'avatar' => $params['avatar'],
                 'nickName' => $params['nickName'],
                 'level' => intval($params['level']),
-                'count' => LiveService::roomMemberNum($params['roomId']),
-                'userList' => array_values(LiveService::getUserInfoListByRoomId($params['roomId']))
+                'count' => $roomMemberNum,
+                'userList' => $userList
             ],
         ];
         $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-        foreach ($fdList as $fd) {
-            try {
-                $server->push($fd, json_encode($messageAll));
-            } catch (ErrorException $ex) {
-                self::leave($fd, $params['roomId']);
-            }
-        }
+        static::broadcast($server, $fdList, $messageAll);
+//        foreach ($fdList as $fd) {
+//            try {
+//                if (!$server->exist($fd)) {
+//                    //fd连接不存在或尚未完成握手，返回false
+//                    self::fdClose(null, $fd);
+//                } else {
+//                    $server->push($fd, json_encode($messageAll));
+//                }
+////                $server->push($fd, json_encode($messageAll));
+//            } catch (ErrorException $ex) {
+//                self::leave($fd, $params['roomId']);
+//            }
+//        }
     }
 
     //获取webSocket服务ip
     public static function getWsIp($roomId)
     {
-        $index = $roomId % 2;
+        $index = $roomId % count(Yii::$app->params['wsServer']);
         $roomServer = Yii::$app->params['wsServer'][$index];
         return $roomServer['ip'];
     }
@@ -425,13 +420,13 @@ class LiveService
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomFD);
         if (empty($result)) return [];
-        foreach ($result as $fd => $userId) {
-            if (!$server->exist($fd)) {
-                //fd连接不存在或尚未完成握手，返回false
-                self::fdClose(null, $fd);
-                unset($result[$fd]);
-            }
-        }
+//        foreach ($result as $fd => $userId) {
+//            if (!$server->exist($fd)) {
+//                //fd连接不存在或尚未完成握手，返回false
+//                self::fdClose(null, $fd);
+//                unset($result[$fd]);
+//            }
+//        }
         return array_keys($result);
     }
 
@@ -447,7 +442,6 @@ class LiveService
     public static function leaveRoom($server, $frame, $message)
     {
         $params = $message['data'];
-        ll($params, 'responseLMList.log');
         if (!empty($params)) {
             $messageAll = [
                 'messageType' => Constants::MESSAGE_TYPE_LEAVE_RES,
@@ -469,17 +463,24 @@ class LiveService
             } else {
                 $count = LiveService::roomMemberNum($params['roomId']) - 1;
             }
-            self::leave($frame->fd, $params['roomId']);
+//            self::leave($frame->fd, $params['roomId']);
+            static::fdClose($server, $frame->fd);
             self::clearLMList($params);
             $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
             $messageAll['data']['count'] = $count;
-            foreach ($fdList as $fd) {
-                try {
-                    $server->push($fd, json_encode($messageAll));
-                } catch (ErrorException $ex) {
-                    ll($ex->getMessage(), __FUNCTION__ . '.log');
-                }
-            }
+            static::broadcast($server, $fdList, $messageAll);
+//            foreach ($fdList as $fd) {
+//                try {
+//                    if (!$server->exist($fd)) {
+//                        //fd连接不存在或尚未完成握手，返回false
+//                        self::fdClose(null, $fd);
+//                    } else {
+//                        $server->push($fd, json_encode($messageAll));
+//                    }
+//                } catch (ErrorException $ex) {
+//                    ll($ex->getMessage(), __FUNCTION__ . '.log');
+//                }
+//            }
         }
     }
 
@@ -564,7 +565,7 @@ class LiveService
             $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $params['roomId'];
             $user = $redis->hget($keyWSRoomUser, $params['userId']);
             if (!empty($user)) {
-                $user = json_decode($user, true);
+//                $user = json_decode($user, true);
                 $messageAll = [
                     'messageType' => Constants::MESSAGE_TYPE_KICK_RES,
                     'code' => Constants::CODE_SUCCESS,
@@ -576,13 +577,20 @@ class LiveService
                     ],
                 ];
                 $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-                foreach ($fdList as $fd) {
-                    try {
-                        $server->push($fd, json_encode($messageAll));
-                    } catch (ErrorException $ex) {
-                        var_dump($ex);
-                    }
-                }
+                static::broadcast($server, $fdList, $messageAll);
+//                foreach ($fdList as $fd) {
+//                    try {
+//                        if (!$server->exist($fd)) {
+//                            //fd连接不存在或尚未完成握手，返回false
+//                            self::fdClose(null, $fd);
+//                        } else {
+//                            $server->push($fd, json_encode($messageAll));
+//                        }
+////                        $server->push($fd, json_encode($messageAll));
+//                    } catch (ErrorException $ex) {
+//                        var_dump($ex);
+//                    }
+//                }
             } else {
                 $respondMessage['messageType'] = Constants::MESSAGE_TYPE_KICK_RES;
                 $respondMessage['code'] = Constants::CODE_FAILED;
@@ -618,7 +626,7 @@ class LiveService
             return ['code' => Constants::CODE_FAILED, 'msg' => 'parameter error'];
         }
         $roomId = $param["roomId"];
-        $index = $roomId % 2;
+        $index = $roomId % count(Yii::$app->params['wsServer']);
         $wsServer = Yii::$app->params['wsServer'][$index];
         $data = array(
             'roomServer' => [
@@ -778,7 +786,6 @@ class LiveService
         $wsIp = self::getWsIp($params['roomId']);
         $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $params['roomId'];
         $redis = RedisClient::getInstance();
-        ll($params, 'responseLMList.log');
         if (isset($params['isMaster'])) {
             $redis->expire($keyWSRoomUserLMList, 0);
         } else {
@@ -853,5 +860,32 @@ class LiveService
             $redis->hdel($keyWSRoomUserLMList, $messageInfo['userId']);
             $server->push($frame->fd, json_encode($responseMessage));
         }
+    }
+
+    /**
+     * 广播消息，并清除不存在的fd
+     *
+     * @param $server
+     * @param $fdList
+     * @param $respondMessage
+     * @return bool
+     */
+    private static function broadcast($server, $fdList, $respondMessage)
+    {
+        if (empty($fdList)) return false;
+        foreach ($fdList as $fd) {
+            try {
+                if (!$server->exist($fd)) {
+                    //fd连接不存在或尚未完成握手，返回false
+                    self::fdClose(null, $fd);
+                } else {
+                    $server->push($fd, json_encode($respondMessage));
+                }
+                ll(var_export(array_merge($respondMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
+            } catch (\Exception $ex) {
+                ll(var_export(array_merge(['codeMessage' => $ex->getMessage()], array("fd" => $fd)), true), 'webSocketMessage.log');
+            }
+        }
+        return true;
     }
 }
