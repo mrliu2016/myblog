@@ -18,7 +18,10 @@ class WebSocketController extends Controller
         $server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL);
         $setConfig = [
             'ssl_key_file' => '/etc/nginx/cert/dev_api_demo.key',
-            'ssl_cert_file' => '/etc/nginx/cert/dev_api_demo.pem'];
+            'ssl_cert_file' => '/etc/nginx/cert/dev_api_demo.pem',
+//            'heartbeat_check_interval' => 20,
+//            'heartbeat_idle_time' => 20
+        ];
         $server->set($setConfig);
         //添加一个监听端口，继续支持ws方式进行连接
         $server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
