@@ -282,6 +282,7 @@ class LiveService
     //获取webSocket服务ip
     public static function getWsIp($roomId)
     {
+        $roomId = ctype_digit($roomId) ? $roomId : ord($roomId);
         $index = $roomId % count(Yii::$app->params['wsServer']);
         $roomServer = Yii::$app->params['wsServer'][$index];
         return $roomServer['ip'];
@@ -631,7 +632,7 @@ class LiveService
         if (empty($param["roomId"])) {
             return ['code' => Constants::CODE_FAILED, 'msg' => 'parameter error'];
         }
-        $roomId = $param["roomId"];
+        $roomId = ctype_digit($param["roomId"]) ? $param["roomId"] : ord($param["roomId"]);
         $index = $roomId % count(Yii::$app->params['wsServer']);
         $wsServer = Yii::$app->params['wsServer'][$index];
         $data = array(
