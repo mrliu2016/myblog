@@ -54,7 +54,8 @@ class LiveController extends BaseController
             '开播成功',
             [
                 'liveId' => $result,
-                'pushRtmp' => CdnUtils::getPushUrl($result)
+                'pushRtmp' => CdnUtils::getPushUrl($result),
+                'wsServer' => LiveService::serverInfo($result)
             ]
         );
     }
