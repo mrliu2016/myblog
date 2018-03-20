@@ -86,7 +86,7 @@ class Video extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive,viewerNum')
+        $result = $find->select('id,userId,roomId as id,startTime,imgSrc,remark as title,isLive,viewerNum')
             ->asArray()
             ->orderBy('viewerNum desc')
             ->offset($offset)
@@ -165,7 +165,7 @@ class Video extends ActiveRecord
     {
         $model = new self();
         $model->userId = $userId;
-        $model->roomId = $roomId;
+//        $model->roomId = $roomId;
         $model->startTime = time();
         $model->endTime = time();
         $model->imgSrc = $imgSrc;
