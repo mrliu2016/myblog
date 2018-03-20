@@ -86,7 +86,7 @@ class Video extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->select('id,userId,roomId as id,startTime,imgSrc,remark as title,isLive,viewerNum')
+        $result = $find->select('id,userId,startTime,imgSrc,remark as title,isLive,viewerNum')
             ->asArray()
             ->orderBy('viewerNum desc')
             ->offset($offset)
@@ -110,6 +110,7 @@ class Video extends ActiveRecord
                     $result[$key]['nickName'] = $userValue['nickName'];
                     $result[$key]['level'] = intval($userValue['level']);
                     $result[$key]['description'] = $userValue['description'];
+                    $result[$key]['roomId'] = $result[$key]['id'];
                     $flag = false;
                 }
             }
@@ -118,6 +119,7 @@ class Video extends ActiveRecord
                 $result[$key]['nickName'] = '';
                 $result[$key]['level'] = 0;
                 $result[$key]['description'] = '';
+                $result[$key]['roomId'] = '0';
             }
         }
         return $result;
