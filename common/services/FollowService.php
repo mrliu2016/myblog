@@ -75,6 +75,7 @@ class FollowService
                     $list[$key]['startTime'] = $itemValue['startTime'];
                     $list[$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
                     $list[$key]['viewerNum'] = $itemValue['viewerNum'];
+                    $list[$key]['roomId'] = $itemValue['id'];
                     $flag = false;
                 }
             }
@@ -84,6 +85,7 @@ class FollowService
                 $list[$key]['isLive'] = "0";
                 $list[$key]['pullRtmp'] = '';
                 $list[$key]['viewerNum'] = "0";
+                $list[$key]['roomId'] = '0';
             }
         }
 

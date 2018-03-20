@@ -70,6 +70,7 @@ class UserService
                     $result['list'][$key]['startTime'] = $itemValue['startTime'];
                     $result['list'][$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
                     $result['list'][$key]['viewerNum'] = $itemValue['viewerNum'];
+                    $result['list'][$key]['roomId'] = $itemValue['id'];
                     $flag = false;
                 }
             }
@@ -79,6 +80,7 @@ class UserService
                 $result['list'][$key]['isLive'] = "0";
                 $result['list'][$key]['pullRtmp'] = '';
                 $result['list'][$key]['viewerNum'] = "0";
+                $result['list'][$key]['roomId'] = '0';
             }
         }
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $result];
