@@ -392,6 +392,7 @@ class LiveService
         $keyWSRoomLocation = Constants::WS_ROOM_LOCATION . $ip;
         $redis = RedisClient::getInstance();
         $redis->hset($keyWSRoomLocation, $fd, $roomId . '_' . $userId . '_' . $role);
+        $redis->expire($keyWSRoomLocation, Constants::DEFAULT_EXPIRES);
 
         //房间的fd列表，群发消息用
         $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $roomId;
