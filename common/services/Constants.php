@@ -59,7 +59,7 @@ class Constants
     const WS_USER_BALANCE = 'WSUserBalance';
 
     // 队列
-    const QUEUE_WS_HEARTBEAT = 'WS_Heartbeat';
+    const QUEUE_WS_HEARTBEAT = 'WS_Heartbeat_Live';
     const QUEUE_WS_GIFT_ORDER = 'WSGiftOrder';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
