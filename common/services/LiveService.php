@@ -185,6 +185,7 @@ class LiveService
             $redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
                 base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId])));
             $redis->expire(Constants::QUEUE_WS_HEARTBEAT, Constants::DEFAULT_EXPIRES);
+            $server->push($frame->fd, json_encode(['userId' => $userId, 'roomId' => $roomId]));
         }
         $Warning = $redis->hget(Constants::WSWARNING, $userId);
         if ($Warning !== false) {
