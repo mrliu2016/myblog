@@ -159,7 +159,11 @@ class Video extends ActiveRecord
 
     public static function findLastRecord($userId, $roomId)
     {
-        return static::find()->where(['userId' => $userId, 'roomId' => $roomId])->andWhere(['>', 'endTime', time() - 60])->orderBy('endTime desc')->one();
+        return static::find()
+            ->where(['userId' => $userId, 'id' => $roomId])
+//            ->andWhere(['>', 'endTime', time() - 60])
+            ->orderBy('endTime desc')
+            ->one();
     }
 
     //直播开始
