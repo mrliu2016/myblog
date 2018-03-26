@@ -45,6 +45,23 @@ class LiveController extends BaseController
         ]);
     }
 
+    public function actionHot()
+    {
+        $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+        $params['page'] = intval(!empty($params['page']) ? $params['page'] : 0);
+        $params['isLive'] = 1;
+        $result = Video::queryHot($params);
+        $count = Video::queryInfoNum($params);
+        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        $this->layout = '@app/views/layouts/wenlian.php';
+        return $this->render('hot', [
+            'itemList' => $result,
+            'pagination' => self::pagination($pageNo, $count),
+            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count
+        ]);
+    }
+
     public function actionRecord()
     {
         $params = Yii::$app->request->getQueryParams();
