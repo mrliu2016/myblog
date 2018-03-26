@@ -73,4 +73,9 @@ class LiveController extends BaseController
             'count' => $count
         ]);
     }
+     public function actionList()
+        {
+        $this->layout = '@app/views/layouts/wenlian.php';
+            return $this->render('list');
+        }
 }
