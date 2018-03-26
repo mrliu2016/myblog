@@ -22,4 +22,27 @@ $this->title = '直播列表';
 </ul>
 </div>
 </div>
+<script>
+$(document).ready(function(){
+		if ($(this).is(':checked')) {
+			$.ajax({
+				type: 'get',
+				url: 'http://api.live.3ttech.cn/live/hot',
+				dataType: 'jsonp',
+				timeout: 5000
+			}).done(function (data) {
+				if (data.code == 0) {
+					
+
+					});
+
+
+				} else {
+
+
+
+				}
+			})
+})
+</script>
 </body>

@@ -11,7 +11,7 @@
 </head>
 <body class="theme-1">
 <script src="/vendor/jquery/dist/jquery.js"></script>
-<script src="//imgcache.qq.com/open/qcloud/video/vcplayer/TcPlayer-2.2.1.js" charset="utf-8"></script>;
+<script src="/js/TcPlayer-2.2.1.js" charset="utf-8"></script>;
 <div class="layout-container">
     <div class="sidebar-layout-obfuscator"></div>
     <main class="main-container">
