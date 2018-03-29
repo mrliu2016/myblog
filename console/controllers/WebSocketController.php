@@ -97,14 +97,15 @@ class WebSocketController extends Controller
             if (!empty($user)) {
                 $gift = Gift::queryById($giftId);
                 if (!empty($gift)) {
-                    $priceReal = $gift['price'] * $num * Constants::CENT;
+                    $priceReal = $gift['price'] * $num; // 去掉分，webSocket不涉及业务，交易类结算已最小单位透传
+//                    $priceReal = $gift['price'] * $num * Constants::CENT;
                     //更新余额
                     $stat = User::updateUserBalance($userId, -$priceReal);
                     if ($stat > 0) {
                         //购买礼物记录
                         Order::create($giftId, $userId, $userIdTo, $price, $num);
-                        $balance = $user['balance'] - $priceReal;
-                        $redis->hset('WSUserBalance', $userId, $balance);
+//                        $balance = $user['balance'] - $priceReal; // 不涉及业务计算
+//                        $redis->hset('WSUserBalance', $userId, $balance); // 送礼物时已更新
                     }
                 }
             }
