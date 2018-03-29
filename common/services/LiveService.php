@@ -95,7 +95,8 @@ class LiveService
 //                $balance = 100000;
 //            }
 //        }
-        $priceReal = $price * $num * Constants::CENT;
+        $priceReal = $price * $num; // 去掉分，webSocket不涉及业务，交易类结算已最小单位透传
+//        $priceReal = $price * $num * Constants::CENT;
         $balance = $balance - $priceReal;
         ll($balance, __FUNCTION__ . '.log');
         if ($balance < 0) {
@@ -129,7 +130,8 @@ class LiveService
             'giftId' => $giftId,
             'price' => $price,
             'num' => $num,
-            'balance' => !empty($balance) ? $balance / Constants::CENT : 0,
+            'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算已最小单位透传
+//            'balance' => !empty($balance) ? $balance / Constants::CENT : 0,
         );
         $respondMessage['data'] = $data;
         $server->push($frame->fd, json_encode($respondMessage));
