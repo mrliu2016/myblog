@@ -2,6 +2,7 @@
 
 namespace app\api\controllers;
 
+use app\common\components\UploadUtils;
 use app\common\components\WeiXinApi;
 use app\common\models\User;
 use app\common\services\Constants;
@@ -25,8 +26,10 @@ class IndexController extends BaseController
 
     public function actionIndex()
     {
-        echo 'welcome';
-        exit;
+        $result = UploadUtils::multiUploadPicture();
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'',$result);
+//        echo 'welcome';
+//        exit;
     }
 
     public function actionTest()
