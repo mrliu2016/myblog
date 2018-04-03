@@ -55,7 +55,7 @@ class LiveController extends BaseController
             [
                 'liveId' => $result,
                 'pushRtmp' => CdnUtils::getPushUrl($result),
-                'wsServer' => LiveService::serverInfo($result)
+                'wsServer' => LiveService::serverInfo(['roomId' => $result])
             ]
         );
     }

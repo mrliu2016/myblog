@@ -124,4 +124,5 @@ class Constants
     const CDN_FACTORY_QCLOUD = 'qCloud';//腾讯云cdn
     const CDN_FACTORY_ALIYUN = 'aLiYun';//阿里云cdn
     const CDN_FACTORY_XYCDN = 'xyCDN';//星域cdn
+    const CDN_FACTORY_QING_CLOUD = 'qingCloud'; // 青云
 }

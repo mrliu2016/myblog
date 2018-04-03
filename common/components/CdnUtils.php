@@ -109,6 +109,44 @@ class CdnUtils
         return $pullUrl;
     }
 
+    /**
+     * 青云推流地址
+     *
+     * @param $streamId
+     * @return string
+     */
+    public static function qingCloudPushRtmpStream($streamId)
+    {
+        return 'rtmp://publish-wenlian.qingcache.com/livestream/' . $streamId;
+    }
+
+    /**
+     * 青云拉流地址
+     *
+     * @param $streamId
+     * @return string
+     */
+    public static function qingCloudPullRtmpStream($streamId)
+    {
+        return 'rtmp://play-wenlian.qingcache.com/livestream/' . $streamId;
+    }
+
+    /**
+     * 移动端拉流地址
+     *
+     * @param $streamId
+     * @return string
+     */
+    public static function qingCloudHlsStream($streamId)
+    {
+        return 'http://hls-wenlian.qingcache.com/livestream/' . $streamId . '.m3u8';
+    }
+
+    public static function qingCloudHdlStream($streamId)
+    {
+        return 'http://hdl-wenlian.qingcache.com/livestream/' . $streamId . '.flv';
+    }
+
     //星域cdn推流
     public static function xyCDNPushUrl($streamId)
     {
@@ -155,6 +193,13 @@ class CdnUtils
                     $pullUrl = self::xyCDNWapPullUrl($streamId);
                 }
                 break;
+            case Constants::CDN_FACTORY_QING_CLOUD:
+                if ($rtmp) {
+                    $pullUrl = self::qingCloudPullRtmpStream($streamId);
+                } else {
+                    $pullUrl = self::qingCloudHlsStream($streamId);
+                }
+                break;
             default:
         }
         return $pullUrl;
@@ -174,6 +219,9 @@ class CdnUtils
                 break;
             case Constants::CDN_FACTORY_XYCDN:
                 $pushUrl = self::xyCDNPushUrl($streamId);
+                break;
+            case Constants::CDN_FACTORY_QING_CLOUD:
+                $pushUrl = self::qingCloudPushRtmpStream($streamId);
                 break;
             default:
         }
