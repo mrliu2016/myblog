@@ -26,10 +26,10 @@ class IndexController extends BaseController
 
     public function actionIndex()
     {
-        $result = UploadUtils::multiUploadPicture();
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'',$result);
-//        echo 'welcome';
-//        exit;
+//        $result = UploadUtils::multiUploadPicture();
+//        $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'',$result);
+        echo 'welcome';
+        exit;
     }
 
     public function actionTest()
