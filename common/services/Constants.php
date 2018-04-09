@@ -125,4 +125,5 @@ class Constants
     const CDN_FACTORY_ALIYUN = 'aLiYun';//阿里云cdn
     const CDN_FACTORY_XYCDN = 'xyCDN';//星域cdn
     const CDN_FACTORY_QING_CLOUD = 'qingCloud'; // 青云
+    const CDN_FACTORY_WANG_SU = 'wangSu'; // 网宿
 }

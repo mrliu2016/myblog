@@ -132,6 +132,28 @@ class CdnUtils
     }
 
     /**
+     * 网宿推流地址
+     *
+     * @param $streamId
+     * @return string
+     */
+    public static function wangSuPushRtmpStream($streamId)
+    {
+        return 'rtmp://wllivepush.8686c.com/live/' . $streamId;
+    }
+
+    /**
+     * 网宿拉流地址
+     *
+     * @param $streamId
+     * @return string
+     */
+    public static function wangSuPullRtmpStream($streamId)
+    {
+        return 'rtmp://wllivepull.8686c.com/live/' . $streamId;
+    }
+
+    /**
      * 移动端拉流地址
      *
      * @param $streamId
@@ -200,6 +222,13 @@ class CdnUtils
                     $pullUrl = self::qingCloudHlsStream($streamId);
                 }
                 break;
+            case Constants::CDN_FACTORY_WANG_SU:
+                if ($rtmp) {
+                    $pullUrl = self::wangSuPullRtmpStream($streamId);
+                } else {
+                    $pullUrl = '';
+                }
+                break;
             default:
         }
         return $pullUrl;
@@ -222,6 +251,9 @@ class CdnUtils
                 break;
             case Constants::CDN_FACTORY_QING_CLOUD:
                 $pushUrl = self::qingCloudPushRtmpStream($streamId);
+                break;
+            case Constants::CDN_FACTORY_WANG_SU:
+                $pushUrl = self::wangSuPushRtmpStream($streamId);
                 break;
             default:
         }
