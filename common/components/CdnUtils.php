@@ -154,6 +154,17 @@ class CdnUtils
     }
 
     /**
+     * 网宿拉m3u8流地址
+     *
+     * @param $streamId
+     * @return string
+     */
+    public static function wangSuPullM3u8Stream($streamId)
+    {
+        return 'http://wllivepull.8686c.com/live/' . $streamId . '/playlist.m3u8';
+    }
+
+    /**
      * 移动端拉流地址
      *
      * @param $streamId
@@ -226,7 +237,7 @@ class CdnUtils
                 if ($rtmp) {
                     $pullUrl = self::wangSuPullRtmpStream($streamId);
                 } else {
-                    $pullUrl = '';
+                    $pullUrl = self::wangSuPullM3u8Stream($streamId);
                 }
                 break;
             default:
