@@ -455,7 +455,7 @@ class LiveService
         return intval($num);
     }
 
-    public static function leaveRoom($server, $frame, $message, $fd, $isExceptionExit = false)
+    public static function leaveRoom($server, $frame, $message, $fd = 0, $isExceptionExit = false)
     {
         $params = $message['data'];
         if (!empty($params)) {
@@ -507,6 +507,9 @@ class LiveService
                 $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
                 $redis->hdel($keyWSRoomUser, $userId);
             }
+            // 清除心跳
+            $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
+            $redis->hdel($keyLatestHeartbeat, $userId);
         }
     }
 
