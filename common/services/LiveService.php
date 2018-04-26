@@ -220,7 +220,6 @@ class LiveService
         static::latestHeartbeat($frame->fd, $userId, $roomId, $param["isMaster"]);
     }
 
-
     /**
      * 记录最新一次心跳时间
      *
