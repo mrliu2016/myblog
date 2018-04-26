@@ -56,7 +56,7 @@ class LiveService
         ];
         //广播房间全体成员
         $roomAll = LiveService::fdListByRoomId($server, $roomId);
-        static::broadcast($server, $roomAll, $respondMessage);
+        static::broadcast($server, $roomAll, $respondMessage, $roomId);
     }
 
     //送礼物
@@ -155,7 +155,7 @@ class LiveService
         );
         $respondMessage['data'] = $data;
         $roomAll = LiveService::fdListByRoomId($server, $roomId);
-        static::broadcast($server, $roomAll, $respondMessage);
+        static::broadcast($server, $roomAll, $respondMessage, $roomId);
 //        foreach ($roomAll as $fd) {
 //            try {
 //                if (!$server->exist($fd)) {
@@ -217,6 +217,24 @@ class LiveService
             ll(var_export(array_merge($respondMessage, array("fd" => $frame->fd)), true), 'webSocketMessage.log');
             $redis->hdel(Constants::WSCLOSE, $userId);
         }
+        static::latestHeartbeat($frame->fd, $userId, $roomId, $param["isMaster"]);
+    }
+
+
+    /**
+     * 记录最新一次心跳时间
+     *
+     * @param $fd
+     * @param $userId
+     * @param $roomId
+     * @param $isMaster
+     */
+    public static function latestHeartbeat($fd, $userId, $roomId, $isMaster)
+    {
+        $redis = RedisClient::getInstance();
+        $key = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
+        $redis->hset($key, $userId, $fd . '_' . $isMaster . '_' . time());
+        $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
     }
 
     /**
@@ -266,20 +284,7 @@ class LiveService
             ],
         ];
         $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-        static::broadcast($server, $fdList, $messageAll);
-//        foreach ($fdList as $fd) {
-//            try {
-//                if (!$server->exist($fd)) {
-//                    //fd连接不存在或尚未完成握手，返回false
-//                    self::fdClose(null, $fd);
-//                } else {
-//                    $server->push($fd, json_encode($messageAll));
-//                }
-////                $server->push($fd, json_encode($messageAll));
-//            } catch (ErrorException $ex) {
-//                self::leave($fd, $params['roomId']);
-//            }
-//        }
+        static::broadcast($server, $fdList, $messageAll, $params['roomId']);
     }
 
     //获取webSocket服务ip
@@ -450,7 +455,7 @@ class LiveService
         return intval($num);
     }
 
-    public static function leaveRoom($server, $frame, $message)
+    public static function leaveRoom($server, $frame, $message, $fd, $isExceptionExit = false)
     {
         $params = $message['data'];
         if (!empty($params)) {
@@ -474,24 +479,12 @@ class LiveService
             } else {
                 $count = LiveService::roomMemberNum($params['roomId']) - 1;
             }
-//            self::leave($frame->fd, $params['roomId']);
-            static::fdClose($server, $frame->fd);
+            self::leave($isExceptionExit ? $fd : $frame->fd, $params['roomId']);
+//            static::fdClose($server, $isExceptionExit ? $fd : $frame->fd);
             self::clearLMList($params);
             $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
             $messageAll['data']['count'] = $count;
-            static::broadcast($server, $fdList, $messageAll);
-//            foreach ($fdList as $fd) {
-//                try {
-//                    if (!$server->exist($fd)) {
-//                        //fd连接不存在或尚未完成握手，返回false
-//                        self::fdClose(null, $fd);
-//                    } else {
-//                        $server->push($fd, json_encode($messageAll));
-//                    }
-//                } catch (ErrorException $ex) {
-//                    ll($ex->getMessage(), __FUNCTION__ . '.log');
-//                }
-//            }
+            static::broadcast($server, $fdList, $messageAll, $params['roomId']);
         }
     }
 
@@ -588,7 +581,7 @@ class LiveService
                     ],
                 ];
                 $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-                static::broadcast($server, $fdList, $messageAll);
+                static::broadcast($server, $fdList, $messageAll, $params['roomId']);
 //                foreach ($fdList as $fd) {
 //                    try {
 //                        if (!$server->exist($fd)) {
@@ -833,6 +826,39 @@ class LiveService
             //删除fd数据
             $redis->hdel($keyWSRoomLocation, $fd);
 
+            // 心跳
+            $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
+            $latestHeartbeat = $redis->hget($keyLatestHeartbeat, $userId);
+            $latestHeartbeat = explode('_', $latestHeartbeat);
+            if (!empty($latestHeartbeat)) {
+                $keyWSRoomUser = Constants::WS_ROOM_USER . $roomId;
+                $userInfo = json_decode($redis->hget($keyWSRoomUser, $userId), true);
+                switch ($latestHeartbeat[1]) {
+                    case 0: // 观众
+                        self::leave($fd, $roomId);
+                        break;
+                    case 1: // 主播
+                        if ((time() - $latestHeartbeat[2]) <= Constants::WS_HEARTBEAT_IDLE_TIME) {
+                            self::leave($fd, $roomId);
+                        }
+                        break;
+                }
+                if ((time() - $latestHeartbeat[2]) > Constants::WS_HEARTBEAT_IDLE_TIME) {
+                    $message['data'] = [
+                        'roomId' => $roomId,
+                        'isMaster' => $roleId,
+                        'userId' => $userId,
+                        'avatar' => $userInfo['avatar'],
+                        'nickName' => $userInfo['nickName'],
+                        'level' => $userInfo['level']
+                    ];
+                    static::leaveRoom($server, null, $message, $fd, true);
+                    $redis->hdel($keyLatestHeartbeat, $userId);
+                }
+            } else {
+                self::leave($fd, $roomId);
+            }
+
             $responseMessage['data'] = [
                 'data' => [
                     'roomId' => $roomId,
@@ -879,16 +905,18 @@ class LiveService
      * @param $server
      * @param $fdList
      * @param $respondMessage
+     * @param $roomId
      * @return bool
      */
-    private static function broadcast($server, $fdList, $respondMessage)
+    private static function broadcast($server, $fdList, $respondMessage, $roomId)
     {
         if (empty($fdList)) return false;
         foreach ($fdList as $fd) {
             try {
                 if (!$server->exist($fd)) {
                     //fd连接不存在或尚未完成握手，返回false
-                    self::fdClose(null, $fd);
+//                    self::fdClose(null, $fd);
+                    self::leave($fd, $roomId);
                 } else {
                     $server->push($fd, json_encode($respondMessage));
                 }

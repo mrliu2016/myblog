@@ -58,6 +58,11 @@ class Constants
     const WS_ROOM_USER_LM_LIST = 'WSRoomUserLMList_';
     const WS_USER_BALANCE = 'WSUserBalance';
 
+    const WS_HEARTBEAT_IDLE_TIME = 60; // TCP连接如果在30秒内
+    const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
+    const WS_LATEST_HEARTBEAT_TIME = 'WSLatestHeartbeatTime'; // 最新的心跳时间
+    const WS_DEFAULT_EXPIRE = 3600;
+
     // 队列
     const QUEUE_WS_HEARTBEAT = 'WS_Heartbeat_Live';
     const QUEUE_WS_GIFT_ORDER = 'WSGiftOrder';
