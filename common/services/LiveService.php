@@ -831,8 +831,8 @@ class LiveService
             // 心跳
             $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
             $latestHeartbeat = $redis->hget($keyLatestHeartbeat, $userId);
-            $latestHeartbeat = explode('_', $latestHeartbeat);
             if (!empty($latestHeartbeat)) {
+                $latestHeartbeat = explode('_', $latestHeartbeat);
                 $keyWSRoomUser = Constants::WS_ROOM_USER . $roomId;
                 $userInfo = json_decode($redis->hget($keyWSRoomUser, $userId), true);
                 switch ($latestHeartbeat[1]) {
