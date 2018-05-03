@@ -28,14 +28,6 @@ class WebSocketController extends Controller
 
         $server->on('open', function ($server, $req) {
             ll("{$req->fd} connection open", 'webSocketMessage.log');
-
-            $result = $server->getClientList(0, 100);
-            ll('------getClientList------', 'webSocketMessage.log');
-            ll($result, 'webSocketMessage.log');
-            foreach ($result as $key => $value) {
-                $info = $server->connection_info($value);
-                ll($info, 'webSocketMessage.log');
-            }
         });
         $server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
