@@ -188,7 +188,7 @@ class User extends ActiveRecord
             'level' => !empty($result[Constants::CODE_SUCCESS]['level']) ? intval($result[Constants::CODE_SUCCESS]['level']) : Constants::CODE_SUCCESS,
             'token' => Token::generateToken($result[Constants::CODE_SUCCESS]['id']),
             'balance' => !empty($result[Constants::CODE_SUCCESS]['balance'])
-                ? $result[Constants::CODE_SUCCESS]['balance'] / Constants::CENT : 0
+                ? $result[Constants::CODE_SUCCESS]['balance'] : 0
         ];
     }
 
