@@ -56,7 +56,7 @@ class UserController extends BaseController
                 'mobile' => $result['mobile'],
                 'roomId' => '',
                 'level' => $result['level'],
-                'balance' => !empty($result['balance']) ? $result['balance'] / Constants::CENT : 0,
+                'balance' => !empty($result['balance']) ? $result['balance'] : 0,
             ]
         );
     }
