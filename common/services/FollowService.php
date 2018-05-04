@@ -38,14 +38,11 @@ class FollowService
      */
     public static function getUserFollowList($params)
     {
-        if (!isset($params['userId'])) {
-            return ['code' => Constants::CODE_FAILED, 'msg' => 'parameter error'];
-        }
         $page = isset($params['page']) ? (int)$params['page'] : 1;
         $size = isset($params['pageSize']) ? (int)$params['pageSize'] : self::PAGE_SIZE;
         $list = [];
         $liveLIst = [];
-        $result = Follow::getUserFollowLive($params['userId'],$page,$size);
+        $result = Follow::getUserFollowLive($params['userId'], $page, $size);
         $userId = '';
         foreach ($result as $key => $value) {
             $userId .= $value['userIdFollow'] . ',';
@@ -57,39 +54,46 @@ class FollowService
             $item["level"] = (int)$user['level'];
             $item["description"] = $user['description'];
             $item["updated"] = $value['updated'];
+            $item["roomId"] = $value['roomId'];
+            $item["imgSrc"] = $value['imgSrc'];
+            $item["title"] = $value['title'];
+            $item["isLive"] = $value['isLive'];
+            $item['startTime'] = $value['startTime'];
+            $item['viewerNum'] = $value['viewerNum'];
+            $item['pullRtmp'] = CdnUtils::getPullUrl($value['roomId']);
             $list[] = $item;
         }
-        if (!empty($userId)) {
-            $sql = 'select id,userId,roomId,startTime,endTime,imgSrc,remark,isLive,viewerNum from '
-                . Video::tableName() . ' where userId in(' . trim($userId, ',') . ') and isLive = 1';
-            $liveLIst = Video::queryBySQLCondition($sql);
-        }
+//        if (!empty($userId)) {
+//            $sql = 'select id,userId,roomId,startTime,endTime,imgSrc,remark,isLive,viewerNum from '
+//                . Video::tableName() . ' where userId in(' . trim($userId, ',') . ') and isLive = 1';
+//            $liveLIst = Video::queryBySQLCondition($sql);
+//        }
+//
+//        foreach ($list as $key => $value) {
+//            $flag = true;
+//            foreach ($liveLIst as $itemKey => $itemValue) {
+//                if ($value['userId'] == $itemValue['userId']) {
+//                    $list[$key]['imgSrc'] = $itemValue['imgSrc'];
+//                    $list[$key]['title'] = $itemValue['remark'];
+//                    $list[$key]['isLive'] = $itemValue['isLive'];
+//                    $list[$key]['startTime'] = $itemValue['startTime'];
+//                    $list[$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
+//                    $list[$key]['viewerNum'] = $itemValue['viewerNum'];
+//                    $list[$key]['roomId'] = $itemValue['id'];
+//                    $flag = false;
+//                }
+//            }
+//            if ($flag) {
+//                $list[$key]['imgSrc'] = '';
+//                $list[$key]['title'] = '';
+//                $list[$key]['isLive'] = "0";
+//                $list[$key]['pullRtmp'] = '';
+//                $list[$key]['viewerNum'] = "0";
+//                $list[$key]['roomId'] = $itemValue['id'];
+//            }
+//        }
 
-        foreach ($list as $key => $value){
-            $flag = true;
-            foreach ($liveLIst as $itemKey => $itemValue){
-                if ($value['userId'] == $itemValue['userId']){
-                    $list[$key]['imgSrc'] = $itemValue['imgSrc'];
-                    $list[$key]['title'] = $itemValue['remark'];
-                    $list[$key]['isLive'] = $itemValue['isLive'];
-                    $list[$key]['startTime'] = $itemValue['startTime'];
-                    $list[$key]['pullRtmp'] = CdnUtils::getPullUrl($itemValue['id']);
-                    $list[$key]['viewerNum'] = $itemValue['viewerNum'];
-                    $list[$key]['roomId'] = $itemValue['id'];
-                    $flag = false;
-                }
-            }
-            if ($flag){
-                $list[$key]['imgSrc'] = '';
-                $list[$key]['title'] = '';
-                $list[$key]['isLive'] = "0";
-                $list[$key]['pullRtmp'] = '';
-                $list[$key]['viewerNum'] = "0";
-                $list[$key]['roomId'] = '0';
-            }
-        }
-
-        $total_cnt = (int)Follow::queryInfoNum($params);;
+        $total_cnt = (int)Follow::followLiveCount($params['userId']);;
         $page_cnt = ceil($total_cnt / $size);
         $data = compact('total_cnt', 'page', 'size', 'page_cnt', 'list');
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $data];

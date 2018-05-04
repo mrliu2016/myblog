@@ -46,6 +46,9 @@ class FollowController extends BaseController
     public function actionList()
     {
         $params = Yii::$app->request->get();
+        if (!isset($params['userId'])) {
+            $this->jsonReturnError(Constants::CODE_FAILED, '系统繁忙，请稍后重试!');
+        }
         $result = FollowService::getUserFollowList($params);
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);

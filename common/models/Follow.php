@@ -3,6 +3,7 @@
 namespace app\common\models;
 
 use yii\db\ActiveRecord;
+use Yii;
 
 class Follow extends ActiveRecord
 {
@@ -84,13 +85,51 @@ class Follow extends ActiveRecord
         return $model->save();
     }
 
-    //关注列表-直播
+    /**
+     * 关注列表-直播
+     *
+     * @param $userId
+     * @param $page
+     * @param $size
+     * @return array
+     * @throws \yii\db\Exception
+     */
     public static function getUserFollowLive($userId, $page, $size)
     {
         $offset = ($page - 1) * $size;
-        $sql = "select a.* from t_follow a,t_user b where a.userIdFollow=b.id and a.userId=" . $userId . " and a.status=1 and b.liveTime>" . (time() - 30) . "";
-        $sql .= ' limit ' . $offset . ',' . $size . '';
+//        $sql = "select a.* from t_follow a,t_user b where a.userIdFollow=b.id and a.userId=" . $userId . " and a.status=1";
+        $sql = 'select a.id,a.userId,a.userIdFollow,a.updated,v.id as roomId,v.imgSrc,v.remark as title,v.viewerNum,v.isLive,v.startTime from '
+            . static::tableName() . ' a,' . User::tableName() . ' b,' . Video::tableName() . ' v'
+            . " where a.userIdFollow = b.id and a.userId = " . $userId . " and a.status = 1 and v.userId = a.userIdFollow and v.isLive = 1";
+        $sql .= ' limit ' . $offset . ',' . $size;
         $result = Video::queryBySQLCondition($sql);
         return $result;
+    }
+
+    /**
+     * 获取数量
+     *
+     * @param $userId
+     * @return array
+     * @throws \yii\db\Exception
+     */
+    public static function followLiveCount($userId)
+    {
+        $sql = 'select count(*) as count from '
+            . static::tableName() . ' a,' . User::tableName() . ' b,' . Video::tableName() . ' v'
+            . " where a.userIdFollow = b.id and a.userId = " . $userId . " and a.status = 1 and v.userId = a.userIdFollow and v.isLive = 1";
+        return static::queryBySQLCondition($sql);
+    }
+
+    /**
+     * @param string $sql
+     * @return array
+     * @throws \yii\db\Exception
+     */
+    public static function queryBySQLCondition($sql = '')
+    {
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        return $command->queryAll();
     }
 }
