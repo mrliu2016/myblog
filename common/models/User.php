@@ -293,7 +293,13 @@ class User extends ActiveRecord
 
     public static function SearchUser($content, $observerUserId)
     {
-        $sql = "SELECT id,userName,avatar,nickName,mobile,description,is_attention,level FROM t_user WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
+        $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM " . static::tableName();
+//            . static::tableName() . " WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
+        if (ctype_digit($content) && is_numeric($content)) {
+            $sql .= ' where id = ' . $content;
+        } else {
+            $sql .= " where nickName LIKE '%$content%'";
+        }
         $row = static::findBySql($sql)->asArray()->all();
         foreach ($row as $key => $value) {
             $row[$key]['isAttention'] = intval(Follow::isAttention($value['id'], $observerUserId) ? 1 : 0);

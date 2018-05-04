@@ -215,16 +215,22 @@ class UserController extends BaseController
         }
     }
 
-    //用户搜索
+    /**
+     * 用户搜索
+     */
     public function actionSearch()
     {
         $content = Yii::$app->request->post('content');
         $observerUserId = Yii::$app->request->post('observerUserId');
-        $this->jsonReturnSuccess(
-            Constants::CODE_SUCCESS,
-            '搜索成功',
-            User::SearchUser($content, $observerUserId)
-        );
+        $result = User::SearchUser($content, $observerUserId);
+        if (!empty($result)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '搜索成功',
+                $result
+            );
+        }
+        $this->jsonReturnError(Constants::CODE_FAILED);
     }
 
     //检查手机号是否被注册过
