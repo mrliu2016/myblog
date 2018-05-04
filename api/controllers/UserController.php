@@ -42,7 +42,7 @@ class UserController extends BaseController
         }
         $token = Token::generateToken($result['id']);
         $redisClient = RedisClient::getInstance();
-        $redisClient->set(Constants::TTT_TECH_TOKEN . ':' . $token, json_encode(['userd' => $result['id'], 'token' => $token]));
+        $redisClient->set(Constants::TTT_TECH_TOKEN . ':' . $token, json_encode(['userId' => $result['id'], 'token' => $token]));
         $redisClient->expire(Constants::TTT_TECH_TOKEN . ':' . $token, Constants::LOGIN_TOKEN_EXPIRES);
         $this->jsonReturnSuccess(
             Constants::CODE_SUCCESS,
@@ -61,18 +61,24 @@ class UserController extends BaseController
         );
     }
 
+    /**
+     * 退出登录
+     */
     public function actionLogout()
     {
         $headers = Yii::$app->request->headers;
-        if (!isset($headers['token'])) {
-            $this->jsonReturnError(Constants::CODE_FAILED, '已过期!');
+//        if (!isset($headers['token'])) {
+//            $this->jsonReturnError(Constants::CODE_FAILED, '已过期!');
+//        }
+        $redisClient = RedisClient::getInstance();
+        if ($redisClient->exists(Constants::TTT_TECH_TOKEN . ':' . $headers['token'])) {
+            $result = json_decode($redisClient->get(Constants::TTT_TECH_TOKEN . ':' . $headers['token']), true);
+            if ($headers['token'] != $result['token']) {
+                $this->jsonReturnError(Constants::CODE_FAILED, '退出登录失败，请稍后重试!');
+            }
+            $redisClient->del(Constants::TTT_TECH_TOKEN . ':' . $headers['token']);
         }
-        $usinfo = json_decode(RedisClient::getInstance()->get(Constants::TTT_TECH_TOKEN . ':' . $headers['token']), true);
-        if ($headers['token'] != $usinfo['token']) {
-            $this->jsonReturnError(Constants::CODE_FAILED, 'token错误');
-        }
-        RedisClient::getInstance()->del(Constants::TTT_TECH_TOKEN . ':' . $headers['token']);
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '退出成功', []);
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '退出登录成功', []);
     }
 
     //实名认证
@@ -168,7 +174,9 @@ class UserController extends BaseController
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
 
-    //手机号注册
+    /**
+     * 手机号注册
+     */
     public function actionPhoneRegister()
     {
         $mobile = Yii::$app->request->post('mobile');
