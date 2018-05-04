@@ -174,15 +174,16 @@ class UserController extends BaseController
         $mobile = Yii::$app->request->post('mobile');
         $password = Yii::$app->request->post('password');
         if (empty($mobile) || empty($password)) {
-            $this->jsonReturnError(Constants::CODE_FAILED, '非空选项', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '请输入手机号或密码', []);
         }
         if (!is_string($mobile) || strlen($mobile) != 11 || !ctype_digit($mobile)) {
-            $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '请输入手机号', []);
         }
-        $dat = User::queryByPhone($mobile);
-        if (empty($dat)) {
+        if (empty(User::queryByPhone($mobile))) {
             if (User::Register($mobile, md5($password))) {
                 $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '注册成功', []);
+            } else {
+                $this->jsonReturnError(Constants::CODE_FAILED, '注册失败');
             }
         } else {
             $this->jsonReturnError(Constants::CODE_FAILED, '该手机号已被注册', []);

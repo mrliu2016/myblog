@@ -60,6 +60,13 @@ class User extends ActiveRecord
             ->asArray()->one();
     }
 
+    /**
+     * 手机号注册
+     *
+     * @param $mobile
+     * @param $password
+     * @return mixed
+     */
     public static function Register($mobile, $password)
     {
         $model = new self();
