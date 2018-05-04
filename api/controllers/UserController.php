@@ -42,7 +42,7 @@ class UserController extends BaseController
         }
         $token = Token::generateToken($result['id']);
         $redisClient = RedisClient::getInstance();
-        $redisClient->set(Constants::TTT_TECH_TOKEN . ':' . $token, json_encode(['userid' => $result['id'], 'token' => $token]));
+        $redisClient->set(Constants::TTT_TECH_TOKEN . ':' . $token, json_encode(['userd' => $result['id'], 'token' => $token]));
         $redisClient->expire(Constants::TTT_TECH_TOKEN . ':' . $token, Constants::LOGIN_TOKEN_EXPIRES);
         $this->jsonReturnSuccess(
             Constants::CODE_SUCCESS,
@@ -71,7 +71,7 @@ class UserController extends BaseController
         if ($headers['token'] != $usinfo['token']) {
             $this->jsonReturnError(Constants::CODE_FAILED, 'token错误');
         }
-        RedisClient::getInstance()->del($headers['token']);
+        RedisClient::getInstance()->del(Constants::TTT_TECH_TOKEN . ':' . $headers['token']);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '退出成功', []);
     }
 

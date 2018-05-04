@@ -54,7 +54,10 @@ class User extends ActiveRecord
 
     public static function checkLogin($mobile, $password)
     {
-        return static::find()->andWhere(['mobile' => $mobile])->andWhere(['password' => $password])->asArray()->one();
+        return static::find()
+            ->andWhere(['mobile' => $mobile])
+            ->andWhere(['password' => $password])
+            ->asArray()->one();
     }
 
     public static function Register($mobile, $password)
