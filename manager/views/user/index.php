@@ -35,6 +35,7 @@ $this->title = '用户管理';
                     <th class="col-md-1">id</th>
                     <th class="col-md-1">应用</th>
                     <th class="col-md-1">昵称</th>
+                    <th class="col-md-1">头像</th>
                     <th class="col-md-1">等级</th>
                     <th class="col-md-1">货币</th>
                     <th class="col-md-1">操作</th>
@@ -51,7 +52,9 @@ $this->title = '用户管理';
                         </td>
                         <td>
                             <?= $item['nickName'] ?>
-                            <img src="<?= $item['avatar'] ?>" width="50" height="50">
+                        </td>
+                        <td>
+                            <img src="<?= $item['avatar'] ?>" width="50" height="50" style="border-radius: 50%;">
                         </td>
                         <td>
                             <?= $item['level'] ?>
