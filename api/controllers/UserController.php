@@ -198,18 +198,20 @@ class UserController extends BaseController
         }
     }
 
-    //发送验证码
+    /**
+     * 发送验证码
+     */
     public function actionVerificationCode()
     {
         $mobile = Yii::$app->request->post('mobile');
         if (strlen($mobile) != 11 || !is_string($mobile) || !ctype_digit($mobile)) {
-            self::jsonReturnError(Constants::CODE_FAILED, '手机号错误', []);
+            self::jsonReturnError(Constants::CODE_FAILED, '请输入正确的手机号!');
         }
-        $dat['code'] = Token::code();
-        if (SMSHelper::send($dat['code'], $mobile)) {
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '验证码发送成功', $dat);
+        $result['code'] = Token::code();
+        if (SMSHelper::send($result['code'], '三体云联验证码', $mobile)) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '验证码发送成功', $result);
         } else {
-            $this->jsonReturnError(Constants::CODE_FAILED, '验证码发送失败', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '验证码发送失败');
         }
     }
 
