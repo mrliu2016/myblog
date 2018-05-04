@@ -20,26 +20,30 @@ use Yii;
 class UserController extends BaseController
 {
 
+    /**
+     * 登录
+     */
     public function actionLogin()
     {
-        $mobile = \Yii::$app->request->post('mobile');
-        $password = \Yii::$app->request->post('password');
+        $mobile = Yii::$app->request->post('mobile');
+        $password = Yii::$app->request->post('password');
         if (empty($mobile) || empty($password)) {
-            self::jsonReturnError(Constants::CODE_FAILED, '非空选项', []);
+            self::jsonReturnError(Constants::CODE_FAILED, '请输入手机号或密码!', []);
         }
         if (strlen($mobile) != 11 || !is_string($mobile) || !ctype_digit($mobile)) {
             self::jsonReturnError(Constants::CODE_FAILED, '手机号错误', []);
         }
-         if(empty(User::queryByPhone($mobile))){
-             $this->jsonReturnError(Constants::CODE_FAILED, '手机号未注册', []);
-         }
+        if (empty(User::queryByPhone($mobile))) {
+            $this->jsonReturnError(Constants::CODE_FAILED, '手机号未注册', []);
+        }
         $result = User::checkLogin($mobile, md5($password));
         if (empty($result)) {
-            $this->jsonReturnError(Constants::CODE_FAILED, '用户名或密码错误', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '手机号或密码错误', []);
         }
         $token = Token::generateToken($result['id']);
-        RedisClient::getInstance()->set($token, json_encode(['userid' => $result['id'], 'token' => $token]));
-        RedisClient::getInstance()->expire($token, Constants::LOGIN_TOKEN_EXPIRES);
+        $redisClient = RedisClient::getInstance();
+        $redisClient->set(Constants::TTT_TECH_TOKEN . ':' . $token, json_encode(['userid' => $result['id'], 'token' => $token]));
+        $redisClient->expire(Constants::TTT_TECH_TOKEN . ':' . $token, Constants::LOGIN_TOKEN_EXPIRES);
         $this->jsonReturnSuccess(
             Constants::CODE_SUCCESS,
             '登录成功',
@@ -59,11 +63,11 @@ class UserController extends BaseController
 
     public function actionLogout()
     {
-        $headers = \Yii::$app->request->headers;
+        $headers = Yii::$app->request->headers;
         if (!isset($headers['token'])) {
-            $this->jsonReturnError(Constants::CODE_FAILED, 'missing token!');
+            $this->jsonReturnError(Constants::CODE_FAILED, '已过期!');
         }
-        $usinfo = json_decode(RedisClient::getInstance()->get($headers['token']), true);
+        $usinfo = json_decode(RedisClient::getInstance()->get(Constants::TTT_TECH_TOKEN . ':' . $headers['token']), true);
         if ($headers['token'] != $usinfo['token']) {
             $this->jsonReturnError(Constants::CODE_FAILED, 'token错误');
         }
@@ -75,9 +79,9 @@ class UserController extends BaseController
     public function actionVerified()
     {
         $params = array(
-            'id' => \Yii::$app->request->post('id'),
-            'idCard' => \Yii::$app->request->post('idCard'),
-            'realName' => \Yii::$app->request->post('realName'),
+            'id' => Yii::$app->request->post('id'),
+            'idCard' => Yii::$app->request->post('idCard'),
+            'realName' => Yii::$app->request->post('realName'),
         );
         if (empty($params['idCard']) || strlen($params['idCard']) != 18 || !ctype_digit(substr($params['idCard'], 0, 17)) || empty($params['realName'])) {
             $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
@@ -90,8 +94,8 @@ class UserController extends BaseController
     public function actionSetPassword()
     {
         $params = array(
-            'mobile' => \Yii::$app->request->post('mobile'),
-            'password' => md5(\Yii::$app->request->post('password')),
+            'mobile' => Yii::$app->request->post('mobile'),
+            'password' => md5(Yii::$app->request->post('password')),
         );
         $dat = User::queryByPhone($params['mobile']);
         if (!empty($dat)) {
@@ -107,8 +111,8 @@ class UserController extends BaseController
     public function actionBindPhone()
     {
         $params = array(
-            'id' => \Yii::$app->request->post('id'),
-            'mobile' => \Yii::$app->request->post('mobile'),
+            'id' => Yii::$app->request->post('id'),
+            'mobile' => Yii::$app->request->post('mobile'),
         );
         if (empty($params['mobile']) || !is_string($params['mobile']) || strlen($params['mobile']) != 11 || !ctype_digit($params['mobile'])) {
             $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
@@ -122,12 +126,12 @@ class UserController extends BaseController
     public function actionPersonalInformation()
     {
         $params = array(
-            'id' => \Yii::$app->request->post('id'),
-            'avatar' => \Yii::$app->request->post('avatar'),
-            'nickName' => \Yii::$app->request->post('nickName'),
-            'province' => \Yii::$app->request->post('province'),
-            'city' => \Yii::$app->request->post('city'),
-            'description' => \Yii::$app->request->post('description'),
+            'id' => Yii::$app->request->post('id'),
+            'avatar' => Yii::$app->request->post('avatar'),
+            'nickName' => Yii::$app->request->post('nickName'),
+            'province' => Yii::$app->request->post('province'),
+            'city' => Yii::$app->request->post('city'),
+            'description' => Yii::$app->request->post('description'),
         );
         if (User::informationUpdate($params)) {
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '成功', []);
@@ -168,7 +172,7 @@ class UserController extends BaseController
     public function actionPhoneRegister()
     {
         $mobile = Yii::$app->request->post('mobile');
-        $password = \Yii::$app->request->post('password');
+        $password = Yii::$app->request->post('password');
         if (empty($mobile) || empty($password)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '非空选项', []);
         }

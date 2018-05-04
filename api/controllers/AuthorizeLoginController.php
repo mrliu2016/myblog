@@ -9,6 +9,9 @@ use Yii;
 
 class AuthorizeLoginController extends BaseController
 {
+    /**
+     * 授权登录
+     */
     public function actionAuthorizeLogin()
     {
         $params = Yii::$app->request->post();

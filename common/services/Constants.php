@@ -131,4 +131,6 @@ class Constants
     const CDN_FACTORY_XYCDN = 'xyCDN';//星域cdn
     const CDN_FACTORY_QING_CLOUD = 'qingCloud'; // 青云
     const CDN_FACTORY_WANG_SU = 'wangSu'; // 网宿
+
+    const TTT_TECH_TOKEN = '3ttech_token';
 }

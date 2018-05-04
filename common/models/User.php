@@ -30,7 +30,9 @@ class User extends ActiveRecord
 
     public static function queryByPhone($mobile)
     {
-        return static::find()->andWhere(['mobile' => $mobile])->asArray()->one();
+        return static::find()
+            ->select('id,applicationId,nickName,mobile,isValid,balance')
+            ->andWhere(['mobile' => $mobile])->asArray()->one();
     }
 
     /**
@@ -41,7 +43,6 @@ class User extends ActiveRecord
      */
     public static function profile($userId, $observerUserId)
     {
-        ll($userId,__FUNCTION__.'.log');
         $userInfo = static::queryById($userId);
         $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] / Constants::CENT : 0;
         $userInfo['followees_cnt'] = intval(Follow::queryInfoNum(['userId' => $userId])); // 我的关注
