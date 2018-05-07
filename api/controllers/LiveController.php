@@ -105,4 +105,11 @@ class LiveController extends BaseController
             ]
         );
     }
+
+    public function actionPlayback()
+    {
+        $params = Yii::$app->request->get();
+        $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+        $page = intval(!empty($params['page']) ? $params['page'] : 0);
+    }
 }
