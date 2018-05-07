@@ -24,6 +24,7 @@ class VideoRecord extends ActiveRecord
         $result = Video::queryById($params['stream']);
         $url = Yii::$app->params['liveUrl'] . '/' . $params['uri'];
         $model = new VideoRecord();
+        $model->title = $params['remark'];
         $model->roomId = $params['stream'];
         $model->userId = $result['userId'];
         $model->startTime = $params['start_time'];
@@ -176,7 +177,8 @@ class VideoRecord extends ActiveRecord
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
         $find = static::find();
-        $result = $find->offset($offset)
+        $find = self::buildParams($find, $params);
+        $result = $find->offset($offset)->select('id,userId,roomId,startTime,videoSrc,duration,created,title')
             ->limit($params['defaultPageSize'])
             ->orderBy('startTime desc')
             ->asArray()
@@ -219,7 +221,7 @@ class VideoRecord extends ActiveRecord
         if (!empty($params['isDeleted'])) {
             $find->andWhere(['isDeleted' => $params['isDeleted']]);
         }
-        if (!isset($params['queryTime'])) {
+        if (isset($params['queryTime'])) {
             $find->andWhere('startTime >= ' . $params['queryTime'] . ' and startTime < ' . $params['queryTime']);
         }
         return $find;

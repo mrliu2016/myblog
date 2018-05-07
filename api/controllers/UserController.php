@@ -223,14 +223,11 @@ class UserController extends BaseController
         $content = Yii::$app->request->post('content');
         $observerUserId = Yii::$app->request->post('observerUserId');
         $result = User::SearchUser($content, $observerUserId);
-        if (!empty($result)) {
-            $this->jsonReturnSuccess(
-                Constants::CODE_SUCCESS,
-                '搜索成功',
-                $result
-            );
-        }
-        $this->jsonReturnError(Constants::CODE_FAILED);
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '搜索成功',
+            $result
+        );
     }
 
     //检查手机号是否被注册过

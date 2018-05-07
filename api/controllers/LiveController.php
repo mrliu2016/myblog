@@ -33,14 +33,11 @@ class LiveController extends BaseController
         $list = Video::queryHot($params);
         $totalCount = intval(Video::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
-        if (!empty($list)) {
-            $this->jsonReturnSuccess(
-                Constants::CODE_SUCCESS,
-                '',
-                compact('totalCount', 'page', 'size', 'pageCount', 'list')
-            );
-        }
-        $this->jsonReturnSuccess(Constants::CODE_FAILED);
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '',
+            compact('totalCount', 'page', 'size', 'pageCount', 'list')
+        );
     }
 
     /**
@@ -55,14 +52,11 @@ class LiveController extends BaseController
         $list = Video::queryLatest($params);
         $totalCount = intval(Video::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
-        if (!empty($list)) {
-            $this->jsonReturnSuccess(
-                Constants::CODE_SUCCESS,
-                '',
-                compact('totalCount', 'page', 'size', 'pageCount', 'list')
-            );
-        }
-        $this->jsonReturnSuccess(Constants::CODE_FAILED);
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '',
+            compact('totalCount', 'page', 'size', 'pageCount', 'list')
+        );
     }
 
     /**
@@ -116,17 +110,13 @@ class LiveController extends BaseController
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
         $page = intval(!empty($params['page']) ? $params['page'] : 0);
         $result = VideoRecord::queryInfo($params);
-        $result = Video::processLiveInfo($result, true);
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'',$result);
+        $list = Video::processLiveInfo($result, true);
         $totalCount = intval(VideoRecord::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
-        if (!empty($result)) {
-            $this->jsonReturnSuccess(
-                Constants::CODE_SUCCESS,
-                '',
-                compact('totalCount', 'page', 'size', 'pageCount', 'result')
-            );
-        }
-        $this->jsonReturnSuccess(Constants::CODE_FAILED);
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '',
+            compact('totalCount', 'page', 'size', 'pageCount', 'list')
+        );
     }
 }
