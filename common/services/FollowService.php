@@ -58,7 +58,7 @@ class FollowService
             $item["imgSrc"] = $value['imgSrc'];
             $item["title"] = $value['title'];
             $item["isLive"] = $value['isLive'];
-            $item['startTime'] = $value['startTime'];
+            $item['startTime'] = date('Y.m.d H:i', $value['startTime']);
             $item['viewerNum'] = $value['viewerNum'];
             $item['pullRtmp'] = CdnUtils::getPullUrl($value['roomId']);
             $list[] = $item;
