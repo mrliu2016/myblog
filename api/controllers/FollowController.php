@@ -14,11 +14,12 @@ class FollowController extends BaseController
         exit;
     }
 
-    //关注
+    /**
+     * 关注
+     */
     public function actionAttention()
     {
         $params = Yii::$app->request->post();
-        ll($params,__FUNCTION__.'.log');
         $result = FollowService::attention($params);
         if ($result['code'] == Constants::CODE_FAILED) {
             $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
@@ -26,10 +27,12 @@ class FollowController extends BaseController
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
 
+    /**
+     * 取消关注
+     */
     public function actionCancelAttention()
     {
         $params = Yii::$app->request->post();
-        ll($params,__FUNCTION__.'.log');
         $result = FollowService::cancelAttention($params);
         if (!$result) {
             $this->jsonReturnError(Constants::CODE_FAILED, '取消关注失败!');

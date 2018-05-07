@@ -12,15 +12,27 @@ class FollowService
 {
     const PAGE_SIZE = 10;
 
+    /**
+     * 关注
+     *
+     * @param $params
+     * @return array
+     */
     public static function attention($params)
     {
         if (!isset($params['userId']) || !isset($params['userIdFollow'])) {
-            return ['code' => Constants::CODE_FAILED, 'msg' => 'parameter error'];
+            return ['code' => Constants::CODE_FAILED, 'msg' => '系统繁忙，请稍后重试！'];
         }
         Follow::attention($params['userId'], $params['userIdFollow']);
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => []];
     }
 
+    /**
+     * 取消关注
+     *
+     * @param $params
+     * @return bool
+     */
     public static function cancelAttention($params)
     {
         if (!isset($params['userId']) || !isset($params['userIdFollow'])) {
