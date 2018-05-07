@@ -88,7 +88,7 @@ class Video extends ActiveRecord
         $find = self::buildParams($find, $params);
         $result = $find->select('id,userId,startTime,imgSrc,remark as title,isLive,viewerNum')
             ->asArray()
-            ->orderBy('viewerNum desc')
+            ->orderBy('startTime desc,viewerNum desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])
             ->all();
@@ -119,7 +119,7 @@ class Video extends ActiveRecord
                 $result[$key]['nickName'] = '';
                 $result[$key]['level'] = 0;
                 $result[$key]['description'] = '';
-                $result[$key]['roomId'] = '0';
+                $result[$key]['roomId'] = $result[$key]['id'];
             }
         }
         return $result;
