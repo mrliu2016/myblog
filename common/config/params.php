@@ -56,6 +56,7 @@ $params = [
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
+        'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
         'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
     ],
 
@@ -113,6 +114,7 @@ $params = [
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
+        'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
         'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
     ],
 
@@ -170,6 +172,7 @@ $params = [
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
+        'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
         'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
     ],
 
@@ -215,7 +218,6 @@ $params = [
             'pull' => 'zbj-pull.3ttech.cn',
             'push' => 'zbj-push.3ttech.cn',
         ],
-        'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
         'wsServer' => [
             [
                 'ip' => '47.94.92.113',
@@ -227,6 +229,8 @@ $params = [
             ]
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
+        'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
+        'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
         'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
     ],
 

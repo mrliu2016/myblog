@@ -3,6 +3,7 @@
 namespace app\api\controllers;
 
 use app\common\models\Video;
+use app\common\models\VideoRecord;
 use app\common\services\Constants;
 
 class TranscribeController extends BaseController
@@ -21,7 +22,7 @@ class TranscribeController extends BaseController
         } else {
             $params = [];
         }
-        $result = Video::transcribe($params);
+        VideoRecord::transcribe($params);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'ok');
     }
 
