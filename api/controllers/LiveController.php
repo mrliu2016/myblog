@@ -6,6 +6,7 @@ use app\common\components\CdnUtils;
 use app\common\models\Follow;
 use app\common\models\User;
 use app\common\models\Video;
+use app\common\models\VideoRecord;
 use app\common\services\Constants;
 use app\common\services\LiveService;
 use Yii;
@@ -106,10 +107,26 @@ class LiveController extends BaseController
         );
     }
 
+    /**
+     * @throws \yii\db\Exception
+     */
     public function actionPlayback()
     {
         $params = Yii::$app->request->get();
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
         $page = intval(!empty($params['page']) ? $params['page'] : 0);
+        $result = VideoRecord::queryInfo($params);
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'',$result);
+        $result = Video::processLiveInfo($result, true);
+        $totalCount = intval(VideoRecord::queryInfoNum($params));
+        $pageCount = ceil($totalCount / $params['size']);
+        if (!empty($result)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '',
+                compact('totalCount', 'page', 'size', 'pageCount', 'result')
+            );
+        }
+        $this->jsonReturnSuccess(Constants::CODE_FAILED);
     }
 }

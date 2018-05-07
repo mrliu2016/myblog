@@ -153,4 +153,9 @@ class UserService
         }
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $result];
     }
+
+    public static function profile($userId)
+    {
+
+    }
 }

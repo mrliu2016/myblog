@@ -116,7 +116,13 @@ class Video extends ActiveRecord
         return static::processLiveInfo($result);
     }
 
-    private static function processLiveInfo($result)
+    /**
+     * @param $result
+     * @param bool $isPlayback
+     * @return mixed
+     * @throws \yii\db\Exception
+     */
+    public static function processLiveInfo($result, $isPlayback = false)
     {
         $userId = '';
         $userInfo = [];
@@ -129,7 +135,7 @@ class Video extends ActiveRecord
             $userInfo = static::queryBySQLCondition($sql);
         }
         foreach ($result as $key => $value) {
-            $result[$key]['pullRtmp'] = CdnUtils::getPullUrl($value['id']);
+            $result[$key]['pullRtmp'] = CdnUtils::getPullUrl($isPlayback ? $value['roomId'] : $value['id']);
             $result[$key]['startTime'] = date('Y.m.d H:i', $value['startTime']);
             $flag = true;
             foreach ($userInfo as $userKey => $userValue) {
@@ -138,7 +144,7 @@ class Video extends ActiveRecord
                     $result[$key]['nickName'] = $userValue['nickName'];
                     $result[$key]['level'] = intval($userValue['level']);
                     $result[$key]['description'] = $userValue['description'];
-                    $result[$key]['roomId'] = $result[$key]['id'];
+                    $result[$key]['roomId'] = $isPlayback ? $result[$key]['roomId'] : $result[$key]['id'];
                     $flag = false;
                 }
             }
@@ -147,7 +153,7 @@ class Video extends ActiveRecord
                 $result[$key]['nickName'] = '';
                 $result[$key]['level'] = 0;
                 $result[$key]['description'] = '';
-                $result[$key]['roomId'] = $result[$key]['id'];
+                $result[$key]['roomId'] = $isPlayback ? $result[$key]['roomId'] : $result[$key]['id'];
             }
         }
         return $result;
@@ -257,10 +263,10 @@ class Video extends ActiveRecord
      */
     public static function terminationLive($liveId, $userId)
     {
-        ll($liveId,__FUNCTION__.'.log');
+        ll($liveId, __FUNCTION__ . '.log');
         $sql = 'update ' . static::tableName()
             . ' set isLive = 0,endTime=' . time() . ',updated=' . time() . ' where id = ' . $liveId;
-        ll($sql,__FUNCTION__.'.log');
+        ll($sql, __FUNCTION__ . '.log');
         return static::updateBySqlCondition($sql);
     }
 

@@ -21,9 +21,12 @@ class VideoRecord extends ActiveRecord
      */
     public static function transcribe($params)
     {
+        $result = Video::queryById($params['stream']);
+        ll($result,__FUNCTION__);
         $url = Yii::$app->params['liveUrl'] . '/' . $params['uri'];
         $model = new VideoRecord();
         $model->roomId = $params['stream'];
+        $model->userId = $result['userId'];
         $model->startTime = $params['start_time'];
         $model->content = json_encode($params);
         $model->videoSrc = $url;
@@ -55,7 +58,7 @@ class VideoRecord extends ActiveRecord
                 ) {
                     return true;
                 }
-                $model = new CourseRecord();
+                $model = new VideoRecord();
                 $model->courseId = $streamId[1];
                 $model->content = json_encode($params);
                 $model->videoSrc = $streamId[1];
@@ -63,7 +66,7 @@ class VideoRecord extends ActiveRecord
                 $model->created = time();
                 $model->created = time();
                 $model->save();
-                $sql = 'update ' . Course::tableName() . ' set videoSrc = \'' . $params['video_url'] . '\',isLive = 2 where id = ' . $streamId[1];
+                $sql = 'update ' . Video::tableName() . ' set videoSrc = \'' . $params['video_url'] . '\',isLive = 2 where id = ' . $streamId[1];
                 static::executeBySqlCondition($sql);
                 return $model->id;
                 break;
@@ -88,7 +91,7 @@ class VideoRecord extends ActiveRecord
                 $index = strrpos($keyName, '.');
                 $keyName = explode('_', substr($keyName, 0, $index));
 
-                $model = new CourseRecord();
+                $model = new VideoRecord();
                 $model->courseId = $messageBody['stream'];
                 $model->startTime = strtotime($keyName[1]);
                 $model->content = json_encode($params);
@@ -147,7 +150,7 @@ class VideoRecord extends ActiveRecord
      */
     public static function queryBackStreamInfo($params)
     {
-        $course = Course::queryOne($params['id']);
+        $course = Video::queryOne($params['id']);
         $offset = 0;
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
@@ -165,6 +168,28 @@ class VideoRecord extends ActiveRecord
             $result[$key]['title'] = $course['title'];
         }
         return $result;
+    }
+
+    public static function queryInfo($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $result = $find->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->orderBy('startTime desc')
+            ->asArray()
+            ->all();
+        return $result;
+    }
+
+    public static function queryCourseInfoNum($params)
+    {
+        $find = static::find();
+        $find->andWhere(['courseId' => $params['id']]);
+        return $find->count();
     }
 
     /**
@@ -195,6 +220,9 @@ class VideoRecord extends ActiveRecord
         if (!empty($params['isDeleted'])) {
             $find->andWhere(['isDeleted' => $params['isDeleted']]);
         }
+        if (!isset($params['queryTime'])) {
+            $find->andWhere('startTime >= ' . $params['queryTime'] . ' and startTime < ' . $params['queryTime']);
+        }
         return $find;
     }
 
@@ -222,27 +250,5 @@ class VideoRecord extends ActiveRecord
         $connection = Yii::$app->db;
         $command = $connection->createCommand($sql);
         return $command->queryAll();
-    }
-
-    public static function queryInfo($params)
-    {
-        $offset = 0;
-        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
-            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
-        }
-        $find = static::find();
-        $result = $find->andWhere(['courseId' => $params['id']])->asArray()
-            ->offset($offset)
-            ->limit($params['defaultPageSize'])
-            ->orderBy('created desc')
-            ->all();
-        return $result;
-    }
-
-    public static function queryCourseInfoNum($params)
-    {
-        $find = static::find();
-        $find->andWhere(['courseId' => $params['id']]);
-        return $find->count();
     }
 }
