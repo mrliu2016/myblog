@@ -32,11 +32,36 @@ class LiveController extends BaseController
         $list = Video::queryHot($params);
         $totalCount = intval(Video::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
-        $this->jsonReturnSuccess(
-            Constants::CODE_SUCCESS,
-            '',
-            compact('totalCount', 'page', 'size', 'pageCount', 'list')
-        );
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '',
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+            );
+        }
+        $this->jsonReturnSuccess(Constants::CODE_FAILED);
+    }
+
+    /**
+     * 最新直播
+     */
+    public function actionLatest()
+    {
+        $params = Yii::$app->request->get();
+        $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+        $page = intval(!empty($params['page']) ? $params['page'] : 0);
+        $params['isLive'] = 1;
+        $list = Video::queryLatest($params);
+        $totalCount = intval(Video::queryInfoNum($params));
+        $pageCount = ceil($totalCount / $params['size']);
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '',
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+            );
+        }
+        $this->jsonReturnSuccess(Constants::CODE_FAILED);
     }
 
     /**

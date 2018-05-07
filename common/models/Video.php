@@ -79,8 +79,6 @@ class Video extends ActiveRecord
     public static function queryHot($params)
     {
         $offset = 0;
-        $userId = '';
-        $userInfo = [];
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
@@ -88,10 +86,40 @@ class Video extends ActiveRecord
         $find = self::buildParams($find, $params);
         $result = $find->select('id,userId,startTime,imgSrc,remark as title,isLive,viewerNum')
             ->asArray()
-            ->orderBy('startTime desc,viewerNum desc')
+            ->orderBy('viewerNum desc,startTime desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])
             ->all();
+        return static::processLiveInfo($result);
+    }
+
+    /**
+     * 最新
+     *
+     * @param $params
+     * @return mixed
+     */
+    public static function queryLatest($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        $result = $find->select('id,userId,startTime,imgSrc,remark as title,isLive,viewerNum')
+            ->asArray()
+            ->orderBy('startTime desc')
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->all();
+        return static::processLiveInfo($result);
+    }
+
+    private static function processLiveInfo($result)
+    {
+        $userId = '';
+        $userInfo = [];
         foreach ($result as $key => $value) {
             $userId .= $value['userId'] . ',';
         }
