@@ -22,7 +22,7 @@ class VideoRecord extends ActiveRecord
     public static function transcribe($params)
     {
         $result = Video::queryById($params['stream']);
-        ll($result,__FUNCTION__);
+        ll($result,__FUNCTION__.'.log');
         $url = Yii::$app->params['liveUrl'] . '/' . $params['uri'];
         $model = new VideoRecord();
         $model->roomId = $params['stream'];
