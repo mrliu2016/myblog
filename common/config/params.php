@@ -21,7 +21,7 @@ $params = [
         'weiXin' => [
             'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',
             'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',
-            'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',
+            'notifyUrl' => 'http://dev.api.customize.3ttech.cn/notify/notify-process',
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
@@ -79,7 +79,7 @@ $params = [
         'weiXin' => [
             'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',
             'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',
-            'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',
+            'notifyUrl' => 'http://dev.api.customize.3ttech.cn/notify/notify-process',
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
@@ -137,7 +137,7 @@ $params = [
         'weiXin' => [
             'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',
             'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',
-            'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',
+            'notifyUrl' => 'http://api.customize.3ttech.cn/notify/notify-process',
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
@@ -195,7 +195,7 @@ $params = [
         'weiXin' => [
             'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',
             'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',
-            'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',
+            'notifyUrl' => 'http://api.customize.3ttech.cn/notify/notify-process',
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
