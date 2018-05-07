@@ -16,6 +16,13 @@ class BaseController extends Controller
         if (empty($callback)) {
             Yii::$app->response->format = Response::FORMAT_JSON;
             Yii::$app->response->data = $return;
+            if (isset($return['encodeOptions']) && $return['encodeOptions'] && empty($return['data'])) {
+                Yii::$app->response->formatters[Response::FORMAT_JSON] = [
+                    'class' => 'yii\web\JsonResponseFormatter',
+                    'encodeOptions' => JSON_FORCE_OBJECT,
+                ];
+            }
+            unset(Yii::$app->response->data['encodeOptions']);
         } else {
             Yii::$app->response->format = Response::FORMAT_JSONP;
             Yii::$app->response->data = [
@@ -31,7 +38,8 @@ class BaseController extends Controller
         return $this->jsonReturn([
             'code' => $code,
             'message' => $message,
-            'data' => $data
+            'data' => $data,
+            'encodeOptions' => JSON_FORCE_OBJECT
         ]);
     }
 
@@ -40,7 +48,8 @@ class BaseController extends Controller
         return $this->jsonReturn([
             'code' => $code,
             'message' => $message,
-            'data' => $data
+            'data' => $data,
+            'encodeOptions' => JSON_FORCE_OBJECT
         ]);
     }
 }

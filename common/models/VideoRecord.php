@@ -221,8 +221,11 @@ class VideoRecord extends ActiveRecord
         if (!empty($params['isDeleted'])) {
             $find->andWhere(['isDeleted' => $params['isDeleted']]);
         }
-        if (isset($params['queryTime'])) {
-            $find->andWhere('startTime >= ' . $params['queryTime'] . ' and startTime < ' . $params['queryTime']);
+        if (isset($params['queryStartTime'])) {
+            $find->andWhere('startTime >= ' . $params['queryStartTime']);
+        }
+        if (isset($params['queryEndTime'])) {
+            $find->andWhere('startTime < ' . $params['queryEndTime']);
         }
         return $find;
     }

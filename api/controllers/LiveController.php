@@ -113,10 +113,13 @@ class LiveController extends BaseController
         $list = Video::processLiveInfo($result, true);
         $totalCount = intval(VideoRecord::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
-        $this->jsonReturnSuccess(
-            Constants::CODE_SUCCESS,
-            '',
-            compact('totalCount', 'page', 'size', 'pageCount', 'list')
-        );
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '',
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+            );
+        }
+        $this->jsonReturnError(Constants::CODE_FAILED);
     }
 }
