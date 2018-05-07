@@ -116,8 +116,8 @@ class LiveController extends BaseController
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
         $page = intval(!empty($params['page']) ? $params['page'] : 0);
         $result = VideoRecord::queryInfo($params);
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'',$result);
         $result = Video::processLiveInfo($result, true);
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'',$result);
         $totalCount = intval(VideoRecord::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
         if (!empty($result)) {
