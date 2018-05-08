@@ -45,6 +45,13 @@ class Gift extends ActiveRecord
         if (!empty($params['name'])) {
             $find->andWhere(['like', 'name', $params['name']]);
         }
+        if (isset($params['content'])) {
+            if (ctype_digit($params['content']) && !empty($params['content'])) {
+                $find->andWhere(['id' => $params['content']]);
+            } else {
+                $find->andWhere(['like', 'name', $params['content']]);
+            }
+        }
         return $find;
     }
 
@@ -58,7 +65,7 @@ class Gift extends ActiveRecord
         $model = new self();
         $model->name = $params['name'];
         $model->imgSrc = $params['imgSrc'];
-        $model->price = $params['price']*100;
+        $model->price = $params['price'] * 100;
         $model->created = time();
         $model->updated = time();
         $model->save();
