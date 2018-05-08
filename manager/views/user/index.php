@@ -39,7 +39,7 @@ $this->title = '用户管理';
                     <th class="col-md-1">头像</th>
                     <th class="col-md-1">等级</th>
                     <th class="col-md-1">虚拟货币</th>
-                    <th class="col-md-1">余额</th>
+                    <th class="col-md-1">余额(元)</th>
                     <th class="col-md-1">操作</th>
                 </tr>
                 </thead>
@@ -98,73 +98,6 @@ $this->title = '用户管理';
     $("#cleanBtn").click(function () {
         $(this).closest('form').find("input[type=text]").val("")
     });
-
-    function detail(serverName, begin, end) {
-        $.ajax({
-            url: "/report/lost-detail?serverName=" + serverName + '&beginTime=' + begin + '&endTime=' + end,
-            type: "get",
-            cache: false,
-            dataType: "text",
-            success: function (data) {
-                html = '<div id="main_1" style="width:1200px;height:450px;float: left"></div>'
-                layer.open({
-                    title: serverName,
-                    type: 1,
-                    skin: 'layui-layer-rim', //加上边框
-                    area: ['1000px', '550px'], //宽高
-                    content: html
-                });
-
-                var client_array = data;
-                var client_js = eval('(' + client_array + ')');
-                // 初始化图表标签
-                var myChart = echarts.init(document.getElementById('main_1'));
-                options = {
-                    /* title : {
-                     text: '丢包率',
-                     x:'center'
-                     },*/
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-                    },
-                    legend: {
-                        orient: 'vertical',
-                        left: 'left',
-                        data: ['0~5%', '5%~10%', '10%~20%', '>20%', '成功']
-                    },
-                    series: [
-                        {
-                            name: '丢包率',
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['50%', '60%'],
-                            data: [
-                                {value: client_js['a'], name: '0~5%'},
-                                {value: client_js['b'], name: '5%~10%'},
-                                {value: client_js['c'], name: '10%~20%'},
-                                {value: client_js['d'], name: '>20%'},
-                                {value: client_js['e'], name: '成功'}
-                            ],
-                            itemStyle: {
-                                normal: {
-                                    label: {
-                                        show: true,
-                                        formatter: '{b} : {c} ({d}%)'
-                                    },
-                                    labelLine: {show: true}
-                                }
-                            }
-                        }
-                    ]
-                };
-                myChart.setOption(options);
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('get issue');
-            }
-        });
-    }
 
     /**
      * 充值虚拟货币
