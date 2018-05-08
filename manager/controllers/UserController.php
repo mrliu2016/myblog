@@ -54,4 +54,13 @@ class UserController extends BaseController
         $loginUrl = Yii::$app->params["ucDomain"] . "/user/login?redirect=" . Yii::$app->request->getHostInfo();
         Yii::$app->getResponse()->redirect($loginUrl);
     }
+
+    public function actionDepositIdealMoney()
+    {
+        $params = Yii::$app->request->post();
+        $result = User::depositIdealMoney($params['userId'], $params['idealMoney']);
+        $result ?
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, ['result' => $result]) :
+            $this->jsonReturnError(Constants::CODE_FAILED);
+    }
 }

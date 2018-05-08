@@ -324,5 +324,20 @@ class User extends ActiveRecord
         $page_cnt = ceil($total_cnt / $size);
         return compact('total_cnt', 'page', 'size', 'page_cnt', 'list');
     }
+
+    /**
+     * 更新虚拟货币
+     *
+     * @param $userId
+     * @param $idealMoney
+     * @return int
+     */
+    public static function depositIdealMoney($userId, $idealMoney)
+    {
+        $sql = 'update ' . User::tableName()
+            . ' set idealMoney = idealMoney + ' . intval($idealMoney)
+            . ' where id = ' . $userId;
+        return static::updateBySqlCondition($sql);
+    }
 }
 

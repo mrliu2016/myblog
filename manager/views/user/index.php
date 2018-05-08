@@ -1,4 +1,5 @@
 <?php
+
 use yii\widgets\LinkPager;
 
 $this->title = '用户管理';
@@ -16,8 +17,8 @@ $this->title = '用户管理';
                                     name="searchBtn">查询
                             </button>
                             <div class="col-md-2">
-                                <input type="text" style="width: 120px" id="content" name="id"
-                                       class="form-control datepicker-pop"
+                                <input type="text" style="width: 120px" id="content" name="id" placeholder="请输入用户ID"
+                                       class="form-control"
                                     <?php if (!empty($params['id'])): ?>
                                         value="<?= $params['id'] ?>"
                                     <?php endif; ?>>
@@ -33,11 +34,12 @@ $this->title = '用户管理';
                 <thead>
                 <tr>
                     <th class="col-md-1">id</th>
-                    <th class="col-md-1">应用</th>
+                    <!--                    <th class="col-md-1">应用</th>-->
                     <th class="col-md-1">昵称</th>
                     <th class="col-md-1">头像</th>
                     <th class="col-md-1">等级</th>
-                    <th class="col-md-1">货币</th>
+                    <th class="col-md-1">虚拟货币</th>
+                    <th class="col-md-1">余额</th>
                     <th class="col-md-1">操作</th>
                 </tr>
                 </thead>
@@ -47,9 +49,9 @@ $this->title = '用户管理';
                         <td>
                             <?= $item['id'] ?>
                         </td>
-                        <td>
-                            <?= $item['applicationId'] ?>
-                        </td>
+                        <!--                        <td>-->
+                        <!--                            --><? //= $item['applicationId'] ?>
+                        <!--                        </td>-->
                         <td>
                             <?= $item['nickName'] ?>
                         </td>
@@ -60,9 +62,15 @@ $this->title = '用户管理';
                             <?= $item['level'] ?>
                         </td>
                         <td>
-                            <?= $item['balance'] ?>
+                            <?= $item['idealMoney'] ?>
                         </td>
                         <td>
+                            <?= $item['balance'] / 100 ?>
+                        </td>
+                        <td>
+                            <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
+                                    name="searchBtn" onclick="depositIdealMoney(<?= $item['id'] ?>)">虚拟币
+                            </button>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -89,15 +97,6 @@ $this->title = '用户管理';
     });
     $("#cleanBtn").click(function () {
         $(this).closest('form').find("input[type=text]").val("")
-    });
-
-    $(".datepicker-pop").datetimepicker({
-        todayHighlight: true,
-        todayBtn: true,
-        autoclose: true,
-        minView: 3,
-        format: 'yyyy-mm-dd',
-        language: 'zh-CN'
     });
 
     function detail(serverName, begin, end) {
@@ -164,6 +163,51 @@ $this->title = '用户管理';
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert('get issue');
             }
+        });
+    }
+
+    /**
+     * 充值虚拟货币
+     *
+     * @param userId
+     */
+    function depositIdealMoney(userId) {
+        layer.prompt({title: '输入虚拟货币，并确认', formType: 3}, function (idealMoney, index) {
+            var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+            if (idealMoney == '') {
+                layer.msg('输入虚拟货币', {icon: 2, time: 1000});
+                return false;
+            }
+            if (!regPos.test(idealMoney)) {
+                layer.msg('输入虚拟货币', {icon: 2, time: 1000});
+                return false;
+            }
+            $.ajax({
+                url: '/user/deposit-ideal-money',
+                type: "post",
+                cache: false,
+                dataType: 'json',
+                data: {
+                    userId: userId,
+                    idealMoney: idealMoney
+                },
+                success: function (response) {
+                    switch (parseInt(response.code)) {
+                        case 0:
+                            layer.close(index);
+                            layer.msg('虚拟货币充值成功！', {time: 1000}, function () {
+                                window.location.reload();
+                            });
+                            break;
+                        case -1:
+                            layer.msg('虚拟货币充值失败！', {time: 1000});
+                            break;
+                    }
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('get issue');
+                }
+            });
         });
     }
 </script>
