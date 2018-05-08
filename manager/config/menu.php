@@ -8,7 +8,11 @@ return [
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '设置', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '设置', 'href' => '/user/index'],
+            ['permissionId' => '/application/index', 'name' => '个人信息', 'href' => '/user/index'],
+            ['permissionId' => '/application/index', 'name' => '公共设置', 'href' => '/user/index'],
+            ['permissionId' => '/application/index', 'name' => '私密设置', 'href' => '/user/index'],
+            ['permissionId' => '/application/index', 'name' => '机器人设置', 'href' => '/user/index'],
+            ['permissionId' => '/application/index', 'name' => '清除缓存', 'href' => '/user/index'],
         ],
     ],
     [
@@ -20,22 +24,31 @@ return [
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '等级管理', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '等级', 'href' => '/user/index'],
+            ['permissionId' => '/application/index', 'name' => '经验等级', 'href' => '/user/index'],
+            ['permissionId' => '/application/index', 'name' => '主播等级', 'href' => '/user/index'],
+            ['permissionId' => '/application/index', 'name' => '等级提现', 'href' => '/user/index'],
         ],
     ],
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '直播管理', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '直播管理', 'href' => '/live/index?type=1'],
-            ['permissionId' => '/application/index', 'name' => '直播回放', 'href' => '/live/record?type=2'],
+            ['permissionId' => '/application/index', 'name' => '直播列表', 'href' => '/live/index?type=1'],
+            ['permissionId' => '/application/index', 'name' => '直播记录', 'href' => '/live/record?type=2'],
             ['permissionId' => '/application/index', 'name' => '鉴黄', 'href' => '/live/yellow?type=3'],
+            ['permissionId' => '/application/index', 'name' => '用户举报', 'href' => '/live/yellow?type=3'],
+            ['permissionId' => '/application/index', 'name' => '系统消息', 'href' => '/live/yellow?type=3'],
+            ['permissionId' => '/application/index', 'name' => '违禁词管理', 'href' => '/live/yellow?type=3'],
         ],
     ],
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '财务管理', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '充值历史', 'href' => '/deposit/index'],
+            ['permissionId' => '/application/index', 'name' => '充值记录', 'href' => '/deposit/index'],
             ['permissionId' => '/application/index', 'name' => '提现审核', 'href' => '/deposit/withdraw'],
+            ['permissionId' => '/application/index', 'name' => '提现记录', 'href' => '/deposit/withdraw'],
+            ['permissionId' => '/application/index', 'name' => '消费记录', 'href' => '/deposit/withdraw'],
+            ['permissionId' => '/application/index', 'name' => '充值规则', 'href' => '/deposit/withdraw'],
+            ['permissionId' => '/application/index', 'name' => '手动充值', 'href' => '/deposit/withdraw'],
         ],
     ],
     [
@@ -47,8 +60,8 @@ return [
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '礼物管理', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '模版', 'href' => '/gift/template'],
-            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
+            ['permissionId' => '/application/index', 'name' => '礼物列表', 'href' => '/gift/template'],
+//            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
         ],
     ],
     [
