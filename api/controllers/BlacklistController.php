@@ -27,4 +27,22 @@ class BlacklistController extends BaseController
         Blacklist::cancelBlacklist($params); // 取消拉黑
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '取消拉黑');
     }
+
+    /**
+     * 检测是否拉黑用户
+     *
+     * 用户ID userId
+     * 待检测用户ID blacklistUserId
+     */
+    public function actionCheckBlacklist()
+    {
+        $params = Yii::$app->request->get();
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '',
+            [
+                'isBlacklist' => intval(Blacklist::isPullBlacklist($params['userId'], $params['blacklistUserId']))
+            ]
+        );
+    }
 }
