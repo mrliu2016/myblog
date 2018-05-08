@@ -49,6 +49,7 @@ class User extends ActiveRecord
         $userInfo['followers_cnt'] = intval(Follow::queryInfoNum(['userIdFollow' => $userId])); // 关注我的
         $userInfo['isAttention'] = intval(Follow::isAttention($userId, $observerUserId) ? 1 : 0);
         $userInfo['isLive'] = intval(Video::isLive($userId) ? 1 : 0);
+        $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($observerUserId, $userId));
         return $userInfo;
     }
 

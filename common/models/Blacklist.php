@@ -65,4 +65,25 @@ class Blacklist extends ActiveRecord
         $model->updated = time();
         return $model->save();
     }
+
+    /**
+     * 是否被拉黑
+     *
+     * @param $userId
+     * @param $blacklistUserId
+     * @return mixed
+     */
+    public static function isPullBlacklist($userId, $blacklistUserId)
+    {
+        $model = static::find()->where(
+            [
+                'userId' => $userId,
+                'blacklistUserId' => $blacklistUserId,
+            ]
+        )->one();
+        if (empty($model)) {
+            return false;
+        }
+        return $model->status ? true : false;
+    }
 }
