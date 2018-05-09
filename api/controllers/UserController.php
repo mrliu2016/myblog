@@ -153,7 +153,10 @@ class UserController extends BaseController
     {
         $params = Yii::$app->request->get();
         $list = User::profile($params['userId'], $params['observerUserId']);
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '获取个人信息成功', $list);
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '获取个人信息成功', $list);
+        }
+        $this->jsonReturnError(Constants::CODE_FAILED, '用户不存在！');
     }
 
     //上报位置

@@ -36,14 +36,19 @@ class User extends ActiveRecord
     }
 
     /**
+     * 个人信息
+     *
      * @param $userId
      * @param $observerUserId
-     * @return array|null|ActiveRecord
+     * @return array|bool|null|ActiveRecord
      * @throws \yii\db\Exception
      */
     public static function profile($userId, $observerUserId)
     {
         $userInfo = static::queryById($userId);
+        if (empty($userInfo)) {
+            return false;
+        }
         $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;
         $userInfo['followees_cnt'] = intval(Follow::queryInfoNum(['userId' => $userId])); // 我的关注
         $userInfo['followers_cnt'] = intval(Follow::queryInfoNum(['userIdFollow' => $userId])); // 关注我的
