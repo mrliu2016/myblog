@@ -57,7 +57,11 @@ $params = [
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
         'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
-        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'rongCloud' => [
+            'appKey' => 'lmxuhwagli7cd',
+            'appSecret' => 'ISg11JHsFd'
+        ]
     ],
 
     'dev' => [
@@ -115,7 +119,11 @@ $params = [
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
         'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
-        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'rongCloud' => [
+            'appKey' => 'lmxuhwagli7cd',
+            'appSecret' => 'ISg11JHsFd'
+        ]
     ],
 
     'pre' => [
@@ -173,7 +181,11 @@ $params = [
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
         'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
-        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'rongCloud' => [
+            'appKey' => 'lmxuhwagli7cd',
+            'appSecret' => 'ISg11JHsFd'
+        ]
     ],
 
     'online' => [
@@ -231,7 +243,11 @@ $params = [
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
         'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
-        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'rongCloud' => [
+            'appKey' => 'lmxuhwagli7cd',
+            'appSecret' => 'ISg11JHsFd'
+        ]
     ],
 
 ];

@@ -3,6 +3,7 @@
 namespace app\console\controllers;
 
 use app\common\components\RedisClient;
+use app\common\components\RongCloud;
 use app\common\models\User;
 use app\common\models\Video;
 use app\common\services\Constants;
@@ -50,5 +51,12 @@ class MonitorLiveController extends Controller
         } catch (\Exception $ex) {
             ll($ex->getMessage(), __FUNCTION__ . '.log');
         }
+    }
+
+
+    public function actionRongCloud()
+    {
+        $token = RongCloud::getToken('10000','nickName');
+        var_dump($token);
     }
 }
