@@ -115,6 +115,12 @@ class UserController extends BaseController
             'mobile' => Yii::$app->request->post('mobile'),
             'password' => md5(Yii::$app->request->post('password')),
         );
+        $verifyCode = Yii::$app->request->post('verifyCode');
+        $redisClient = RedisClient::getInstance();
+        $cacheVerifyCode = $redisClient->get(Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . $params['mobile']);
+        if (intval($cacheVerifyCode) != intval($verifyCode)) {
+            self::jsonReturnError(Constants::CODE_FAILED, '验证码错误!');
+        }
         $dat = User::queryByPhone($params['mobile']);
         if (!empty($dat)) {
             if (User::setPassworld($params)) {
