@@ -21,27 +21,39 @@ class UserController extends BaseController
 {
 
     /**
-     * 登录
+     * 手机号登录、验证码登录
      */
     public function actionLogin()
     {
         $mobile = Yii::$app->request->post('mobile');
         $password = Yii::$app->request->post('password');
-        if (empty($mobile) || empty($password)) {
-            self::jsonReturnError(Constants::CODE_FAILED, '请输入手机号或密码!', []);
-        }
+        $verifyCode = Yii::$app->request->post('verifyCode');
+        $verifyCode = isset($verifyCode) ? $verifyCode : 0;
+        $redisClient = RedisClient::getInstance();
         if (strlen($mobile) != 11 || !is_string($mobile) || !ctype_digit($mobile)) {
-            self::jsonReturnError(Constants::CODE_FAILED, '手机号错误!', []);
+            self::jsonReturnError(Constants::CODE_FAILED, '手机号错误!');
         }
-        if (empty(User::queryByPhone($mobile))) {
-            $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未注册!', []);
+        if (!empty($verifyCode)) {
+            $cacheVerifyCode = $redisClient->get(Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . $mobile);
+            if (intval($cacheVerifyCode) != intval($verifyCode)) {
+                self::jsonReturnError(Constants::CODE_FAILED, '验证码错误!');
+            }
+            if (empty(User::queryByPhone($mobile))) {
+                User::Register($mobile, !empty($password) ? md5($password) : '');
+            }
+        } else {
+            if (empty($mobile) || empty($password)) {
+                self::jsonReturnError(Constants::CODE_FAILED, '请输入手机号或密码!');
+            }
+            if (empty(User::queryByPhone($mobile))) {
+                $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未注册!', []);
+            }
         }
-        $result = User::checkLogin($mobile, md5($password));
+        $result = User::checkLogin($mobile, !empty($password) ? md5($password) : '');
         if (empty($result)) {
-            $this->jsonReturnError(Constants::CODE_FAILED, '手机号或密码错误!', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '手机号或密码错误!');
         }
         $token = Token::generateToken($result['id']);
-        $redisClient = RedisClient::getInstance();
         $redisClient->set(Constants::TTT_TECH_TOKEN . ':' . $token, json_encode(['userId' => $result['id'], 'token' => $token]));
         $redisClient->expire(Constants::TTT_TECH_TOKEN . ':' . $token, Constants::LOGIN_TOKEN_EXPIRES);
         $this->jsonReturnSuccess(
@@ -188,11 +200,18 @@ class UserController extends BaseController
     {
         $mobile = Yii::$app->request->post('mobile');
         $password = Yii::$app->request->post('password');
+        $verifyCode = Yii::$app->request->post('verifyCode');
+        $verifyCode = isset($verifyCode) ? $verifyCode : 0;
         if (empty($mobile) || empty($password)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '请输入手机号或密码', []);
         }
         if (!is_string($mobile) || strlen($mobile) != 11 || !ctype_digit($mobile)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '请输入手机号', []);
+        }
+        $redisClient = RedisClient::getInstance();
+        $cacheVerifyCode = $redisClient->get(Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . $mobile);
+        if (intval($cacheVerifyCode) != intval($verifyCode)) {
+            self::jsonReturnError(Constants::CODE_FAILED, '验证码错误!');
         }
         if (empty(User::queryByPhone($mobile))) {
             if (User::Register($mobile, md5($password))) {
@@ -216,6 +235,9 @@ class UserController extends BaseController
         }
         $result['code'] = Token::code();
         if (SMSHelper::send($result['code'], '三体云联验证码', $mobile)) {
+            $redis = RedisClient::getInstance();
+            $redis->set(Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . $mobile, $result['code']);
+            $redis->expire(Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . $mobile, Constants::VERIFY_CODE_EXPIRES);
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '验证码发送成功', $result);
         } else {
             $this->jsonReturnError(Constants::CODE_FAILED, '验证码发送失败');

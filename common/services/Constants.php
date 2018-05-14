@@ -133,4 +133,8 @@ class Constants
     const CDN_FACTORY_WANG_SU = 'wangSu'; // 网宿
 
     const TTT_TECH_TOKEN = '3ttech_token';
+
+    const PROJECT = 'customize';
+    const VERIFY_CODE = 'verify_code';
+    const VERIFY_CODE_EXPIRES = 300; // 有效期5分钟
 }
