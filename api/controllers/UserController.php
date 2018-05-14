@@ -31,14 +31,14 @@ class UserController extends BaseController
             self::jsonReturnError(Constants::CODE_FAILED, '请输入手机号或密码!', []);
         }
         if (strlen($mobile) != 11 || !is_string($mobile) || !ctype_digit($mobile)) {
-            self::jsonReturnError(Constants::CODE_FAILED, '手机号错误', []);
+            self::jsonReturnError(Constants::CODE_FAILED, '手机号错误!', []);
         }
         if (empty(User::queryByPhone($mobile))) {
-            $this->jsonReturnError(Constants::CODE_FAILED, '手机号未注册', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未注册!', []);
         }
         $result = User::checkLogin($mobile, md5($password));
         if (empty($result)) {
-            $this->jsonReturnError(Constants::CODE_FAILED, '手机号或密码错误', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '手机号或密码错误!', []);
         }
         $token = Token::generateToken($result['id']);
         $redisClient = RedisClient::getInstance();
@@ -56,7 +56,7 @@ class UserController extends BaseController
                 'mobile' => $result['mobile'],
                 'roomId' => '',
                 'level' => $result['level'],
-                'balance' => !empty($result['balance']) ? $result['balance'] : 0,
+                'balance' => intval(!empty($result['balance']) ? $result['balance'] : 0),
             ]
         );
     }
