@@ -61,7 +61,8 @@ $params = [
         'rongCloud' => [
             'appKey' => 'lmxuhwagli7cd',
             'appSecret' => 'ISg11JHsFd'
-        ]
+        ],
+        'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png'
     ],
 
     'dev' => [
@@ -123,7 +124,8 @@ $params = [
         'rongCloud' => [
             'appKey' => 'lmxuhwagli7cd',
             'appSecret' => 'ISg11JHsFd'
-        ]
+        ],
+        'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png'
     ],
 
     'pre' => [
@@ -185,7 +187,8 @@ $params = [
         'rongCloud' => [
             'appKey' => 'lmxuhwagli7cd',
             'appSecret' => 'ISg11JHsFd'
-        ]
+        ],
+        'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png'
     ],
 
     'online' => [
@@ -247,7 +250,8 @@ $params = [
         'rongCloud' => [
             'appKey' => 'lmxuhwagli7cd',
             'appSecret' => 'ISg11JHsFd'
-        ]
+        ],
+        'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png'
     ],
 
 ];

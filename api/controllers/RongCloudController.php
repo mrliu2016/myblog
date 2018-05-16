@@ -14,6 +14,9 @@ class RongCloudController extends BaseController
     public function actionRongCloudToken()
     {
         $params = Yii::$app->request->get();
+        if (empty($params['avatar'])) {
+            $params['avatar'] = Yii::$app->params['defaultAvatar'];
+        }
         $token = RongCloud::getToken($params['userId'], $params['nickName'], $params['avatar']);
         if (!empty($token)) {
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '', json_decode($token, true));
