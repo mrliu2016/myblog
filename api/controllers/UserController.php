@@ -35,6 +35,9 @@ class UserController extends BaseController
         }
         if (!empty($verifyCode)) {
             $key = Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_LOGIN . ':' . $mobile;
+            if (!($redisClient->exists($key))) {
+                self::jsonReturnError(Constants::CODE_FAILED, '手机验证码已失效!');
+            }
             $cacheVerifyCode = $redisClient->get($key);
             if (intval($cacheVerifyCode) != intval($verifyCode)) {
                 self::jsonReturnError(Constants::CODE_FAILED, '手机验证码错误!');
@@ -220,6 +223,9 @@ class UserController extends BaseController
         }
         $redisClient = RedisClient::getInstance();
         $key = Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_REGISTER . ':' . $mobile;
+        if (!($redisClient->exists($key))) {
+            self::jsonReturnError(Constants::CODE_FAILED, '手机验证码已失效!');
+        }
         $cacheVerifyCode = $redisClient->get($key);
         if (intval($cacheVerifyCode) != intval($verifyCode)) {
             self::jsonReturnError(Constants::CODE_FAILED, '手机验证码错误');
