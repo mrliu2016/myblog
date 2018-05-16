@@ -276,7 +276,7 @@ class UserController extends BaseController
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
         $page = intval(!empty($params['page']) ? $params['page'] : 0);
         $list = User::SearchUser($content, $observerUserId, $params);
-        $totalCount = intval(User::querySqlInfoNum($content, $params));
+        $totalCount = intval(User::queryInfoNum($content, $params));
         $pageCount = ceil($totalCount / $params['size']);
         $this->jsonReturnSuccess(
             Constants::CODE_SUCCESS,

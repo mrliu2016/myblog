@@ -308,40 +308,43 @@ class User extends ActiveRecord
         if (!empty($params['id'])) {
             $find->andWhere('id=' . $params['id']);
         }
+        if (isset($params['content'])) {
+            if (ctype_digit($params['content']) && is_numeric($params['content'])) {
+                $find->andWhere('roomId =' . $params['content']);
+            } else {
+                $find->andWhere('nickName like %' . $params['content'] . '%');
+            }
+        }
         return $find;
     }
 
     public static function SearchUser($content, $observerUserId, $params)
     {
-        $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM " . static::tableName();
-//            . static::tableName() . " WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
-        if (ctype_digit($content) && is_numeric($content)) {
-            $sql .= " where roomId = $content";
-        } else {
-            $sql .= " where nickName LIKE '%$content%'";
-        }
+//        $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM " . static::tableName();
+////            . static::tableName() . " WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
+//        if (ctype_digit($content) && is_numeric($content)) {
+//            $sql .= " where roomId = $content";
+//        } else {
+//            $sql .= " where nickName LIKE '%$content%'";
+//        }
         $offset = 0;
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
-        $row = static::findBySql($sql)->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
-        foreach ($row as $key => $value) {
-            $row[$key]['isAttention'] = intval(Follow::isAttention($value['id'], $observerUserId) ? 1 : 0);
-            $row[$key]['avatar'] = !empty($value['avatar']) ? $value['avatar'] : Yii::$app->params['defaultAvatar'];
-        }
-        return $row;
-    }
+        $find = static::find();
+        $find = static::buildParams($find, $params);
+        $result = $find->select('id,userName,avatar,nickName,mobile,description,level')
+            ->asArray()
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->all();
 
-    public static function querySqlInfoNum($content, $params)
-    {
-        $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM " . static::tableName();
-//            . static::tableName() . " WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
-        if (ctype_digit($content) && is_numeric($content)) {
-            $sql .= " where roomId = $content";
-        } else {
-            $sql .= " where nickName LIKE '%$content%'";
+//        $result = static::findBySql($sql)->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
+        foreach ($result as $key => $value) {
+            $result[$key]['isAttention'] = intval(Follow::isAttention($value['id'], $observerUserId) ? 1 : 0);
+            $result[$key]['avatar'] = !empty($value['avatar']) ? $value['avatar'] : Yii::$app->params['defaultAvatar'];
         }
-        return static::findBySql($sql)->count();
+        return $result;
     }
 
     public static function getHotList($page, $size)
