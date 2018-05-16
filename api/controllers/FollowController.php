@@ -8,6 +8,8 @@ use Yii;
 
 class FollowController extends BaseController
 {
+    const PAGE_SIZE = 15;
+
     public function actionError()
     {
         header("HTTP/1.1 404 Not Found");
@@ -57,5 +59,12 @@ class FollowController extends BaseController
             $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
         }
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
+    }
+
+    public function actionMyAttention()
+    {
+        $params = Yii::$app->request->get();
+        $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+        $page = intval(!empty($params['page']) ? $params['page'] : 0);
     }
 }

@@ -271,11 +271,15 @@ class UserController extends BaseController
     {
         $content = Yii::$app->request->post('content');
         $observerUserId = Yii::$app->request->post('observerUserId');
-        $result = User::SearchUser($content, $observerUserId);
+        $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+        $page = intval(!empty($params['page']) ? $params['page'] : 0);
+        $list = User::SearchUser($content, $observerUserId, $params);
+        $totalCount = intval(User::querySqlInfoNum($content, $params));
+        $pageCount = ceil($totalCount / $params['size']);
         $this->jsonReturnSuccess(
             Constants::CODE_SUCCESS,
             '搜索成功',
-            $result
+            compact('totalCount', 'page', 'size', 'pageCount', 'list')
         );
     }
 

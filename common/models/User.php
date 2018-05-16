@@ -311,7 +311,7 @@ class User extends ActiveRecord
         return $find;
     }
 
-    public static function SearchUser($content, $observerUserId)
+    public static function SearchUser($content, $observerUserId, $params)
     {
         $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM " . static::tableName();
 //            . static::tableName() . " WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
@@ -320,12 +320,28 @@ class User extends ActiveRecord
         } else {
             $sql .= " where nickName LIKE '%$content%'";
         }
-        $row = static::findBySql($sql)->asArray()->all();
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $row = static::findBySql($sql)->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
         foreach ($row as $key => $value) {
             $row[$key]['isAttention'] = intval(Follow::isAttention($value['id'], $observerUserId) ? 1 : 0);
             $row[$key]['avatar'] = !empty($value['avatar']) ? $value['avatar'] : Yii::$app->params['defaultAvatar'];
         }
         return $row;
+    }
+
+    public static function querySqlInfoNum($content, $params)
+    {
+        $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM " . static::tableName();
+//            . static::tableName() . " WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
+        if (ctype_digit($content) && is_numeric($content)) {
+            $sql .= " where roomId = $content";
+        } else {
+            $sql .= " where nickName LIKE '%$content%'";
+        }
+        return static::findBySql($sql)->count();
     }
 
     public static function getHotList($page, $size)
