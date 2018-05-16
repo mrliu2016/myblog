@@ -272,6 +272,7 @@ class UserController extends BaseController
     {
         $content = Yii::$app->request->post('content');
         $observerUserId = Yii::$app->request->post('observerUserId');
+        $params = Yii::$app->request->post();
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
         $page = intval(!empty($params['page']) ? $params['page'] : 0);
         $list = User::SearchUser($content, $observerUserId, $params);
