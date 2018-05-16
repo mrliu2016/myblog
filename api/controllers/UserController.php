@@ -108,7 +108,9 @@ class UserController extends BaseController
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '实名成功', $dat);
     }
 
-    //修改密码
+    /**
+     * 修改密码、忘记密码
+     */
     public function actionSetPassword()
     {
         $params = array(
@@ -117,9 +119,10 @@ class UserController extends BaseController
         );
         $verifyCode = Yii::$app->request->post('verifyCode');
         $redisClient = RedisClient::getInstance();
-        $cacheVerifyCode = $redisClient->get(Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . $params['mobile']);
+        $key = Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_RESET . ':' . $params['mobile'];
+        $cacheVerifyCode = $redisClient->get($key);
         if (intval($cacheVerifyCode) != intval($verifyCode)) {
-            self::jsonReturnError(Constants::CODE_FAILED, '验证码错误!');
+            self::jsonReturnError(Constants::CODE_FAILED, '手机验证码错误');
         }
         $dat = User::queryByPhone($params['mobile']);
         if (!empty($dat)) {
@@ -127,7 +130,7 @@ class UserController extends BaseController
                 $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '设置密码成功', []);
             }
         } else {
-            $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未被注册', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未注册', []);
         }
     }
 
