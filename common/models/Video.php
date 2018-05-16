@@ -144,16 +144,14 @@ class Video extends ActiveRecord
                     $result[$key]['nickName'] = $userValue['nickName'];
                     $result[$key]['level'] = intval($userValue['level']);
                     $result[$key]['description'] = $userValue['description'];
-                    $result[$key]['roomId'] = $userValue['roomId'];
                     $flag = false;
                 }
             }
             if ($flag) {
-                $result[$key]['avatar'] = '';
+                $result[$key]['avatar'] = Yii::$app->params['defaultAvatar'];
                 $result[$key]['nickName'] = '';
                 $result[$key]['level'] = 0;
                 $result[$key]['description'] = '';
-                $result[$key]['roomId'] = $isPlayback ? $result[$key]['roomId'] : $result[$key]['id'];
             }
         }
         return $result;
