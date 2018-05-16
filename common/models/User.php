@@ -49,6 +49,7 @@ class User extends ActiveRecord
         if (empty($userInfo)) {
             return false;
         }
+        $userInfo['avatar'] = !empty($userInfo['avatar']) ? $userInfo['avatar'] : Yii::$app->params['defaultAvatar'];
         $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;
         $userInfo['followees_cnt'] = intval(Follow::queryInfoNum(['userId' => $userId])); // 我的关注
         $userInfo['followers_cnt'] = intval(Follow::queryInfoNum(['userIdFollow' => $userId])); // 关注我的
