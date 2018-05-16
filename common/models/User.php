@@ -81,12 +81,18 @@ class User extends ActiveRecord
         $model->password = $password;
         $model->userName = $mobile;
         $model->nickName = substr($mobile, 0, 3) . "****" . substr($mobile, 7, 4);
+        $model->roomId = static::generateId();
         $model->created = time();
         $model->updated = time();
         $model->save();
         return $model->id;
     }
 
+    public static function generateId()
+    {
+        return rand(100000, 999999) . substr(time(), -2, 2);
+//        return rand(100000, 999999) . substr(time(), -2, 2) . rand(1000, 9999);
+    }
 
     /**
      * @param $params
