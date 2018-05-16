@@ -316,13 +316,14 @@ class User extends ActiveRecord
         $sql = "SELECT id,userName,avatar,nickName,mobile,description,level FROM " . static::tableName();
 //            . static::tableName() . " WHERE nickName LIKE '%$content%' or mobile LIKE '%$content%' OR userName LIKE '%$content%'";
         if (ctype_digit($content) && is_numeric($content)) {
-            $sql .= ' where id = ' . $content;
+            $sql .= " where roomId = $content";
         } else {
             $sql .= " where nickName LIKE '%$content%'";
         }
         $row = static::findBySql($sql)->asArray()->all();
         foreach ($row as $key => $value) {
             $row[$key]['isAttention'] = intval(Follow::isAttention($value['id'], $observerUserId) ? 1 : 0);
+            $row[$key]['avatar'] = !empty($value['avatar']) ? $value['avatar'] : Yii::$app->params['defaultAvatar'];
         }
         return $row;
     }
