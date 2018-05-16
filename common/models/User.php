@@ -61,8 +61,13 @@ class User extends ActiveRecord
         return $userInfo;
     }
 
-    public static function checkLogin($mobile, $password)
+    public static function checkLogin($mobile, $password, $isVerifyCode = false)
     {
+        if ($isVerifyCode) {
+            return static::find()
+                ->andWhere(['mobile' => $mobile])
+                ->asArray()->one();
+        }
         return static::find()
             ->andWhere(['mobile' => $mobile])
             ->andWhere(['password' => $password])

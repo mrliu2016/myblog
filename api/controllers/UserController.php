@@ -45,6 +45,7 @@ class UserController extends BaseController
             if (empty(User::queryByPhone($mobile))) {
                 User::Register($mobile, !empty($password) ? md5($password) : '');
             }
+            $result = User::checkLogin($mobile, md5($password), true);
         } else {
             if (empty($mobile) || empty($password)) {
                 self::jsonReturnError(Constants::CODE_FAILED, '请输入手机号或密码');
@@ -52,8 +53,8 @@ class UserController extends BaseController
             if (empty(User::queryByPhone($mobile))) {
                 $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未注册', []);
             }
+            $result = User::checkLogin($mobile, md5($password));
         }
-        $result = User::checkLogin($mobile, !empty($password) ? md5($password) : '');
         if (empty($result)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '手机号或密码错误');
         }
