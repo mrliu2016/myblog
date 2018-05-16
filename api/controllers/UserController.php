@@ -70,7 +70,7 @@ class UserController extends BaseController
                 'token' => $token,
                 'avatar' => $result['avatar'],
                 'mobile' => $result['mobile'],
-                'roomId' => '',
+                'roomId' => intval($result['roomId']),
                 'level' => $result['level'],
                 'balance' => intval(!empty($result['balance']) ? $result['balance'] : 0),
             ]
