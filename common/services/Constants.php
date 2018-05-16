@@ -137,4 +137,7 @@ class Constants
     const PROJECT = 'customize';
     const VERIFY_CODE = 'verify_code';
     const VERIFY_CODE_EXPIRES = 300; // 有效期5分钟
+    const VERIFY_CODE_REGISTER = 'register'; // 注册
+    const VERIFY_CODE_RESET = 'reset'; // 忘记密码
+    const VERIFY_CODE_LOGIN = 'login'; // 验证码登录
 }
