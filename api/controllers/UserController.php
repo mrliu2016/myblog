@@ -19,6 +19,7 @@ use Yii;
 
 class UserController extends BaseController
 {
+    const PAGE_SIZE = 15;
 
     /**
      * 手机号登录、验证码登录
