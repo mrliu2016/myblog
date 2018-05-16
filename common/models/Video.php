@@ -140,7 +140,7 @@ class Video extends ActiveRecord
             $flag = true;
             foreach ($userInfo as $userKey => $userValue) {
                 if ($value['userId'] == $userValue['id']) {
-                    $result[$key]['avatar'] = $userValue['avatar'];
+                    $result[$key]['avatar'] = !empty($userValue['avatar']) ? $userValue['avatar'] : Yii::$app->params['defaultAvatar'];
                     $result[$key]['nickName'] = $userValue['nickName'];
                     $result[$key]['level'] = intval($userValue['level']);
                     $result[$key]['description'] = $userValue['description'];
