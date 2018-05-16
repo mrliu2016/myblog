@@ -130,7 +130,7 @@ class Video extends ActiveRecord
             $userId .= $value['userId'] . ',';
         }
         if (!empty($userId)) {
-            $sql = 'select id,avatar,nickName,level,description from '
+            $sql = 'select id,avatar,nickName,level,description,roomId from '
                 . User::tableName() . ' where id in(' . trim($userId, ',') . ')';
             $userInfo = static::queryBySQLCondition($sql);
         }
@@ -144,7 +144,7 @@ class Video extends ActiveRecord
                     $result[$key]['nickName'] = $userValue['nickName'];
                     $result[$key]['level'] = intval($userValue['level']);
                     $result[$key]['description'] = $userValue['description'];
-                    $result[$key]['roomId'] = $isPlayback ? $result[$key]['roomId'] : $result[$key]['id'];
+                    $result[$key]['roomId'] = $userValue['roomId'];
                     $flag = false;
                 }
             }
