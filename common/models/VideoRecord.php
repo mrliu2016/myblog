@@ -25,7 +25,8 @@ class VideoRecord extends ActiveRecord
         $url = Yii::$app->params['liveUrl'] . '/' . $params['uri'];
         $model = new VideoRecord();
         $model->title = $params['remark'];
-        $model->roomId = $params['stream'];
+        $model->roomId = $result['roomId'];
+        $model->videoId = $params['stream'];
         $model->userId = $result['userId'];
         $model->startTime = $params['start_time'];
         $model->content = json_encode($params);

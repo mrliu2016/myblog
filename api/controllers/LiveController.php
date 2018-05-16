@@ -102,6 +102,8 @@ class LiveController extends BaseController
     }
 
     /**
+     * 我的视频
+     *
      * @throws \yii\db\Exception
      */
     public function actionPlayback()
