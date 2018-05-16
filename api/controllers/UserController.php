@@ -34,24 +34,25 @@ class UserController extends BaseController
             self::jsonReturnError(Constants::CODE_FAILED, '手机号错误!');
         }
         if (!empty($verifyCode)) {
-            $cacheVerifyCode = $redisClient->get(Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . $mobile);
+            $key = Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_LOGIN . ':' . $mobile;
+            $cacheVerifyCode = $redisClient->get($key);
             if (intval($cacheVerifyCode) != intval($verifyCode)) {
-                self::jsonReturnError(Constants::CODE_FAILED, '验证码错误!');
+                self::jsonReturnError(Constants::CODE_FAILED, '手机验证码错误!');
             }
             if (empty(User::queryByPhone($mobile))) {
                 User::Register($mobile, !empty($password) ? md5($password) : '');
             }
         } else {
             if (empty($mobile) || empty($password)) {
-                self::jsonReturnError(Constants::CODE_FAILED, '请输入手机号或密码!');
+                self::jsonReturnError(Constants::CODE_FAILED, '请输入手机号或密码');
             }
             if (empty(User::queryByPhone($mobile))) {
-                $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未注册!', []);
+                $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未注册', []);
             }
         }
         $result = User::checkLogin($mobile, !empty($password) ? md5($password) : '');
         if (empty($result)) {
-            $this->jsonReturnError(Constants::CODE_FAILED, '手机号或密码错误!');
+            $this->jsonReturnError(Constants::CODE_FAILED, '手机号或密码错误');
         }
         $token = Token::generateToken($result['id']);
         $redisClient->set(Constants::TTT_TECH_TOKEN . ':' . $token, json_encode(['userId' => $result['id'], 'token' => $token]));
