@@ -21,7 +21,7 @@ class User extends ActiveRecord
                 ->where(['id' => $id])->one();
         } else {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description,isValid,idCard,realName')
+                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description,isValid,idCard,realName,roomId,income')
                 ->where(['id' => $id])
                 ->asArray()
                 ->one();
@@ -49,6 +49,8 @@ class User extends ActiveRecord
         if (empty($userInfo)) {
             return false;
         }
+        $userInfo['roomId'] = intval($userInfo['roomId']);
+        $userInfo['income'] = intval($userInfo['income']);
         $userInfo['avatar'] = !empty($userInfo['avatar']) ? $userInfo['avatar'] : Yii::$app->params['defaultAvatar'];
         $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;
         $userInfo['followees_cnt'] = intval(Follow::queryInfoNum(['userId' => $userId])); // 我的关注
