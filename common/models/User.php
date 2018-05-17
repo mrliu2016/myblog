@@ -312,7 +312,7 @@ class User extends ActiveRecord
             if (ctype_digit($params['content']) && is_numeric($params['content'])) {
                 $find->andWhere('roomId =' . $params['content']);
             } else {
-                $find->andWhere('nickName like %' . $params['content'] . '%');
+                $find->andWhere('nickName like \'%' . $params['content'] . '%\'');
             }
         }
         return $find;
