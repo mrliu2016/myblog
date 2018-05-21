@@ -296,6 +296,10 @@ class User extends ActiveRecord
         return $find->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
     }
 
+    /**
+     * @param $params
+     * @return mixed
+     */
     public static function queryInfoNum($params)
     {
         $find = static::find();
