@@ -12,11 +12,12 @@ class Order extends ActiveRecord
     }
 
     //购买礼物
-    public static function create($streamId,$giftId, $userId, $userIdReceive, $price, $num)
+    public static function create($streamId, $giftId, $userId, $userIdReceive, $price, $num)
     {
         $model = new self();
         $model->streamId = $streamId;
         $model->giftId = $giftId;
+        $model->totalPrice = intval($price) * intval($num);
         $model->price = $price;
         $model->priceReal = $price;
         $model->num = $num;
