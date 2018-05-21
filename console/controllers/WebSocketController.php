@@ -103,7 +103,7 @@ class WebSocketController extends Controller
                     $stat = User::updateUserBalance($userId, -$priceReal);
                     if ($stat > 0) {
                         //购买礼物记录
-                        Order::create($giftId, $userId, $userIdTo, $price, $num);
+                        Order::create($order['streamId'], $giftId, $userId, $userIdTo, $price, $num);
 //                        $balance = $user['balance'] - $priceReal; // 不涉及业务计算
 //                        $redis->hset('WSUserBalance', $userId, $balance); // 送礼物时已更新
                     }

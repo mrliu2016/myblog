@@ -26,7 +26,7 @@ class VideoRecord extends ActiveRecord
         $model = new VideoRecord();
         $model->title = $params['remark'];
         $model->roomId = $result['roomId'];
-        $model->videoId = $params['stream'];
+        $model->streamId = $params['stream'];
         $model->userId = $result['userId'];
         $model->startTime = $params['start_time'];
         $model->content = json_encode($params);

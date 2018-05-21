@@ -13,7 +13,10 @@ class GiftController extends BaseController
         header("HTTP/1.1 404 Not Found");
         exit;
     }
-    //礼物列表
+
+    /**
+     * 礼物列表
+     */
     public function actionList()
     {
         $params = Yii::$app->request->get();
@@ -22,5 +25,10 @@ class GiftController extends BaseController
             $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
         }
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
+    }
+
+    public function actionContribution()
+    {
+        $params = Yii::$app->request->get();
     }
 }

@@ -15,4 +15,9 @@ class GiftService
         $list = Gift::queryInfo($params);
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $list];
     }
+
+    public static function contribution($params)
+    {
+
+    }
 }

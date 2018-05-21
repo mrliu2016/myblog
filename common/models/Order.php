@@ -12,9 +12,10 @@ class Order extends ActiveRecord
     }
 
     //购买礼物
-    public static function create($giftId, $userId, $userIdReceive, $price, $num)
+    public static function create($streamId,$giftId, $userId, $userIdReceive, $price, $num)
     {
         $model = new self();
+        $model->streamId = $streamId;
         $model->giftId = $giftId;
         $model->price = $price;
         $model->priceReal = $price;
@@ -45,10 +46,27 @@ class Order extends ActiveRecord
         return $find->count();
     }
 
+    /**
+     * 绑定查询参数
+     *
+     * @param $find
+     * @param $params
+     * @return mixed
+     */
     private static function buildParams($find, $params)
     {
         if (!empty($params['id'])) {
             $find->andWhere('id=' . $params['id']);
+        }
+        if (isset($params['type'])) {
+            switch ($params['type']) {
+                case 0: // 日榜单
+                    break;
+                case 1: // 周榜单
+                    break;
+                case 2: // 总榜单
+                    break;
+            }
         }
         return $find;
     }
