@@ -8,6 +8,7 @@ use yii\web\Response;
 
 class BaseController extends Controller
 {
+    const PAGE_SIZE = 15;
     public $enableCsrfValidation = false;
 
     protected function jsonReturn($return)
