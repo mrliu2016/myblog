@@ -3,6 +3,7 @@
 namespace app\common\models;
 
 use yii\db\ActiveRecord;
+use Yii;
 
 class Order extends ActiveRecord
 {
@@ -40,6 +41,30 @@ class Order extends ActiveRecord
         return $find->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
     }
 
+    /**
+     * 查询榜单信息
+     *
+     * @param $params
+     * @return mixed
+     */
+    public static function queryContributionInfo($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        $result = $find->asArray()
+            ->select('sum(`price`) as totalPrice,userId,userIdReceive')
+            ->orderBy('totalPrice desc')
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->groupBy('userId')
+            ->all();
+        return $result;
+    }
+
     public static function queryInfoNum($params)
     {
         $find = static::find();
@@ -59,16 +84,53 @@ class Order extends ActiveRecord
         if (!empty($params['id'])) {
             $find->andWhere('id=' . $params['id']);
         }
+        if (isset($params['userId'])) {
+            $find->andWhere('userIdReceive = ' . $params['userId']);
+        }
         if (isset($params['type'])) {
+            $currentTime = time();
             switch ($params['type']) {
                 case 0: // 日榜单
+                    $start = strtotime(date('Y-m-d', $currentTime));
+                    $end = strtotime(date('Y-m-d', strtotime('+1 day', $currentTime)));
+                    $find->andWhere('created >= ' . $start . ' and created < ' . $end);
                     break;
                 case 1: // 周榜单
+//                    $currentTime = ('1' == date('w'))
+//                        ? strtotime('Monday', $currentTime) : strtotime('last Monday', $currentTime);
+//                    $start = strtotime(date('Y-m-d', $currentTime));
+//                    $end = strtotime(date('Y-m-d 23:59:59', strtotime('+1 day', $currentTime)));
+//                    $find->andWhere('created >= ' . $start . ' and created < ' . $end);
                     break;
                 case 2: // 总榜单
+                    $find->andWhere('userIdReceives = ' . $params['userId']);
                     break;
             }
         }
         return $find;
+    }
+
+    /**
+     * @param string $sql
+     * @return int
+     * @throws \yii\db\Exception
+     */
+    public static function updateBySqlCondition($sql = '')
+    {
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        return $command->execute();
+    }
+
+    /**
+     * @param string $sql
+     * @return array
+     * @throws \yii\db\Exception
+     */
+    public static function queryBySQLCondition($sql = '')
+    {
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        return $command->queryAll();
     }
 }

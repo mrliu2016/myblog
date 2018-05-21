@@ -27,8 +27,28 @@ class GiftController extends BaseController
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
 
+    /**
+     *
+     * 榜单
+     * 0：日榜单，1：周榜单，2：总榜单
+     *
+     * @throws \yii\db\Exception
+     */
     public function actionContribution()
     {
         $params = Yii::$app->request->get();
+        $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+        $page = intval(!empty($params['page']) ? $params['page'] : 0);
+        $list = GiftService::contribution($params);
+        $totalCount = intval(GiftService::queryInfoNum($params));
+        $pageCount = ceil($totalCount / $params['size']);
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '',
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+            );
+        }
+        $this->jsonReturnError(Constants::CODE_FAILED);
     }
 }
