@@ -338,7 +338,7 @@ class User extends ActiveRecord
         }
         $find = static::find();
         $find = static::buildParams($find, $params);
-        $result = $find->select('id,userName,avatar,nickName,mobile,description,level')
+        $result = $find->select('id,id as userId,roomId,userName,avatar,nickName,mobile,description,level')
             ->asArray()
             ->offset($offset)
             ->limit($params['defaultPageSize'])

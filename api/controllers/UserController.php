@@ -278,11 +278,14 @@ class UserController extends BaseController
         $list = User::SearchUser($content, $observerUserId, $params);
         $totalCount = intval(User::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
-        $this->jsonReturnSuccess(
-            Constants::CODE_SUCCESS,
-            '搜索成功',
-            compact('totalCount', 'page', 'size', 'pageCount', 'list')
-        );
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '搜索成功',
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+            );
+        }
+        $this->jsonReturnError(Constants::CODE_FAILED);
     }
 
     //检查手机号是否被注册过
