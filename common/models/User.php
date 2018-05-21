@@ -87,7 +87,8 @@ class User extends ActiveRecord
         $model->mobile = $mobile;
         $model->password = $password;
         $model->userName = $mobile;
-        $model->nickName = substr($mobile, 0, 3) . "****" . substr($mobile, 7, 4);
+//        $model->nickName = substr($mobile, 0, 3) . "****" . substr($mobile, 7, 4);
+        $model->nickName = Yii::$app->params['defaultNickName'] . date('mdHis', time());
         $model->roomId = static::generateId();
         $model->created = time();
         $model->updated = time();
