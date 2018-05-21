@@ -3,6 +3,7 @@
 namespace app\api\controllers;
 
 use app\common\models\Report;
+use app\common\models\ReportOptions;
 use app\common\services\Constants;
 use Yii;
 
@@ -29,8 +30,8 @@ class ReportController extends BaseController
         $params = Yii::$app->request->get();
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
         $page = intval(!empty($params['page']) ? $params['page'] : 0);
-        $list = Report::queryInfo($params);
-        $totalCount = intval(Report::queryInfoNum($params));
+        $list = ReportOptions::queryInfo($params, 'id,content,created');
+        $totalCount = intval(ReportOptions::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
         if (!empty($list)) {
             $this->jsonReturnSuccess(
