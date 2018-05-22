@@ -88,7 +88,7 @@ class Order extends ActiveRecord
             $find->andWhere('userIdReceive = ' . $params['userId']);
         }
         if (isset($params['type'])) {
-            $currentTime = time();
+            $currentTime = $_SERVER['REQUEST_TIME'];
             switch ($params['type']) {
                 case 0: // 日榜单
                     $start = strtotime(date('Y-m-d', $currentTime));
@@ -96,11 +96,9 @@ class Order extends ActiveRecord
                     $find->andWhere('created >= ' . $start . ' and created < ' . $end);
                     break;
                 case 1: // 周榜单
-//                    $currentTime = ('1' == date('w'))
-//                        ? strtotime('Monday', $currentTime) : strtotime('last Monday', $currentTime);
-//                    $start = strtotime(date('Y-m-d', $currentTime));
-//                    $end = strtotime(date('Y-m-d 23:59:59', strtotime('+1 day', $currentTime)));
-//                    $find->andWhere('created >= ' . $start . ' and created < ' . $end);
+                    $start = strtotime(date('Y-m-d', strtotime("this week Monday", $currentTime)));
+                    $end   = strtotime(date('Y-m-d', strtotime("this week Sunday", $currentTime))) + 24 * 3600 - 1;
+                    $find->andWhere('created >= ' . $start . ' and created < ' . $end);
                     break;
                 case 2: // 总榜单
                     $find->andWhere('userIdReceives = ' . $params['userId']);
@@ -132,5 +130,54 @@ class Order extends ActiveRecord
         $connection = Yii::$app->db;
         $command = $connection->createCommand($sql);
         return $command->queryAll();
+    }
+
+    /**
+     * 收到礼物
+     */
+    public static function queryReceiveGiftList($params){
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        $result = $find->select('giftId,num,userId,userIdReceive')
+            ->asArray()
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->all();
+        return $result;
+    }
+    /**
+     * 送出礼物
+     */
+    public static function queryGiveGiftList($params){
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        if (isset($params['userId'])) {
+            $find->andWhere('userId = ' . $params['userId']);
+        }
+        $result = $find->select('giftId,num,userId,userIdReceive')
+            ->asArray()
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->all();
+        return $result;
+    }
+
+    //根据类型查询
+    public static function queryInfoNumByUserId($type,$userId){
+        $find = static::find();
+        if($type == 1){
+            $find->andWhere('userIdReceive = ' . $userId);
+        }
+        else if($type == 2){
+            $find->andWhere('userId = ' . $userId);
+        }
+        return $find->count();
     }
 }

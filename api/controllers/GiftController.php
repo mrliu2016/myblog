@@ -51,4 +51,29 @@ class GiftController extends BaseController
         }
         $this->jsonReturnError(Constants::CODE_FAILED);
     }
+
+    //礼物 -- 充值记录 送出礼物 收到礼物
+    public function actionBill(){
+        $params = Yii::$app->request->get();
+        if(empty($params) || empty($params['userId']) || empty($params['type'])){
+            $this->jsonReturnError(Constants::CODE_FAILED,'miss parameter');
+        }
+        $params['defaultPageSize'] = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+        $params['page'] = !empty($params['page'])?$params['page']:0;
+        $page = $params['page'];
+        $list = GiftService::queryBillList($params);
+
+        $totalCount = intval(GiftService::queryInfoNumByUserId($params['type'],$params['userId']));
+        $pageCount = ceil($totalCount / $params['size']);
+
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '',
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+            );
+        }
+        $this->jsonReturnError(Constants::CODE_FAILED);
+    }
+
 }
