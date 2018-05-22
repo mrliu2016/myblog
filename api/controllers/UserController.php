@@ -302,4 +302,20 @@ class UserController extends BaseController
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '可以', []);
         }
     }
+    //编辑用户信息
+    public function actionEditUserInfo(){
+//        $params = Yii::$app->request->post();
+        $params = Yii::$app->request->get();
+        if (empty($params['userId'])){
+            $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
+        }
+
+        $result = User::updateUserInfoByUserId($params);
+        if(isset($result)){
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '编辑成功', []);
+        }
+        else{
+            $this->jsonReturnError(Constants::CODE_FAILED, '编辑失败', []);
+        }
+    }
 }

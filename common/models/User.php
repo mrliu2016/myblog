@@ -383,5 +383,25 @@ class User extends ActiveRecord
             . ' where id = ' . $userId;
         return static::updateBySqlCondition($sql);
     }
+
+    /**
+     * 编辑用户信息
+     */
+    public static function updateUserInfoByUserId($params){
+
+        $userId = $params['userId'];
+        $avatar   = !empty($params['avatar'])?$params['avatar']:'';//头像
+        $nickName = !empty($params['nickName'])?$params['nickName']:'';//昵称
+        $sex   = !empty($params['sex'])?intval($params['sex']):0; //0:女 1:男
+        $birth = !empty($params['birth'])?intval($params['birth']):0;//生日
+        $description = !empty($params['description'])?$params['description']:'';//签名
+        $profession = !empty($params['profession'])?$params['profession']:'';//职业
+        $updated = $_SERVER['REQUEST_TIME'];
+        $sql = "UPDATE `". User::tableName() ."` SET ";
+        $sql .="`avatar`='{$avatar}',`nickName`='{$nickName}',`sex`={$sex},";
+        $sql .="`birth`={$birth},`description`='{$description}',`profession`='{$profession}',`updated`={$updated}";
+        $sql .= " WHERE id={$userId}";
+        return static::updateBySqlCondition($sql);
+    }
 }
 
