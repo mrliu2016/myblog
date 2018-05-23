@@ -4,6 +4,7 @@ namespace app\common\models;
 
 use app\common\components\Token;
 use app\common\services\Constants;
+use app\common\services\VideoService;
 use yii\db\ActiveRecord;
 use Yii;
 
@@ -59,8 +60,8 @@ class User extends ActiveRecord
         $userInfo['income'] = intval($userInfo['income']);
         $userInfo['avatar'] = !empty($userInfo['avatar']) ? $userInfo['avatar'] : Yii::$app->params['defaultAvatar'];
         $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;
-        $userInfo['followees_cnt'] = intval(Follow::queryInfoNum(['userId' => $userId])); // 我的关注
-        $userInfo['followers_cnt'] = intval(Follow::queryInfoNum(['userIdFollow' => $userId])); // 关注我的
+        $userInfo['followees_cnt'] = VideoService::computeUnit(intval(Follow::queryInfoNum(['userId' => $userId]))); // 我的关注
+        $userInfo['followers_cnt'] = VideoService::computeUnit(intval(Follow::queryInfoNum(['userIdFollow' => $userId]))); // 关注我的
         $userInfo['isAttention'] = intval(Follow::isAttention($userId, $observerUserId) ? 1 : 0);
         $userInfo['isLive'] = intval(Video::isLive($userId) ? 1 : 0);
         $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($observerUserId, $userId));
