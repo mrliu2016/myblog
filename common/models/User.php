@@ -392,6 +392,7 @@ class User extends ActiveRecord
 
     /**
      * 编辑用户信息
+     * 2018.5.23
      */
     public static function updateUserInfoByUserId($params){
 
@@ -419,14 +420,33 @@ class User extends ActiveRecord
                 $field .= '`profession`="' . $params['profession'] . '",';
             }
             if(empty($field)){
-                return 1;
+                return ['code'=>0];
             }
             $updated = $_SERVER['REQUEST_TIME'];
             $sql = "UPDATE `". User::tableName() ."` SET ".$field."`updated`={$updated} WHERE `id`={$userId}";
-            return static::updateBySqlCondition($sql);
+            if(static::updateBySqlCondition($sql)){
+                return ['code'=>0];
+            }
+            else{
+                return ['code'=>-1];
+            }
         }
         else{
-            return -1;
+            return ['code'=>-1];
+        }
+    }
+    /**
+     * 检验用户信息是否认证
+     */
+    public static function checkUserCredentials($params){
+        $userId = $params['userId'];
+        $sql = "SELECT idCard FROM ".User::tableName()." WHERE id=".$userId;
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        if(!empty($result) && !empty($result['idCard'])){
+            return ['code'=>0];
+        }
+        else{
+            return ['code'=>-1];
         }
     }
 }
