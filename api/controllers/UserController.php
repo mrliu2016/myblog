@@ -303,19 +303,17 @@ class UserController extends BaseController
         }
     }
     //编辑用户信息
-    public function actionEditUserInfo(){
-//        $params = Yii::$app->request->post();
-        $params = Yii::$app->request->get();
-        if (empty($params['userId'])){
-            $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
+    public function actionEditUser(){
+        $params = Yii::$app->request->post();
+        if (empty($params['userId']) || empty($params['nickName']) || empty($params['sex']) || empty($params['birth'])){
+            $this->jsonReturnError(Constants::CODE_FAILED, 'parameter error', []);
         }
-
         $result = User::updateUserInfoByUserId($params);
         if(isset($result)){
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '编辑成功', []);
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'edit success', []);
         }
         else{
-            $this->jsonReturnError(Constants::CODE_FAILED, '编辑失败', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, 'edit fail', []);
         }
     }
 }
