@@ -198,8 +198,18 @@ class Video extends ActiveRecord
             ->one();
     }
 
-    //直播开始
-    public static function create($userId, $roomId, $remark = '', $imgSrc = '')
+    /**
+     * 开始直播
+     *
+     * @param $userId
+     * @param $roomId
+     * @param string $remark
+     * @param string $imgSrc
+     * @param float $longitude
+     * @param float $latitude
+     * @return mixed
+     */
+    public static function create($userId, $roomId, $remark = '', $imgSrc = '', $longitude = 0.0, $latitude = 0.0)
     {
         $model = new self();
         $model->userId = $userId;
@@ -208,6 +218,8 @@ class Video extends ActiveRecord
         $model->endTime = time();
         $model->imgSrc = $imgSrc;
         $model->remark = $remark;
+        $model->longitude = $longitude;
+        $model->latitude = $latitude;
         $model->created = time();
         $model->updated = time();
         $model->save();

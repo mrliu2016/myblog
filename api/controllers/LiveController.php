@@ -68,7 +68,9 @@ class LiveController extends BaseController
     public function actionStartLive()
     {
         $params = Yii::$app->request->post();
-        $result = Video::create($params['userId'], $params['roomId'], $params['title'], $params['imgSrc']);
+        $result = Video::create($params['userId'], $params['roomId'], $params['title'], $params['imgSrc'],
+            !empty($params['longitude']) ? $params['longitude'] : 0.0,
+            !empty($params['latitude']) ? $params['latitude'] : 0.0);
         if (!$result) {
             $this->jsonReturnError(Constants::CODE_FAILED, '开播失败');
         }
@@ -78,7 +80,6 @@ class LiveController extends BaseController
             [
                 'streamId' => $result,
                 'pushRtmp' => CdnUtils::getPushUrl($result),
-                'wsServer' => LiveService::serverInfo(['roomId' => $result]),
                 'shareUrl' => Yii::$app->params['shareUrl'] . '/wap/index?streamId=' . $result
             ]
         );
