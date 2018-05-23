@@ -305,11 +305,11 @@ class UserController extends BaseController
     //编辑用户信息
     public function actionEditUser(){
         $params = Yii::$app->request->post();
-        if (empty($params['userId']) || empty($params['nickName']) || empty($params['sex']) || empty($params['birth'])){
+        if (empty($params['userId'])){
             $this->jsonReturnError(Constants::CODE_FAILED, 'parameter error', []);
         }
         $result = User::updateUserInfoByUserId($params);
-        if(isset($result)){
+        if($result){
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'edit success', []);
         }
         else{
