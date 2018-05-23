@@ -383,5 +383,45 @@ class User extends ActiveRecord
             . ' where id = ' . $userId;
         return static::updateBySqlCondition($sql);
     }
+
+    /**
+     * 编辑用户信息
+     */
+    public static function updateUserInfoByUserId($params){
+
+        $userId = $params['userId'];
+        unset($params['userId']);
+        //如果没有其他更新字段，不做update
+        if(!empty($params)){
+            $field = '';
+            if(!empty($params['avatar'])){//头像
+                $field .= '`avatar`="'.$params['avatar'].'",';
+            }
+            if(!empty($params['nickName'])){//昵称
+                $field .= '`nickName`="'.$params['nickName'].'",';
+            }
+            if(isset($params['sex'])){ //0:女 1:男
+                $field .= '`sex`='.intval($params['sex']).',';
+            }
+            if(!empty($params['birth'])){//生日 时间戳
+                $field .= '`birth`='.intval($params['birth']).',';
+            }
+            if(!empty($params['description'])){//签名
+                $field .= '`description`="'.$params['description'].'",';
+            }
+            if(!empty($params['profession'])) {//职业
+                $field .= '`profession`="' . $params['profession'] . '",';
+            }
+            if(empty($field)){
+                return 1;
+            }
+            $updated = $_SERVER['REQUEST_TIME'];
+            $sql = "UPDATE `". User::tableName() ."` SET ".$field."`updated`={$updated} WHERE `id`={$userId}";
+            return static::updateBySqlCondition($sql);
+        }
+        else{
+            return -1;
+        }
+    }
 }
 
