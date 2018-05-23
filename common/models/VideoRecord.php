@@ -3,6 +3,7 @@
 namespace app\common\models;
 
 use app\common\services\Constants;
+use app\common\services\VideoService;
 use yii\db\ActiveRecord;
 use Yii;
 
@@ -195,6 +196,7 @@ class VideoRecord extends ActiveRecord
             ->all();
         foreach ($result as $key => $value) {
             $result[$key]['isLive'] = Constants::CODE_PLAYBACK;
+            $result[$key]['watchTime'] = VideoService::computeUnit($result[$key]['watchTime']);
         }
         return $result;
     }
