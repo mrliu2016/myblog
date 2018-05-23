@@ -440,9 +440,9 @@ class User extends ActiveRecord
      */
     public static function checkUserCredentials($params){
         $userId = $params['userId'];
-        $sql = "SELECT idCard FROM ".User::tableName()." WHERE id=".$userId;
+        $sql = "SELECT realName,idCard,mobile FROM ".User::tableName()." WHERE id=".$userId;
         $result = Yii::$app->db->createCommand($sql)->queryOne();
-        if(!empty($result) && !empty($result['idCard'])){
+        if(!empty($result) && !empty($result['realName']) && !empty($result['idCard']) && !empty($result['mobile'])){
             return ['code'=>0];
         }
         else{
