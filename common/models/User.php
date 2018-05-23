@@ -21,7 +21,7 @@ class User extends ActiveRecord
                 ->where(['id' => $id])->one();
         } else {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description,isValid,idCard,realName,roomId,income')
+                ->select('id as userId,userName,avatar,nickName,sex,birth,mobile,balance,level,description,isValid,idCard,realName,roomId,income')
                 ->where(['id' => $id])
                 ->asArray()
                 ->one();
@@ -48,6 +48,12 @@ class User extends ActiveRecord
         $userInfo = static::queryById($userId);
         if (empty($userInfo)) {
             return false;
+        }
+        if(isset($userInfo['birth']) && !empty($userInfo['birth'])){//年龄
+            $userInfo['age']    = date('Y',$_SERVER['REQUEST_TIME'])-date('Y',$userInfo['birth']);
+        }
+        else{
+            $userInfo['age'] = '';
         }
         $userInfo['roomId'] = intval($userInfo['roomId']);
         $userInfo['income'] = intval($userInfo['income']);
