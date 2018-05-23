@@ -309,11 +309,26 @@ class UserController extends BaseController
             $this->jsonReturnError(Constants::CODE_FAILED, 'parameter error', []);
         }
         $result = User::updateUserInfoByUserId($params);
-        if($result){
+        if(isset($result) && $result['code'] == 0){
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'edit success', []);
         }
         else{
             $this->jsonReturnError(Constants::CODE_FAILED, 'edit fail', []);
         }
+    }
+    //判断该用户是否已认证
+    public function actionCheckAuth(){
+        $params = Yii::$app->request->post();
+        if(empty($params['userId'])){
+            $this->jsonReturnError(Constants::CODE_FAILED, 'parameter error', []);
+        }
+        $result = User::checkUserCredentials($params);
+        if(!empty($result) && $result['code'] == 0){
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'check success', []);
+        }
+        else{
+            $this->jsonReturnError(Constants::CODE_FAILED, 'check fail', []);
+        }
+
     }
 }

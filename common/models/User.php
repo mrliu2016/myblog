@@ -21,7 +21,7 @@ class User extends ActiveRecord
                 ->where(['id' => $id])->one();
         } else {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,mobile,balance,level,description,isValid,idCard,realName,roomId,income')
+                ->select('id as userId,userName,avatar,nickName,sex,birth,mobile,balance,level,description,isValid,idCard,realName,roomId,income')
                 ->where(['id' => $id])
                 ->asArray()
                 ->one();
@@ -48,6 +48,12 @@ class User extends ActiveRecord
         $userInfo = static::queryById($userId);
         if (empty($userInfo)) {
             return false;
+        }
+        if(isset($userInfo['birth']) && !empty($userInfo['birth'])){//年龄
+            $userInfo['age']    = date('Y',$_SERVER['REQUEST_TIME'])-date('Y',$userInfo['birth']);
+        }
+        else{
+            $userInfo['age'] = '';
         }
         $userInfo['roomId'] = intval($userInfo['roomId']);
         $userInfo['income'] = intval($userInfo['income']);
@@ -386,6 +392,7 @@ class User extends ActiveRecord
 
     /**
      * 编辑用户信息
+     * 2018.5.23
      */
     public static function updateUserInfoByUserId($params){
 
@@ -413,14 +420,33 @@ class User extends ActiveRecord
                 $field .= '`profession`="' . $params['profession'] . '",';
             }
             if(empty($field)){
-                return 1;
+                return ['code'=>0];
             }
             $updated = $_SERVER['REQUEST_TIME'];
             $sql = "UPDATE `". User::tableName() ."` SET ".$field."`updated`={$updated} WHERE `id`={$userId}";
-            return static::updateBySqlCondition($sql);
+            if(static::updateBySqlCondition($sql)){
+                return ['code'=>0];
+            }
+            else{
+                return ['code'=>-1];
+            }
         }
         else{
-            return -1;
+            return ['code'=>-1];
+        }
+    }
+    /**
+     * 检验用户信息是否认证
+     */
+    public static function checkUserCredentials($params){
+        $userId = $params['userId'];
+        $sql = "SELECT realName,idCard,mobile FROM ".User::tableName()." WHERE id=".$userId;
+        $result = Yii::$app->db->createCommand($sql)->queryOne();
+        if(!empty($result) && !empty($result['realName']) && !empty($result['idCard']) && !empty($result['mobile'])){
+            return ['code'=>0];
+        }
+        else{
+            return ['code'=>-1];
         }
     }
 }
