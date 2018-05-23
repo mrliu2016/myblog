@@ -9,6 +9,10 @@ class Constants
     const CODE_WARNING = -1; //警告
     const CODE_CLOSE = -2; //强制退出
 
+    const CODE_LIVE_END = 0;
+    const CODE_LIVE = 1;
+    const CODE_PLAYBACK = 2;
+
 
     // token 有限期
     const LOGIN_TOKEN_EXPIRES = 86400;

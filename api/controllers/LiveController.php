@@ -29,7 +29,7 @@ class LiveController extends BaseController
         $params = Yii::$app->request->get();
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
         $page = intval(!empty($params['page']) ? $params['page'] : 0);
-        $params['isLive'] = 1;
+        $params['isLive'] = Constants::CODE_LIVE;
         $list = Video::queryHot($params);
         $totalCount = intval(Video::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
@@ -113,11 +113,22 @@ class LiveController extends BaseController
     {
         $params = Yii::$app->request->get();
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
-        $page = intval(!empty($params['page']) ? $params['page'] : 0);
         $result = VideoRecord::queryInfo($params);
         $list = Video::processLiveInfo($result, true);
+        if (!empty($params['type'])) {
+            $params['isLive'] = Constants::CODE_LIVE;
+            $liveList = Video::queryHot($params);
+            if (!empty($liveList) && !empty($list)) {
+                foreach ($liveList as $key => $value) {
+                    array_unshift($list, $value);
+                }
+            } else {
+                $list = !empty($liveList) ? $liveList : $list;
+            }
+        }
         $totalCount = intval(VideoRecord::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
+        $page = intval(!empty($params['page']) ? $params['page'] : 0);
         if (!empty($list)) {
             $this->jsonReturnSuccess(
                 Constants::CODE_SUCCESS,
@@ -126,5 +137,15 @@ class LiveController extends BaseController
             );
         }
         $this->jsonReturnError(Constants::CODE_FAILED);
+    }
+
+    /**
+     * 观看次数
+     */
+    public function actionWatchTime()
+    {
+        $params = Yii::$app->request->post();
+        VideoRecord::watchTime($params);
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS);
     }
 }

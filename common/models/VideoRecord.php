@@ -13,6 +13,15 @@ class VideoRecord extends ActiveRecord
         return 't_video_record';
     }
 
+    public static function queryById($id, $isObject = false)
+    {
+        if ($isObject) {
+            return static::find()->where(['id' => $id])->one();
+        } else {
+            return static::find()->where(['id' => $id])->asArray()->one();
+        }
+    }
+
     /**
      * 直播结束录制通知
      * @param $params
@@ -179,11 +188,14 @@ class VideoRecord extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->offset($offset)->select('id,userId,roomId,startTime,videoSrc,duration,created,title')
+        $result = $find->offset($offset)->select('id,userId,roomId,startTime,videoSrc,duration,watchTime,created,title')
             ->limit($params['defaultPageSize'])
             ->orderBy('startTime desc')
             ->asArray()
             ->all();
+        foreach ($result as $key => $value) {
+            $result[$key]['isLive'] = Constants::CODE_PLAYBACK;
+        }
         return $result;
     }
 
@@ -205,6 +217,23 @@ class VideoRecord extends ActiveRecord
         $find = static::find();
         $find = self::buildParams($find, $params);
         return $find->count();
+    }
+
+    /**
+     * 观看次数
+     *
+     * @param $params
+     * @return bool
+     */
+    public static function watchTime($params)
+    {
+        $model = static::queryById($params['id'], true);
+        if (empty($model)) {
+            return false;
+        }
+        $model->watchTime = intval($model->watchTime) + 1;
+        $model->updated = time();
+        return $model->save();
     }
 
     /**
