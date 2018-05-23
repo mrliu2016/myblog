@@ -201,10 +201,9 @@ class Video extends ActiveRecord
     //直播开始
     public static function create($userId, $roomId, $remark = '', $imgSrc = '')
     {
-        $user = User::queryById($userId);
         $model = new self();
         $model->userId = $userId;
-        $model->roomId = $user['roomId'];
+        $model->roomId = $roomId;
         $model->startTime = time();
         $model->endTime = time();
         $model->imgSrc = $imgSrc;
