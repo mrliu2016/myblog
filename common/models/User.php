@@ -22,7 +22,8 @@ class User extends ActiveRecord
                 ->where(['id' => $id])->one();
         } else {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,sex,birth,mobile,balance,level,description,isValid,idCard,realName,roomId,income')
+                ->select('id as userId,userName,avatar,nickName,sex,birth,mobile,
+                balance,level,description,isValid,idCard,realName,roomId,income,province,city,region,profession')
                 ->where(['id' => $id])
                 ->asArray()
                 ->one();
