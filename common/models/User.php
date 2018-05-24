@@ -413,6 +413,10 @@ class User extends ActiveRecord
             if(!empty($params['birth'])){//生日 时间戳
                 $field .= '`birth`='.intval($params['birth']).',';
             }
+            if(!empty($params['address'])){//签名
+                $address = explode(',',$params['address']);
+                $field .= '`province`="'.$address[0].'",`city`="'.$address[1].'",`region`="'.$address[2].'",';
+            }
             if(!empty($params['description'])){//签名
                 $field .= '`description`="'.$params['description'].'",';
             }
