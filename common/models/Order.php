@@ -101,7 +101,7 @@ class Order extends ActiveRecord
                     $find->andWhere('created >= ' . $start . ' and created < ' . $end);
                     break;
                 case 2: // 总榜单
-                    $find->andWhere('userIdReceives = ' . $params['userId']);
+                    $find->andWhere('userIdReceive = ' . $params['userId']);
                     break;
             }
         }
