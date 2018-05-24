@@ -181,22 +181,46 @@ class VideoRecord extends ActiveRecord
         return $result;
     }
 
+    /**
+     * @param $params
+     * @return mixed
+     * @throws \yii\db\Exception
+     */
     public static function queryInfo($params)
     {
         $offset = 0;
+        $streamId = '';
+        $videoInfo = [];
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->offset($offset)->select('id,userId,roomId,startTime,videoSrc,duration,watchTime,created,title')
+        $result = $find->offset($offset)->select('id,userId,roomId,streamId,startTime,videoSrc,duration,watchTime,created,title')
             ->limit($params['defaultPageSize'])
             ->orderBy('startTime desc')
             ->asArray()
             ->all();
         foreach ($result as $key => $value) {
+            $streamId .= $value['streamId'] . ',';
+        }
+        if (!empty($streamId)) {
+            $sql = 'select id,imgSrc from ' . Video::tableName() . ' where id in(' . trim($streamId, ',') . ')';
+            $videoInfo = static::queryBySQLCondition($sql);
+        }
+        foreach ($result as $key => $value) {
             $result[$key]['isLive'] = Constants::CODE_PLAYBACK;
             $result[$key]['watchTime'] = VideoService::computeUnit($result[$key]['watchTime']);
+            $flag = true;
+            foreach ($videoInfo as $itemKey => $itemValue) {
+                if ($value['streamId'] == $itemValue['id']) {
+                    $result[$key]['imgSrc'] = $itemValue['imgSrc'];
+                    $flag = false;
+                }
+            }
+            if ($flag) {
+                $result[$key]['imgSrc'] = '';
+            }
         }
         return $result;
     }
