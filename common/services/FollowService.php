@@ -72,7 +72,7 @@ class FollowService
             $item["isLive"] = $value['isLive'];
             $item['startTime'] = date('Y.m.d H:i', $value['startTime']);
             $item['viewerNum'] = $value['viewerNum'];
-            $item['pullRtmp'] = CdnUtils::getPullUrl($value['roomId']);
+            $item['pullRtmp'] = CdnUtils::getPullUrl($value['streamId']);
             $list[] = $item;
         }
 //        if (!empty($userId)) {
