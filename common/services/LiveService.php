@@ -218,6 +218,8 @@ class LiveService
             $redis->hdel(Constants::WSCLOSE, $userId);
         }
         static::latestHeartbeat($frame->fd, $userId, $roomId, $param["isMaster"]);
+        ll('房间号：' . $roomId . '，在线人数：' . LiveService::roomMemberNum($roomId), 'webSocketMessage.log');
+        ll("连接数：" . $redis->hget(Constants::WS_CONNECTION, Constants::WS_CONNECTION), 'webSocketMessage.log');
     }
 
     /**
@@ -959,4 +961,31 @@ class LiveService
         }
 
     }
+
+    /**
+     * 秒数转换为时间
+     *
+     * @param $times
+     * @return string
+     */
+    private static function _secToTime($times)
+    {
+        $result = '';
+        if ($times > 0) {
+            $hour = sprintf('%02s', floor($times / 3600));
+            $minute = sprintf('%02s', floor(($times - 3600 * $hour) / 60));;
+            $second = sprintf('%02s', floor((($times - 3600 * $hour) - 60 * $minute) % 60));
+            if (!empty($hour) && ($hour != '00')) {
+                $result .= $hour . ':';
+            }
+            if (!empty($minute)) {
+                $result .= $minute . ':';
+            }
+            if (!empty($second)) {
+                $result .= $second;
+            }
+        }
+        return !empty($result) ? $result : '00:00';
+    }
+
 }
