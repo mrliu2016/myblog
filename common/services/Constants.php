@@ -65,6 +65,7 @@ class Constants
     const WS_HEARTBEAT_IDLE_TIME = 60; // TCP连接如果在30秒内
     const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
     const WS_LATEST_HEARTBEAT_TIME = self::PROJECT_NAME . 'WSLatestHeartbeatTime'; // 最新的心跳时间
+    const WS_CONNECTION = self::PROJECT_NAME . 'WSConnection';
     const WS_DEFAULT_EXPIRE = 3600;
 
     // 队列

@@ -510,6 +510,7 @@ class LiveService
             $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
             $redis->hdel($keyLatestHeartbeat, $userId);
         }
+        static::updateConnection();
     }
 
     //获取用户余额
@@ -928,5 +929,34 @@ class LiveService
             }
         }
         return true;
+    }
+
+    public static function openConnection($fd)
+    {
+        $redis = RedisClient::getInstance();
+        if (!$redis->exists(Constants::WS_CONNECTION)) {
+            $redis->hset(Constants::WS_CONNECTION, Constants::WS_CONNECTION, 1);
+        } else {
+            $redis->hIncrby(Constants::WS_CONNECTION, Constants::WS_CONNECTION, 1);
+        }
+        $redis->expire(Constants::WS_CONNECTION, Constants::WS_DEFAULT_EXPIRE);
+        ll("{$fd} connection open，连接数：" . $redis->hget(Constants::WS_CONNECTION, Constants::WS_CONNECTION), 'webSocketMessage.log');
+    }
+
+    /**
+     * 更新链接 webSocket 数量
+     */
+    public static function updateConnection()
+    {
+        $redis = RedisClient::getInstance();
+        $number = $redis->hget(Constants::WS_CONNECTION, Constants::WS_CONNECTION);
+        if ($number > 0) {
+            $redis->hIncrby(Constants::WS_CONNECTION, Constants::WS_CONNECTION, -1);
+        } elseif ($number == 0) {
+            $redis->hset(Constants::WS_CONNECTION, Constants::WS_CONNECTION, 0);
+        } else {
+            $redis->hdel(Constants::WS_CONNECTION, Constants::WS_CONNECTION);
+        }
+
     }
 }
