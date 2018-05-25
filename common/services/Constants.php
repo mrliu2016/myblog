@@ -12,7 +12,7 @@ class Constants
     const CODE_LIVE_END = 0;
     const CODE_LIVE = 1;
     const CODE_PLAYBACK = 2;
-
+    const PROJECT_NAME = '3TLive_';
 
     // token 有限期
     const LOGIN_TOKEN_EXPIRES = 86400;
@@ -51,25 +51,25 @@ class Constants
     const MESSAGE_TYPE_GAG_REQ = 'gag_req';
     const MESSAGE_TYPE_GAG_RES = 'gag_res';
 
-    const WSGIFTORDER = 'WSGiftOrder';
+    const WSGIFTORDER = self::PROJECT_NAME . 'WSGiftOrder';
 
-    const WS_ROOM_LOCATION = 'WSRoomLocation_';
-    const WS_ROOM_FD = 'WSRoomFD_';
-    const WS_ROOM_USER = 'WSRoomUser_';
-    const WS_ROOM_USER_COUNT = 'WSRoom_';
-    const WSWARNING = 'WSWarning';
-    const WSCLOSE = 'WSClose';
-    const WS_ROOM_USER_LM_LIST = 'WSRoomUserLMList_';
-    const WS_USER_BALANCE = 'WSUserBalance';
+    const WS_ROOM_LOCATION = self::PROJECT_NAME . 'WSRoomLocation_';
+    const WS_ROOM_FD = self::PROJECT_NAME . 'WSRoomFD_';
+    const WS_ROOM_USER = self::PROJECT_NAME . 'WSRoomUser_';
+    const WS_ROOM_USER_COUNT = self::PROJECT_NAME . 'WSRoom_';
+    const WSWARNING = self::PROJECT_NAME . 'WSWarning';
+    const WSCLOSE = self::PROJECT_NAME . 'WSClose';
+    const WS_ROOM_USER_LM_LIST = self::PROJECT_NAME . 'WSRoomUserLMList_';
+    const WS_USER_BALANCE = self::PROJECT_NAME . 'WSUserBalance';
 
     const WS_HEARTBEAT_IDLE_TIME = 60; // TCP连接如果在30秒内
     const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
-    const WS_LATEST_HEARTBEAT_TIME = 'WSLatestHeartbeatTime'; // 最新的心跳时间
+    const WS_LATEST_HEARTBEAT_TIME = self::PROJECT_NAME . 'WSLatestHeartbeatTime'; // 最新的心跳时间
     const WS_DEFAULT_EXPIRE = 3600;
 
     // 队列
-    const QUEUE_WS_HEARTBEAT = 'WS_Heartbeat_Live';
-    const QUEUE_WS_GIFT_ORDER = 'WSGiftOrder';
+    const QUEUE_WS_HEARTBEAT = self::PROJECT_NAME . 'WS_Heartbeat_Live';
+    const QUEUE_WS_GIFT_ORDER = self::PROJECT_NAME . 'WSGiftOrder';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
     const LOGIN_TYPE_QQ = 'QQ';
