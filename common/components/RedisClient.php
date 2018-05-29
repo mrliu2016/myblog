@@ -166,4 +166,8 @@ class RedisClient
         return $this->redis->zRem($key, $member);
     }
 
+    public function hIncrby($key, $field, $value = 1)
+    {
+        return $this->redis->hIncrBy($key, $field, $value);
+    }
 }

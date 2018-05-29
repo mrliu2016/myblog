@@ -20,13 +20,15 @@ class WebSocketController extends Controller
             'ssl_key_file' => '/etc/nginx/cert/dev_api_demo.key',
             'ssl_cert_file' => '/etc/nginx/cert/dev_api_demo.pem',
             'heartbeat_check_interval' => Constants::WS_HEARTBEAT_CHECK_INTERVAL,
-            'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME
+            'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME,
+            'max_conn' => 50000,
         ];
         $server->set($setConfig);
         //添加一个监听端口，继续支持ws方式进行连接
         $server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
 
         $server->on('open', function ($server, $req) {
+            LiveService::openConnection($req->fd);
             ll("{$req->fd} connection open", 'webSocketMessage.log');
         });
         $server->on('message', function ($server, $frame) {
