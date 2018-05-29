@@ -2,7 +2,10 @@
 
 namespace app\manager\controllers;
 
+use app\common\models\Order;
+use app\common\models\Report;
 use app\common\models\User;
+use app\common\models\Video;
 use app\common\services\Constants;
 use app\common\services\LiveService;
 use Yii;
@@ -32,13 +35,47 @@ class UserController extends BaseController
         return $pagination;
     }
 
-
     public function actionIndex()
     {
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;;
-        $result = User::queryInfo($params);
-        $count = User::queryInfoNum($params);
+        $result = User::queryUserInfo($params);
+
+        if(empty($params['id'])){
+            unset($params['id']);
+        }
+
+        foreach ($result as $key => &$val){
+            if(!empty($val['realName']) && !empty($val['idCard']) && !empty($val['mobile'])){
+                $val['isValid'] = 1;
+            }
+            else{
+                $val['isValid'] = 0;
+            }
+            $params['userId'] = $val['id'];
+            $liveCount = Video::queryInfoNum($params);
+            $val['liveCount'] = $liveCount;//直播次数
+            $reportCount= Report::queryInfoNum($params);
+            $val['reportCount'] = $reportCount;
+            //收到礼物
+            $receiveValue = Order::queryReceiveGiftByUserId($val['id'],true);
+            if(empty($receiveValue) || empty($receiveValue['totalPrice'])){
+                $val['receiveValue'] = 0;
+            }
+            else{
+                $val['receiveValue'] = $receiveValue['totalPrice'];
+            }
+            //送出礼物
+            $sendValue = Order::queryReceiveGiftByUserId($val['id'],false);
+            if(empty($sendValue) || empty($sendValue['totalPrice'])){
+                $val['sendValue'] = 0;
+            }
+            else{
+                $val['sendValue'] = $sendValue['totalPrice'];
+            }
+        }
+
+        $count = User::queryUserInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
             'itemList' => $result,

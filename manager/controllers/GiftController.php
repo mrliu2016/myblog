@@ -74,7 +74,6 @@ class GiftController extends BaseController
         }
     }
 
-
     public function actionOrder()
     {
         $params = Yii::$app->request->getQueryParams();
@@ -87,6 +86,24 @@ class GiftController extends BaseController
             'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count
+        ]);
+    }
+    //礼物编辑
+    public function actionGiftEdit(){
+        $params = Yii::$app->request->getQueryParams();
+
+        $id = $params['id'];
+        return $this->render('gift-edit',['id'=>$id]);
+    }
+
+    //礼物详情
+    public function actionDetail(){
+        $params = Yii::$app->request->getQueryParams();
+        //通过id查询礼物的详情
+        $id = $params['id'];
+        $result = Gift::queryById($id,false);
+        return $this->render('detail',[
+            'list'=>$result
         ]);
     }
 }

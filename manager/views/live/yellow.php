@@ -1,7 +1,6 @@
 <?php
 use yii\widgets\LinkPager;
-
-$this->title = '鉴黄';
+$this->title = '鉴黄管理';
 ?>
 
 <div class="container-fluid">
@@ -12,16 +11,29 @@ $this->title = '鉴黄';
                 <fieldset style="height: 20px">
                     <div class="form-group">
                         <div class="col-sm-10">
-                            <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
-                                    name="searchBtn">查询
-                            </button>
-                            <div class="col-md-2">
-                                <input type="hidden" name="type" value="3"/>
-                                <input type="text" placeholder="用户id" style="width: 120px" id="content" name="userId"
-                                       class="form-control datepicker-pop"
-                                    <?php if (!empty($params['userId'])): ?>
-                                        value="<?= $params['userId'] ?>"
-                                    <?php endif; ?>>
+                            <div class="col-md-2" style="display: flex;">
+                                <div class="query" style="white-space: nowrap;">
+                                    ID <input type="text" style="width: 120px;display: inline-block" id="content" name="id" placeholder="请输入用户ID"
+                                              class="form-control">
+                                </div>
+                                <div class="query" style="white-space: nowrap;">
+                                    昵称<input type="text" style="width: 120px;display: inline-block;" id="nickName" name="nickName" placeholder="昵称"
+                                             class="form-control">
+                                </div>
+                                <div class="query" style="white-space: nowrap;">
+                                    房间号<input type="text" style="width: 120px;display: inline-block" id="roomId" name="roomId" placeholder="房间号"
+                                              class="form-control">
+                                </div>
+                                <input type="text" style="width: 120px" id="startTime" name="startTime"
+                                       class="form-control datepicker-pop">
+
+                                <!--直播时间-->
+                                <input type="text" style="width: 120px" id="endTime" name="endTime"
+                                       class="form-control datepicker-pop">
+
+                                <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
+                                        name="searchBtn">查询
+                                </button>
                             </div>
                         </div>
                 </fieldset>
@@ -33,42 +45,39 @@ $this->title = '鉴黄';
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th class="col-md-1">id</th>
-                    <th class="col-md-1">用户</th>
-                    <th class="col-md-1">时间</th>
-                    <th class="col-md-1">图片</th>
-                    <th class="col-md-1">图片信息</th>
-                    <th class="col-md-1">直播状态</th>
+                    <th class="col-md-1">序号</th>
+                    <th class="col-md-1">ID</th>
+                    <th class="col-md-1">昵称</th>
+                    <th class="col-md-1">房间号</th>
+                    <th class="col-md-1">开始时间</th>
+                    <th class="col-md-1">结束时间</th>
+                    <th class="col-md-1">截图</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($itemList as $item): ?>
+                <?php foreach ($itemList as $key => $item): ?>
                     <tr>
+                        <td>
+                            <?= $key+1 ?>
+                        </td>
                         <td>
                             <?= $item['id'] ?>
                         </td>
                         <td>
-                            <?= $item['userId'] ?>
+                            <?= $item['nickName'] ?>
                         </td>
                         <td>
-                            开始: <?= date('Y-m-d H:i:s', $item['startTime']) ?> <br/>
-                            结束:<?= date('Y-m-d H:i:s', $item['endTime']) ?>
+                            <?= $item['roomId'] ?>
                         </td>
                         <td>
-                            <img src="<?= $item['yellowurl'] ?>" width="150" height="85"></a>
+                            <?= date('Y-m-d H:i:s',$item['startTime'])?>
                         </td>
                         <td>
-                            标签:性感<br/>
-                            场景:色情<br/>
-                            率:<?= $item['information']['Rate'] ?><br/>
-                            建议:审查
+                            <?= date('Y-m-d H:i:s',$item['endTime'])?>
                         </td>
                         <td>
-                            <?php if ($item['isLive'] == 1) {
-                                echo "直播";
-                            } else if ($item['isLive'] == 0) {
-                                echo "结束";
-                            } ?>
+                           <!-- <img src="<?/*= $item['yellowurl'] */?>" width="150" height="85"></a>-->
+                            <a href="/live/yellow-check?id=<?=$item['id']?>">查看</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -84,7 +93,6 @@ $this->title = '鉴黄';
             </tr>
         </table>
     </nav>
-
 </div>
 
 
@@ -121,55 +129,14 @@ $this->title = '鉴黄';
                     area: ['1000px', '550px'], //宽高
                     content: html
                 });
-
-                var client_array = data;
-                var client_js = eval('(' + client_array + ')');
-                // 初始化图表标签
-                var myChart = echarts.init(document.getElementById('main_1'));
-                options = {
-                    /* title : {
-                     text: '丢包率',
-                     x:'center'
-                     },*/
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-                    },
-                    legend: {
-                        orient: 'vertical',
-                        left: 'left',
-                        data: ['0~5%', '5%~10%', '10%~20%', '>20%', '成功']
-                    },
-                    series: [
-                        {
-                            name: '丢包率',
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['50%', '60%'],
-                            data: [
-                                {value: client_js['a'], name: '0~5%'},
-                                {value: client_js['b'], name: '5%~10%'},
-                                {value: client_js['c'], name: '10%~20%'},
-                                {value: client_js['d'], name: '>20%'},
-                                {value: client_js['e'], name: '成功'}
-                            ],
-                            itemStyle: {
-                                normal: {
-                                    label: {
-                                        show: true,
-                                        formatter: '{b} : {c} ({d}%)'
-                                    },
-                                    labelLine: {show: true}
-                                }
-                            }
-                        }
-                    ]
-                };
-                myChart.setOption(options);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert('get issue');
             }
         });
+    }
+    
+    function show(url) {
+        alert(url);
     }
 </script>

@@ -125,11 +125,14 @@ class Order extends ActiveRecord
      * @return array
      * @throws \yii\db\Exception
      */
-    public static function queryBySQLCondition($sql = '')
+    public static function queryBySQLCondition($sql = '',$flag = true)
     {
         $connection = Yii::$app->db;
         $command = $connection->createCommand($sql);
-        return $command->queryAll();
+        if($flag){
+            return $command->queryAll();
+        }
+        return $command->queryOne();
     }
 
     /**
@@ -179,5 +182,19 @@ class Order extends ActiveRecord
             $find->andWhere('userId = ' . $userId);
         }
         return $find->count();
+    }
+
+    //收到礼物/币  送出礼物/豆
+    public static function queryReceiveGiftByUserId($userId,$flag = true){
+
+        $sql = '';
+        if($flag){
+            $sql = "SELECT SUM(`totalPrice`) AS  totalPrice FROM `".static ::tableName()."` WHERE `userId`={$userId}";
+        }
+        else {
+            $sql = "SELECT SUM(`totalPrice`) AS  totalPrice FROM `".static ::tableName()."` WHERE `userIdReceive`={$userId}";
+        }
+        $result = static ::queryBySQLCondition($sql,false);
+        return $result;
     }
 }

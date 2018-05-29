@@ -43,9 +43,13 @@ class Gift extends ActiveRecord
 
     public static function buildParams($find, $params)
     {
+
         if (!empty($params['name'])) $params['name'] = trim($params['name']);
         if (!empty($params['name'])) {
             $find->andWhere(['like', 'name', $params['name']]);
+        }
+        if(!empty($params['id'])){
+            $find->andWhere('id='.$params['id']);
         }
         if (isset($params['content'])) {
             if (ctype_digit($params['content']) && !empty($params['content'])) {
