@@ -1,7 +1,6 @@
 <?php
 
 use yii\widgets\LinkPager;
-
 $this->title = '用户管理';
 ?>
 
@@ -10,18 +9,52 @@ $this->title = '用户管理';
         <div class="card-body">
             <form method="get" action="/user/index" class="form-horizontal" id="searchForm"
                   name="searchForm">
-                <fieldset style="height: 20px">
+                <fieldset style="height: 40px">
                     <div class="form-group">
-                        <div class="col-sm-10">
-                            <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
-                                    name="searchBtn">查询
-                            </button>
-                            <div class="col-md-2">
-                                <input type="text" style="width: 120px" id="content" name="id" placeholder="请输入用户ID"
-                                       class="form-control"
-                                    <?php if (!empty($params['id'])): ?>
-                                        value="<?= $params['id'] ?>"
-                                    <?php endif; ?>>
+                        <div class="col-sm-10 s-formWrap" style="display: flex; height=42px">
+                            <div class="col-md-2" style="display: flex;">
+                                <div class="query" style="white-space: nowrap;">
+                                    ID <input type="text" style="width: 120px;display: inline-block" id="content" name="id" placeholder="请输入用户ID"
+                                           class="form-control"
+                                        <?php if (!empty($params['id'])): ?>
+                                            value="<?= $params['id'] ?>"
+                                        <?php endif; ?>>
+                                </div>
+                                <div class="query" style="white-space: nowrap;">
+                                    昵称<input type="text" style="width: 120px;display: inline-block;" id="nickName" name="nickName" placeholder="昵称"
+                                             class="form-control">
+                                </div>
+                                <div class="query" style="white-space: nowrap;">
+                                    房间号<input type="text" style="width: 120px;display: inline-block" id="roomId" name="roomId" placeholder="房间号"
+                                              class="form-control">
+                                </div>
+                                <div class="query" style="white-space: nowrap;">
+                                    手机号<input type="text" style="width: 120px;display: inline-block" id="mobile" name="mobile" placeholder="手机号"
+                                              class="form-control">
+                                </div>
+
+                                <div class="query" style="white-space: nowrap; display: flex; align-items: center;">
+                                    是否认证<select>
+                                        <option>是</option>
+                                        <option>否</option>
+                                    </select>
+                                </div>
+                                <div class="query" style="white-space: nowrap; display: flex; align-items: center;">
+                                    状态<select>
+                                        <option>启用</option>
+                                        <option>禁用</option>
+                                    </select>
+                                </div>
+
+                                <!--<div class="query" style="white-space: nowrap;">
+                                    注册时间<input type="text" style="width: 120px;display: inline-block" id="mobile" name="id" placeholder="请输入用户ID"
+                                               class="form-control">-<input type="text" style="width: 120px;display: inline-block" id="mobile" name="id" placeholder="请输入用户ID"
+                                                                            class="form-control">
+                                </div>-->
+
+                                <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
+                                        name="searchBtn" style="margin: 0 5px !important;">查询
+                                </button>
                             </div>
                         </div>
                 </fieldset>
@@ -33,44 +66,78 @@ $this->title = '用户管理';
             <table class="table table-hover">
                 <thead>
                 <tr>
-                    <th class="col-md-1">id</th>
-                    <!--                    <th class="col-md-1">应用</th>-->
+                    <th class="col-md-1">序号</th>
+                    <th class="col-md-1">ID</th>
                     <th class="col-md-1">昵称</th>
-                    <th class="col-md-1">头像</th>
-                    <th class="col-md-1">等级</th>
-                    <th class="col-md-1">虚拟货币</th>
-                    <th class="col-md-1">余额(元)</th>
+                    <th class="col-md-1">性别</th>
+                    <th class="col-md-1">房间号</th>
+                    <th class="col-md-1">手机号</th>
+                    <th class="col-md-1">身份证</th>
+                    <th class="col-md-1">是否认证</th>
+                    <th class="col-md-1">粉丝数</th>
+                    <th class="col-md-1">账户余额/豆</th>
+                    <th class="col-md-1">收到礼物/币</th>
+                    <th class="col-md-1">送出礼物/豆</th>
+                    <th class="col-md-1">直播次数</th>
+                    <th class="col-md-1">被举报次数</th>
+                    <th class="col-md-1">注册时间</th>
+                    <th class="col-md-1">状态</th>
                     <th class="col-md-1">操作</th>
                 </tr>
                 </thead>
                 <tbody>
-                <?php foreach ($itemList as $item): ?>
+                <?php foreach ($itemList as $key => $item): ?>
                     <tr>
+                        <td>
+                            <?= $key+1 ?>
+                        </td>
                         <td>
                             <?= $item['id'] ?>
                         </td>
-                        <!--                        <td>-->
-                        <!--                            --><? //= $item['applicationId'] ?>
-                        <!--                        </td>-->
                         <td>
                             <?= $item['nickName'] ?>
                         </td>
                         <td>
-                            <img src="<?= $item['avatar'] ?>" width="50" height="50" style="border-radius: 50%;">
+                            <?= (isset($item['sex'])&&$item['sex']==1)?'男':'女'?>
                         </td>
                         <td>
-                            <?= $item['level'] ?>
+                            <?= $item['roomId']?>
                         </td>
                         <td>
-                            <?= $item['idealMoney'] ?>
+                            <?= $item['mobile'] ?>
                         </td>
                         <td>
-                            <?= $item['balance'] / 100 ?>
+                            <?= $item['idCard'] ?>
                         </td>
                         <td>
-                            <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
-                                    name="searchBtn" onclick="depositIdealMoney(<?= $item['id'] ?>)">虚拟币
-                            </button>
+                            <?= (isset($item['isValid'])&&$item['isValid']==1)?'已认证':'未认证'?>
+                        </td>
+                        <td>
+                            <?= $item['followers_cnt'] ?>
+                        </td>
+                        <td>
+                            <?= $item['balance'] ?>
+                        </td>
+                        <td>
+                            <?= $item['receiveValue'] ?>
+                        </td>
+                        <td>
+                            <?= $item['sendValue'] ?>
+                        </td>
+                        <td>
+                            <?= $item['liveCount'] ?>
+                        </td>
+                        <td>
+                            <?= $item['reportCount'] ?>
+                        </td>
+                        <td>
+                            <?= date('Y-m-d H:i',$item['created']) ?>
+                        </td>
+                        <td>
+                            <?= $item['income'] ?>
+                        </td>
+                        <td>
+                            启用
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -86,7 +153,6 @@ $this->title = '用户管理';
             </tr>
         </table>
     </nav>
-
 </div>
 
 

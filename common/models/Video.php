@@ -50,11 +50,12 @@ class Video extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->select("id,userId,startTime,endTime,identifyYellow,isLive")->asArray()
+        $result = $find->select("id,userId,roomId,startTime,endTime,identifyYellow,isLive")->asArray()
             ->orderBy('created desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])
             ->all();
+
         foreach ($result as $k => $value) {
             $yellow = json_decode($value['identifyYellow'], true);
             $result[$k]['yellowurl'] = "http://" . $yellow['OssBucket'] . "." . $yellow['OssEndpoint'] . "/" . $yellow['OssObject'];
@@ -185,6 +186,21 @@ class Video extends ActiveRecord
         }
         if (isset($params['isLive'])) {
             $find->andWhere(['isLive' => $params['isLive']]);
+        }
+//        if(!empty($params['nickName'])){
+//            $find->andWhere('nickName like "'.trim($params['nickName']).'%"');
+//        }
+        if(!empty($params['roomId'])){
+            $find->andWhere('roomId= '.trim($params['roomId']));
+        }
+        if(!empty($params['startTime'])){
+            $find->andWhere(['>=','startTime',$params['startTime']]);
+        }
+        if(!empty($params['endTime'])){
+            $find->andWhere(['<=','endTime',$params['endTime']]);
+        }
+        if(!empty($params['id'])){
+            $find->andWhere('id='.$params['id']);
         }
         return $find;
     }
@@ -369,4 +385,30 @@ class Video extends ActiveRecord
         $model->identifyYellow = json_encode($params);
         return $model->save();
     }
+
+    //通过userId查询直播记录
+    public static function queryInfoByUserId($userId){
+        $sql = "SELECT * FROM ".static ::tableName()." WHERE userId={$userId}";
+        $result = static ::queryBySQLCondition($sql);
+        return $result;
+    }
+
+    public static function JianYellowById($id)
+    {
+        $find = static::find();
+        $find->andWhere('id='.$id);
+        $result = $find->select("id,userId,roomId,startTime,endTime,identifyYellow,isLive")->asArray()
+            ->one();
+        $yellow = json_decode($result['identifyYellow'], true);
+        $result['yellowurl'] = "http://" . $yellow['OssBucket'] . "." . $yellow['OssEndpoint'] . "/" . $yellow['OssObject'];
+        $result['information'] = array(
+            'Label' => $yellow['Result'][0]['Result'][0]['Label'],
+            'Rate' => $yellow['Result'][0]['Result'][0]['Rate'],
+            'Scene' => $yellow['Result'][0]['Result'][0]['Scene'],
+            'Suggestion' => $yellow['Result'][0]['Result'][0]['Suggestion']
+        );
+        unset($result['identifyYellow']);
+        return $result;
+    }
+
 }

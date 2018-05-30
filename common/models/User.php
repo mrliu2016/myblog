@@ -448,12 +448,75 @@ class User extends ActiveRecord
         $userId = $params['userId'];
         $sql = "SELECT realName,idCard,mobile FROM ".User::tableName()." WHERE id=".$userId;
         $result = Yii::$app->db->createCommand($sql)->queryOne();
-        if(!empty($result) && !empty($result['realName']) && !empty($result['idCard']) && !empty($result['mobile'])){
+        if(!empty($result) && !empty($result['realName']) && !empty($result['idCard'])){
             return ['code'=>0];
         }
         else{
             return ['code'=>-1];
         }
+    }
+
+    //查询用户信息
+    public static function queryUserInfo($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildUserParams($find, $params);
+        $result = $find->asArray()
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->all();
+        return $result;
+    }
+
+    //查询用户信息的绑定
+    private static function buildUserParams($find, $params)
+    {
+        if (!empty($params['id'])) {
+            $find->andWhere('id=' . trim($params['id']));
+        }
+        if(!empty($params['nickName'])){
+            $find->andWhere('nickName like ' . trim($params['nickName']) . '%');
+        }
+        if(!empty($params['roomId'])){
+            $find->andWhere('roomId=' . trim($params['roomId']));
+        }
+        if(!empty($params['mobile'])){
+            $find->andWhere('mobile like ' . trim($params['mobile']) . '%');
+        }
+        //注册时间
+        if(!empty($params['startTime'])){
+            $find->andWhere(['>=','created',$params['startTime']]);
+        }
+        if(!empty($params['endTime'])){
+            $find->andWhere(['<=','created',$params['endTime']]);
+        }
+
+        if (isset($params['content'])) {
+            if (ctype_digit($params['content']) && is_numeric($params['content'])) {
+                $find->andWhere('roomId =' . $params['content']);
+            } else {
+                $find->andWhere('nickName like \'%' . $params['content'] . '%\'');
+            }
+        }
+        return $find;
+    }
+
+    public static function queryUserInfoNum($params)
+    {
+        $find = static::find();
+        $find = self::buildUserParams($find, $params);
+        return $find->count();
+    }
+
+    //通过用户昵称获取用户信息
+    public static function queryInfoByNickName($nickName){
+        $sql = "SELECT id,nickName FROM `".static ::tableName() ."` WHERE nickName LIKE '".trim($nickName) ."%' LIMIT 1";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
     }
 }
 
