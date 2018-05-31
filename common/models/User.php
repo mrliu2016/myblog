@@ -52,10 +52,10 @@ class User extends ActiveRecord
             return false;
         }
         if(isset($userInfo['birth']) && !empty($userInfo['birth'])){//年龄
-            $userInfo['age']    = date('Y',$_SERVER['REQUEST_TIME'])-date('Y',$userInfo['birth']);
+            $userInfo['age']    = intval(date('Y',$_SERVER['REQUEST_TIME'])-date('Y',$userInfo['birth']));
         }
         else{
-            $userInfo['age'] = '';
+            $userInfo['age'] = 0;
         }
         $userInfo['roomId'] = intval($userInfo['roomId']);
         $userInfo['income'] = intval($userInfo['income']);
