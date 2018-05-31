@@ -139,7 +139,7 @@ class User extends ActiveRecord
      */
     public static function weiXin($params)
     {
-        $querySql = 'select id,id as roomId,nickName,userName,avatar,mobile,balance,level from '
+        $querySql = 'select id,roomId,nickName,userName,avatar,mobile,balance,level from '
             . static::tableName()
             . ' where wxOpenId = \'' . $params['openId'] . '\'';
         $result = static::queryBySQLCondition($querySql);
@@ -215,7 +215,7 @@ class User extends ActiveRecord
             'avatar' => $result[Constants::CODE_SUCCESS]['avatar'],
             'mobile' => !empty($result[Constants::CODE_SUCCESS]['mobile']) ? $result[Constants::CODE_SUCCESS]['mobile'] : '',
             'level' => !empty($result[Constants::CODE_SUCCESS]['level']) ? intval($result[Constants::CODE_SUCCESS]['level']) : Constants::CODE_SUCCESS,
-            'token' => Token::generateToken($result[Constants::CODE_SUCCESS]['id']),
+            'token' => Token::generateToken($result[Constants::CODE_SUCCESS]['roomId']),
             'balance' => !empty($result[Constants::CODE_SUCCESS]['balance'])
                 ? $result[Constants::CODE_SUCCESS]['balance'] : 0
         ];
