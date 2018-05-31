@@ -52,10 +52,10 @@ class User extends ActiveRecord
             return false;
         }
         if(isset($userInfo['birth']) && !empty($userInfo['birth'])){//年龄
-            $userInfo['age']    = date('Y',$_SERVER['REQUEST_TIME'])-date('Y',$userInfo['birth']);
+            $userInfo['age']    = intval(date('Y',$_SERVER['REQUEST_TIME'])-date('Y',$userInfo['birth']));
         }
         else{
-            $userInfo['age'] = '';
+            $userInfo['age'] = 0;
         }
         $userInfo['roomId'] = intval($userInfo['roomId']);
         $userInfo['income'] = intval($userInfo['income']);
@@ -66,6 +66,17 @@ class User extends ActiveRecord
         $userInfo['isAttention'] = intval(Follow::isAttention($userId, $observerUserId) ? 1 : 0);
         $userInfo['isLive'] = intval(Video::isLive($userId) ? 1 : 0);
         $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($observerUserId, $userId));
+
+        if(isset($userId)){
+            $launchT = Order::queryReceiveGiftByUserId($userId,true);
+            if(!empty($launchT)){ //送出的T币
+                $userInfo['launchT'] = intval($launchT['totalPrice']);
+            }
+            $receivedT = Order::queryReceiveGiftByUserId($userId,false);
+            if(!empty($receivedT)){//收到的T币
+                $userInfo['receivedT'] = intval($receivedT['totalPrice']);
+            }
+        }
         return $userInfo;
     }
 
