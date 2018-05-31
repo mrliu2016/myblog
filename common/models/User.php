@@ -66,6 +66,17 @@ class User extends ActiveRecord
         $userInfo['isAttention'] = intval(Follow::isAttention($userId, $observerUserId) ? 1 : 0);
         $userInfo['isLive'] = intval(Video::isLive($userId) ? 1 : 0);
         $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($observerUserId, $userId));
+
+        if(isset($userId)){
+            $launchT = Order::queryReceiveGiftByUserId($userId,true);
+            if(!empty($launchT)){ //送出的T币
+                $userInfo['launchT'] = intval($launchT['totalPrice']);
+            }
+            $receivedT = Order::queryReceiveGiftByUserId($userId,false);
+            if(!empty($receivedT)){//收到的T币
+                $userInfo['receivedT'] = intval($receivedT['totalPrice']);
+            }
+        }
         return $userInfo;
     }
 
