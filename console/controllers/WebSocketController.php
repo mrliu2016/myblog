@@ -33,11 +33,19 @@ class WebSocketController extends Controller
         $server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
 
         $server->on('open', function ($server, $req) {
-            LiveService::openConnection($req->fd);
+            if (YII_DEBUG) {
+                LiveService::openConnection($req->fd);
+            }
         });
         $server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
-                ll("{$frame->fd} message:" . $frame->data, 'webSocketMessage.log');
+                if (YII_DEBUG) {
+                    LiveService::webSocketLog(
+                        "{$frame->fd} message:" . $frame->data,
+                        'webSocketMessage.log',
+                        true
+                    );
+                }
                 $message = json_decode($frame->data, true);
                 switch ($message['messageType']) {
                     case Constants::MESSAGE_TYPE_BARRAGE_REQ://弹幕

@@ -996,9 +996,16 @@ class LiveService
         return !empty($result) ? $result : '00:00';
     }
 
-    private static function webSocketLog($message, $fileName, $isRecord = false)
+    /**
+     * 记录 webSocket 日志
+     *
+     * @param $message
+     * @param $fileName
+     * @param bool $isRecord
+     */
+    public static function webSocketLog($message, $fileName, $isRecord = false)
     {
-        if ($isRecord && YII_DEBUG) {
+        if ($isRecord) {
             ll($message, $fileName);
         }
     }
