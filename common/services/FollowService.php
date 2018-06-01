@@ -59,6 +59,7 @@ class FollowService
         foreach ($result as $key => $value) {
             $userId .= $value['userIdFollow'] . ',';
             $item = array();
+            $item["id"] = $item["streamId"] = $value['streamId'];
             $item["userId"] = (int)$value['userIdFollow'];
             $user = User::queryById($value['userIdFollow']);
             $item["avatar"] = $user['avatar'];
