@@ -1,6 +1,6 @@
 <?php
 use yii\widgets\LinkPager;
-$this->title = '礼物列表';
+$this->title = '机器人管理';
 ?>
 
 <div class="container-fluid">
@@ -14,19 +14,16 @@ $this->title = '礼物列表';
                             <div class="col-md-2">
                                 <div class="col-md-2" style="display: flex;">
                                     <div class="query" style="white-space: nowrap;">
-                                        ID <input type="text" style="width: 120px;display: inline-block" id="content" name="id" placeholder="请输入礼物ID"
+                                        ID <input type="text" style="width: 120px;display: inline-block" id="id" name="id" placeholder=""
                                                   class="form-control">
                                     </div>
                                     <div class="query" style="white-space: nowrap;">
-                                        礼物名称<input type="text" style="width: 120px;display: inline-block;" id="name" name="name" placeholder="礼物名称"
+                                        昵称<input type="text" style="width: 120px;display: inline-block;" id="name" name="name" placeholder=""
                                                  class="form-control">
                                     </div>
                                     <div class="query" style="white-space: nowrap;">
-                                        是否连发
-                                        <select>
-                                            <option>是</option>
-                                            <option>否</option>
-                                        </select>
+                                        房间号<input type="text" style="width: 120px;display: inline-block;" id="roomId" name="roomId" placeholder=""
+                                                 class="form-control">
                                     </div>
 
                                     <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
@@ -42,16 +39,24 @@ $this->title = '礼物列表';
     </div>
 
     <div class="card">
-        <input type="button" value="新增">
+        <a href="/robot/add-robot">新增</a>
+        <a href="/robot/batch-add">批量新增</a>
         <div class="table-responsive">
             <table class="table table-hover">
                 <thead>
                 <tr>
                     <th class="col-md-1">序号</th>
                     <th class="col-md-1">ID</th>
-                    <th class="col-md-1">礼物名称</th>
-                    <th class="col-md-1">价格/豆</th>
-                    <th class="col-md-1">是否可以连发</th>
+                    <th class="col-md-1">昵称</th>
+                    <th class="col-md-1">房间号</th>
+                    <th class="col-md-1">性别</th>
+                    <th class="col-md-1">所在地</th>
+                    <th class="col-md-1">个性签名</th>
+                    <th class="col-md-1">关注数</th>
+                    <th class="col-md-1">粉丝数</th>
+                    <th class="col-md-1">收到礼物/币</th>
+                    <th class="col-md-1">送出礼物/豆</th>
+                    <th class="col-md-1">更新时间</th>
                     <th class="col-md-1">操作</th>
                 </tr>
                 </thead>
@@ -68,10 +73,25 @@ $this->title = '礼物列表';
                             <a href="/gift/detail?id=<?=$item['id']?>"><?= $item['name'] ?></a>
                         </td>
                         <td>
-                            <?= $item['price'] ?>
+                            <?= $item['roomId'] ?>
                         </td>
                         <td>
-                            <?= (!empty($item['isFire']) && $item['isFire'] == 1)?'是':'否'?>
+                            <?= $item['sex'] ?>
+                        </td>
+                        <td>
+                            <?= $item['address'] ?>
+                        </td>
+                        <td><!--个性签名-->
+                            <?= $item['description'] ?>
+                        </td>
+                        <td><!--关注数-->
+                            <?= $item['followees_cnt'] ?>
+                        </td>
+                        <td><!--粉丝数-->
+                            <?= $item['followers_cnt'] ?>
+                        </td>
+                        <td>
+                            <?= date('Y-m-d H:i',$item['udpated']) ?>
                         </td>
                         <td>
                             <a href="/gift/gift-edit?id=<?= $item['id'] ?>">编辑</a>

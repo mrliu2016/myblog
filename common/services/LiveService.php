@@ -988,4 +988,33 @@ class LiveService
         return !empty($result) ? $result : '00:00';
     }
 
+    //对查询出的举报信息排序
+    public static function reportSort($list){
+
+//        $result = array();
+//        foreach ($list as $key => $val){
+            $len=count($list);
+            //该层循环控制 需要冒泡的轮数
+            for($i=1;$i<$len;$i++)
+            { //该层循环用来控制每轮 冒出一个数 需要比较的次数
+                for($k=0;$k<$len-$i;$k++)
+                {
+//                    if($arr[$k]>$arr[$k+1])
+//                    {
+//                        $tmp=$arr[$k+1];
+//                        $arr[$k+1]=$arr[$k];
+//                        $arr[$k]=$tmp;
+//                    }
+                    if($list[$k]['id'] > $list[$k+1]['id']){
+                        $tmp = $list[$k+1];
+                        $list[$k+1] = $list[$k];
+                        $list[$k] = $tmp;
+                    }
+                }
+
+            }
+//        }
+
+        return $list;
+    }
 }
