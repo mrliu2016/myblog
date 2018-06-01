@@ -91,8 +91,8 @@ class LiveController extends BaseController
     public function actionTerminationLive()
     {
         $params = Yii::$app->request->post();
-        Video::terminationLive(intval($params['liveId']), $params['userId']);
-        $result = Video::findLastRecord($params['userId'], $params['userId']);
+        Video::terminationLive(intval($params['streamId']), $params['userId']);
+        $result = Video::queryById($params['streamId']);
         $userInfo = User::queryById($params['userId']);
         $this->jsonReturnSuccess(
             Constants::CODE_SUCCESS,
