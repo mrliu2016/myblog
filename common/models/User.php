@@ -51,10 +51,9 @@ class User extends ActiveRecord
         if (empty($userInfo)) {
             return false;
         }
-        if(isset($userInfo['birth']) && !empty($userInfo['birth'])){//年龄
-            $userInfo['age']    = intval(date('Y',$_SERVER['REQUEST_TIME'])-date('Y',$userInfo['birth']));
-        }
-        else{
+        if (isset($userInfo['birth']) && !empty($userInfo['birth'])) {//年龄
+            $userInfo['age'] = intval(date('Y', $_SERVER['REQUEST_TIME']) - date('Y', $userInfo['birth']));
+        } else {
             $userInfo['age'] = 0;
         }
         $userInfo['roomId'] = intval($userInfo['roomId']);
@@ -67,13 +66,13 @@ class User extends ActiveRecord
         $userInfo['isLive'] = intval(Video::isLive($userId) ? 1 : 0);
         $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($observerUserId, $userId));
 
-        if(isset($userId)){
-            $launchT = Order::queryReceiveGiftByUserId($userId,true);
-            if(!empty($launchT)){ //送出的T币
+        if (isset($userId)) {
+            $launchT = Order::queryReceiveGiftByUserId($userId, true);
+            if (!empty($launchT)) { //送出的T币
                 $userInfo['launchT'] = intval($launchT['totalPrice']);
             }
-            $receivedT = Order::queryReceiveGiftByUserId($userId,false);
-            if(!empty($receivedT)){//收到的T币
+            $receivedT = Order::queryReceiveGiftByUserId($userId, false);
+            if (!empty($receivedT)) {//收到的T币
                 $userInfo['receivedT'] = intval($receivedT['totalPrice']);
             }
         }
@@ -150,15 +149,15 @@ class User extends ActiveRecord
      */
     public static function weiXin($params)
     {
-        $querySql = 'select id,id as roomId,nickName,userName,avatar,mobile,balance,level from '
+        $querySql = 'select id,roomId,nickName,userName,avatar,mobile,balance,level from '
             . static::tableName()
             . ' where wxOpenId = \'' . $params['openId'] . '\'';
         $result = static::queryBySQLCondition($querySql);
         if (empty($result)) {
-            $insertSql = 'insert into ' . static::tableName() . '(userName,avatar,nickName,wxOpenId,wxUnionId,province,city,created,updated)'
+            $insertSql = 'insert into ' . static::tableName() . '(userName,avatar,nickName,wxOpenId,wxUnionId,province,city,created,updated,roomId)'
                 . ' values(\'' . $params['nickname'] . '\',\'' . $params['avatar'] . '\',\'' . $params['nickname']
                 . '\',\'' . $params['openId'] . '\',\'' . $params['unionId'] . '\',\'' . $params['province']
-                . '\',\'' . $params['city'] . '\',' . time() . ',' . time() . ')';
+                . '\',\'' . $params['city'] . '\',' . time() . ',' . time() . ',' . static::generateId() . ')';
             if (!static::updateBySqlCondition($insertSql)) {
                 return false;
             }
@@ -226,7 +225,7 @@ class User extends ActiveRecord
             'avatar' => $result[Constants::CODE_SUCCESS]['avatar'],
             'mobile' => !empty($result[Constants::CODE_SUCCESS]['mobile']) ? $result[Constants::CODE_SUCCESS]['mobile'] : '',
             'level' => !empty($result[Constants::CODE_SUCCESS]['level']) ? intval($result[Constants::CODE_SUCCESS]['level']) : Constants::CODE_SUCCESS,
-            'token' => Token::generateToken($result[Constants::CODE_SUCCESS]['id']),
+            'token' => Token::generateToken($result[Constants::CODE_SUCCESS]['roomId']),
             'balance' => !empty($result[Constants::CODE_SUCCESS]['balance'])
                 ? $result[Constants::CODE_SUCCESS]['balance'] : 0
         ];
@@ -407,63 +406,63 @@ class User extends ActiveRecord
      * 编辑用户信息
      * 2018.5.23
      */
-    public static function updateUserInfoByUserId($params){
+    public static function updateUserInfoByUserId($params)
+    {
 
         $userId = $params['userId'];
         unset($params['userId']);
         //如果没有其他更新字段，不做update
-        if(!empty($params)){
+        if (!empty($params)) {
             $field = '';
-            if(!empty($params['avatar'])){//头像
-                $field .= '`avatar`="'.$params['avatar'].'",';
+            if (!empty($params['avatar'])) {//头像
+                $field .= '`avatar`="' . $params['avatar'] . '",';
             }
-            if(!empty($params['nickName'])){//昵称
-                $field .= '`nickName`="'.$params['nickName'].'",';
+            if (!empty($params['nickName'])) {//昵称
+                $field .= '`nickName`="' . $params['nickName'] . '",';
             }
-            if(isset($params['sex'])){ //0:女 1:男
-                $field .= '`sex`='.intval($params['sex']).',';
+            if (isset($params['sex'])) { //0:女 1:男
+                $field .= '`sex`=' . intval($params['sex']) . ',';
             }
-            if(!empty($params['birth'])){//生日 时间戳
-                $field .= '`birth`='.intval($params['birth']).',';
+            if (!empty($params['birth'])) {//生日 时间戳
+                $field .= '`birth`=' . intval($params['birth']) . ',';
             }
-            if(!empty($params['address'])){//签名
-                $address = explode(',',$params['address']);
-                $field .= '`province`="'.$address[0].'",`city`="'.$address[1].'",`region`="'.$address[2].'",';
+            if (!empty($params['address'])) {//签名
+                $address = explode(',', $params['address']);
+                $field .= '`province`="' . $address[0] . '",`city`="' . $address[1] . '",`region`="' . $address[2] . '",';
             }
-            if(!empty($params['description'])){//签名
-                $field .= '`description`="'.$params['description'].'",';
+            if (!empty($params['description'])) {//签名
+                $field .= '`description`="' . $params['description'] . '",';
             }
-            if(!empty($params['profession'])) {//职业
+            if (!empty($params['profession'])) {//职业
                 $field .= '`profession`="' . $params['profession'] . '",';
             }
-            if(empty($field)){
-                return ['code'=>0];
+            if (empty($field)) {
+                return ['code' => 0];
             }
             $updated = $_SERVER['REQUEST_TIME'];
-            $sql = "UPDATE `". User::tableName() ."` SET ".$field."`updated`={$updated} WHERE `id`={$userId}";
-            if(static::updateBySqlCondition($sql)){
-                return ['code'=>0];
+            $sql = "UPDATE `" . User::tableName() . "` SET " . $field . "`updated`={$updated} WHERE `id`={$userId}";
+            if (static::updateBySqlCondition($sql)) {
+                return ['code' => 0];
+            } else {
+                return ['code' => -1];
             }
-            else{
-                return ['code'=>-1];
-            }
-        }
-        else{
-            return ['code'=>-1];
+        } else {
+            return ['code' => -1];
         }
     }
+
     /**
      * 检验用户信息是否认证
      */
-    public static function checkUserCredentials($params){
+    public static function checkUserCredentials($params)
+    {
         $userId = $params['userId'];
-        $sql = "SELECT realName,idCard,mobile FROM ".User::tableName()." WHERE id=".$userId;
+        $sql = "SELECT realName,idCard,mobile FROM " . User::tableName() . " WHERE id=" . $userId;
         $result = Yii::$app->db->createCommand($sql)->queryOne();
-        if(!empty($result) && !empty($result['realName']) && !empty($result['idCard'])){
-            return ['code'=>0];
-        }
-        else{
-            return ['code'=>-1];
+        if (!empty($result) && !empty($result['realName']) && !empty($result['idCard'])) {
+            return ['code' => 0];
+        } else {
+            return ['code' => -1];
         }
     }
 
@@ -489,24 +488,24 @@ class User extends ActiveRecord
         if (!empty($params['id'])) {
             $find->andWhere('id=' . trim($params['id']));
         }
-        if(!empty($params['nickName'])){
+        if (!empty($params['nickName'])) {
             $find->andWhere('nickName like ' . trim($params['nickName']) . '%');
         }
-        if(!empty($params['roomId'])){
+        if (!empty($params['roomId'])) {
             $find->andWhere('roomId=' . trim($params['roomId']));
         }
-        if(!empty($params['mobile'])){
+        if (!empty($params['mobile'])) {
             $find->andWhere('mobile like ' . trim($params['mobile']) . '%');
         }
         if(!empty($params['type'])){
             $find->andWhere('type=' . trim($params['type']));
         }
         //注册时间
-        if(!empty($params['startTime'])){
-            $find->andWhere(['>=','created',$params['startTime']]);
+        if (!empty($params['startTime'])) {
+            $find->andWhere(['>=', 'created', $params['startTime']]);
         }
-        if(!empty($params['endTime'])){
-            $find->andWhere(['<=','created',$params['endTime']]);
+        if (!empty($params['endTime'])) {
+            $find->andWhere(['<=', 'created', $params['endTime']]);
         }
 
         if (isset($params['content'])) {

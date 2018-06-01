@@ -933,6 +933,10 @@ class LiveService
         return true;
     }
 
+    /**
+     * 统计 webSocket 打开连接数
+     * @param $fd
+     */
     public static function openConnection($fd)
     {
         $redis = RedisClient::getInstance();
@@ -942,11 +946,15 @@ class LiveService
             $redis->hIncrby(Constants::WS_CONNECTION, Constants::WS_CONNECTION, 1);
         }
         $redis->expire(Constants::WS_CONNECTION, Constants::WS_DEFAULT_EXPIRE);
-        ll("{$fd} connection open，连接数：" . $redis->hget(Constants::WS_CONNECTION, Constants::WS_CONNECTION), 'webSocketMessage.log');
+        static::webSocketLog(
+            "{$fd} connection open，连接数：" . $redis->hget(Constants::WS_CONNECTION, Constants::WS_CONNECTION),
+            'webSocketMessage.log',
+            true
+        );
     }
 
     /**
-     * 更新链接 webSocket 数量
+     * 更新 webSocket 打开连接数
      */
     public static function updateConnection()
     {
@@ -991,30 +999,33 @@ class LiveService
     //对查询出的举报信息排序
     public static function reportSort($list){
 
-//        $result = array();
-//        foreach ($list as $key => $val){
-            $len=count($list);
-            //该层循环控制 需要冒泡的轮数
-            for($i=1;$i<$len;$i++)
-            { //该层循环用来控制每轮 冒出一个数 需要比较的次数
-                for($k=0;$k<$len-$i;$k++)
-                {
-//                    if($arr[$k]>$arr[$k+1])
-//                    {
-//                        $tmp=$arr[$k+1];
-//                        $arr[$k+1]=$arr[$k];
-//                        $arr[$k]=$tmp;
-//                    }
-                    if($list[$k]['id'] > $list[$k+1]['id']){
-                        $tmp = $list[$k+1];
-                        $list[$k+1] = $list[$k];
-                        $list[$k] = $tmp;
-                    }
+        $len=count($list);
+        //该层循环控制 需要冒泡的轮数
+        for($i=1;$i<$len;$i++)
+        { //该层循环用来控制每轮 冒出一个数 需要比较的次数
+            for($k=0;$k<$len-$i;$k++)
+            {
+                if($list[$k]['id'] > $list[$k+1]['id']){
+                    $tmp = $list[$k+1];
+                    $list[$k+1] = $list[$k];
+                    $list[$k] = $tmp;
                 }
-
             }
-//        }
-
+        }
         return $list;
     }
+    /**
+     * 记录 webSocket 日志
+     *
+     * @param $message
+     * @param $fileName
+     * @param bool $isRecord
+     */
+    public static function webSocketLog($message, $fileName, $isRecord = false)
+    {
+        if ($isRecord) {
+            ll($message, $fileName);
+        }
+    }
+
 }
