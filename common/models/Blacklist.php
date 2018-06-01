@@ -86,4 +86,46 @@ class Blacklist extends ActiveRecord
         }
         return $model->status ? true : false;
     }
+
+    public static function buildParams($find, $params)
+    {
+        if(!empty($params['userId'])){
+            $find->andWhere('userId='.$params['userId']);
+        }
+        if(isset($params['status'])){
+            $find->andWhere('status='.$params['status']);
+        }
+        return $find;
+    }
+
+    //查询黑名单列表 lhz 2018.6.1
+    public static function queryBlackList($params){
+
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        $result = $find->select('blacklistUserId')->asArray()
+            ->orderBy('updated asc')
+            ->offset($offset)->limit($params['defaultPageSize'])->all();
+        //查询黑名单的昵称和签名
+        foreach ($result as $key => &$val){
+            $user = User::queryById($val['blacklistUserId']);
+            $val['userId'] = $val['blacklistUserId'];
+            $val['avatar'] = $user['avatar'];
+            $val['nickName'] = $user['nickName'];
+            $val['description'] = $user['description'];
+            unset($val['blacklistUserId']);
+        }
+        return $result;
+    }
+
+    //统计黑名单总数
+    public static function queryInfoNum($params){
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        return $find->count();
+    }
 }

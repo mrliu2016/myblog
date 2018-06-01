@@ -497,6 +497,9 @@ class User extends ActiveRecord
         if (!empty($params['mobile'])) {
             $find->andWhere('mobile like ' . trim($params['mobile']) . '%');
         }
+        if(!empty($params['type'])){
+            $find->andWhere('type=' . trim($params['type']));
+        }
         //注册时间
         if (!empty($params['startTime'])) {
             $find->andWhere(['>=', 'created', $params['startTime']]);
@@ -523,11 +526,67 @@ class User extends ActiveRecord
     }
 
     //通过用户昵称获取用户信息
-    public static function queryInfoByNickName($nickName)
-    {
-        $sql = "SELECT id,nickName FROM `" . static::tableName() . "` WHERE nickName LIKE '" . trim($nickName) . "%' LIMIT 1";
+    public static function queryInfoByNickName($nickName){
+        $sql = "SELECT id,nickName FROM `".static ::tableName() ."` WHERE `nickName` LIKE '".trim($nickName) ."%'";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
+    }
+
+    //新增机器人
+    public static function addRobotInfo($params){
+
+        $model = new self();
+        $model->nickName = trim($params['nickName']);
+        $model->sex = intval($params['sex']);
+        $model->description = trim($params['description']);
+        $model->roomId = static::generateId();
+        $model->province = trim($params['province']);
+        $model->city = trim($params['city']);
+        $model->type = 1;//机器人
+        $model->created = time();
+        $model->updated = time();
+        $model->followers_cnt = intval($params['followers_cnt']);
+        $model->followees_cnt = intval($params['followees_cnt']);
+        $model->save();
+        //在礼物表中插入数据
+        return $model->id;
+
+    }
+
+    public static function executeBySqlCondition($sql = '')
+    {
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        return $command->execute();
+    }
+
+    //批量插入机器人信息
+    public static function batchInsertRobotInfo($data){
+
+        if (!empty($data) && isset($data)) {
+            $sql = 'INSERT INTO ' . static::tableName()
+                . ' (`nickName`, `sex`, `description`, `roomId`, `province`, `city`, `type`, `created`, `updated`, `followers_cnt`, `followees_cnt`) values ';
+            $value = '';
+            foreach ($data as $key => $val) {
+                $value .= '(';
+                $value .= '\''.$val[0].'\',';
+                $value .= $val[1].',';
+                $value .= '\''.$val[2].'\',';
+                $value .= $val[3].',';
+                $value .= $val[4].',';
+                $value .= $val[5].',';
+                $value .= $val[6].',';
+                $value .= '1,';
+                $value .= $_SERVER['REQUEST_TIME'].',';
+                $value .= $_SERVER['REQUEST_TIME'].',';
+                $value .= '\''.$val[7].'\',';
+                $value = trim($value,',');
+                $value  .= '),';
+            }
+            $sql .= trim($value, ',');
+            return static::executeBySqlCondition($sql);
+
+        }
     }
 }
 

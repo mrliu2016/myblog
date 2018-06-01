@@ -45,4 +45,25 @@ class BlacklistController extends BaseController
             ]
         );
     }
+    /**
+     * 黑名单列表
+     * @date(2018-6-1)
+     */
+    public function actionQueryBlacklist(){
+        $params = Yii::$app->request->post();
+        $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+        $page = intval(!empty($params['page']) ? $params['page'] : 0);
+        $params['status'] = 1;
+        $list = Blacklist::queryBlackList($params);
+        $totalCount = intval(Blacklist::queryInfoNum($params));
+        $pageCount = ceil($totalCount / $size);
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '',
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+            );
+        }
+        $this->jsonReturnError(Constants::CODE_FAILED);
+    }
 }

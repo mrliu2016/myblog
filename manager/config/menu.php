@@ -73,40 +73,38 @@ return [
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '举报管理', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '礼物列表', 'href' => '/gift/template'],
+            ['permissionId' => '/application/index', 'name' => '举报管理', 'href' => '/report/report'],
 //            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
         ],
     ],
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '消息推送', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '选择用户', 'href' => '/gift/template'],
+            ['permissionId' => '/application/index', 'name' => '消息推送', 'href' => '/message/index'],
 //            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
         ],
     ],
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '违禁词管理', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '礼物列表', 'href' => '/gift/template'],
+            ['permissionId' => '/application/index', 'name' => '违禁词管理', 'href' => '/contraband/list'],
 //            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
         ],
     ],
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '机器人管理', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '查看机器人', 'href' => '/gift/template'],
-            ['permissionId' => '/application/index', 'name' => '新增/编辑机器人', 'href' => '/gift/template'],
-
+            ['permissionId' => '/application/index', 'name' => '机器人管理', 'href' => '/robot/list'],
         ],
     ],
-    [
+   /* [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '统计管理', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '注册量与活跃度统计', 'href' => '/gift/template'],
             ['permissionId' => '/application/index', 'name' => '平台用户统计', 'href' => '/gift/template'],
             ['permissionId' => '/application/index', 'name' => '礼物消费统计', 'href' => '/gift/template'],
         ],
-    ],
+    ],*/
     /*[
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '扩展工具', 'icon' => 'navicon.svg', 'href' => '#'],
         'level2' => [
