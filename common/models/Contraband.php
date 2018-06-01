@@ -1,14 +1,14 @@
 <?php
-
 namespace app\common\models;
 
 use yii\db\ActiveRecord;
 
-class Gift extends ActiveRecord
-{
+//违禁词
+class Contraband extends ActiveRecord{
+
     public static function tableName()
     {
-        return 't_gift';
+        return 't_contraband';
     }
 
     public static function queryById($id, $isObject = false)
@@ -29,7 +29,7 @@ class Gift extends ActiveRecord
         $find = static::find();
         $find = self::buildParams($find, $params);
         $result = $find->asArray()
-            ->orderBy('price asc')
+            ->orderBy('updated asc')
             ->offset($offset)->limit($params['defaultPageSize'])->all();
         return $result;
     }
@@ -44,49 +44,28 @@ class Gift extends ActiveRecord
     public static function buildParams($find, $params)
     {
 
-        if (!empty($params['name'])) $params['name'] = trim($params['name']);
-        if (!empty($params['name'])) {
-            $find->andWhere(['like', 'name', $params['name']]);
+        if (!empty($params['word'])) $params['word'] = trim($params['word']);
+        if (!empty($params['word'])) {
+            $find->andWhere(['like', 'word', $params['word']]);
         }
         if(!empty($params['id'])){
             $find->andWhere('id='.$params['id']);
         }
-        if (isset($params['content'])) {
-            if (ctype_digit($params['content']) && !empty($params['content'])) {
-                $find->andWhere(['id' => $params['content']]);
-            } else {
-                $find->andWhere(['like', 'name', $params['content']]);
-            }
-        }
         return $find;
     }
 
-    public static function deleteGift($id)
-    {
+    //删除违禁词
+    public static function deleteWord($id){
         return static::find()->andWhere(['id' => $id])->one()->delete();
     }
 
-    //新建礼物
-    public static function created($params)
-    {
-        $model = new self();
-        $model->name = $params['name'];
-        $model->imgSrc = $params['imgSrc'];
-        $model->price = $params['price'] * 100;
-        $model->created = time();
-        $model->updated = time();
-        $model->save();
-        return $model->id;
-    }
-
-    //编辑礼物
-    public static function editGift($params){
+    //编辑违禁词
+    public static function editWord($params){
         $model = static::find()->andWhere(['id' => $params['id']])->one();
-        $model->name    = $params['name'];
-        $model->price   = $params['price'];
-        $model->isFire  = $params['isFire'];
+        $model->word    = $params['word'];
         $model->updated = $_SERVER['REQUEST_TIME'];
         $model->save();
         return $model->id;
     }
+
 }

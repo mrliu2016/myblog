@@ -91,7 +91,6 @@ class GiftController extends BaseController
     //礼物编辑
     public function actionGiftEdit(){
         $params = Yii::$app->request->getQueryParams();
-
         $id = $params['id'];
         return $this->render('gift-edit',['id'=>$id]);
     }
@@ -105,5 +104,19 @@ class GiftController extends BaseController
         return $this->render('detail',[
             'list'=>$result
         ]);
+    }
+
+    //礼物编辑提交
+    public function actionGiftSubmit(){
+        if (Yii::$app->request->post()) {
+            $params = Yii::$app->request->post();
+            if(Gift::editGift($params)){
+                $this->jsonReturnSuccess(0,'编辑成功.');
+//                Yii::$app->getResponse()->redirect('/gift/template');
+            }
+            else{
+                $this->jsonReturnError(-1,'编辑失败.');
+            }
+        }
     }
 }

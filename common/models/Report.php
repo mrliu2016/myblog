@@ -42,7 +42,10 @@ class Report extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        return $find->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
+        return $find->asArray()
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->all();
     }
 
     /**
@@ -111,5 +114,24 @@ class Report extends ActiveRecord
         $connection = Yii::$app->db;
         $command = $connection->createCommand($sql);
         return $command->queryAll();
+    }
+    //根据被举报用户id查询用户信息
+    public static function queryReportInfoByReportedUserId($id){
+
+        $sql = "SELECT * FROM ".static ::tableName()." WHERE `reportedUserId`=".$id;
+
+//        $offset = 0;
+//        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+//            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+//        }
+//        $find = static::find();
+////        $find = self::buildParams($find, $params);
+//        $find->andWhere('id=' . $params['id']);
+//        return $find->asArray()
+//            ->offset($offset)
+//            ->limit($params['defaultPageSize'])
+//            ->all();
+
+        return static ::queryBySQLCondition($sql);
     }
 }
