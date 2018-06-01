@@ -180,9 +180,11 @@ class LiveController extends BaseController
         $id = $params['id'];
         //通过id获取鉴黄信息
         $result = Video::JianYellowById($id);
+
         return $this->render('yellow-check',[
             'itemList' => $result,
-            'params' => Yii::$app->request->getQueryParams(),
+            'yellowurl' => $result['yellowurl'],
+            'information' => $result['information'],
         ]);
 
     }

@@ -6,20 +6,30 @@ $this->title = '举报管理';
 <div class="container-fluid">
     <div class="card">
         <div class="card-body">
-            <form method="get" action="/message/key" class="form-horizontal" id="searchForm"
+            <form method="get" action="/report/report" class="form-horizontal" id="searchForm"
                   name="searchForm">
                 <fieldset style="height: 20px">
                     <div class="form-group">
                         <div class="col-sm-10">
-                            <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
-                                    name="searchBtn">查询
-                            </button>
-                            <div class="col-md-2">
-                                <input type="text" style="width: 120px" id="content" name="id"
-                                       class="form-control datepicker-pop"
-                                    <?php if (!empty($params['id'])): ?>
-                                        value="<?= $params['id'] ?>"
-                                    <?php endif; ?>>
+                            <div class="col-md-2" style="display: flex;">
+                                <div class="query" style="white-space: nowrap;">
+                                    被举报人ID <input type="text" style="width: 120px;display: inline-block" id="content" name="id" placeholder="请输入用户ID"
+                                              class="form-control">
+                                </div>
+                                <div class="query" style="white-space: nowrap;">
+                                    被举报人昵称<input type="text" style="width: 120px;display: inline-block;" id="nickName" name="nickName" placeholder="昵称"
+                                             class="form-control">
+                                </div>
+
+                                <input type="text" style="width: 120px" id="startTime" name="startTime"
+                                       class="form-control datepicker-pop">
+                                <!--直播时间-->
+                                <input type="text" style="width: 120px" id="endTime" name="endTime"
+                                       class="form-control datepicker-pop">
+
+                                <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
+                                        name="searchBtn">查询
+                                </button>
                             </div>
                         </div>
                 </fieldset>
@@ -50,13 +60,13 @@ $this->title = '举报管理';
                             <?= $item['reportedUserId'] ?>
                         </td>
                         <td>
-                            <?= $item['name'] ?>
+                            <?= $item['reportName'] ?>
                         </td>
                         <td>
                             <?= $item['userId'] ?>
                         </td>
                         <td>
-                            <?= $item['name'] ?>
+                            <?= $item['nickName'] ?>
                         </td>
                         <td>
                             <?= $item['content'] ?>
@@ -81,8 +91,18 @@ $this->title = '举报管理';
 
 </div>
 
-
 <script type="text/javascript">
+    $("#searchBtn").click(function () {
+        $("#searchForm").submit()
+    });
 
+    $(".datepicker-pop").datetimepicker({
+        todayHighlight: true,
+        todayBtn: true,
+        autoclose: true,
+        minView: 3,
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
+    });
 
 </script>
