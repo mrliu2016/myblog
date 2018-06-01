@@ -150,4 +150,16 @@ class LiveController extends BaseController
         VideoRecord::watchTime($params);
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS);
     }
+
+    /**
+     * 分享流
+     */
+    public function actionShareStream(){
+        $params = Yii::$app->request->post();
+        if(empty($params['streamId']) || !isset($params['streamId']) ){
+            $this->jsonReturnError(-1,'流id为空');
+        }
+        $shareUrl = Yii::$app->params['shareUrl']."/wap/index?streamId=".$params['streamId'];
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'success',['shareUrl'=>$shareUrl]);
+    }
 }
