@@ -62,11 +62,15 @@ class Constants
     const WS_ROOM_USER_LM_LIST = self::PROJECT_NAME . 'WSRoomUserLMList_';
     const WS_USER_BALANCE = self::PROJECT_NAME . 'WSUserBalance';
 
-    const WS_HEARTBEAT_IDLE_TIME = 60; // TCP连接如果在30秒内
+    const WS_HEARTBEAT_IDLE_TIME = 30; // TCP连接如果在30秒内
     const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
     const WS_LATEST_HEARTBEAT_TIME = self::PROJECT_NAME . 'WSLatestHeartbeatTime'; // 最新的心跳时间
     const WS_CONNECTION = self::PROJECT_NAME . 'WSConnection';
     const WS_DEFAULT_EXPIRE = 3600;
+    const WS_WEB_SOCKET_MAX_CONNECTION = 120000;
+    const WS_WORKER_NUM = 6;
+    const WS_SOCKET_BUFFER_SIZE = 512 * 1024 * 1024;
+    const WS_BUFFER_OUTPUT_SIZE = 2;
 
     // 队列
     const QUEUE_WS_HEARTBEAT = self::PROJECT_NAME . 'WS_Heartbeat_Live';

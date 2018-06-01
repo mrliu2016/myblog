@@ -933,6 +933,10 @@ class LiveService
         return true;
     }
 
+    /**
+     * 统计 webSocket 打开连接数
+     * @param $fd
+     */
     public static function openConnection($fd)
     {
         $redis = RedisClient::getInstance();
@@ -942,11 +946,15 @@ class LiveService
             $redis->hIncrby(Constants::WS_CONNECTION, Constants::WS_CONNECTION, 1);
         }
         $redis->expire(Constants::WS_CONNECTION, Constants::WS_DEFAULT_EXPIRE);
-        ll("{$fd} connection open，连接数：" . $redis->hget(Constants::WS_CONNECTION, Constants::WS_CONNECTION), 'webSocketMessage.log');
+        static::webSocketLog(
+            "{$fd} connection open，连接数：" . $redis->hget(Constants::WS_CONNECTION, Constants::WS_CONNECTION),
+            'webSocketMessage.log',
+            true
+        );
     }
 
     /**
-     * 更新链接 webSocket 数量
+     * 更新 webSocket 打开连接数
      */
     public static function updateConnection()
     {
@@ -986,6 +994,13 @@ class LiveService
             }
         }
         return !empty($result) ? $result : '00:00';
+    }
+
+    private static function webSocketLog($message, $fileName, $isRecord = false)
+    {
+        if ($isRecord && YII_DEBUG) {
+            ll($message, $fileName);
+        }
     }
 
 }

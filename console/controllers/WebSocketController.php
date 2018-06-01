@@ -21,7 +21,12 @@ class WebSocketController extends Controller
             'ssl_cert_file' => '/etc/nginx/cert/dev_api_demo.pem',
             'heartbeat_check_interval' => Constants::WS_HEARTBEAT_CHECK_INTERVAL,
             'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME,
-            'max_conn' => 50000,
+            'max_connection' => Constants::WS_WEB_SOCKET_MAX_CONNECTION, // 最大链接数
+            'worker_num' => Constants::WS_WORKER_NUM, // worker 数
+            // swFactoryProcess_finish: send failed, session#1 output buffer has been overflowed.
+            // 服务器有大量TCP连接时，最差的情况下将会占用serv->max_connection * buffer_output_size字节的内存
+            'socket_buffer_size' => Constants::WS_SOCKET_BUFFER_SIZE, // M 必须为数字 用于设置客户端连接最大允许占用内存数量
+            'buffer_output_size' => Constants::WS_BUFFER_OUTPUT_SIZE // 用于设置单次最大发送长度 M
         ];
         $server->set($setConfig);
         //添加一个监听端口，继续支持ws方式进行连接
@@ -29,7 +34,6 @@ class WebSocketController extends Controller
 
         $server->on('open', function ($server, $req) {
             LiveService::openConnection($req->fd);
-            ll("{$req->fd} connection open", 'webSocketMessage.log');
         });
         $server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
