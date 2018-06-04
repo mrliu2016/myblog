@@ -31,7 +31,9 @@ class WebSocketController extends Controller
         $server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
 
         $server->on('open', function ($server, $req) {
-            YII_DEBUG || LiveService::openConnection($req->fd);
+            if (YII_DEBUG) {
+                LiveService::openConnection($req->fd);
+            }
         });
         $server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
