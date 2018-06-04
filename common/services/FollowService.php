@@ -132,7 +132,7 @@ class FollowService
         foreach ($result as $key => $value) {
             switch ($params['type']) {
                 case 0: // 我的关注
-                    $result[$key]['isAttention'] = true;
+                    $result[$key]['isAttention'] = intval(true);
                     break;
                 case 1: // 我的粉丝
                     $result[$key]['isAttention'] = intval(Follow::isAttention($value['userId'], $value['userIdFollow'])); // userIdFollow 是否关注 userId
