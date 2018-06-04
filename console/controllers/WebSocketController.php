@@ -22,7 +22,7 @@ class WebSocketController extends Controller
             'heartbeat_check_interval' => Constants::WS_HEARTBEAT_CHECK_INTERVAL,
             'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME,
             'max_connection' => Constants::WS_WEB_SOCKET_MAX_CONNECTION, // 最大链接数
-            'worker_num' => Constants::WS_WORKER_NUM, // worker 数
+//            'worker_num' => Constants::WS_WORKER_NUM, // worker 数
             // swFactoryProcess_finish: send failed, session#1 output buffer has been overflowed.
             // 服务器有大量TCP连接时，最差的情况下将会占用serv->max_connection * buffer_output_size字节的内存
             'socket_buffer_size' => Constants::WS_SOCKET_BUFFER_SIZE, // M 必须为数字 用于设置客户端连接最大允许占用内存数量
@@ -33,9 +33,7 @@ class WebSocketController extends Controller
         $server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
 
         $server->on('open', function ($server, $req) {
-            if (YII_DEBUG) {
-                LiveService::openConnection($req->fd);
-            }
+            YII_DEBUG || LiveService::openConnection($req->fd);
         });
         $server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
