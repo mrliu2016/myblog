@@ -19,13 +19,25 @@ class LiveService
     public static function barrageRequest($server, $frame, $message)
     {
         try {
+            $time = microtime(true);
+            ll('----------- start ' . __FUNCTION__ . '---------', 'runtime_consume_time.log');
             $param = $message['data'];
+
+            ll('----------- start RedisClient::getInstance() ---------', 'runtime_consume_time.log');
             $redis = RedisClient::getInstance();
+            ll('运行时长：' . microtime(true) - $time, 'runtime_consume_time.log');
+            ll('----------- end RedisClient::getInstance() ---------', 'runtime_consume_time.log');
+
+            ll('----------- start keyWords ---------', 'runtime_consume_time.log');
+            $tmpTime = microtime(true);
             $keyWords = [];
             if ($redis->exists(Constants::WS_WS_KEYWORD)) {
                 $keyWords = json_decode(base64_decode($redis->get(Constants::WS_WS_KEYWORD)), true);
             }
             $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
+            ll('运行时长：' . microtime(true) - $tmpTime, 'runtime_consume_time.log');
+            ll('----------- end keyWords ---------', 'runtime_consume_time.log');
+
             $respondMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
                 'code' => Constants::CODE_SUCCESS,
@@ -39,8 +51,20 @@ class LiveService
                 ]
             ];
             //广播房间全体成员
+            ll('----------- start LiveService::fdListByRoomId ---------', 'runtime_consume_time.log');
+            $tmpTime = microtime(true);
             $roomAll = LiveService::fdListByRoomId($server, $param["roomId"]);
+            ll('运行时长：' . microtime(true) - $tmpTime, 'runtime_consume_time.log');
+            ll('----------- end LiveService::fdListByRoomId ---------', 'runtime_consume_time.log');
+
+            ll('----------- start static::broadcast ---------', 'runtime_consume_time.log');
+            $tmpTime = microtime(true);
             static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
+            ll('运行时长：' . microtime(true) - $tmpTime, 'runtime_consume_time.log');
+            ll('----------- end static::broadcast ---------', 'runtime_consume_time.log');
+
+            ll('运行时长：' . microtime(true) - $time, 'runtime_consume_time.log');
+            ll('----------- end static::barrageRequest ---------', 'runtime_consume_time.log');
         } catch (\Exception $exception) {
             if (YII_DEBUG) {
                 static::webSocketLog(
@@ -240,12 +264,27 @@ class LiveService
      */
     public static function joinRoomAndAI($server, $frame, $message)
     {
+        $time = microtime(true);
+        ll('----------- start ' . __FUNCTION__ . '---------', 'runtime_consume_time.log');
         $params = $message['data'];
         //用户进入房间
-        self::join($frame->fd, $params["userId"], $params["roomId"], $params["role"],
+        ll('----------- start static::join ---------', 'runtime_consume_time.log');
+        static::join($frame->fd, $params["userId"], $params["roomId"], $params["role"],
             $params["avatar"], $params["nickName"], $params["level"], $params['balance']);
+        ll('运行时长：' . microtime(true) - $time, 'runtime_consume_time.log');
+        ll('----------- end static::join ---------', 'runtime_consume_time.log');
+
+        $tmpTime = microtime(true);
+        ll('----------- start LiveService::roomMemberNum ---------', 'runtime_consume_time.log');
         $roomMemberNum = LiveService::roomMemberNum($params['roomId']);
+        ll('运行时长：' . microtime(true) - $tmpTime, 'runtime_consume_time.log');
+        ll('----------- end LiveService::roomMemberNum ---------', 'runtime_consume_time.log');
+
+        $tmpTime = microtime(true);
+        ll('----------- start LiveService::getUserInfoListByRoomId ---------', 'runtime_consume_time.log');
         $userList = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
+        ll('运行时长：' . microtime(true) - $tmpTime, 'runtime_consume_time.log');
+        ll('----------- end LiveService::getUserInfoListByRoomId ---------', 'runtime_consume_time.log');
         $resMessage = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
             'code' => Constants::CODE_SUCCESS,
@@ -277,8 +316,21 @@ class LiveService
                 'userList' => $userList
             ],
         ];
+
+        $tmpTime = microtime(true);
+        ll('----------- start LiveService::fdListByRoomId ---------', 'runtime_consume_time.log');
         $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
+        ll('运行时长：' . microtime(true) - $tmpTime, 'runtime_consume_time.log');
+        ll('----------- end LiveService::fdListByRoomId ---------', 'runtime_consume_time.log');
+
+        $tmpTime = microtime(true);
+        ll('----------- start static::broadcast ---------', 'runtime_consume_time.log');
         static::broadcast($server, $fdList, $messageAll, $params['roomId']);
+        ll('运行时长：' . microtime(true) - $tmpTime, 'runtime_consume_time.log');
+        ll('----------- end static::broadcast ---------', 'runtime_consume_time.log');
+
+        ll('运行时长：' . microtime(true) - $time, 'runtime_consume_time.log');
+        ll('----------- start ' . __FUNCTION__ . '---------', 'runtime_consume_time.log');
     }
 
     //获取webSocket服务ip
