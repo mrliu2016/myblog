@@ -150,4 +150,9 @@ class Constants
     const VERIFY_CODE_REGISTER = 'register'; // 注册
     const VERIFY_CODE_RESET = 'reset'; // 忘记密码
     const VERIFY_CODE_LOGIN = 'login'; // 验证码登录
+
+    /**
+     * 服务器节点
+     */
+    const WS_NODE_REPLICAS = 50; // 每个节点的复制的个数
 }

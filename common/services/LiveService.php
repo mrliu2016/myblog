@@ -1116,4 +1116,49 @@ class LiveService
         ll($message . $duration, 'runtime_consume_time.log');
     }
 
+    /**
+     * 分配服务器节点
+     *
+     * $nodes = array('192.168.5.201', '192.168.5.102', '192.168.5.111', '192.168.5.112', '192.168.5.113')
+     *
+     * @param $userId
+     * @param $nodes
+     * @return mixed
+     */
+    private static function distributeServerNode($userId, $nodes)
+    {
+        $buckets = []; // 节点的hash字典
+        /**
+         * 生成节点字典 —— 使节点分布在单位区间[0,1)的圆上
+         */
+        foreach ($nodes as $key) {
+            // 每个节点的复制的个数
+            for ($index = 1; $index <= Constants::WS_NODE_REPLICAS; $index++) {
+                $crc = crc32($key . '.' . $index) / pow(2, 32); // CRC値
+                $buckets[] = array('index' => $crc, 'node' => $key);
+            }
+        }
+        sort($buckets); // 根据索引进行排序
+
+        /**
+         * 对每个 userId 进行hash计算，找到其在圆上的位置，然后在该位置开始依顺时针方向找到第一个服务节点
+         */
+        $flag = false;
+        $crc = crc32($userId) / pow(2, 32); // 计算 userId 的hash值
+        for ($index = 0; $index < count($buckets); $index++) {
+            if ($buckets[$index]['index'] > $crc) {
+                /*
+                 * 因为已经对buckets进行了排序
+                 * 所以第一个index大于key的hash值的节点即是要找的节点
+                 */
+                return $buckets[$index]['node'];
+                break;
+
+            }
+        }
+        // 未找到，则使用 buckets 中的第一个服务节点
+        if (!$flag) {
+            return $buckets[0]['node'];
+        }
+    }
 }
