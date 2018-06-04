@@ -142,7 +142,7 @@ class FollowService
             $userId .= (($params['type'] == 0) ? $value['userIdFollow'] : $value['userId']) . ',';
         }
         if (!empty($userId)) {
-            $sql = 'select id,nickName,description from ' . User::tableName() . ' where id in(' . trim($userId, ',') . ')';
+            $sql = 'select id,avatar,nickName,description from ' . User::tableName() . ' where id in(' . trim($userId, ',') . ')';
             $usrInfo = User::queryBySQLCondition($sql);
         }
         foreach ($result as $key => $value) {
@@ -150,6 +150,7 @@ class FollowService
             $userId = ($params['type'] == 0) ? $value['userIdFollow'] : $value['userId'];
             foreach ($usrInfo as $itemKey => $itemValue) {
                 if ($userId == $itemValue['id']) {
+                    $result[$key]['avatar'] = $itemValue['avatar'];
                     $result[$key]['nickName'] = $itemValue['nickName'];
                     $result[$key]['description'] = $itemValue['description'];
                     $flag = false;

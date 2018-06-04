@@ -12,6 +12,7 @@ use app\common\components\WeiXinApi;
 use app\common\components\Token;
 use app\common\components\RedisClient;
 use app\common\models\User;
+use app\common\models\UserFeedback;
 use app\common\services\Constants;
 use app\common\services\UserService;
 use app\common\components\SMSHelper;
@@ -329,6 +330,22 @@ class UserController extends BaseController
         else{
             $this->jsonReturnError(Constants::CODE_FAILED, 'check fail', []);
         }
-
     }
+
+    //意见反馈
+    public function actionUserFeedback(){
+        $params = Yii::$app->request->post();
+        if(empty($params['userId'])){
+            $this->jsonReturnError(Constants::CODE_FAILED, 'parameter error', []);
+        }
+        if(empty($params['content'])){
+            $this->jsonReturnError(Constants::CODE_FAILED, '提交的内容为空', []);
+        }
+        $result = UserFeedback::insertUserFeedback($params);
+        if(!empty($result) && isset($result)){
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'提交成功');
+        }
+        $this->jsonReturnError(Constants::CODE_FAILED,'提交失败');
+    }
+
 }
