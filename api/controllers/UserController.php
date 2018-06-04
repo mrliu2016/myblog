@@ -342,7 +342,7 @@ class UserController extends BaseController
             $this->jsonReturnError(Constants::CODE_FAILED, '提交的内容为空', []);
         }
         $result = UserFeedback::insertUserFeedback($params);
-        if(!empty($result) && isset($result)){
+        if($result['code'] == 0){
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'提交成功');
         }
         $this->jsonReturnError(Constants::CODE_FAILED,'提交失败');
