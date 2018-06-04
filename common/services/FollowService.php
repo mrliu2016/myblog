@@ -111,4 +111,68 @@ class FollowService
         $data = compact('total_cnt', 'page', 'size', 'page_cnt', 'list');
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $data];
     }
+
+    public static function queryInfo($params, $field = '')
+    {
+        $userId = '';
+        $usrInfo = [];
+        $result = [];
+        switch ($params['type']) {
+            case 0: // 我的关注
+                $result = Follow::queryInfo($params, $field);
+                break;
+            case 1: // 我的粉丝
+                $params['userIdFollow'] = $params['userId'];
+                unset($params['userId']);
+                $result = Follow::queryInfo($params, $field);
+                break;
+            default:
+                break;
+        }
+        foreach ($result as $key => $value) {
+            switch ($params['type']) {
+                case 0: // 我的关注
+                    $result[$key]['isAttention'] = true;
+                    break;
+                case 1: // 我的粉丝
+                    $result[$key]['isAttention'] = intval(Follow::isAttention($value['userId'], $value['userIdFollow'])); // userIdFollow 是否关注 userId
+                    break;
+            }
+            $result[$key]['created'] = date('Y.m.d H:i', $value['created']);
+            $userId .= (($params['type'] == 0) ? $value['userIdFollow'] : $value['userId']) . ',';
+        }
+        if (!empty($userId)) {
+            $sql = 'select id,nickName,description from ' . User::tableName() . ' where id in(' . trim($userId, ',') . ')';
+            $usrInfo = User::queryBySQLCondition($sql);
+        }
+        foreach ($result as $key => $value) {
+            $flag = true;
+            $userId = ($params['type'] == 0) ? $value['userIdFollow'] : $value['userId'];
+            foreach ($usrInfo as $itemKey => $itemValue) {
+                if ($userId == $itemValue['id']) {
+                    $result[$key]['nickName'] = $itemValue['nickName'];
+                    $result[$key]['description'] = $itemValue['description'];
+                    $flag = false;
+                }
+            }
+            if ($flag) {
+                unset($result[$key]);
+            }
+        }
+        return array_values($result);
+    }
+
+    public static function queryInfoNum($params)
+    {
+        switch ($params['type']) {
+            case 0: // 我的关注
+                break;
+            case 1: // 我的粉丝
+                return Follow::queryInfoNum(['userIdFollow' => $params['userId']]);
+                break;
+            default:
+                break;
+        }
+        return Follow::queryInfoNum($params);
+    }
 }

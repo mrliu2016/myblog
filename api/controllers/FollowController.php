@@ -2,6 +2,7 @@
 
 namespace app\api\controllers;
 
+use app\common\models\Follow;
 use app\common\services\Constants;
 use app\common\services\FollowService;
 use Yii;
@@ -61,10 +62,24 @@ class FollowController extends BaseController
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
 
+    /**
+     * 我的关注、我的粉丝
+     */
     public function actionMyAttention()
     {
         $params = Yii::$app->request->get();
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+        $list = FollowService::queryInfo($params, 'id,userId,userIdFollow,created');
+        $totalCount = intval(FollowService::queryInfoNum($params));
+        $pageCount = ceil($totalCount / $params['size']);
         $page = intval(!empty($params['page']) ? $params['page'] : 0);
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '',
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+            );
+        }
+        $this->jsonReturnError(Constants::CODE_FAILED);
     }
 }

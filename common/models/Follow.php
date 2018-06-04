@@ -19,7 +19,7 @@ class Follow extends ActiveRecord
         return $cn->createCommand($sql)->queryOne();
     }
 
-    public static function queryInfo($params)
+    public static function queryInfo($params, $field = '')
     {
         $offset = 0;
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
@@ -27,7 +27,10 @@ class Follow extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->asArray()->orderBy('updated desc')->offset($offset)->limit($params['defaultPageSize'])->all();
+        $result = $find->asArray()
+            ->select($field)
+            ->orderBy('created desc')->offset($offset)
+            ->limit($params['defaultPageSize'])->all();
         return $result;
     }
 
@@ -76,7 +79,7 @@ class Follow extends ActiveRecord
             $model->status = 1;
             $model->created = time();
         } else {
-            switch ($model->status){
+            switch ($model->status) {
                 case 0:
                     $model->status = 1;
                     break;
@@ -91,7 +94,7 @@ class Follow extends ActiveRecord
 
     /**
      * 取消关注
-     * 
+     *
      * @param $userId
      * @param $userIdFollow
      * @return bool
