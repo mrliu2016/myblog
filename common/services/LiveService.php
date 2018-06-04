@@ -1152,8 +1152,6 @@ class LiveService
                  * 所以第一个index大于key的hash值的节点即是要找的节点
                  */
                 return $buckets[$index]['node'];
-                break;
-
             }
         }
         // 未找到，则使用 buckets 中的第一个服务节点
