@@ -18,45 +18,38 @@ class LiveService
     //弹幕（关键字过滤、数据不保存）
     public static function barrageRequest($server, $frame, $message)
     {
-        echo 'receive message:' . json_encode($message);
-        $param = $message['data'];
-        if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["nickName"]) || empty($param["message"])
-        ) {
-            return;
+        try {
+            $param = $message['data'];
+            $redis = RedisClient::getInstance();
+            $keyWords = [];
+            if ($redis->exists(Constants::WS_WS_KEYWORD)) {
+                $keyWords = json_decode(base64_decode($redis->get(Constants::WS_WS_KEYWORD)), true);
+            }
+            $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
+            $respondMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
+                'code' => Constants::CODE_SUCCESS,
+                'message' => strtr($param["message"], $keyWords),
+                'data' => [
+                    'roomId' => $param["roomId"],
+                    'userId' => $param["userId"],
+                    'nickName' => $param["nickName"],
+                    'avatar' => $param["avatar"],
+                    'fly' => isset($param["fly"]) ? (int)$param["fly"] : 1 // fly 1 弹幕 0 普通的左下角
+                ]
+            ];
+            //广播房间全体成员
+            $roomAll = LiveService::fdListByRoomId($server, $param["roomId"]);
+            static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
+        } catch (\Exception $exception) {
+            if (YII_DEBUG) {
+                static::webSocketLog(
+                    $exception->getMessage(),
+                    __FUNCTION__ . '.log',
+                    true
+                );
+            }
         }
-        $redis = RedisClient::getInstance();
-        $roomId = $param["roomId"];
-        $userId = $param["userId"];
-        $nickName = $param["nickName"];
-        $avatar = $param["avatar"];
-        $message = $param["message"];
-        $keyWords = $redis->get("WSKeyWord");
-        if ($keyWords === false) {
-            $keyWords = KeyWord::queryAllKeyWords();
-            $redis->set("WSKeyWord", base64_encode(json_encode($keyWords)));
-            $redis->expire("WSKeyWord", 3600 * 24);
-        } else {
-            $keyWords = json_decode(base64_decode($keyWords), true);
-        }
-        $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
-        $message = strtr($message, $keyWords);
-        //fly 1 弹幕 0 普通的左下角
-        $fly = isset($param["fly"]) ? (int)$param["fly"] : 1;
-        $respondMessage = [
-            'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
-            'code' => Constants::CODE_SUCCESS,
-            'message' => $message,
-            'data' => [
-                'roomId' => $roomId,
-                'userId' => $userId,
-                'nickName' => $nickName,
-                'avatar' => $avatar,
-                'fly' => $fly,
-            ]
-        ];
-        //广播房间全体成员
-        $roomAll = LiveService::fdListByRoomId($server, $roomId);
-        static::broadcast($server, $roomAll, $respondMessage, $roomId);
     }
 
     //送礼物
@@ -997,23 +990,23 @@ class LiveService
     }
 
     //对查询出的举报信息排序
-    public static function reportSort($list){
+    public static function reportSort($list)
+    {
 
-        $len=count($list);
+        $len = count($list);
         //该层循环控制 需要冒泡的轮数
-        for($i=1;$i<$len;$i++)
-        { //该层循环用来控制每轮 冒出一个数 需要比较的次数
-            for($k=0;$k<$len-$i;$k++)
-            {
-                if($list[$k]['id'] > $list[$k+1]['id']){
-                    $tmp = $list[$k+1];
-                    $list[$k+1] = $list[$k];
+        for ($i = 1; $i < $len; $i++) { //该层循环用来控制每轮 冒出一个数 需要比较的次数
+            for ($k = 0; $k < $len - $i; $k++) {
+                if ($list[$k]['id'] > $list[$k + 1]['id']) {
+                    $tmp = $list[$k + 1];
+                    $list[$k + 1] = $list[$k];
                     $list[$k] = $tmp;
                 }
             }
         }
         return $list;
     }
+
     /**
      * 记录 webSocket 日志
      *
