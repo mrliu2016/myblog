@@ -92,7 +92,7 @@ class LiveController extends BaseController
     {
         $params = Yii::$app->request->post();
         Video::terminationLive(intval($params['streamId']), $params['userId']);
-        $result = Video::queryById($params['streamId']);
+        $result = Video::queryById($params['streamId'], true);
         $userInfo = User::queryById($params['userId']);
         $this->jsonReturnSuccess(
             Constants::CODE_SUCCESS,
@@ -154,12 +154,13 @@ class LiveController extends BaseController
     /**
      * 分享流
      */
-    public function actionShareStream(){
+    public function actionShareStream()
+    {
         $params = Yii::$app->request->post();
-        if(empty($params['streamId']) || !isset($params['streamId']) ){
-            $this->jsonReturnError(-1,'流id为空');
+        if (empty($params['streamId']) || !isset($params['streamId'])) {
+            $this->jsonReturnError(-1, '流id为空');
         }
-        $shareUrl = Yii::$app->params['shareUrl']."/wap/index?streamId=".$params['streamId'];
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'success',['shareUrl'=>$shareUrl]);
+        $shareUrl = Yii::$app->params['shareUrl'] . "/wap/index?streamId=" . $params['streamId'];
+        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'success', ['shareUrl' => $shareUrl]);
     }
 }
