@@ -59,7 +59,7 @@ class ReportController extends BaseController
             $pageSize = intval($params['defaultPageSize']);
             $start_offset = $pageNo * $pageSize;
             $end_offset = ($pageNo+1) * $pageSize;
-            $listArr = LiveService::reportSort($listArr);
+            $listArr = Report::reportSort($listArr);
             $list = array_slice($listArr,$start_offset,$end_offset);
             $count = count($listArr);
         }

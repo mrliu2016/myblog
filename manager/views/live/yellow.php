@@ -4,86 +4,82 @@ $this->title = '鉴黄管理';
 ?>
 
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <form method="get" action="/live/yellow" class="form-horizontal" id="searchForm"
-                  name="searchForm">
-                <fieldset style="height: 20px">
-                    <div class="form-group">
-                        <div class="col-sm-10">
-                            <div class="col-md-2" style="display: flex;">
-                                <div class="query" style="white-space: nowrap;">
-                                    ID <input type="text" style="width: 120px;display: inline-block" id="content" name="id" placeholder="请输入用户ID"
-                                              class="form-control">
-                                </div>
-                                <div class="query" style="white-space: nowrap;">
-                                    昵称<input type="text" style="width: 120px;display: inline-block;" id="nickName" name="nickName" placeholder="昵称"
-                                             class="form-control">
-                                </div>
-                                <div class="query" style="white-space: nowrap;">
-                                    房间号<input type="text" style="width: 120px;display: inline-block" id="roomId" name="roomId" placeholder="房间号"
-                                              class="form-control">
-                                </div>
-                                <input type="text" style="width: 120px" id="startTime" name="startTime"
-                                       class="form-control datepicker-pop">
+    <div class="s-gift">
+        <div class="s-gift-search">
+            <form method="get" action="/live/yellow" id="searchForm" name="searchForm">
+                <div class="s-gift-search-content">
+                    <div class="s-gift-search-item">
+                        <span>ID</span>
+                        <input class="c-input s-gift-search-input" type="text" name="id">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <span>昵称</span>
+                        <input class="c-input s-gift-search-input" type="text" name="nickName">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <span>房间号</span>
+                        <input class="c-input s-gift-search-input" type="text" name="roomId">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <span>注册时间</span>
+                        <input type="text" style="width: 120px" id="startTime" name="startTime"
+                               class="form-control datepicker-pop">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <input type="text" style="width: 120px" id="endTime" name="endTime"
+                               class="form-control datepicker-pop">
+                    </div>
+                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 
-                                <!--直播时间-->
-                                <input type="text" style="width: 120px" id="endTime" name="endTime"
-                                       class="form-control datepicker-pop">
-
-                                <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
-                                        name="searchBtn">查询
-                                </button>
-                            </div>
-                        </div>
-                </fieldset>
+                </div>
             </form>
         </div>
-    </div>
-    <div class="card">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
+        <!--<div class="s-gitf-operate">
+            <button class="c-btn u-radius--circle c-btn-primary">新增</button>
+            <a class="c-a s-gift-setting">设置连击</a>
+        </div>-->
+        <table class="c-table s-gift-table">
+            <thead class="c-table-thead s-gift-thead">
+            <tr>
+                <th>序号</th>
+                <th>ID</th>
+                <th>昵称</th>
+                <th>房间号</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>截图</th>
+            </tr>
+            </thead>
+            <tbody class="c-table-tbody s-gift-tbody">
+            <?php foreach ($itemList as $key => $item): ?>
                 <tr>
-                    <th class="col-md-1">序号</th>
-                    <th class="col-md-1">ID</th>
-                    <th class="col-md-1">昵称</th>
-                    <th class="col-md-1">房间号</th>
-                    <th class="col-md-1">开始时间</th>
-                    <th class="col-md-1">结束时间</th>
-                    <th class="col-md-1">截图</th>
+                    <td>
+                        <?= $key+1 ?>
+                    </td>
+                    <td>
+                        <?= $item['id'] ?>
+                    </td>
+                    <td>
+                        <?= $item['nickName'] ?>
+                    </td>
+                    <td>
+                        <?= $item['roomId'] ?>
+                    </td>
+                    <td>
+                        <?= date('Y-m-d H:i:s',$item['startTime'])?>
+                    </td>
+                    <td>
+                        <?= date('Y-m-d H:i:s',$item['endTime'])?>
+                    </td>
+                    <td>
+                        <!-- <img src="<?/*= $item['yellowurl'] */?>" width="150" height="85"></a>-->
+                        <a href="/live/yellow-check?id=<?=$item['id']?>">查看</a>
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($itemList as $key => $item): ?>
-                    <tr>
-                        <td>
-                            <?= $key+1 ?>
-                        </td>
-                        <td>
-                            <?= $item['id'] ?>
-                        </td>
-                        <td>
-                            <?= $item['nickName'] ?>
-                        </td>
-                        <td>
-                            <?= $item['roomId'] ?>
-                        </td>
-                        <td>
-                            <?= date('Y-m-d H:i:s',$item['startTime'])?>
-                        </td>
-                        <td>
-                            <?= date('Y-m-d H:i:s',$item['endTime'])?>
-                        </td>
-                        <td>
-                           <!-- <img src="<?/*= $item['yellowurl'] */?>" width="150" height="85"></a>-->
-                            <a href="/live/yellow-check?id=<?=$item['id']?>">查看</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <p class="s-gift-count">共 125 条记录</p>
     </div>
     <nav class="text-center">
         <table>

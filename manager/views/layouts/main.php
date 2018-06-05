@@ -3,9 +3,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 use app\manager\models\Menu;
-
 $menus = (new Menu())->getMenu();
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -15,69 +13,24 @@ $menus = (new Menu())->getMenu();
     <meta name="description" content="Bootstrap Admin Template">
     <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
     <title><?= $this->title ?></title>
-    <link rel="stylesheet" href="/vendor/animate.css/animate.css">
     <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/vendor/ionicons/css/ionicons.css">
-    <!--<link rel="stylesheet" href="/vendor/blueimp-gallery/css/blueimp-gallery.css">
-    <link rel="stylesheet" href="/vendor/blueimp-gallery/css/blueimp-gallery-indicator.css">
-    <link rel="stylesheet" href="/vendor/blueimp-gallery/css/blueimp-gallery-video.css">-->
     <link rel="stylesheet" href="/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">
     <link rel="stylesheet" href="/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
-    <!--<link rel="stylesheet" href="/vendor/rickshaw/rickshaw.css">-->
-    <link rel="stylesheet" href="/vendor/select2/dist/css/select2.css">
     <link rel="stylesheet" href="/vendor/clockpicker/dist/bootstrap-clockpicker.css">
-    <!--<link rel="stylesheet" href="/vendor/nouislider/distribute/nouislider.min.css">-->
     <link rel="stylesheet" href="/vendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css">
-    <link rel="stylesheet" href="/vendor/summernote/dist/summernote.css">
-    <link rel="stylesheet" href="/vendor/dropzone/dist/basic.css">
-    <!--<link rel="stylesheet" href="/vendor/dropzone/dist/dropzone.css">-->
-    <link rel="stylesheet" href="/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css">
-    <!--<link rel="stylesheet" href="/vendor/jquery.bootgrid/dist/jquery.bootgrid.css">-->
-    <link rel="stylesheet" href="/vendor/datatables/media/css/jquery.dataTables.css">
-    <!--<link rel="stylesheet" href="/vendor/sweetalert/dist/sweetalert.css">-->
-    <link rel="stylesheet" href="/vendor/loaders.css/loaders.css">
-    <!-- <link rel="stylesheet" href="/vendor/ng-material-floating-button/mfb/dist/mfb.css">-->
-    <link rel="stylesheet" href="/vendor/material-colors/dist/colors.css">
     <link rel="stylesheet" href="/css/app.css?aa2222a=233">
     <link rel="stylesheet" href="/css/app-common.css?aa2222a=233">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css??bbb=999">
+    <link rel="stylesheet" href="/css/list.css?aaa=1314">
+    <script src="/vendor/jquery/dist/jquery.js"></script>
+    <script src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+    <script src="/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+    <script src="/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
+    <script src="/vendor/clockpicker/dist/bootstrap-clockpicker.js"></script>
+    <script src="/vendor/layer/layer.js"></script>
 </head>
 <body class="theme-1">
-<script src="/vendor/modernizr/modernizr.custom.js"></script>
-<script src="/vendor/jquery/dist/jquery.js"></script>
-<script src="/vendor/bootstrap/dist/js/bootstrap.js"></script>
-<script src="/vendor/jquery.browser/dist/jquery.browser.js"></script>
-<script src="/vendor/material-colors/dist/colors.js"></script>
-<script src="/vendor/bootstrap-filestyle/src/bootstrap-filestyle.js"></script>
-<script src="/vendor/flot/jquery.flot.js"></script>
-<script src="/vendor/flot/jquery.flot.categories.js"></script>
-<script src="/vendor/flot-spline/js/jquery.flot.spline.js"></script>
-<script src="/vendor/flot.tooltip/js/jquery.flot.tooltip.js"></script>
-<script src="/vendor/flot/jquery.flot.resize.js"></script>
-<script src="/vendor/flot/jquery.flot.pie.js"></script>
-<script src="/vendor/flot/jquery.flot.time.js"></script>
-<script src="/vendor/sidebysideimproved/jquery.flot.orderBars.js"></script>
-<script src="/vendor/ika.jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
-<script src="/vendor/ika.jvectormap/jquery-jvectormap-us-mill-en.js"></script>
-<script src="/vendor/ika.jvectormap/jquery-jvectormap-world-mill-en.js"></script>
-<script src="/vendor/jquery.easy-pie-chart/dist/jquery.easypiechart.js"></script>
-<script src="/vendor/screenfull/dist/screenfull.js"></script>
-<script src="/vendor/sparkline/index.js"></script>
-<script src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-<script src="/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
-<script src="/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
-<script src="/vendor/jquery-knob/js/jquery.knob.js"></script>
-<script src="/vendor/d3/d3.js"></script>
-<script src="/vendor/rickshaw/rickshaw.js"></script>
-<script src="/vendor/jquery-validation/dist/jquery.validate.js"></script>
-<script src="/vendor/jquery-validation/dist/additional-methods.js"></script>
-<script src="/vendor/jquery.steps/build/jquery.steps.js"></script>
-<script src="/vendor/select2/dist/js/select2.js"></script>
-<script src="/vendor/clockpicker/dist/bootstrap-clockpicker.js"></script>
-<script src="/js/app.js?time=201701"></script>
-<script src="/js/jquery.form.js"></script>
-<script src="/js/common.js"></script>
-<script src="/vendor/layer/layer.js"></script>
 <div class="layout-container">
     <header class="header-container">
         <nav>

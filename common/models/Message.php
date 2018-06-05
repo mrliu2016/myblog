@@ -13,7 +13,6 @@ class Message extends ActiveRecord
     {
         return 't_message';
     }
-
     public static function queryInfo($params)
     {
         $offset = 0;
