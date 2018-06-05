@@ -25,10 +25,21 @@
     display: inline-block;
     white-space: nowrap;
 }
+.s-gift-search-content::after{
+    content: ".";
+    display: block;
+    height: 0;
+    clear: both;
+    visibility: hidden;
+}
 .s-gift-search-input {
     width: 88px;
     height: 25px;
     border-radius: unset;
+}
+.s-gift-search-btn {
+    float: right;
+    margin-top: 20px;
 }
 
 select.c-input {
@@ -64,26 +75,19 @@ select.c-input {
     float: right;
 }
 
-.s-gift-table {
+.s-gift-table-wrap {
+    width: 100%;
+    border-radius: 10px;
+    overflow-y: auto;
     color: #464646;
     background: #FFFFFF;
     box-shadow: 0 2px 4px 2px rgba(234,234,234,0.50);
     border-radius: 10px;
 }
-
-.s-gift-thead tr th:first-child {
-    border-top-left-radius: 10px;
+.s-gift-table > thead > tr > th,
+.s-gift-table > tbody > tr > td {
+    white-space: nowrap;
 }
-.s-gift-thead tr th:last-child {
-    border-top-right-radius: 10px;
-}
-.s-gift-tbody tr:last-child td:first-child {
-    border-bottom-left-radius: 10px;
-}
-.s-gift-tbody tr:last-child td:last-child {
-    border-bottom-right-radius: 10px;
-}
-
 .s-gift-table th,
 .s-gift-table td {
     text-align: center;
@@ -200,14 +204,55 @@ select.c-input {
     border-top: 2px #ECECEC solid;
 }
 
-.s-gift-search-btn {
-    float: right;
+.s-userinfo {
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #999999;
+    padding: 30px;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 2px 4px 2px rgba(234,234,234,0.50);
+    border-radius: 10px;
+}
+.s-userinfo_basic {
+    height: 220px;
+}
+.s-userinfo_title {
+    font-size: 16px;
+    color: #364557;
+    margin-bottom: 18px;
+}
+
+.s-userinfo_headimg {
+    width: 200px;
+    height: 220px;
+    float: left;
+    padding-bottom: 20px;
+    border-bottom: 1px #D8D8D8 solid;
+}
+.s-basic {
+    float: left;
+    height: 220px;
+    padding: 0 0 20px 30px;
+    border-bottom: 1px #D8D8D8 solid;
+}
+.s-basic_item {
+    height: 22px;
+    margin: 0 0 14px;
+}
+.s-basic--certified {
+    color: #67d6be;
+}
+.s-userinfo-details {
     margin-top: 20px;
 }
-.s-gift-search-content::after{
-    content: ".";
-    display: block;
-    height: 0;
-    clear: both;
-    visibility: hidden;
+
+.s-details_item {
+    width: max-content;
+    margin: 0 0 16px 0;
+}
+.s-details_item-title {
+    display: inline-block;
+    width: 75px;
+    text-align: right;
 }

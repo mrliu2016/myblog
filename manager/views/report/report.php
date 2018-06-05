@@ -2,7 +2,6 @@
 use yii\widgets\LinkPager;
 $this->title = '举报管理';
 ?>
-
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
@@ -36,6 +35,7 @@ $this->title = '举报管理';
             <button class="c-btn u-radius--circle c-btn-primary">新增</button>
             <a class="c-a s-gift-setting">设置连击</a>
         </div>-->
+        <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
             <thead class="c-table-thead s-gift-thead">
             <tr>
@@ -76,6 +76,7 @@ $this->title = '举报管理';
             <?php endforeach; ?>
             </tbody>
         </table>
+        </div>
         <p class="s-gift-count">共 <?= $count ?> 条记录</p>
     </div>
     <nav class="text-center">

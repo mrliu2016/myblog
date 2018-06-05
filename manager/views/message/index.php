@@ -5,84 +5,24 @@ $this->title = '消息管理';
 ?>
 
 <div class="container-fluid">
+
     <div class="card">
-        <div class="card-body">
-            <form method="post" action="/message/index" class="form-horizontal" id="searchForm"
-                  name="searchForm">
-                <fieldset style="height: 20px">
-                    <div class="form-group">
-                        <div class="col-sm-10">
-                            <div class="col-md-3">
-                                用户Id： <input type="text" style="width: auto" id="content" name="userId">
-                            </div>
-                            <div class="col-md-2">
-                                <select style="width: auto" name="type" title="" class="form-control">
-                                    <option value="0">警告</option>
-                                    <option value="1">强制退出</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                原因： <input type="text" style="width: auto" id="message" name="message">
-                            </div>
-                            <div class="col-md-1">
-                                <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
-                                        name="searchBtn">发送
-                                </button>
-                            </div>
-                        </div>
-                </fieldset>
-            </form>
-        </div>
+        <textarea rows="10" cols="50">
+
+        </textarea>
+        <br/>
+        <input type="checkbox">全部用户<span></span>
+        <a href="" id="selectUser">选择用户</a>
     </div>
-    <div class="card">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th class="col-md-1">id</th>
-                    <th class="col-md-1">用户id</th>
-                    <th class="col-md-1">类型</th>
-                    <th class="col-md-1">内容</th>
-                    <th class="col-md-1">创建时间</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($itemList as $item): ?>
-                    <tr>
-                        <td>
-                            <?= $item['id'] ?>
-                        </td>
-                        <td>
-                            <?= $item['userId'] ?>
-                        </td>
-                        <td>
-                            <?= $item['type'] ?>
-                        </td>
-                        <td>
-                            <?= $item['message'] ?>
-                        </td>
-                        <td>
-                            <?= date('Y-m-d H:i:s', $item['created']) ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <nav class="text-center">
-        <table>
-            <tr>
-                <td> <?= LinkPager::widget(['pagination' => $pagination]) ?></td>
-                <td>共<?= $count ?> 条</td>
-            </tr>
-        </table>
-    </nav>
 
 </div>
 
 
 <script type="text/javascript">
+
+    $("#selectUser").click(function () {
+        
+    });
 
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
