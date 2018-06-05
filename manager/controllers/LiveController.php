@@ -41,6 +41,7 @@ class LiveController extends BaseController
     {
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
+//        $params['isLive'] = 1;
         $list = array();
         //通过昵称查询
         if(!empty($params['nickName'])){
@@ -61,6 +62,7 @@ class LiveController extends BaseController
                 $val['nickName'] = $userInfo['nickName'];
             }
         }
+
         $count = Video::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
@@ -75,7 +77,7 @@ class LiveController extends BaseController
     public function actionLiveRecord(){
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;;
-        $params['isLive'] = 0;
+        $params['isLive'] = 2;
         $list = array();
         //通过昵称查询
         if(!empty($params['nickName'])){
@@ -203,10 +205,18 @@ class LiveController extends BaseController
         $this->jsonReturnSuccess();
     }
 
-    function actionForbid(){
+    public function actionForbid(){
         $params = Yii::$app->request->getQueryParams();
         $result = Video::queryById($params);
         echo 1111;die;
         $this->jsonReturnSuccess();
+    }
+
+    //查看回访
+    public function actionPlayBack(){
+
+        $params = Yii::$app->request->get();
+
+        return $this->render('play-back');
     }
 }

@@ -66,6 +66,7 @@ class GiftController extends BaseController
             }
             $params = Yii::$app->request->post();
             $params['imgSrc'] = $src;
+
             if (Gift::created($params)) {
                 Yii::$app->getResponse()->redirect('/gift/template');
             }
@@ -74,7 +75,7 @@ class GiftController extends BaseController
         }
     }
 
-    public function actionOrder()
+    /*public function actionOrder()
     {
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;;
@@ -87,12 +88,15 @@ class GiftController extends BaseController
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count
         ]);
-    }
+    }*/
     //礼物编辑
     public function actionGiftEdit(){
         $params = Yii::$app->request->getQueryParams();
         $id = $params['id'];
-        return $this->render('gift-edit',['id'=>$id]);
+
+        $item = Gift::queryById($id);
+
+        return $this->render('gift-edit',['item'=>$item]);
     }
 
     //礼物详情
@@ -101,8 +105,10 @@ class GiftController extends BaseController
         //通过id查询礼物的详情
         $id = $params['id'];
         $result = Gift::queryById($id,false);
+
+//        print_r($result);die;
         return $this->render('detail',[
-            'list'=>$result
+            'item'=>$result
         ]);
     }
 

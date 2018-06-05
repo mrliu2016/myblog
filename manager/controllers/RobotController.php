@@ -1,7 +1,7 @@
 <?php
 namespace app\manager\controllers;
 
-use app\common\components\OSS;
+use app\common\models\Order;
 use app\common\models\User;
 use Yii;
 use yii\data\Pagination;
@@ -34,11 +34,35 @@ class RobotController extends BaseController{
             'count' => $count
         ]);
     }
+    //机器人详情
+    public function actionDetail(){
+
+        $params = Yii::$app->request->get();
+        $id = intval($params['id']);
+        $user = User::queryById($id);
+        //送出礼物
+        $receiveValue = Order::queryReceiveGiftByUserId($id,true);
+        if(empty($receiveValue) || empty($receiveValue['totalPrice'])){
+            $user['receiveValue'] = 0;
+        }
+        else{
+            $user['receiveValue'] = $receiveValue['totalPrice'];
+        }
+        //收到礼物
+        $sendValue = Order::queryReceiveGiftByUserId($id,false);
+        if(empty($sendValue) || empty($sendValue['totalPrice'])){
+            $user['sendValue'] = 0;
+        }
+        else{
+            $user['sendValue'] = $sendValue['totalPrice'];
+        }
+        return $this->render('detail',[
+            'item'=>$user
+        ]);
+    }
 
     //新增
     public function actionAddRobot(){
-
-
         return $this->render('add-robot');
     }
 
@@ -46,7 +70,6 @@ class RobotController extends BaseController{
     public function actionBatchAdd(){
 
         if (Yii::$app->request->isPost) {
-
             $filename = $_FILES['name']['tmp_name'];
             $reader = \PHPExcel_IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
             $PHPExcel = $reader->load($filename); // 载入excel文件
@@ -59,7 +82,6 @@ class RobotController extends BaseController{
                     $dataset[$column][] = $sheet->getCell($column.$row)->getValue();
                 }
             }
-            print_r($dataset);die;
             if(!empty($dataset) && isset($dataset)){
                 $insertList = array();
                 foreach ($dataset as $key => $val){

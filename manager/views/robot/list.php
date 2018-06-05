@@ -29,6 +29,7 @@ $this->title = '机器人管理';
             <button class="c-btn u-radius--circle c-btn-primary">新增</button>
             <a class="c-a s-gift-setting">设置连击</a>
         </div>-->
+        <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
             <thead class="c-table-thead s-gift-thead">
             <tr>
@@ -57,7 +58,7 @@ $this->title = '机器人管理';
                         <?= $item['id'] ?>
                     </td>
                     <td>
-                        <a href="/gift/detail?id=<?=$item['id']?>"><?= $item['name'] ?></a>
+                        <a href="/robot/detail?id=<?=$item['id']?>"><?= $item['nickName'] ?></a>
                     </td>
                     <td>
                         <?= $item['roomId'] ?>
@@ -88,6 +89,7 @@ $this->title = '机器人管理';
             <?php endforeach; ?>
             </tbody>
         </table>
+        </div>
         <p class="s-gift-count">共 <?= $count ?> 条记录</p>
     </div>
     <nav class="text-center">

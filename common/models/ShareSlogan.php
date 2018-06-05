@@ -41,5 +41,29 @@ class ShareSlogan extends ActiveRecord{
 
     }
 
+    //如果有数据则保存，没数据就插入
+    public static function udpateShareSlogan($data){
+
+        if (!empty($data) && isset($data)) {
+            $model = static::find()->andWhere(['id' => $data['id']])->one();
+            if(!empty($model)){
+                $model->title  = $data['title'];
+                $model->content = $data['content'];
+            }
+            else{
+                $model = new self();
+                $model->title  = $data['title'];
+                $model->content = $data['content'];
+                $model->created = $_SERVER['REQUEST_TIME'];
+            }
+            $model->updated = $_SERVER['REQUEST_TIME'];
+            $model->save();
+            return ['code'=>0];
+        }
+        else {
+            return ['code'=>-1];
+        }
+    }
+
 
 }
