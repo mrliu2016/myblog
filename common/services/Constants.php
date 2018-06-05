@@ -57,11 +57,11 @@ class Constants
     const WS_ROOM_FD = self::PROJECT_NAME . 'WSRoomFD_';
     const WS_ROOM_USER = self::PROJECT_NAME . 'WSRoomUser_';
     const WS_ROOM_USER_COUNT = self::PROJECT_NAME . 'WSRoom_';
-    const WSWARNING = self::PROJECT_NAME . 'WSWarning';
-    const WSCLOSE = self::PROJECT_NAME . 'WSClose';
+    const WS_WARNING = self::PROJECT_NAME . 'WSWarning';
+    const WS_CLOSE = self::PROJECT_NAME . 'WSClose';
     const WS_ROOM_USER_LM_LIST = self::PROJECT_NAME . 'WSRoomUserLMList_';
     const WS_USER_BALANCE = self::PROJECT_NAME . 'WSUserBalance';
-    const WS_WS_KEYWORD = self::PROJECT_NAME . ':WSKeyword';
+    const WS_KEYWORD = self::PROJECT_NAME . ':WSKeyword';
 
     const WS_HEARTBEAT_IDLE_TIME = 30; // TCP连接如果在30秒内
     const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
@@ -155,4 +155,11 @@ class Constants
      * 服务器节点
      */
     const WS_NODE_REPLICAS = 20; // 每个节点的复制的个数
+
+    /**
+     * 连麦
+     */
+    const LM_APPLY = 1; // 申请连麦
+    const LM_TYPE_AGREE = 1; // 连麦同意
+    const LM_TYPE_REFUSE = 0; // 连麦拒绝
 }

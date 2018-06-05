@@ -21,17 +21,13 @@ class LiveService
         try {
             $startTime = microtime(true);
             $param = $message['data'];
-
             $redis = RedisClient::getInstance();
-            static::runtimeConsumeTime($startTime, microtime(true), '【RedisClient::getInstance()】运行时长：');
-
-            $tmpStartTime = microtime(true);
             $keyWords = [];
-            if ($redis->exists(Constants::WS_WS_KEYWORD)) {
-                $keyWords = json_decode(base64_decode($redis->get(Constants::WS_WS_KEYWORD)), true);
+            if ($redis->exists(Constants::WS_KEYWORD)) {
+                $keyWords = json_decode(base64_decode($redis->get(Constants::WS_KEYWORD)), true);
             }
             $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
-            static::runtimeConsumeTime($tmpStartTime, microtime(true), '【keyWords】运行时长：');
+            static::runtimeConsumeTime($startTime, microtime(true), '【keyWords】运行时长：');
 
             $respondMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
@@ -42,7 +38,7 @@ class LiveService
                     'userId' => $param["userId"],
                     'nickName' => $param["nickName"],
                     'avatar' => $param["avatar"],
-                    'fly' => isset($param["fly"]) ? (int)$param["fly"] : 1 // fly 1 弹幕 0 普通的左下角
+                    'fly' => isset($param["fly"]) ? (int)$param["fly"] : 1 // 1 弹幕 0 普通
                 ]
             ];
             //广播房间全体成员
@@ -94,18 +90,7 @@ class LiveService
         $avatar = $param["avatar"];
         $level = $param["level"];
         $balance = $redis->hget(Constants::WS_USER_BALANCE, $userId);
-//        if ($balance == false) {
-//            $user = User::queryById($userId);
-//            if (!empty($user)) {
-//                $balance = $user['balance'];
-//            } else {
-//                //@todo 随机用户默认余额100元-测试
-//                $balance = 100000;
-//            }
-//        }
-        $priceReal = $price * $num; // 去掉分，webSocket不涉及业务，交易类结算已最小单位透传
-//        $priceReal = $price * $num * Constants::CENT;
-        $balance = $balance - $priceReal;
+        $balance = $balance - $price * $num;
         if ($balance < 0) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
@@ -130,24 +115,22 @@ class LiveService
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
         $respondMessage['message'] = '';
-        $data = array(
+        $respondMessage['data'] = [
             'roomId' => $roomId,
             'userId' => $userId,
             'userIdTo' => $userIdTo,
             'giftId' => $giftId,
             'price' => $price,
             'num' => $num,
-            'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算已最小单位透传
-//            'balance' => !empty($balance) ? $balance / Constants::CENT : 0,
-        );
-        $respondMessage['data'] = $data;
+            'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算以最小单位透传
+        ];
         $server->push($frame->fd, json_encode($respondMessage));
         unset($respondMessage);
         //广播房间全体成员
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_NOTIFY_RES;
         $respondMessage['code'] = Constants::CODE_SUCCESS;
         $respondMessage['message'] = '';
-        $data = array(
+        $respondMessage['data'] = [
             'roomId' => $roomId,
             'userId' => $userId,
             'nickName' => $nickName,
@@ -158,11 +141,8 @@ class LiveService
             'giftName' => $giftName,
             'giftImg' => $giftImg,
             'price' => $price,
-            'num' => $num,
-        );
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::giftRequest】运行时长：');
-
-        $respondMessage['data'] = $data;
+            'num' => $num
+        ];
         $tmpStartTime = microtime(true);
         $roomAll = LiveService::fdListByRoomId($server, $roomId);
         static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::fdListByRoomId】运行时长：');
@@ -189,7 +169,7 @@ class LiveService
             $redis->expire(Constants::QUEUE_WS_HEARTBEAT, Constants::DEFAULT_EXPIRES);
             $server->push($frame->fd, json_encode(['userId' => $userId, 'roomId' => $roomId]));
         }
-        $Warning = $redis->hget(Constants::WSWARNING, $userId);
+        $Warning = $redis->hget(Constants::WS_WARNING, $userId);
         if ($Warning !== false) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
             $respondMessage['code'] = Constants::CODE_WARNING;
@@ -200,9 +180,9 @@ class LiveService
                 'isMaster' => $param["isMaster"]
             );
             $server->push($frame->fd, json_encode($respondMessage));
-            $redis->hdel(Constants::WSWARNING, $userId);
+            $redis->hdel(Constants::WS_WARNING, $userId);
         }
-        $close = $redis->hget(Constants::WSCLOSE, $userId);
+        $close = $redis->hget(Constants::WS_CLOSE, $userId);
         if ($close !== false) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
             $respondMessage['code'] = Constants::CODE_CLOSE;
@@ -213,13 +193,10 @@ class LiveService
                 'isMaster' => $param["isMaster"]
             );
             $server->push($frame->fd, json_encode($respondMessage));
-            $redis->hdel(Constants::WSCLOSE, $userId);
+            $redis->hdel(Constants::WS_CLOSE, $userId);
         }
         static::latestHeartbeat($frame->fd, $userId, $roomId, $param["isMaster"]);
         static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::heartbeatRequest】运行时长：');
-
-//        ll('房间号：' . $roomId . '，在线人数：' . LiveService::roomMemberNum($roomId), 'webSocketMessage.log');
-//        ll("连接数：" . $redis->hget(Constants::WS_CONNECTION, Constants::WS_CONNECTION), 'webSocketMessage.log');
     }
 
     /**
@@ -355,6 +332,7 @@ class LiveService
             $userInfo['level'] = $level;
             $userInfo['fd'] = $fd;
             $userInfo['role'] = $role;
+            $userInfo['roomId'] = $roomId;
             $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
@@ -372,13 +350,6 @@ class LiveService
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomFD);
         if (empty($result)) return [];
-//        foreach ($result as $fd => $userId) {
-//            if (!$server->exist($fd)) {
-//                //fd连接不存在或尚未完成握手，返回false
-//                self::fdClose(null, $fd);
-//                unset($result[$fd]);
-//            }
-//        }
         return array_keys($result);
     }
 
@@ -468,20 +439,6 @@ class LiveService
         static::updateConnection();
     }
 
-    //获取用户余额
-    public static function getWSUserBalance($userId)
-    {
-        $redis = RedisClient::getInstance();
-        $balance = $redis->hget('WSUserBalance', $userId);
-        if ($balance === false) {
-            $user = User::queryById($userId);
-            $balance = $user['balance'];
-            $redis->hset('WSUserBalance', $userId, $balance);
-            $redis->expire('WSUserBalance', 3600 * 24);
-        }
-        return $balance;
-    }
-
     //禁言
     public static function gag($server, $frame, $message)
     {
@@ -553,19 +510,6 @@ class LiveService
                 $tmp = microtime(true);
                 static::broadcast($server, $fdList, $messageAll, $params['roomId']);
                 static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::broadcast】运行时长：');
-//                foreach ($fdList as $fd) {
-//                    try {
-//                        if (!$server->exist($fd)) {
-//                            //fd连接不存在或尚未完成握手，返回false
-//                            self::fdClose(null, $fd);
-//                        } else {
-//                            $server->push($fd, json_encode($messageAll));
-//                        }
-////                        $server->push($fd, json_encode($messageAll));
-//                    } catch (ErrorException $ex) {
-//                        var_dump($ex);
-//                    }
-//                }
             } else {
                 $respondMessage['messageType'] = Constants::MESSAGE_TYPE_KICK_RES;
                 $respondMessage['code'] = Constants::CODE_FAILED;
@@ -625,7 +569,6 @@ class LiveService
      */
     public static function requestLM($server, $frame, $message)
     {
-        $startTime = microtime(true);
         $messageInfo = $message['data'];
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
@@ -641,7 +584,6 @@ class LiveService
             ];
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::requestLM】运行时长：');
     }
 
     /**
@@ -665,7 +607,7 @@ class LiveService
                 'nickName' => $messageInfo['nickName'],
                 'avatar' => $messageInfo['avatar'],
                 'introduction' => $messageInfo['introduction'],
-                'type' => 1 // 申请连麦
+                'type' => Constants::LM_APPLY
             ];
             $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
             $redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUser));
@@ -716,7 +658,6 @@ class LiveService
      */
     public static function responseLM($server, $frame, $message)
     {
-        $startTime = microtime(true);
         $messageInfo = $message['data'];
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
@@ -732,7 +673,6 @@ class LiveService
             ];
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::responseLM】运行时长：');
     }
 
     public static function responseLMList($server, $frame, $message)
@@ -751,7 +691,7 @@ class LiveService
                     'type' => $messageInfo['type'] // 0：拒绝，1：同意
                 ]
             ];
-            if ($messageInfo['type'] == 1) {
+            if ($messageInfo['type'] == Constants::LM_TYPE_AGREE) {
                 $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
                 $lmUserInfo = json_decode($redis->hget($keyWSRoomUserLMList, $messageInfo['userId']), true);
                 $lmUserInfo['type'] = 2; // 2：同意连麦
@@ -781,8 +721,9 @@ class LiveService
 
     /**
      * socket 异常断开
+     *
      * @param $server
-     * @param $frame
+     * @param $fd
      */
     public static function fdClose($server, $fd)
     {
@@ -872,7 +813,6 @@ class LiveService
      */
     public static function closeCall($server, $frame, $message)
     {
-        $startTime = microtime(true);
         $messageInfo = $message['data'];
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
@@ -891,7 +831,6 @@ class LiveService
             $redis->hdel($keyWSRoomUserLMList, $messageInfo['userId']);
             $server->push($frame->fd, json_encode($responseMessage));
         }
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::closeCall】运行时长：');
     }
 
     /**
@@ -909,13 +848,13 @@ class LiveService
         foreach ($fdList as $fd) {
             try {
                 if (!$server->exist($fd)) {
-                    //fd连接不存在或尚未完成握手，返回false
-//                    self::fdClose(null, $fd);
                     self::leave($fd, $roomId);
                 } else {
                     $server->push($fd, json_encode($respondMessage));
                 }
-                ll(var_export(array_merge($respondMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
+                if (YII_DEBUG) {
+                    ll(var_export(array_merge($respondMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
+                }
             } catch (\Exception $ex) {
                 ll(var_export(array_merge(['codeMessage' => $ex->getMessage()], array("fd" => $fd)), true), 'webSocketMessage.log');
             }
