@@ -24,7 +24,7 @@ class FollowService
             return ['code' => Constants::CODE_FAILED, 'msg' => '系统繁忙，请稍后重试！'];
         }
         Follow::attention($params['userId'], $params['userIdFollow']);
-        return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => []];
+        return ['code' => Constants::CODE_SUCCESS, 'msg' => '关注成功', 'data' => []];
     }
 
     /**
