@@ -90,15 +90,10 @@ class WebSocketController extends Controller
             }
         });
 
-        // http 请求
         $this->server->on('request', function (\swoole_http_request $request, \swoole_http_response $response) {
-            $request_method = strtolower($request->server['request_method']);
-            switch ($request_method) {
-                case 'get':
-                    $data = $request->get;
-                    break;
-                case 'post':
-                    $data = $request->post;
+            $message = strtolower($request->server['request_method']) == 'get' ? $request->get : $request->post;
+            switch ($message['messageType']) {
+                default:
                     break;
             }
         });
