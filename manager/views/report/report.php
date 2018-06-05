@@ -4,81 +4,79 @@ $this->title = '举报管理';
 ?>
 
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <form method="get" action="/report/report" class="form-horizontal" id="searchForm"
-                  name="searchForm">
-                <fieldset style="height: 20px">
-                    <div class="form-group">
-                        <div class="col-sm-10">
-                            <div class="col-md-2" style="display: flex;">
-                                <div class="query" style="white-space: nowrap;">
-                                    被举报人ID <input type="text" style="width: 120px;display: inline-block" id="content" name="id" placeholder="请输入用户ID"
-                                              class="form-control">
-                                </div>
-                                <div class="query" style="white-space: nowrap;">
-                                    被举报人昵称<input type="text" style="width: 120px;display: inline-block;" id="nickName" name="nickName" placeholder="昵称"
-                                             class="form-control">
-                                </div>
+    <div class="s-gift">
+        <div class="s-gift-search">
+            <!--<p class="s-gift-search-title">礼物管理</p>-->
+            <form method="get" action="/report/report" id="searchForm" name="searchForm">
+                <div class="s-gift-search-content">
+                    <div class="s-gift-search-item">
+                        <span>被举报人ID</span>
+                        <input class="c-input s-gift-search-input" type="text" name="id">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <span>被举报人昵称</span>
+                        <input class="c-input s-gift-search-input" type="text" name="nickName">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <span>注册时间</span>
+                        <input type="text" style="width: 120px" id="startTime" name="startTime"
+                               class="form-control datepicker-pop">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <span>注册时间</span>
+                        <input type="text" style="width: 120px" id="startTime" name="endTime"
+                               class="form-control datepicker-pop">
+                    </div>
+                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 
-                                <input type="text" style="width: 120px" id="startTime" name="startTime"
-                                       class="form-control datepicker-pop">
-                                <!--直播时间-->
-                                <input type="text" style="width: 120px" id="endTime" name="endTime"
-                                       class="form-control datepicker-pop">
-
-                                <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
-                                        name="searchBtn">查询
-                                </button>
-                            </div>
-                        </div>
-                </fieldset>
+                </div>
             </form>
         </div>
-    </div>
-    <div class="card">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
+        <!--<div class="s-gitf-operate">
+            <button class="c-btn u-radius--circle c-btn-primary">新增</button>
+            <a class="c-a s-gift-setting">设置连击</a>
+        </div>-->
+        <table class="c-table s-gift-table">
+            <thead class="c-table-thead s-gift-thead">
+            <tr>
+                <th>序号</th>
+                <th>被举报人ID</th>
+                <th>被举报人昵称</th>
+                <th>举报人ID</th>
+                <th>举报人昵称</th>
+                <th>举报类型</th>
+                <th>举报时间</th>
+            </tr>
+            </thead>
+            <tbody class="c-table-tbody s-gift-tbody">
+            <?php foreach ($itemList as $key => $item): ?>
                 <tr>
-                    <th class="col-md-1">序号</th>
-                    <th class="col-md-1">被举报人ID</th>
-                    <th class="col-md-1">被举报人昵称</th>
-                    <th class="col-md-1">举报人ID</th>
-                    <th class="col-md-1">举报人昵称</th>
-                    <th class="col-md-1">举报类型</th>
-                    <th class="col-md-1">举报时间</th>
+                    <td>
+                        <?= $key+1 ?>
+                    </td>
+                    <td>
+                        <?= $item['reportedUserId'] ?>
+                    </td>
+                    <td>
+                        <?= $item['reportName'] ?>
+                    </td>
+                    <td>
+                        <?= $item['userId'] ?>
+                    </td>
+                    <td>
+                        <?= $item['nickName'] ?>
+                    </td>
+                    <td>
+                        <?= $item['content'] ?>
+                    </td>
+                    <td>
+                        <?= date('Y-m-d H:i:s',$item['created']) ?>
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($itemList as $key => $item): ?>
-                    <tr>
-                        <td>
-                            <?= $key+1 ?>
-                        </td>
-                        <td>
-                            <?= $item['reportedUserId'] ?>
-                        </td>
-                        <td>
-                            <?= $item['reportName'] ?>
-                        </td>
-                        <td>
-                            <?= $item['userId'] ?>
-                        </td>
-                        <td>
-                            <?= $item['nickName'] ?>
-                        </td>
-                        <td>
-                            <?= $item['content'] ?>
-                        </td>
-                        <td>
-                            <?= date('Y-m-d H:i:s',$item['created']) ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <p class="s-gift-count">共 <?= $count ?> 条记录</p>
     </div>
     <nav class="text-center">
         <table>

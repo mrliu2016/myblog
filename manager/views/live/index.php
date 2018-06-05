@@ -2,102 +2,91 @@
 use yii\widgets\LinkPager;
 $this->title = '直播管理';
 ?>
-<style>
-
-</style>
 
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <form method="get" action="/live/index" class="form-horizontal" id="searchForm"
-                  name="searchForm">
-                <fieldset style="height: 20px">
-                    <div class="form-group">
-                        <div class="col-sm-10">
-                            <div class="col-md-2">
-                                <div class="col-md-2" style="display: flex;">
-                                    <div class="query" style="white-space: nowrap;">
-                                        ID <input type="text" style="width: 120px;display: inline-block" id="content" name="id" placeholder="请输入用户ID"
-                                                  class="form-control">
-                                    </div>
-                                    <div class="query" style="white-space: nowrap;">
-                                        昵称<input type="text" style="width: 120px;display: inline-block;" id="nickName" name="nickName" placeholder="昵称"
-                                                 class="form-control">
-                                    </div>
-                                    <div class="query" style="white-space: nowrap;">
-                                        房间号<input type="text" style="width: 120px;display: inline-block" id="roomId" name="roomId" placeholder="房间号"
-                                                  class="form-control">
-                                    </div>
-                                    <input type="text" style="width: 120px" id="startTime" name="startTime"
-                                           class="form-control datepicker-pop">
-
-                                    <!--直播时间-->
-                                    <input type="text" style="width: 120px" id="endTime" name="endTime"
-                                           class="form-control datepicker-pop">
-
-                                    <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
-                                            name="searchBtn">查询
-                                    </button>
-                            </div>
-                        </div>
-                </fieldset>
+    <div class="s-gift">
+        <div class="s-gift-search">
+            <form method="get" action="/live/index" id="searchForm" name="searchForm">
+                <div class="s-gift-search-content">
+                    <div class="s-gift-search-item">
+                        <span>ID</span>
+                        <input class="c-input s-gift-search-input" type="text" name="id" placeholder="用户ID">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <span>昵称</span>
+                        <input class="c-input s-gift-search-input" type="text" name="nickName" placeholder="昵称">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <span>房间号</span>
+                        <input class="c-input s-gift-search-input" type="text" name="roomId" placeholder="房间号">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <input type="text" style="width: 120px" id="startTime" name="startTime"
+                               class="form-control datepicker-pop">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <input type="text" style="width: 120px" id="startTime" name="startTime"
+                               class="form-control datepicker-pop">
+                    </div>
+                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
+                </div>
             </form>
         </div>
-    </div>
-    <div class="card">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th class="col-md-1">序号</th>
-                    <th class="col-md-1">ID</th>
-                    <th class="col-md-1">房间号</th>
-                    <th class="col-md-1">主播昵称</th>
-                    <th class="col-md-1">观众数</th>
-                    <th class="col-md-1">开始时间</th>
-                    <th class="col-md-1">状态</th>
-                    <th class="col-md-1">操作</th>
-                </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($itemList as $key=>$item): ?>
-                    <tr>
-                        <td><?=$key+1?></td>
-                        <td>
-                            <?= $item['id'] ?>
-                        </td>
-                        <td>
-                            <?= $item['roomId'] ?>
-                        </td>
-                        <td>
-                            <?= $item['nickName'] ?>
-                        </td>
-                        <td>
-                            <?= $item['viewerNum']?>
-                        </td>
-                        <td>
-                             <?= date('Y-m-d H:i', $item['created']) ?> <br />
-                        </td>
-                        <td>
-                            <?php if($item['isLive'] == 1){
-                                 echo "直播中";
-                            } else if($item['isLive'] == 0){
-                                echo "结束";
-                            } ?>
-                        </td>
-                        <td>
-                            <!--<a href="/live/check?id=<?/*=$item['id']*/?>">查看</a>
-                            <a href="/live/forbid?id=<?/*=$item['id']*/?>">禁播</a>-->
+       <!-- <div class="s-gitf-operate">
+            <button class="c-btn u-radius--circle c-btn-primary">新增</button>
+            <a class="c-a s-gift-setting">设置连击</a>
+        </div>-->
+        <table class="c-table s-gift-table">
+            <thead class="c-table-thead s-gift-thead">
+            <tr>
+                <th>序号</th>
+                <th>ID</th>
+                <th>房间号</th>
+                <th>主播昵称</th>
+                <th>观众数</th>
+                <th>开始时间</th>
+                <th>状态</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody class="c-table-tbody s-gift-tbody">
 
-                            <a href="#" onclick="check(<?=$item['id']?>)">查看</a>
-                            <a href="#" onclick="forbid(<?=$item['id']?>)">禁播</a>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
-        </div>
+            <?php foreach ($itemList as $key=>$item): ?>
+                <tr>
+                    <td><?=$key+1?></td>
+                    <td>
+                        <?= $item['id'] ?>
+                    </td>
+                    <td>
+                        <?= $item['roomId'] ?>
+                    </td>
+                    <td>
+                        <?= $item['nickName'] ?>
+                    </td>
+                    <td>
+                        <?= $item['viewerNum']?>
+                    </td>
+                    <td>
+                        <?= date('Y-m-d H:i', $item['created']) ?> <br />
+                    </td>
+                    <td>
+                        <?php if($item['isLive'] == 1){
+                            echo "直播中";
+                        } else if($item['isLive'] == 0){
+                            echo "结束";
+                        } ?>
+                    </td>
+                    <td>
+                        <a href="#" onclick="check(<?=$item['id']?>)">查看</a>
+                        <a href="#" onclick="forbid(<?=$item['id']?>)">禁播</a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
+        <p class="s-gift-count">共 <?= $count ?> 条记录</p>
     </div>
+
     <nav class="text-center">
         <table>
             <tr>
@@ -106,7 +95,6 @@ $this->title = '直播管理';
             </tr>
         </table>
     </nav>
-
 </div>
 
 
