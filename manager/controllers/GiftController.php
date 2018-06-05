@@ -3,11 +3,11 @@
 namespace app\manager\controllers;
 
 use app\common\models\Gift;
+use app\common\models\GiftFire;
 use app\common\models\Order;
 use Yii;
 use yii\data\Pagination;
 use app\common\components\OSS;
-use app\common\extensions\OSS\OssClient;
 
 class GiftController extends BaseController
 {
@@ -119,4 +119,48 @@ class GiftController extends BaseController
             }
         }
     }
+
+    //连发设置
+    public function actionSetting()
+    {
+        $result = array();
+        //查询到数据
+        $result = GiftFire::selectGiftFire();
+        $editFlag = 0;
+        if(!empty($result) && isset($result)){
+            $editFlag = 1;
+        }
+        return $this->render('setting',[
+            'editFlag'=>$editFlag,
+            'list'=>$result
+        ]);
+    }
+
+    //连发设置 保存
+    public function actionSettingSave(){
+
+        $params = Yii::$app->request->post();
+        $ids = explode(',',$params['id']);
+        $number = explode(',',$params['number']);
+        $meaning = explode(',',$params['meaning']);
+        if(count($number)!= 6 || count($meaning) != 6){
+            $this->jsonReturnError('-2','输入错误');
+        }
+        $item = array();
+        $data = array();
+        for ($i=0;$i<6;$i++){
+            $item['id'] = $ids[$i];
+            $item['number'] = $number[$i];
+            $item['meaning'] = $meaning[$i];
+            $data[] = $item;
+        }
+        $result = GiftFire::batchInsertGiftFire($data);
+        if($result['code'] == 0){
+            $this->jsonReturnSuccess(0,'success');
+        }
+        else{
+            $this->jsonReturnError(-1);
+        }
+    }
+
 }

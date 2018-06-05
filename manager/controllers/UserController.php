@@ -100,4 +100,32 @@ class UserController extends BaseController
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, ['result' => $result]) :
             $this->jsonReturnError(Constants::CODE_FAILED);
     }
+
+    //用户详情
+    public function actionDetail(){
+
+        $params = Yii::$app->request->get();
+        $id = intval($params['id']);
+        $user = User::queryById($id);
+        //送出礼物
+        $receiveValue = Order::queryReceiveGiftByUserId($id,true);
+        if(empty($receiveValue) || empty($receiveValue['totalPrice'])){
+            $user['receiveValue'] = 0;
+        }
+        else{
+            $user['receiveValue'] = $receiveValue['totalPrice'];
+        }
+        //收到礼物
+        $sendValue = Order::queryReceiveGiftByUserId($id,false);
+        if(empty($sendValue) || empty($sendValue['totalPrice'])){
+            $user['sendValue'] = 0;
+        }
+        else{
+            $user['sendValue'] = $sendValue['totalPrice'];
+        }
+        return $this->render('detail',[
+            'item'=>$user
+        ]);
+
+    }
 }
