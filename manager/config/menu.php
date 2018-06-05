@@ -16,7 +16,7 @@ return [
         ],
     ],*/
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '用户管理', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '用户管理', 'icon' => 'navicon.svg', 'href' => '/user/index'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '用户详情', 'href' => '/user/index'],
         ],
@@ -36,7 +36,7 @@ return [
         ],
     ],
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '直播记录', 'icon' => 'navicon.svg', 'href' => '/live/index?type=1'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '直播记录', 'icon' => 'navicon.svg', 'href' => '/live/live-record'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '直播记录', 'href' => '/live/live-record'],
         ],
@@ -59,75 +59,49 @@ return [
         ],
     ],*/
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '礼物管理', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '礼物管理', 'icon' => 'navicon.svg', 'href' => '/gift/template'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '礼物列表', 'href' => '/gift/template'],
         ],
     ],
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '鉴黄管理', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '鉴黄管理', 'icon' => 'navicon.svg', 'href' => '/live/yellow'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '鉴黄详情', 'href' => '/live/yellow?type=3'],
         ],
     ],
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '举报管理', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '举报管理', 'icon' => 'navicon.svg', 'href' => '/report/report'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '举报管理', 'href' => '/report/report'],
 //            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
         ],
     ],
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '消息推送', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '消息推送', 'icon' => 'navicon.svg', 'href' => '/message/index'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '消息推送', 'href' => '/message/index'],
 //            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
         ],
     ],
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '违禁词管理', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '违禁词管理', 'icon' => 'navicon.svg', 'href' => '/contraband/list'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '违禁词管理', 'href' => '/contraband/list'],
 //            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
         ],
     ],
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '机器人管理', 'icon' => 'navicon.svg', 'href' => '#'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '机器人管理', 'icon' => 'navicon.svg', 'href' => '/robot/list'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '机器人管理', 'href' => '/robot/list'],
         ],
     ],
-   /* [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '统计管理', 'icon' => 'navicon.svg', 'href' => '#'],
+    [
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '分享管理', 'icon' => 'navicon.svg', 'href' => '/share/index'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '注册量与活跃度统计', 'href' => '/gift/template'],
-            ['permissionId' => '/application/index', 'name' => '平台用户统计', 'href' => '/gift/template'],
-            ['permissionId' => '/application/index', 'name' => '礼物消费统计', 'href' => '/gift/template'],
+            ['permissionId' => '/application/index', 'name' => '分享管理', 'href' => '/robot/list'],
         ],
-    ],*/
-    /*[
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '扩展工具', 'icon' => 'navicon.svg', 'href' => '#'],
-        'level2' => [
-            ['permissionId' => '/application/index', 'name' => '备份管理', 'href' => '/message/index'],
-            ['permissionId' => '/application/index', 'name' => '文件存储', 'href' => '/message/key'],
-            ['permissionId' => '/application/index', 'name' => '后台菜单', 'href' => '/message/key'],
-            ['permissionId' => '/application/index', 'name' => '幻灯片', 'href' => '/message/key']
-        ],
-    ],*/
-   /* [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '内容管理', 'icon' => 'navicon.svg', 'href' => '#'],
-        'level2' => [
-            ['permissionId' => '/application/index', 'name' => '用户反馈', 'href' => '/message/index'],
-            ['permissionId' => '/application/index', 'name' => '页面管理', 'href' => '/message/key'],
-            ['permissionId' => '/application/index', 'name' => '分类管理', 'href' => '/message/key'],
-            ['permissionId' => '/application/index', 'name' => '文章管理', 'href' => '/message/key']
-        ],
-    ],*/
-    /*[
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '消息', 'icon' => 'navicon.svg', 'href' => '#'],
-        'level2' => [
-            ['permissionId' => '/application/index', 'name' => '消息', 'href' => '/message/index'],
-            ['permissionId' => '/application/index', 'name' => '关键字', 'href' => '/message/key'],
-        ],
-    ],*/
+    ],
+
 ];

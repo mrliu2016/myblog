@@ -186,7 +186,6 @@ class Order extends ActiveRecord
 
     //收到礼物/币  送出礼物/豆
     public static function queryReceiveGiftByUserId($userId,$flag = true){
-
         $sql = '';
         if($flag){
             $sql = "SELECT SUM(`totalPrice`) AS  totalPrice FROM `".static ::tableName()."` WHERE `userId`={$userId}";

@@ -307,28 +307,35 @@ class UserController extends BaseController
     public function actionEditUser(){
         $params = Yii::$app->request->post();
         if (empty($params['userId'])){
-            $this->jsonReturnError(Constants::CODE_FAILED, 'parameter error', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
         }
         $result = User::updateUserInfoByUserId($params);
-        if(isset($result) && $result['code'] == 0){
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'edit success', []);
+        $message = '';
+        if(!empty($result['avatar'])){
+            $message = '编辑';
         }
         else{
-            $this->jsonReturnError(Constants::CODE_FAILED, 'edit fail', []);
+            $message = '保存';
+        }
+        if(isset($result) && $result['code'] == 0){
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $message.'成功', []);
+        }
+        else{
+            $this->jsonReturnError(Constants::CODE_FAILED, $message.'失败', []);
         }
     }
     //判断该用户是否已认证
     public function actionCheckAuth(){
         $params = Yii::$app->request->post();
         if(empty($params['userId'])){
-            $this->jsonReturnError(Constants::CODE_FAILED, 'parameter error', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
         }
         $result = User::checkUserCredentials($params);
         if(!empty($result) && $result['code'] == 0){
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'check success', []);
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '验证成功', []);
         }
         else{
-            $this->jsonReturnError(Constants::CODE_FAILED, 'check fail', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '验证失败', []);
         }
     }
 
@@ -336,7 +343,7 @@ class UserController extends BaseController
     public function actionUserFeedback(){
         $params = Yii::$app->request->post();
         if(empty($params['userId'])){
-            $this->jsonReturnError(Constants::CODE_FAILED, 'parameter error', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
         }
         if(empty($params['content'])){
             $this->jsonReturnError(Constants::CODE_FAILED, '提交的内容为空', []);
