@@ -688,17 +688,17 @@ class LiveService
         $roomId = ctype_digit($param["roomId"]) ? $param["roomId"] : ord($param["roomId"]);
         $index = $roomId % count(Yii::$app->params['wsServer']);
         $wsServer = Yii::$app->params['wsServer'][$index];
-        $data = array(
+//        $domain = static::distributeServerNode($param['userId'], Yii::$app->params['wsServer']);
+        return [
             'roomServer' => [
-                'host' => $wsServer["domain"],
+                'host' => $wsServer['domain'],
                 'port' => Constants::WEB_SOCKET_PORT,
             ],
             'roomServer-wss' => [
-                'host' => $wsServer["domain"],
+                'host' => $wsServer['domain'],
                 'port' => Constants::WEB_SOCKET_PORT_SSL,
             ]
-        );
-        return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $data];
+        ];
     }
 
     /**
@@ -1101,8 +1101,6 @@ class LiveService
     /**
      * 分配服务器节点
      *
-     * $nodes = array('192.168.5.201', '192.168.5.102', '192.168.5.111', '192.168.5.112', '192.168.5.113')
-     *
      * @param $userId
      * @param $nodes
      * @return mixed
@@ -1113,11 +1111,11 @@ class LiveService
         /**
          * 生成节点字典 —— 使节点分布在单位区间[0,1)的圆上
          */
-        foreach ($nodes as $key) {
+        foreach ($nodes as $key => $value) {
             // 每个节点的复制的个数
             for ($index = 1; $index <= Constants::WS_NODE_REPLICAS; $index++) {
-                $crc = crc32($key . '.' . $index) / pow(2, 32); // CRC値
-                $buckets[] = array('index' => $crc, 'node' => $key);
+                $crc = crc32($value['ip'] . '.' . $index) / pow(2, 32); // CRC値
+                $buckets[] = array('index' => $crc, 'node' => $value['domain']);
             }
         }
         sort($buckets); // 根据索引进行排序
@@ -1127,7 +1125,8 @@ class LiveService
          */
         $flag = false;
         $crc = crc32($userId) / pow(2, 32); // 计算 userId 的hash值
-        for ($index = 0; $index < count($buckets); $index++) {
+        $bucketsCount = count($buckets);
+        for ($index = 0; $index < $bucketsCount; $index++) {
             if ($buckets[$index]['index'] > $crc) {
                 /*
                  * 因为已经对buckets进行了排序

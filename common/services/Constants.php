@@ -154,5 +154,5 @@ class Constants
     /**
      * 服务器节点
      */
-    const WS_NODE_REPLICAS = 50; // 每个节点的复制的个数
+    const WS_NODE_REPLICAS = 20; // 每个节点的复制的个数
 }
