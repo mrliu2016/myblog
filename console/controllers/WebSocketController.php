@@ -12,10 +12,12 @@ use yii\console\Controller;
 
 class WebSocketController extends Controller
 {
+    private $server = null;
+
     //webSocket服务端
     public function actionServer()
     {
-        $server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL);
+        $this->server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL);
         $setConfig = [
             'ssl_key_file' => '/etc/nginx/cert/dev_api_demo.key',
             'ssl_cert_file' => '/etc/nginx/cert/dev_api_demo.pem',
@@ -26,16 +28,16 @@ class WebSocketController extends Controller
             'socket_buffer_size' => intval(Constants::WS_SOCKET_BUFFER_SIZE), // M 必须为数字 用于设置客户端连接最大允许占用内存数量
 //            'buffer_output_size' => intval(Constants::WS_BUFFER_OUTPUT_SIZE )// 用于设置单次最大发送长度 M
         ];
-        $server->set($setConfig);
+        $this->server->set($setConfig);
         //添加一个监听端口，继续支持ws方式进行连接
-        $server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
+        $this->server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
 
-        $server->on('open', function ($server, $req) {
+        $this->server->on('open', function ($server, $req) {
             if (YII_DEBUG) {
                 LiveService::openConnection($req->fd);
             }
         });
-        $server->on('message', function ($server, $frame) {
+        $this->server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
                 if (YII_DEBUG) {
                     LiveService::webSocketLog(
@@ -83,15 +85,28 @@ class WebSocketController extends Controller
                         LiveService::closeCall($server, $frame, $message);
                         break;
                     default:
-                        $server->push($frame->fd, json_encode(["message not match", $frame->fd]));
+                        $this->server->push($frame->fd, json_encode(["message not match", $frame->fd]));
                 }
             }
         });
-        $server->on('close', function ($server, $fd) {
+
+        // http 请求
+        $this->server->on('request', function (\swoole_http_request $request, \swoole_http_response $response) {
+            $request_method = strtolower($request->server['request_method']);
+            switch ($request_method) {
+                case 'get':
+                    $data = $request->get;
+                    break;
+                case 'post':
+                    $data = $request->post;
+                    break;
+            }
+        });
+        $this->server->on('close', function ($server, $fd) {
             ll("{$fd} connection close", 'webSocketMessage.log');
             LiveService::fdClose($server, $fd);
         });
-        $server->start();
+        $this->server->start();
     }
 
     //送礼物消费队列

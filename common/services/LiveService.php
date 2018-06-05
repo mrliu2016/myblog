@@ -682,9 +682,6 @@ class LiveService
     //服务器信息
     public static function serverInfo($param)
     {
-        if (empty($param["roomId"])) {
-            return ['code' => Constants::CODE_FAILED, 'msg' => 'parameter error'];
-        }
         $roomId = ctype_digit($param["roomId"]) ? $param["roomId"] : ord($param["roomId"]);
         $index = $roomId % count(Yii::$app->params['wsServer']);
         $wsServer = Yii::$app->params['wsServer'][$index];
