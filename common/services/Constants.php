@@ -173,4 +173,11 @@ class Constants
     const LM_APPLY = 1; // 申请连麦
     const LM_TYPE_AGREE = 1; // 连麦同意
     const LM_TYPE_REFUSE = 0; // 连麦拒绝
+
+    /**
+     * 角色
+     */
+    const WS_ROLE_AUDIENCE = 0; // 观众
+    const WS_ROLE_MASTER = 1; // 主播
+    const WS_ROLE_OTHER = -1; // 其他
 }

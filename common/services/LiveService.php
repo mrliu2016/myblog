@@ -315,26 +315,29 @@ class LiveService
         $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomUser);
+        $itemList = [];
         if (empty($result)) return [];
         foreach ($result as $key => $value) {
-            $userInfo = json_decode($value, true);
+            $tmpItem = json_decode($value, true);
             switch ($order) {
                 case 'virtualCurrency':
-                    $orderKey = $userInfo['virtualCurrency'];
+                    $orderKey = $tmpItem['virtualCurrency'];
                     break;
                 default:
                     $orderKey = $key;
                     break;
             }
-            if (isset($userInfo['virtualCurrency'])) {
-                unset($userInfo['virtualCurrency']);
+            if (isset($tmpItem['virtualCurrency'])) {
+                unset($tmpItem['virtualCurrency']);
             }
-            $result[$orderKey] = $userInfo;
+            if ($tmpItem['role'] != Constants::WS_ROLE_MASTER) {
+                $itemList[$orderKey] = $tmpItem;
+            }
         }
         if ($isSort) {
-            krsort($result);
+            krsort($itemList);
         }
-        return $result;
+        return $itemList;
     }
 
     //加入房间
@@ -474,30 +477,29 @@ class LiveService
     //禁言
     public static function gag($server, $frame, $message)
     {
-        $startTime = microtime(true);
-        $params = $message['data'];
-        if (!empty($params)) {
-            if (self::isManager($params['roomId'], $frame->fd)) {
-                static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::isManager】运行时长：');
-
-                $messageAll = [
-                    'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
-                    'userId' => $params['userId'],
-                    'avatar' => $params['avatar'],
-                    'nickName' => $params['nickName'],
-                    'level' => $params['level'],
-                    'expiry' => $params['expiry'],
-                ];
-                $server->push($frame->fd, json_encode($messageAll));
-            } else {
-                $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GAG_RES;
-                $respondMessage['code'] = Constants::CODE_FAILED;
-                $respondMessage['message'] = 'permission deny';
-                $respondMessage['data'] = [];
-                $server->push($frame->fd, json_encode($respondMessage));
-            }
-        }
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::gag】运行时长：');
+//        $params = $message['data'];
+//        $redis = RedisClient::getInstance();
+//        $ip = static::getWsIp($params['roomId']);
+//        $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $params['roomId'];
+//        $userInfo =
+//        if (self::isManager($params['roomId'], $frame->fd)) {
+//            $messageAll = [
+//                'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
+//                'userId' => $params['userId'],
+//                'avatar' => $params['avatar'],
+//                'nickName' => $params['nickName'],
+//                'level' => $params['level'],
+//                'expiry' => $params['expiry'],
+//            ];
+//            $server->push($frame->fd, json_encode($messageAll));
+//        } else {
+//            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GAG_RES;
+//            $respondMessage['code'] = Constants::CODE_FAILED;
+//            $respondMessage['message'] = 'permission deny';
+//            $respondMessage['data'] = [];
+//            $server->push($frame->fd, json_encode($respondMessage));
+//        }
+//        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::gag】运行时长：');
     }
 
     /**
