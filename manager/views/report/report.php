@@ -22,7 +22,6 @@ $this->title = '举报管理';
                                class="form-control datepicker-pop">
                     </div>
                     <div class="s-gift-search-item">
-                        <span>注册时间</span>
                         <input type="text" style="width: 120px" id="startTime" name="endTime"
                                class="form-control datepicker-pop">
                     </div>
