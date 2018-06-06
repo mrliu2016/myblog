@@ -24,7 +24,7 @@ class TestweiXinAppPay
         $unifiedOrder = new WxPayUnifiedOrder();
         $unifiedOrder->setAppId($weiXinConfig['wxAppId']);
         $unifiedOrder->setMchId($weiXinConfig['wxMchId']);
-        //$unifiedOrder->setPayKey($weiXinConfig['wxPayKey']);
+        $unifiedOrder->setPayKey($weiXinConfig['wxPayKey']);
         $unifiedOrder->setBody($weiXinConfig['body']);
         $unifiedOrder->setOutTradeNo($orderIdAlias);
         $unifiedOrder->setFeeType('CNY');
