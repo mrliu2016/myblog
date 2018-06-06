@@ -2,6 +2,7 @@
 namespace app\common\models;
 
 use yii\db\ActiveRecord;
+use Yii;
 
 //违禁词
 class Contraband extends ActiveRecord{
@@ -66,6 +67,46 @@ class Contraband extends ActiveRecord{
         $model->updated = $_SERVER['REQUEST_TIME'];
         $model->save();
         return $model->id;
+    }
+
+    //新增违禁词
+    public static function addWord($params){
+        $model = new self();
+        $model->word = trim($params['word']);
+        $model->created = $_SERVER['REQUEST_TIME'];
+        $model->updated = $_SERVER['REQUEST_TIME'];
+        $model->save();
+        return $model->id;
+    }
+
+    public static function executeBySqlCondition($sql = '')
+    {
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        return $command->execute();
+    }
+    //批量导入违禁词
+    public static function batchWord($data){
+
+        if(!empty($data)){
+            $sql = 'INSERT INTO ' . static::tableName() . ' (`word`, `created`, `updated`) values ';
+            $value = '';
+            foreach ($data as $key => $val){
+                $value .= '(';
+                $value .= '\''.$val.'\',';
+                $value .= $_SERVER['REQUEST_TIME'].',';
+                $value .= $_SERVER['REQUEST_TIME'];
+                $value  .= '),';
+
+            }
+            $sql .= trim($value, ',');
+            static ::executeBySqlCondition($sql);
+            return ['code'=>0];
+        }
+        else{
+            return ['code'=>-1];
+        }
+
     }
 
 }

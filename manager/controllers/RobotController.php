@@ -25,8 +25,28 @@ class RobotController extends BaseController{
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         $params['type'] = 1;
         $list = User::queryUserInfo($params);
-        $count  = User::queryUserInfoNum($params);
 
+        foreach ($list as $key => &$val){
+            //收到礼物
+            $receiveValue = Order::queryReceiveGiftByUserId($val['id'],true);
+            if(empty($receiveValue) || empty($receiveValue['totalPrice'])){
+                $val['receiveValue'] = 0;
+            }
+            else{
+                $val['receiveValue'] = $receiveValue['totalPrice'];
+            }
+            //送出礼物
+            $sendValue = Order::queryReceiveGiftByUserId($val['id'],false);
+            if(empty($sendValue) || empty($sendValue['totalPrice'])){
+                $val['sendValue'] = 0;
+            }
+            else{
+                $val['sendValue'] = $sendValue['totalPrice'];
+            }
+        }
+
+//        print_r($list);die;
+        $count  = User::queryUserInfoNum($params);
         return $this->render('list', [
             'itemList' => $list,
             'pagination' => self::pagination($pageNo, $count),
@@ -61,6 +81,35 @@ class RobotController extends BaseController{
         ]);
     }
 
+    //编辑机器人
+    public function actionEditRobot(){
+
+        if(Yii::$app->request->post()){//编辑保存
+            $params = Yii::$app->request->post();
+            if(User::editRobot($params)){
+//                Yii::$app->getResponse()->redirect('/robot/list');
+                $this->jsonReturnSuccess(0,'编辑成功');
+            }
+            else{
+                $this->jsonReturnError(-1,'编辑失败');
+            }
+        }
+        else{
+            $params = Yii::$app->request->get();
+            $id = $params['id'];
+            return $this->render('edit-robot',[
+                'id'=>$id
+            ]);
+        }
+    }
+    //删除
+    public function actionDeleteRobot(){
+        $id = Yii::$app->request->get('id');
+        $id = User::deleteRobot($id);
+        if ($id) {
+            Yii::$app->getResponse()->redirect('/robot/list');
+        }
+    }
     //新增
     public function actionAddRobot(){
         return $this->render('add-robot');
@@ -68,7 +117,6 @@ class RobotController extends BaseController{
 
     //批量新增机器人信息
     public function actionBatchAdd(){
-
         if (Yii::$app->request->isPost) {
             $filename = $_FILES['name']['tmp_name'];
             $reader = \PHPExcel_IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
@@ -78,7 +126,7 @@ class RobotController extends BaseController{
             $highestColumm = $sheet->getHighestColumn(); // 取得总列数
             /** 循环读取每个单元格的数据 */
             for ($row = 2; $row <= $highestRow; $row++){//行数是以第1行开始
-                for ($column = 'A'; $column <= 'H'; $column++) {//列数是以A列开始
+                for ($column = 'A'; $column <= 'J'; $column++) {//列数是以A列开始
                     $dataset[$column][] = $sheet->getCell($column.$row)->getValue();
                 }
             }
@@ -107,7 +155,7 @@ class RobotController extends BaseController{
         $title = "批量新增机器人模板";
         $queryTime = date('Y-m-d',$_SERVER['REQUEST_TIME']);
         header("Content-type:text/csv");
-        header("Content-Disposition:attachment;filename=" . $title . $queryTime . '.csv');
+        header("Content-Disposition:attachment;filename=" . $title . $queryTime . '.xls');
         header('Cache-Control:must-revalidate,post-check=0,pre-check=0');
         header('Expires:0');
         header('Pragma:public');

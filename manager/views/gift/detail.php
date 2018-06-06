@@ -2,47 +2,33 @@
 $this->title = '礼物详情';
 ?>
 
-<style>
-    .gift-detail{
-        padding-left: 20px;
-        padding-top: 20px;
-    }
-</style>
-
-<div class="gift-detail">
-    <div>
-        礼物图片:<br/>
-        <img src="<?=$list['imgSrc']?>">
+<div class="s-userinfo">
+    <div class="s-userinfo_title">用户详情</div>
+    <div class="s-userinfo_basic">
+        <img class="s-userinfo_headimg" src="<?=$item['imgSrc']?>" alt="用户头像">
+        <div class="s-basic">
+            <p class="s-basic_item">
+                <span class="s-basic_item-title">ID：</span>
+                <span class="s-basic_item-value"><?=$item['id']?></span>
+            </p>
+            <p class="s-basic_item">
+                <span class="s-basic_item-title">礼物名称：</span>
+                <span class="s-basic_item-value"><?=$item['name']?></span>
+            </p>
+            <p class="s-basic_item">
+                <span class="s-basic_item-title">价格：</span>
+                <span class="s-basic_item-value"><?=$item['price']?></span>
+            </p>
+            <p class="s-basic_item">
+                <span class="s-basic_item-title">是否连发：</span>
+                <span class="s-basic_item-value s-basic--certified"><?=isset($item['isFire'])&&$item['isFire'] ==1?'是':'否'?></span>
+            </p>
+            <p class="s-basic_item">
+                <span class="s-basic_item-title">创建时间：</span>
+                <span class="s-basic_item-value"><?=date('Y-m-d H:i',$item['created'])?></span>
+            </p>
+        </div>
     </div>
-    <table class="table table-hover">
-        <tbody>
-            <tr>
-                <td>
-                    ID
-                </td>
-                <td>
-                    <?= $list['id'] ?>
-                </td>
-            </tr>
-            <tr>
-                <td>礼物名称</td>
-                <td><?= $list['name'] ?></td>
-            </tr>
-            <tr>
-                <td>价格</td>
-                <td><?= $list['price'].'豆' ?></td>
-            </tr>
-            <tr>
-                <td>是否可以连发</td>
-                <td><?= (isset($list['isFire'])&&$list['isFire']==1)?'是':'否' ?></td>
-            </tr>
-            <tr>
-                <td>创建时间</td>
-                <td><?= date('Y-m-d H:i:s',$list['created'])?></td>
-            </tr>
-        </tbody>
-    </table>
 </div>
-
 
 

@@ -1,10 +1,10 @@
 input[type=number], input[type=password], input[type=text], textarea {
-	-webkit-appearance: none;
-	appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
 }
 
 [role=button], a, area, button, input:not([type=range]), label, select, summary, textarea {
-	-ms-touch-action: manipulation;
+    -ms-touch-action: manipulation;
     touch-action: manipulation;
 }
 /* ---modal--- */
@@ -41,7 +41,7 @@ input[type=number], input[type=password], input[type=text], textarea {
 .c-modal_header {
     color: #9E9E9E;
     letter-spacing: 0;
-	padding: 20px 0;
+    padding: 20px 0;
     border-bottom: 2px #E6E6E6 solid;
 }
 .c-modal-close {
@@ -82,8 +82,8 @@ input[type=number], input[type=password], input[type=text], textarea {
 /* ---button--- */
 .c-btn {
     font-family: PingFangSC-Regular, system-ui;
-	font-size: 14px;
-	padding: 0 23px;
+    font-size: 14px;
+    padding: 0 23px;
     font-weight: 400;
     height: 30px;
     line-height: 30px;
@@ -109,8 +109,8 @@ input[type=number], input[type=password], input[type=text], textarea {
     transition: all .3s cubic-bezier(.645, .045, .355, 1);
 }
 .c-btn--large {
-	font-weight: 500;
-	padding: 0 34px;
+    font-weight: 500;
+    padding: 0 34px;
     height: 40px;
     line-height: 40px;
 }
@@ -127,7 +127,7 @@ input[type=number], input[type=password], input[type=text], textarea {
 }
 .c-btn[disabled],
 .c-btn[disabled]:hover,
-/* .c-btn[disabled]:focus, */
+    /* .c-btn[disabled]:focus, */
 .c-btn[disabled]:active {
     cursor: not-allowed;
     color: rgba(0,0,0,.25);
@@ -153,7 +153,7 @@ input[type=number], input[type=password], input[type=text], textarea {
 }
 .c-btn-primary[disabled],
 .c-btn-primary[disabled]:hover,
-/* .c-btn-primary[disabled]:focus, */
+    /* .c-btn-primary[disabled]:focus, */
 .c-btn-primary[disabled]:active
 {
     color: rgba(0,0,0,.25);
@@ -163,7 +163,7 @@ input[type=number], input[type=password], input[type=text], textarea {
 
 /* ---input--- */
 .c-input {
-	font-family: Monospaced Number,Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-family: Monospaced Number,Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
     -webkit-box-sizing: border-box;
     box-sizing: border-box;
     margin: 0;
@@ -175,7 +175,7 @@ input[type=number], input[type=password], input[type=text], textarea {
     height: 32px;
     font-size: 14px;
     line-height: 1.5;
-    color: rgba(0,0,0,.65);
+    color: inherit;
     background-color: #fff;
     background-image: none;
     border: 1px solid #d9d9d9;
@@ -186,17 +186,17 @@ input[type=number], input[type=password], input[type=text], textarea {
 
 .c-input:focus,
 .c-input:hover {
-	border-color: rgb(68, 228, 206);
+    border-color: rgb(68, 228, 206);
     border-right-width: 1px!important;
 }
 .c-input:focus {
-	outline: 0;
+    outline: 0;
     -webkit-box-shadow: 0 0 0 2px rgba(24,144,255,.2);
     box-shadow: 0 0 0 2px rgba(24,144,255,.2);
 }
 /* ---table--- */
 .c-table {
-	font-family: Monospaced Number,Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+    font-family: Monospaced Number,Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
     font-size: 14px;
     line-height: 1.5;
     color: rgba(0,0,0,.65);
@@ -206,8 +206,8 @@ input[type=number], input[type=password], input[type=text], textarea {
     padding: 0;
     list-style: none;
     position: relative;
-	clear: both;
-	width: 100%;
+    clear: both;
+    width: 100%;
     border-collapse: separate;
     border-spacing: 0;
     text-align: left;
@@ -217,19 +217,19 @@ input[type=number], input[type=password], input[type=text], textarea {
 .c-table-tbody td,
 .c-table-thead tr
 {
-	-webkit-transition: all .3s;
+    -webkit-transition: all .3s;
     transition: all .3s;
 }
 .c-table-tbody>tr:hover {
-	background: #e6f7ff;
+    background: #e6f7ff;
 }
 .c-table-tbody td,
 .c-table-thead th {
-	padding: 16px;
+    padding: 16px;
     word-break: break-word;
 }
 .c-table-thead {
-	background: #fafafa;
+    background: #fafafa;
     -webkit-transition: background .3s ease;
     transition: background .3s ease;
     color: #464646;
@@ -237,16 +237,85 @@ input[type=number], input[type=password], input[type=text], textarea {
     border-bottom: 1px solid #e8e8e8;
 }
 .c-table-tbody td {
-	border-bottom: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
 }
 
 .c-a {
-	font-size: 14px;
-	color: #24D4BD;
-	text-decoration: underline;
-	cursor: pointer;
+    font-size: 14px;
+    color: #24D4BD;
+    text-decoration: underline;
+    cursor: pointer;
 }
 
+/* ---select--- */
+.c-select-wrap {
+    background: white;
+    position: relative;
+}
+.c-select-wrap::before {
+    content: '';
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    widows: 0;
+    height: 0;
+    border-radius: 1px;
+    border: 6px transparent solid;
+    border-top: 8px #999999 solid;
+    border-bottom: 0;
+}
+.c-select {
+    font-family: Monospaced Number,Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
+    -webkit-appearance: none;
+    appearance: none;
+    width: auto;
+    height: 25px;
+    padding: 0 25px 0 5px;
+    margin: 0;
+    background: transparent none;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1.5;
+    color: inherit;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    -webkit-transition: all .3s;
+    transition: all .3s;
+}
+.c-select:focus,
+.c-select:hover {
+    border-color: rgb(68, 228, 206);
+    border-right-width: 1px!important;
+}
+.c-select:focus {
+    outline: 0;
+    -webkit-box-shadow: 0 0 0 2px rgba(24,144,255,.2);
+    box-shadow: 0 0 0 2px rgba(24,144,255,.2);
+}
+
+/* ---form--- */
+.c-form_item {
+    width: max-content;
+    margin: 0 0 16px 0;
+}
+.c-form_item-title {
+    display: inline-block;
+    width: 88px;
+    text-align: right;
+}
+.c-form_item-input {
+    width: 200px;
+    height: 25px;
+    border-radius: 0;
+}
+
+/* ---utils---- */
 .u-radius--circle {
-	border-radius: 500px;
+    border-radius: 500px;
+}
+.u-radius--0 {
+    border-radius: 0;
 }
