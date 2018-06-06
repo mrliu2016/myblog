@@ -15,4 +15,9 @@ class WapController extends BaseController
 
         ]);
     }
+
+    public function actionProfile()
+    {
+        return $this->render('profile');
+    }
 }

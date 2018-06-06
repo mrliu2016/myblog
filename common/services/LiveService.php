@@ -125,6 +125,7 @@ class LiveService
             'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算以最小单位透传
         ];
         $server->push($frame->fd, json_encode($respondMessage));
+        static::sendGiftVirtualCurrency($userId, $roomId, $price * $num);
         unset($respondMessage);
         //广播房间全体成员
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_NOTIFY_RES;
@@ -152,6 +153,22 @@ class LiveService
         static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::fdListByRoomId】运行时长：');
 
         static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::giftRequest】运行时长：');
+    }
+
+    /**
+     * 送礼虚拟货币
+     *
+     * @param $userId
+     * @param $roomId
+     * @param $virtualCurrency
+     */
+    private static function sendGiftVirtualCurrency($userId, $roomId, $virtualCurrency)
+    {
+        $redis = RedisClient::getInstance();
+        $wsIp = static::getWsIp($roomId);
+        $key = Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $wsIp . ':' . $roomId;
+        $redis->hIncrby($key, $userId, intval($virtualCurrency));
+        $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
     }
 
     //心跳
@@ -292,7 +309,7 @@ class LiveService
     }
 
     //返回房间内用户信息
-    public static function getUserInfoListByRoomId($roomId)
+    public static function getUserInfoListByRoomId($roomId, $order = 'userId')
     {
         $ip = self::getWsIp($roomId);
         $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
@@ -300,7 +317,19 @@ class LiveService
         $result = $redis->hGetAll($keyWSRoomUser);
         if (empty($result)) return [];
         foreach ($result as $key => $value) {
-            $result[$key] = json_decode($value, true);
+            $userInfo = json_decode($value, true);
+            switch ($order) {
+                case 'virtualCurrency':
+                    $order = $userInfo['virtualCurrency'];
+                    break;
+                default:
+                    $order = $key;
+                    break;
+            }
+            if (isset($userInfo['virtualCurrency'])) {
+                unset($userInfo['virtualCurrency']);
+            }
+            $result[$order] = $userInfo;
         }
         return $result;
     }
@@ -332,6 +361,7 @@ class LiveService
             $userInfo['level'] = $level;
             $userInfo['fd'] = $fd;
             $userInfo['role'] = $role;
+            $userInfo['virtualCurrency'] = intval($redis->hget(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId));
             $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
@@ -1089,19 +1119,17 @@ class LiveService
         // 判断adminUserId是否有权限拉黑
         if (self::isManager($message['data']['roomId'], $frame->fd)) {
             $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $message['data']['roomId'];
-            $user = json_decode($redis->hget($keyWSRoomUser, $message['data']['userId']), true);
-            if (!empty($user)) {
-//                $messageMessage = [
-//                    'messageType' => Constants::MESSAGE_TYPE_KICK_RES,
-//                    'code' => Constants::CODE_SUCCESS,
-//                    'message' => '',
-//                    'data' => [
-//                        'roomId' => $params['roomId'],
-//                        'userId' => $params['userId'],
-//                        'expiry' => $params['expiry'],
-//                    ],
-//                ];
-//                $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+            $userInfo = json_decode($redis->hget($keyWSRoomUser, $message['data']['blacklistUserId']), true);
+            if (!empty($userInfo)) {
+                $responseMessage = [
+                    'messageType' => Constants::MESSAGE_TYPE_BLACKLIST_RES,
+                    'data' => [
+                        'userId' => $message['data']['userId'],
+                        'roomId' => $message['data']['roomId'],
+                        'blacklistUserId' => $message['data']['blacklistUserId']
+                    ],
+                ];
+                $server->push(intval($userInfo['fd']), json_encode($responseMessage));
             }
         }
     }
