@@ -179,46 +179,18 @@ class LiveService
     //心跳
     public static function heartbeatRequest($server, $frame, $message)
     {
-        $startTime = microtime(true);
-
         $param = $message['data'];
         $redis = RedisClient::getInstance();
         $roomId = $param["roomId"];
         $userId = $param["userId"];
-        if ($param["isMaster"] == 1) { //1主播 0粉丝
+        if ($param['isMaster'] == Constants::WS_ROLE_MASTER) {
             $redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
                 base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId])));
             $redis->expire(Constants::QUEUE_WS_HEARTBEAT, Constants::DEFAULT_EXPIRES);
+            
             $server->push($frame->fd, json_encode(['userId' => $userId, 'roomId' => $roomId]));
         }
-        $Warning = $redis->hget(Constants::WS_WARNING, $userId);
-        if ($Warning !== false) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
-            $respondMessage['code'] = Constants::CODE_WARNING;
-            $respondMessage['message'] = $Warning;
-            $respondMessage['data'] = array(
-                'roomId' => $roomId,
-                'userId' => $userId,
-                'isMaster' => $param["isMaster"]
-            );
-            $server->push($frame->fd, json_encode($respondMessage));
-            $redis->hdel(Constants::WS_WARNING, $userId);
-        }
-        $close = $redis->hget(Constants::WS_CLOSE, $userId);
-        if ($close !== false) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
-            $respondMessage['code'] = Constants::CODE_CLOSE;
-            $respondMessage['message'] = $close;
-            $respondMessage['data'] = array(
-                'roomId' => $roomId,
-                'userId' => $userId,
-                'isMaster' => $param["isMaster"]
-            );
-            $server->push($frame->fd, json_encode($respondMessage));
-            $redis->hdel(Constants::WS_CLOSE, $userId);
-        }
-        static::latestHeartbeat($frame->fd, $userId, $roomId, $param["isMaster"]);
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::heartbeatRequest】运行时长：');
+        static::latestHeartbeat($frame->fd, $userId, $roomId, $param['isMaster']);
     }
 
     /**
