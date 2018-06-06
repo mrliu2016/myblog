@@ -109,7 +109,11 @@ class FollowService
         $total_cnt = (int)Follow::followLiveCount($params['userId']);;
         $page_cnt = ceil($total_cnt / $size);
         $data = compact('total_cnt', 'page', 'size', 'page_cnt', 'list');
-        return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $data];
+        return [
+            'code' => !empty($list) ? Constants::CODE_SUCCESS : Constants::CODE_FAILED,
+            'msg' => 'success',
+            'data' => $data
+        ];
     }
 
     public static function queryInfo($params, $field = '')
