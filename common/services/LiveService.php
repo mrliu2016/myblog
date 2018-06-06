@@ -309,7 +309,7 @@ class LiveService
     }
 
     //返回房间内用户信息
-    public static function getUserInfoListByRoomId($roomId, $order = 'userId')
+    public static function getUserInfoListByRoomId($roomId, $order = 'userId', $isSort = false)
     {
         $ip = self::getWsIp($roomId);
         $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
@@ -320,16 +320,19 @@ class LiveService
             $userInfo = json_decode($value, true);
             switch ($order) {
                 case 'virtualCurrency':
-                    $order = $userInfo['virtualCurrency'];
+                    $orderKey = $userInfo['virtualCurrency'];
                     break;
                 default:
-                    $order = $key;
+                    $orderKey = $key;
                     break;
             }
             if (isset($userInfo['virtualCurrency'])) {
                 unset($userInfo['virtualCurrency']);
             }
-            $result[$order] = $userInfo;
+            $result[$orderKey] = $userInfo;
+        }
+        if ($isSort) {
+            krsort($result);
         }
         return $result;
     }
