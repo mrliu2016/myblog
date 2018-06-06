@@ -3,6 +3,69 @@ use yii\widgets\LinkPager;
 $this->title = '用户管理';
 ?>
 
+<style>
+    .switch-disable {
+        color: #ccc;
+    }
+
+    .switch-list-def {
+
+    }
+
+    .switch-hover {
+        color: #448AFF
+    }
+
+    .switch-list-def span {
+        color: #ccc;
+    }
+
+    .switch-list-on span {
+        color: #448AFF;
+    }
+
+    .switch-mod{
+        display: inline-block;
+        position: relative;
+        margin-left: 25px;
+    }
+    .input-switch{
+        opacity: 0;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        z-index: 999;
+        margin-top: 0px;
+    }
+    .lable-switch-mod{
+        width: 20px;
+        height: 12px;
+        background: #898989;
+        box-shadow: inset 0 1px 3px 0 rgba(0,0,0,.3);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all .2s ease;
+        margin-bottom: 0px;
+    }
+    .lable-switch-mod:after{
+        position: absolute;
+        content: "";
+        right: 10px;
+        width: 10px;
+        height: 12px;
+        background-image: linear-gradient(-180deg,#F8F9F6 0,#F5F5F5 100%);
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,.3);
+        border-radius: 6px;
+        transition: all .15s ease;
+    }
+    .switch-list-def span {
+        color: #ccc;
+    }
+
+    .switch-list-on span {
+        color: #448AFF;
+    }
+</style>
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
@@ -42,12 +105,13 @@ $this->title = '用户管理';
 				  </span>
                 </div>
                 <div class="s-gift-search-item">
-                    <input type="text" style="width: 120px;display: inline-block" id="mobile" name="id" placeholder="请输入用户ID"
-                           class="form-control">
+                    <span>注册时间</span>
+                    <input type="text" style="width: 120px" id="startTime" name="startTime"
+                           class="form-control datepicker-pop">
                 </div>
                 <div class="s-gift-search-item">
-                    <input type="text" style="width: 120px;display: inline-block" id="mobile" name="id" placeholder="请输入用户ID"
-                           class="form-control">
+                    <input type="text" style="width: 120px" id="startTime" name="endTime"
+                           class="form-control datepicker-pop">
                 </div>
                 <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn">查询</button>
 
@@ -134,7 +198,13 @@ $this->title = '用户管理';
                             <?= $item['income'] ?>
                         </td>
                         <td>
-                            启用
+                            <div class="switch-mod switch-mod-open switch-hover"><span> 启用</span>
+                                <input class="show-notes input-switch" type="checkbox" name="show-notes"
+                                       checked="checked"
+                                       value="<?= $item["id"]. ",".$item["roomId"]?>" onclick="noplay(<?= $item['id']?>,<?=$item['roomId']?>)">
+                                <label for="show-notes" class="lable-switch-mod" ></label>
+
+                            </div>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -154,11 +224,140 @@ $this->title = '用户管理';
     </nav>
 </div>
 
+<!--禁播弹框start-->
+<div class="c-modal-wrap s-banlive" style="display: none;">
+    <div class="c-modal">
+        <div class="c-modal-close s-banlive-close">关闭</div>
+        <div class="s-banlive-content">
+            <button class="c-btn s-banlive-btn" data-val="1">禁播24h</button>
+            <button class="c-btn s-banlive-btn c-btn-primary" data-val="2">禁播30天</button>
+            <button class="c-btn s-banlive-btn" data-val="3">永久禁播</button>
+            <button class="c-btn s-banlive-btn" data-val="4">解封账号</button>
+        </div>
+        <div class="c-modal-footer s-banlive-operate">
+            <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+            <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
+        </div>
+    </div>
+</div>
+<!--禁播弹框end-->
+
 <script type="text/javascript">
+
+    $(".datepicker-pop").datetimepicker({
+        todayHighlight: true,
+        todayBtn: true,
+        autoclose: true,
+        minView: 3,
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
+    });
+
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
     $("#cleanBtn").click(function () {
         $(this).closest('form').find("input[type=text]").val("")
     });
+
+    $('.show-notes').change(function () {
+        // var appId = $(this).val();
+        var that = this;
+        if ($(this).is(':checked')) {
+            $(that).parent().removeClass("switch-list-def");
+            $(that).parent().addClass("switch-list-on");
+            $(that).prev().html("启用");
+            // $(".s-banlive").css("display","block");
+        }
+        else {
+            //禁播
+            // $(".s-banlive").css("display","block");
+            // alert(2222);
+            $(that).prev().html("停用");
+            $(that).parent().removeClass("switch-list-on");
+            $(that).parent().addClass("switch-list-def");
+        }
+    });
+
+    //关闭禁播
+    $(".s-banlive-close").click(function () {
+        $(".s-banlive").css("display","none");
+    });
+
+    $(".s-banlive-cancel").click(function () {
+        $(".s-banlive").css("display","none");
+    });
+
+    $(".s-banlive-btn").click(function () {
+        // console.log($(this).attr("data-val"));
+        $(this).siblings().removeClass("c-btn-primary");
+        $(this).addClass("c-btn-primary");
+    });
+    //禁播提交
+    // $(".s-banlive-confirm").click(function () {
+    //     var type = 0;
+    //     $(".s-banlive-btn").each(function () {
+    //         if($(this).hasClass("c-btn-primary")){
+    //             // console.log($(this).attr("data-val"));
+    //             type = $(this).attr("data-val")
+    //         }
+    //     });
+    //     // console.log(type);
+    //     // var value = $()
+    //     var params = {};
+    //     params.userId = '';
+    //     params.roomId = '';
+    //     params.type = type;
+    //
+    //     $.ajax({
+    //         type: 'post',
+    //         url: '/user/noplay',
+    //         data: params,
+    //         dataType: 'json',
+    //         timeout: 5000
+    //     }).done(function (data) {
+    //         if(data.code == 0){
+    //
+    //         }
+    //         else{
+    //
+    //         }
+    //     });
+    //
+    // });
+
+    //禁播方法
+    function noplay(userId,roomId) {
+        $(".s-banlive").css("display","block");
+        $(".s-banlive-confirm").unbind('click').bind('click',function () {
+            var type = 0;
+            $(".s-banlive-btn").each(function () {
+                if($(this).hasClass("c-btn-primary")){
+                    // console.log($(this).attr("data-val"));
+                    type = $(this).attr("data-val")
+                }
+            });
+            var params = {};
+            params.userId = userId;
+            params.roomId = roomId;
+            params.type = type;
+
+            console.log(params);
+            $.ajax({
+                type: 'post',
+                url: '/user/noplay',
+                data: params,
+                dataType: 'json',
+                timeout: 5000
+            }).done(function (data) {
+                if(data.code == 0){
+                    alert('禁播成功');
+                }
+                else{
+                    alert('禁播失败');
+                }
+            });
+        });
+
+    }
 </script>

@@ -362,3 +362,79 @@ select.c-input {
 .s-robot-form_cancel {
     height: 35px;
 }
+
+.s-banlive-close {
+    font-size: 18px;
+    color: #24D4BD;
+    text-align: left;
+    margin: 17px;
+}
+.s-banlive-content {
+    width: 370px;
+    margin: 40px 0 10px;
+    text-align: center;
+}
+.s-banlive-btn {
+    display: block;
+    margin: 12px auto;
+    width: 240px;
+    height: 40px;
+    border: 1px solid #24D4BD;
+    border-radius: 100px;
+}
+.s-banlive-operate {
+    margin: 10px 0;
+    text-align: center;
+}
+.s-banlive-confirm-text {
+    font-size: 18px;
+    color: #24D4BD;
+}
+.s-banlive-confirm,
+.s-banlive-cancel {
+    width: 100px;
+    height: 35px;
+    line-height: 35px;
+    margin: 0 40px;
+}
+
+.s-banword-close {
+    font-size: 18px;
+    color: #24D4BD;
+    text-align: left;
+    margin: 17px;
+}
+.s-banword-content {
+    box-sizing: border-box;
+    width: 400px;
+    color: #343434;
+    text-align: center;
+}
+.s-banword-input {
+    margin: 20px 60px 10px;
+    width: 282px;
+}
+.s-banword-operate {
+    margin-bottom: 10px;
+    text-align: center;
+}
+.s-banword-confirm-text {
+    font-size: 18px;
+    color: #24D4BD;
+}
+.s-banword-confirm,
+.s-banword-cancel {
+    width: 100px;
+    height: 35px;
+    line-height: 35px;
+    margin: 0 40px;
+}
+.s-banword-progress {
+    font-size: 48px;
+    font-weight: 900;
+    color: #24D4BD;
+    margin: 0;
+}
+.s-banword-loading {
+    width: 80px;
+}
