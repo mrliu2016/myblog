@@ -22,6 +22,11 @@ class LiveService
             $startTime = microtime(true);
             $param = $message['data'];
             $redis = RedisClient::getInstance();
+            $gagKey = Constants::WS_GAG . static::getWsIp($message['data']['roomId']) . '_' . $message['data']['roomId'];
+            if ($redis->hget($gagKey, $message['data']['roomId'])) {
+                static::pushGagMessage($frame->fd, $server, $frame, $message);
+                return true;
+            }
             $keyWords = [];
             if ($redis->exists(Constants::WS_KEYWORD)) {
                 $keyWords = json_decode(base64_decode($redis->get(Constants::WS_KEYWORD)), true);
@@ -125,6 +130,7 @@ class LiveService
             'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算以最小单位透传
         ];
         $server->push($frame->fd, json_encode($respondMessage));
+        static::sendGiftVirtualCurrency($userId, $roomId, $price * $num);
         unset($respondMessage);
         //广播房间全体成员
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_NOTIFY_RES;
@@ -152,6 +158,22 @@ class LiveService
         static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::fdListByRoomId】运行时长：');
 
         static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::giftRequest】运行时长：');
+    }
+
+    /**
+     * 送礼虚拟货币
+     *
+     * @param $userId
+     * @param $roomId
+     * @param $virtualCurrency
+     */
+    private static function sendGiftVirtualCurrency($userId, $roomId, $virtualCurrency)
+    {
+        $redis = RedisClient::getInstance();
+        $wsIp = static::getWsIp($roomId);
+        $key = Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $wsIp . ':' . $roomId;
+        $redis->hIncrby($key, $userId, intval($virtualCurrency));
+        $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
     }
 
     //心跳
@@ -236,7 +258,7 @@ class LiveService
         static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::roomMemberNum】运行时长：');
 
         $tmpStartTime = microtime(true);
-        $userList = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
+        $userList = array_values(LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true));
         static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::getUserInfoListByRoomId】运行时长：');
 
         $resMessage = [
@@ -292,17 +314,35 @@ class LiveService
     }
 
     //返回房间内用户信息
-    public static function getUserInfoListByRoomId($roomId)
+    public static function getUserInfoListByRoomId($roomId, $order = 'userId', $isSort = false)
     {
         $ip = self::getWsIp($roomId);
         $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomUser);
+        $itemList = [];
         if (empty($result)) return [];
         foreach ($result as $key => $value) {
-            $result[$key] = json_decode($value, true);
+            $tmpItem = json_decode($value, true);
+            switch ($order) {
+                case 'virtualCurrency':
+                    $orderKey = $tmpItem['virtualCurrency'];
+                    break;
+                default:
+                    $orderKey = $key;
+                    break;
+            }
+            if (isset($tmpItem['virtualCurrency'])) {
+                unset($tmpItem['virtualCurrency']);
+            }
+            if ($tmpItem['role'] != Constants::WS_ROLE_MASTER) {
+                $itemList[$orderKey] = $tmpItem;
+            }
         }
-        return $result;
+        if ($isSort) {
+            krsort($itemList);
+        }
+        return $itemList;
     }
 
     //加入房间
@@ -332,6 +372,7 @@ class LiveService
             $userInfo['level'] = $level;
             $userInfo['fd'] = $fd;
             $userInfo['role'] = $role;
+            $userInfo['virtualCurrency'] = intval($redis->hget(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId));
             $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
@@ -400,7 +441,7 @@ class LiveService
             static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::clearLMList】运行时长：');
 
             $tmp = microtime(true);
-            $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
+            $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true));
             static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::getUserInfoListByRoomId】运行时长：');
 
             $tmp = microtime(true);
@@ -441,30 +482,52 @@ class LiveService
     //禁言
     public static function gag($server, $frame, $message)
     {
-        $startTime = microtime(true);
         $params = $message['data'];
-        if (!empty($params)) {
-            if (self::isManager($params['roomId'], $frame->fd)) {
-                static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::isManager】运行时长：');
-
-                $messageAll = [
-                    'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
-                    'userId' => $params['userId'],
-                    'avatar' => $params['avatar'],
-                    'nickName' => $params['nickName'],
-                    'level' => $params['level'],
-                    'expiry' => $params['expiry'],
-                ];
-                $server->push($frame->fd, json_encode($messageAll));
+        $redis = RedisClient::getInstance();
+        $ip = static::getWsIp($params['roomId']);
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $message['data']['roomId'];
+        $gagUserInfo = json_decode($redis->hget($keyWSRoomUser, $message['data']['userId']), true);
+        if (!empty($gagUserInfo)) {
+            if (self::isManager($message['data']['roomId'], $frame->fd)) {
+                static::pushGagMessage($gagUserInfo['fd'], $server, $frame, $message);
+                // 禁言
+                $gagKey = Constants::WS_GAG . $ip . '_' . $message['data']['roomId'];
+                $redis->hset($gagKey, $message['data']['userId'], true);
+                $redis->expire($gagKey, Constants::DEFAULT_EXPIRES);
             } else {
-                $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GAG_RES;
-                $respondMessage['code'] = Constants::CODE_FAILED;
-                $respondMessage['message'] = 'permission deny';
-                $respondMessage['data'] = [];
+                $respondMessage = [
+                    'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
+                    'code' => Constants::CODE_FAILED,
+                    'message' => '禁止操作',
+                    'data' => []
+                ];
                 $server->push($frame->fd, json_encode($respondMessage));
             }
         }
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::gag】运行时长：');
+    }
+
+    /**
+     * 推送禁言消息到 fd
+     *
+     * @param $fd
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    private static function pushGagMessage($fd, $server, $frame, $message)
+    {
+        $respondMessage = [
+            'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
+            'code' => Constants::CODE_SUCCESS,
+            'message' => '你已被主播禁言',
+            'data' => [
+                'userId' => $message['data']['userId'],
+                'avatar' => $message['data']['avatar'],
+                'nickName' => $message['data']['nickName'],
+                'roomId' => $message['data']['roomId']
+            ]
+        ];
+        $server->push(intval($fd), json_encode($respondMessage));
     }
 
     /**
@@ -1089,20 +1152,28 @@ class LiveService
         // 判断adminUserId是否有权限拉黑
         if (self::isManager($message['data']['roomId'], $frame->fd)) {
             $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $message['data']['roomId'];
-            $user = json_decode($redis->hget($keyWSRoomUser, $message['data']['userId']), true);
-            if (!empty($user)) {
-//                $messageMessage = [
-//                    'messageType' => Constants::MESSAGE_TYPE_KICK_RES,
-//                    'code' => Constants::CODE_SUCCESS,
-//                    'message' => '',
-//                    'data' => [
-//                        'roomId' => $params['roomId'],
-//                        'userId' => $params['userId'],
-//                        'expiry' => $params['expiry'],
-//                    ],
-//                ];
-//                $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+            $userInfo = json_decode($redis->hget($keyWSRoomUser, $message['data']['blacklistUserId']), true);
+            if (!empty($userInfo)) {
+                $responseMessage = [
+                    'messageType' => Constants::MESSAGE_TYPE_BLACKLIST_RES,
+                    'code' => Constants::CODE_SUCCESS,
+                    'message' => '你已被主播拉黑',
+                    'data' => [
+                        'userId' => $message['data']['userId'],
+                        'roomId' => $message['data']['roomId'],
+                        'blacklistUserId' => $message['data']['blacklistUserId']
+                    ],
+                ];
+                $server->push(intval($userInfo['fd']), json_encode($responseMessage));
             }
+        } else {
+            $responseMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_BLACKLIST_RES,
+                'code' => Constants::CODE_FAILED,
+                'message' => '禁止操作',
+                'data' => []
+            ];
+            $server->push($frame->fd, json_encode($responseMessage));
         }
     }
 }
