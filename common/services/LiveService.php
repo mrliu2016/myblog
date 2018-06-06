@@ -332,7 +332,6 @@ class LiveService
             $userInfo['level'] = $level;
             $userInfo['fd'] = $fd;
             $userInfo['role'] = $role;
-            $userInfo['roomId'] = $roomId;
             $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
