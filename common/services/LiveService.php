@@ -22,6 +22,11 @@ class LiveService
             $startTime = microtime(true);
             $param = $message['data'];
             $redis = RedisClient::getInstance();
+            $gagKey = Constants::WS_GAG . static::getWsIp($message['data']['roomId']) . '_' . $message['data']['roomId'];
+            if ($redis->hget($gagKey, $message['data']['roomId'])) {
+                static::pushGagMessage($frame->fd, $server, $frame, $message);
+                return true;
+            }
             $keyWords = [];
             if ($redis->exists(Constants::WS_KEYWORD)) {
                 $keyWords = json_decode(base64_decode($redis->get(Constants::WS_KEYWORD)), true);
@@ -477,29 +482,52 @@ class LiveService
     //禁言
     public static function gag($server, $frame, $message)
     {
-//        $params = $message['data'];
-//        $redis = RedisClient::getInstance();
-//        $ip = static::getWsIp($params['roomId']);
-//        $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $params['roomId'];
-//        $userInfo =
-//        if (self::isManager($params['roomId'], $frame->fd)) {
-//            $messageAll = [
-//                'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
-//                'userId' => $params['userId'],
-//                'avatar' => $params['avatar'],
-//                'nickName' => $params['nickName'],
-//                'level' => $params['level'],
-//                'expiry' => $params['expiry'],
-//            ];
-//            $server->push($frame->fd, json_encode($messageAll));
-//        } else {
-//            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GAG_RES;
-//            $respondMessage['code'] = Constants::CODE_FAILED;
-//            $respondMessage['message'] = 'permission deny';
-//            $respondMessage['data'] = [];
-//            $server->push($frame->fd, json_encode($respondMessage));
-//        }
-//        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::gag】运行时长：');
+        $params = $message['data'];
+        $redis = RedisClient::getInstance();
+        $ip = static::getWsIp($params['roomId']);
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $message['data']['roomId'];
+        $gagUserInfo = json_decode($redis->hget($keyWSRoomUser, $message['data']['userId']), true);
+        if (!empty($gagUserInfo)) {
+            if (self::isManager($message['data']['roomId'], $frame->fd)) {
+                static::pushGagMessage($gagUserInfo['fd'], $server, $frame, $message);
+                // 禁言
+                $gagKey = Constants::WS_GAG . $ip . '_' . $message['data']['roomId'];
+                $redis->hset($gagKey, $message['data']['userId'], true);
+                $redis->expire($gagKey, Constants::DEFAULT_EXPIRES);
+            } else {
+                $respondMessage = [
+                    'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
+                    'code' => Constants::CODE_FAILED,
+                    'message' => '禁止操作',
+                    'data' => []
+                ];
+                $server->push($frame->fd, json_encode($respondMessage));
+            }
+        }
+    }
+
+    /**
+     * 推送禁言消息到 fd
+     *
+     * @param $fd
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    private static function pushGagMessage($fd, $server, $frame, $message)
+    {
+        $respondMessage = [
+            'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
+            'code' => Constants::CODE_SUCCESS,
+            'message' => '你已被主播禁言',
+            'data' => [
+                'userId' => $message['data']['userId'],
+                'avatar' => $message['data']['avatar'],
+                'nickName' => $message['data']['nickName'],
+                'roomId' => $message['data']['roomId']
+            ]
+        ];
+        $server->push(intval($fd), json_encode($respondMessage));
     }
 
     /**
