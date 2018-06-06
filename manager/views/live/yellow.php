@@ -20,13 +20,14 @@ $this->title = '鉴黄管理';
                         <span>房间号</span>
                         <input class="c-input s-gift-search-input" type="text" name="roomId">
                     </div>
+                    <br/>
                     <div class="s-gift-search-item">
                         <span>注册时间</span>
-                        <input type="text" style="width: 120px" id="startTime" name="startTime"
+                        <input type="text" style="width: 120px" name="startTime"
                                class="form-control datepicker-pop">
                     </div>
                     <div class="s-gift-search-item">
-                        <input type="text" style="width: 120px" id="endTime" name="endTime"
+                        <input type="text" style="width: 120px" name="endTime"
                                class="form-control datepicker-pop">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
@@ -81,7 +82,7 @@ $this->title = '鉴黄管理';
             </tbody>
         </table>
         </div>
-        <p class="s-gift-count">共 125 条记录</p>
+        <p class="s-gift-count">共 <?= $count ?> 条记录</p>
     </div>
     <nav class="text-center">
         <table>

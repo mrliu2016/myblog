@@ -75,20 +75,6 @@ class GiftController extends BaseController
         }
     }
 
-    /*public function actionOrder()
-    {
-        $params = Yii::$app->request->getQueryParams();
-        $params['defaultPageSize'] = self::PAGE_SIZE;;
-        $result = Order::queryInfo($params);
-        $count = Order::queryInfoNum($params);
-        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
-        return $this->render('order', [
-            'itemList' => $result,
-            'pagination' => self::pagination($pageNo, $count),
-            'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
-        ]);
-    }*/
     //礼物编辑
     public function actionGiftEdit(){
         $params = Yii::$app->request->getQueryParams();

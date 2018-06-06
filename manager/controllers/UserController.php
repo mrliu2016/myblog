@@ -40,12 +40,14 @@ class UserController extends BaseController
     public function actionIndex()
     {
         $params = Yii::$app->request->getQueryParams();
-        $params['defaultPageSize'] = self::PAGE_SIZE;;
-        $result = User::queryUserInfo($params);
 
+        $params['defaultPageSize'] = self::PAGE_SIZE;
+        $result = User::queryUserInfo($params);
         if(empty($params['id'])){
             unset($params['id']);
         }
+
+        //先判断状态
         foreach ($result as $key => &$val){
             if(!empty($val['realName']) && !empty($val['idCard']) && !empty($val['mobile'])){
                 $val['isValid'] = 1;
@@ -76,7 +78,10 @@ class UserController extends BaseController
             }
         }
 
-        $count = User::queryUserInfoNum($params);
+            $count = User::queryUserInfoNum($params);
+
+
+
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
             'itemList' => $result,
@@ -108,6 +113,9 @@ class UserController extends BaseController
         $params = Yii::$app->request->get();
         $id = intval($params['id']);
         $user = User::queryById($id);
+
+
+
 
         $user['isAuth'] = 0;
         if(!empty($user['realName']) && !empty($user['isCard'])){
@@ -159,8 +167,7 @@ class UserController extends BaseController
                 break;
         }
         $params['message'] = $message;
-        if(UserNoplay::operateNoplay($params)){
-//            $userId = $params['userId'];
+        if(User::operateNoplay($params)){
             //直播
             $liveResult = Video::isLive($params['userId']);
 //            if(!empty($liveResult)){//是直播

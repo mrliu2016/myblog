@@ -62,16 +62,16 @@ $this->title = '直播记录';
                             <?= $item['nickName'] ?>
                         </td>
                         <td>
-                            <?= $item['viewerNum']?>
+                            <?= $item['watchTime']?>
+                        </td>
+                        <td>
+                            <?= date('Y-m-d H:i', $item['startTime']) ?>
                         </td>
                         <td>
                             <?= date('Y-m-d H:i', $item['created']) ?>
                         </td>
                         <td>
-                            <?= date('Y-m-d H:i', $item['updated']) ?>
-                        </td>
-                        <td>
-                            <a href="/live/play-back">查看回访</a>
+                            <a href="/live/play-back?id=<?=$item['id']?>">查看回访</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>

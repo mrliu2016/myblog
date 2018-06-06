@@ -25,7 +25,15 @@ $this->title = '用户详情';
             </p>
             <p class="s-basic_item">
                 <span class="s-basic_item-title">状态：</span>
-                <span class="s-basic_item-value">未知</span>
+                <?php if(empty($item['playType']) || $item['playType'] == 0):?>
+                    <span class="s-basic_item-value">正常</span>
+                <?php elseif($item['playType'] == 1 || $item['playType'] == 2):?>
+                <span class="s-basic_item-value">禁播中</span>
+                <?php elseif($item['playType'] == 3):?>
+                    <span class="s-basic_item-value">永久禁播</span>
+                <?php elseif($item['playType'] == 4):?>
+                    <span class="s-basic_item-value">停用</span>
+                <? endif ?>
             </p>
             <p class="s-basic_item">
                 <span class="s-basic_item-title">注册时间：</span>

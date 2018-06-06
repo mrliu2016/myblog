@@ -16,14 +16,13 @@ $this->title = '举报管理';
                         <span>被举报人昵称</span>
                         <input class="c-input s-gift-search-input" type="text" name="nickName">
                     </div>
+                    <br/>
                     <div class="s-gift-search-item">
                         <span>注册时间</span>
-                        <input type="text" style="width: 120px" id="startTime" name="startTime"
-                               class="form-control datepicker-pop">
+                        <input type="text" style="width: 120px" name="startTime" class="form-control datepicker-pop">
                     </div>
                     <div class="s-gift-search-item">
-                        <input type="text" style="width: 120px" id="startTime" name="endTime"
-                               class="form-control datepicker-pop">
+                        <input type="text" style="width: 120px" name="endTime" class="form-control datepicker-pop">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 

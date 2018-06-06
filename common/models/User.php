@@ -23,7 +23,7 @@ class User extends ActiveRecord
         } else {
             return static::find()
                 ->select('id as userId,userName,avatar,nickName,sex,birth,mobile,
-                balance,level,description,isValid,idCard,realName,roomId,income,province,city,region,profession,followers_cnt,followees_cnt,created')
+                balance,level,description,isValid,idCard,realName,roomId,income,province,city,region,profession,followers_cnt,followees_cnt,created,playType,playTime')
                 ->where(['id' => $id])
                 ->asArray()
                 ->one();
@@ -494,26 +494,43 @@ class User extends ActiveRecord
         if (!empty($params['roomId'])) {
             $find->andWhere('roomId=' . trim($params['roomId']));
         }
+
         if (!empty($params['mobile'])) {
-            $find->andWhere('mobile like ' . trim($params['mobile']) . '%');
+            $find->andWhere('mobile like "' . trim($params['mobile']) . '%"');
         }
         if(!empty($params['type'])){
             $find->andWhere('type=' . trim($params['type']));
         }
+
         //注册时间
         if (!empty($params['startTime'])) {
-            $find->andWhere(['>=', 'created', $params['startTime']]);
+            $find->andWhere(['>=', 'created', strtotime($params['startTime'])]);
         }
         if (!empty($params['endTime'])) {
-            $find->andWhere(['<=', 'created', $params['endTime']]);
+            $find->andWhere(['<=', 'created', strtotime($params['endTime'])]);
         }
-
-        if (isset($params['content'])) {
-            if (ctype_digit($params['content']) && is_numeric($params['content'])) {
-                $find->andWhere('roomId =' . $params['content']);
-            } else {
-                $find->andWhere('nickName like \'%' . $params['content'] . '%\'');
+        if(!empty($params['isAuth'])){
+            if($params['isAuth'] == 1){
+                $find->andWhere(['<>', 'realName', '']);
+                $find->andWhere(['<>', 'mobile', '']);
             }
+            else if($params['isAuth'] == 2){
+                $find->andWhere('realName=""');
+                $find->andWhere('mobile=""');
+            }
+        }
+        //状态
+        if(isset($params['playType']) && $params['playType'] == 1){//正常  playTpye = 0
+            $find->andWhere('playType=0');
+        }
+        else if(isset($params['playType']) && $params['playType'] == 2){//禁播  playTpye = 1 或者2
+            $find->andWhere(['playType'=>[1,2]]);
+        }
+        else if(isset($params['playType']) && $params['playType'] == 3){ //永久禁播 playTpye = 3
+            $find->andWhere('playType=3');
+        }
+        else if(isset($params['playType']) && $params['playType'] == 4){//停用 playTpye = 4
+            $find->andWhere('playType=4');
         }
         return $find;
     }
@@ -615,6 +632,15 @@ class User extends ActiveRecord
         $model->followees_cnt = intval($params['followees_cnt']);
         $model->save();
         return $model->id;
+    }
+
+    //禁播
+    public static function operateNoplay($params){
+        $model = static::find()->andWhere(['id' => $params['userId']])->one();
+        $model->playType = intval($params['type']);
+        $model->playTime = $_SERVER['REQUEST_TIME'];
+        $model->updated  = $_SERVER['REQUEST_TIME'];
+        $model->save();
     }
 
 }
