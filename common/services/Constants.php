@@ -47,6 +47,14 @@ class Constants
     const MESSAGE_TYPE_LM_USER_LIST_RES = 'lm_user_list_res'; // 连麦响应
     const MESSAGE_TYPE_CLOSE_CALL_REQ = 'close_call_req';
     const MESSAGE_TYPE_CLOSE_CALL_RES = 'close_call_res';
+    const MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_REQ = 'prohibit_live_one_day_req'; // 禁播24小时
+    const MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_RES = 'prohibit_live_one_day_res';
+    const MESSAGE_TYPE_PROHIBIT_LIVE_30_DAYS_REQ = 'prohibit_live_30_days_req'; // 禁播30天
+    const MESSAGE_TYPE_PROHIBIT_LIVE_30_DAYS_RES = 'prohibit_live_30_days_res';
+    const MESSAGE_TYPE_PERPETUAL_PROHIBIT_LIVE_REQ = 'perpetual_prohibit_live_req'; // 永久禁播
+    const MESSAGE_TYPE_PERPETUAL_PROHIBIT_LIVE_RES = 'perpetual_prohibit_live_res';
+    const MESSAGE_TYPE_PROHIBIT_ACCOUNT_NUMBER_REQ = 'perpetual_account_number_req'; // 禁封账号
+    const MESSAGE_TYPE_PROHIBIT_ACCOUNT_NUMBER_RES = 'perpetual_account_number_res';
 
     const MESSAGE_TYPE_GAG_REQ = 'gag_req';
     const MESSAGE_TYPE_GAG_RES = 'gag_res';

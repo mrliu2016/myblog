@@ -23,6 +23,8 @@ class LiveController extends BaseController
 
     /**
      * 直播人气列表-最热
+     *
+     * @throws \yii\db\Exception
      */
     public function actionHot()
     {
@@ -33,11 +35,14 @@ class LiveController extends BaseController
         $list = Video::queryHot($params);
         $totalCount = intval(Video::queryInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
-        $this->jsonReturnSuccess(
-            Constants::CODE_SUCCESS,
-            '',
-            compact('totalCount', 'page', 'size', 'pageCount', 'list')
-        );
+        if (!empty($list)) {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '',
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+            );
+        }
+        $this->jsonReturnError(Constants::CODE_FAILED);
     }
 
     /**
