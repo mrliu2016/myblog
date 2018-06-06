@@ -57,8 +57,7 @@ class Constants
     const MESSAGE_TYPE_PROHIBIT_ACCOUNT_NUMBER_RES = 'perpetual_account_number_res';
     const MESSAGE_TYPE_BLACKLIST_REQ = 'blacklist_req'; // 拉黑
     const MESSAGE_TYPE_BLACKLIST_RES = 'blacklist_res';
-
-    const MESSAGE_TYPE_GAG_REQ = 'gag_req';
+    const MESSAGE_TYPE_GAG_REQ = 'gag_req'; // 禁言
     const MESSAGE_TYPE_GAG_RES = 'gag_res';
 
     const WSGIFTORDER = self::PROJECT_NAME . 'WSGiftOrder';
@@ -73,6 +72,7 @@ class Constants
     const WS_USER_BALANCE = self::PROJECT_NAME . 'WSUserBalance';
     const WS_KEYWORD = self::PROJECT_NAME . ':WSKeyword';
     const WS_SEND_GIFT_VIRTUAL_CURRENCY = self::PROJECT_NAME . ':WSSendGiftVirtualCurrency_'; // 送礼虚拟货币
+    const WS_GAG = self::PROJECT_NAME.':WSGag_'; // 禁言
 
     const WS_HEARTBEAT_IDLE_TIME = 30; // TCP连接如果在30秒内
     const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
