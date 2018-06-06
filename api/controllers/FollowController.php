@@ -57,7 +57,7 @@ class FollowController extends BaseController
         }
         $result = FollowService::getUserFollowList($params);
         if ($result['code'] == Constants::CODE_FAILED) {
-            $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '', []);
         }
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
     }
