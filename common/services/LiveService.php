@@ -402,14 +402,14 @@ class LiveService
         return intval($num);
     }
 
-    public static function leaveRoom($server, $frame, $message, $fd = 0, $isExceptionExit = false)
+    public static function quitRoom($server, $frame, $message, $fd = 0, $isExceptionExit = false)
     {
         $startTime = microtime(true);
 
         $params = $message['data'];
         if (!empty($params)) {
             $messageAll = [
-                'messageType' => Constants::MESSAGE_TYPE_LEAVE_RES,
+                'messageType' => Constants::MESSAGE_TYPE_QUIT_RES,
                 'code' => Constants::CODE_SUCCESS,
                 'message' => '',
                 'data' => [
@@ -449,7 +449,7 @@ class LiveService
             static::broadcast($server, $fdList, $messageAll, $params['roomId']);
             static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::broadcast】运行时长：');
 
-            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::leaveRoom】运行时长：');
+            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::quitRoom】运行时长：');
         }
     }
 
@@ -475,6 +475,9 @@ class LiveService
             // 清除心跳
             $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
             $redis->hdel($keyLatestHeartbeat, $userId);
+            if (static::isManager($roomId, $fdId)) {
+                $redis->del(Constants::WS_GAG . $ip . '_' . $roomId); // 禁言
+            }
         }
         static::updateConnection();
     }
@@ -845,9 +848,9 @@ class LiveService
                         'level' => $userInfo['level']
                     ];
                     $tmp = microtime(true);
-                    static::leaveRoom($server, null, $message, $fd, true);
+                    static::quitRoom($server, null, $message, $fd, true);
                     $redis->hdel($keyLatestHeartbeat, $userId);
-                    static::runtimeConsumeTime($tmp, microtime(true), '【static::leaveRoom】运行时长：');
+                    static::runtimeConsumeTime($tmp, microtime(true), '【static::quitRoom】运行时长：');
                 }
             } else {
                 self::leave($fd, $roomId);
