@@ -253,7 +253,7 @@ class LiveService
         static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::roomMemberNum】运行时长：');
 
         $tmpStartTime = microtime(true);
-        $userList = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
+        $userList = array_values(LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true));
         static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::getUserInfoListByRoomId】运行时长：');
 
         $resMessage = [
@@ -433,7 +433,7 @@ class LiveService
             static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::clearLMList】运行时长：');
 
             $tmp = microtime(true);
-            $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId']));
+            $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true));
             static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::getUserInfoListByRoomId】运行时长：');
 
             $tmp = microtime(true);
