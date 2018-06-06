@@ -994,4 +994,16 @@ class LiveService
             return $buckets[0]['node'];
         }
     }
+
+    /**
+     * 禁播一天
+     *
+     * @param $request
+     * @param $response
+     * @param $message
+     */
+    public static function prohibitLiveOneDay($request, $response, $message)
+    {
+
+    }
 }

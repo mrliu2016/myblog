@@ -93,6 +93,15 @@ class WebSocketController extends Controller
         $this->server->on('request', function (\swoole_http_request $request, \swoole_http_response $response) {
             $message = strtolower($request->server['request_method']) == 'get' ? $request->get : $request->post;
             switch ($message['messageType']) {
+                case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_REQ: // 禁播24小时
+                    LiveService::prohibitLiveOneDay($request, $response, $message);
+                    break;
+                case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_30_DAYS_REQ: // 禁播30天
+                    break;
+                case Constants::MESSAGE_TYPE_PERPETUAL_PROHIBIT_LIVE_REQ: // 永久禁播
+                    break;
+                case Constants::MESSAGE_TYPE_PROHIBIT_ACCOUNT_NUMBER_REQ: // 禁封账号
+                    break;
                 default:
                     break;
             }
