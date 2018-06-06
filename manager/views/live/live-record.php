@@ -32,7 +32,7 @@ $this->title = '直播记录';
                 </div>
             </form>
         </div>
-
+        <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
             <thead class="c-table-thead s-gift-thead">
             <tr>
@@ -44,6 +44,7 @@ $this->title = '直播记录';
                 <th>观众数</th>
                 <th>开始时间</th>
                 <th>结束时间</th>
+                <th>操作</th>
             </tr>
             </tr>
             </thead>
@@ -69,11 +70,15 @@ $this->title = '直播记录';
                         <td>
                             <?= date('Y-m-d H:i', $item['updated']) ?>
                         </td>
+                        <td>
+                            <a href="/live/play-back">查看回访</a>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <p class="s-gift-count">共 125 条记录</p>
+        </div>
+        <p class="s-gift-count">共 <?= $count ?> 条记录</p>
     </div>
     <nav class="text-center">
         <table>

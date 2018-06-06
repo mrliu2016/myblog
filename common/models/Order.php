@@ -196,4 +196,20 @@ class Order extends ActiveRecord
         $result = static ::queryBySQLCondition($sql,false);
         return $result;
     }
+
+    //机器人插入 收到礼物 送出礼物
+    public static function insertRobotGift($userId,$totalPrice,$flag = true){
+
+        $model = new self();
+        if($flag){//收到礼物
+            $model->userIdReceive = $userId;
+        }
+        else{//送出礼物
+            $model->userId = $userId;
+        }
+        $model->totalPrice = $totalPrice;
+        $model->created = time();
+        $model->updated = time();
+        $model->save();
+    }
 }

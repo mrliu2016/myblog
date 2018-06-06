@@ -136,13 +136,6 @@ $this->title = '创建礼物';
 <form action="/gift/create" method="post" enctype="multipart/form-data">
     <table>
         <tr>
-            <td>名字</td>
-            <td style="position: relative">
-                <input type="text" name="name" id="selectId" class=" input_list1"
-                       autocomplete="off" style="width: 170px;">
-            </td>
-        </tr>
-        <tr>
             <td>图片</td>
             <td>
                 <div class="profile_pic_left clearfix pull-left">
@@ -159,15 +152,26 @@ $this->title = '创建礼物';
 
         </tr>
         <tr>
-            <td>价钱</td>
+            <td>礼物名称*:</td>
+            <td><input class="input_list" type="text" name="name"></td>
+        </tr>
+        <tr>
+            <td>价格</td>
             <td><input class="input_list" type="text" name="price"></td>
         </tr>
         <tr>
+            <td>是否连发</td>
+            <td>
+                <input type="radio" value="1" name="fire">是
+                <input type="radio" value="0" name="fire" checked>否</td>
+        </tr>
+        <tr>
             <td></td>
-            <td><input type="submit" value="提交" class="submit_but"></td>
+            <td><input type="submit" value="提交" class="submitBtn"></td>
         </tr>
     </table>
 </form>
+
 <script type="text/javascript">
     $("#show-list").on("click", function () {
         $(".hidden-list").show();
@@ -178,7 +182,11 @@ $this->title = '创建礼物';
         $(".hidden-list").hide();
         $("#show-list").show();
         $("#show-hid").hide();
-    })
+    });
+
+    // $(".submitBtn").click(function () {
+    //     alert(111);
+    // });
 
 </script>
 

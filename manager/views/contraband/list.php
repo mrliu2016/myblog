@@ -18,10 +18,11 @@ $this->title = '违禁词管理';
                 </div>
             </form>
         </div>
-        <!--<div class="s-gitf-operate">
-            <button class="c-btn u-radius--circle c-btn-primary">新增</button>
-            <a class="c-a s-gift-setting">设置连击</a>
-        </div>-->
+        <div class="s-gitf-operate">
+            <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/add-word">新增</a>
+            <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/batch-word">Excel导入</a>
+        </div>
+        <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
             <thead class="c-table-thead s-gift-thead">
             <tr>
@@ -55,8 +56,8 @@ $this->title = '违禁词管理';
             <?php endforeach; ?>
             </tbody>
         </table>
-        <p class="s-gift-count">共 125 条记录</p>
-
+        </div>
+        <p class="s-gift-count">共 <?= $count ?> 条记录</p>
     </div>
     <nav class="text-center">
         <table>
