@@ -55,6 +55,8 @@ class Constants
     const MESSAGE_TYPE_PERPETUAL_PROHIBIT_LIVE_RES = 'perpetual_prohibit_live_res';
     const MESSAGE_TYPE_PROHIBIT_ACCOUNT_NUMBER_REQ = 'perpetual_account_number_req'; // 禁封账号
     const MESSAGE_TYPE_PROHIBIT_ACCOUNT_NUMBER_RES = 'perpetual_account_number_res';
+    const MESSAGE_TYPE_BLACKLIST_REQ = 'blacklist_req'; // 拉黑
+    const MESSAGE_TYPE_BLACKLIST_RES = 'blacklist_res';
 
     const MESSAGE_TYPE_GAG_REQ = 'gag_req';
     const MESSAGE_TYPE_GAG_RES = 'gag_res';

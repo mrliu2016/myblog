@@ -1074,4 +1074,35 @@ class LiveService
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
     }
+
+    /**
+     * 拉黑
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    public static function blacklist($server, $frame, $message)
+    {
+        $ip = self::getWsIp($message['data']['roomId']);
+        $redis = RedisClient::getInstance();
+        // 判断adminUserId是否有权限拉黑
+        if (self::isManager($message['data']['roomId'], $frame->fd)) {
+            $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $message['data']['roomId'];
+            $user = json_decode($redis->hget($keyWSRoomUser, $message['data']['userId']), true);
+            if (!empty($user)) {
+//                $messageMessage = [
+//                    'messageType' => Constants::MESSAGE_TYPE_KICK_RES,
+//                    'code' => Constants::CODE_SUCCESS,
+//                    'message' => '',
+//                    'data' => [
+//                        'roomId' => $params['roomId'],
+//                        'userId' => $params['userId'],
+//                        'expiry' => $params['expiry'],
+//                    ],
+//                ];
+//                $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+            }
+        }
+    }
 }

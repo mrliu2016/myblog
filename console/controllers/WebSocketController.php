@@ -84,6 +84,9 @@ class WebSocketController extends Controller
                     case Constants::MESSAGE_TYPE_CLOSE_CALL_REQ: // 断开连麦
                         LiveService::closeCall($server, $frame, $message);
                         break;
+                    case Constants::MESSAGE_TYPE_BLACKLIST_REQ: // 黑名单
+                        LiveService::blacklist($server, $frame, $message);
+                        break;
                     default:
                         $this->server->push($frame->fd, json_encode(["message not match", $frame->fd]));
                 }
