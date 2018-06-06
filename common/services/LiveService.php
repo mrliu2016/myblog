@@ -1156,6 +1156,8 @@ class LiveService
             if (!empty($userInfo)) {
                 $responseMessage = [
                     'messageType' => Constants::MESSAGE_TYPE_BLACKLIST_RES,
+                    'code' => Constants::CODE_SUCCESS,
+                    'message' => '你已被主播拉黑',
                     'data' => [
                         'userId' => $message['data']['userId'],
                         'roomId' => $message['data']['roomId'],
@@ -1164,6 +1166,14 @@ class LiveService
                 ];
                 $server->push(intval($userInfo['fd']), json_encode($responseMessage));
             }
+        } else {
+            $responseMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_BLACKLIST_RES,
+                'code' => Constants::CODE_FAILED,
+                'message' => '禁止操作',
+                'data' => []
+            ];
+            $server->push($frame->fd, json_encode($responseMessage));
         }
     }
 }
