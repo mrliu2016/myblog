@@ -48,7 +48,7 @@ $this->title = '用户详情';
         </p>
         <p class="s-details_item">
             <span class="s-details_item-title">身份证号：</span>
-            <span class="s-details_item-value"><?=$item['isCard']?></span>
+            <span class="s-details_item-value"><?=$item['idCard']?></span>
         </p>
         <p class="s-details_item">
             <span class="s-details_item-title">粉丝数：</span>
