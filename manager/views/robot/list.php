@@ -67,7 +67,7 @@ $this->title = '机器人管理';
                         <?= $item['sex'] ?>
                     </td>
                     <td>
-                        <?= $item['address'] ?>
+                        <?= $item['province'].$item['city'] ?>
                     </td>
                     <td><!--个性签名-->
                         <?= $item['description'] ?>
@@ -85,7 +85,7 @@ $this->title = '机器人管理';
                         <?= $item['sendValue'] ?>
                     </td>
                     <td>
-                        <?= date('Y-m-d H:i',$item['udpated']) ?>
+                        <?= date('Y-m-d H:i',$item['updated']) ?>
                     </td>
                     <td>
                         <a href="/robot/edit-robot?id=<?= $item['id'] ?>">编辑</a>
