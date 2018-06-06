@@ -7,7 +7,6 @@ use app\common\models\Report;
 use app\common\models\User;
 use app\common\models\Video;
 use app\common\services\Constants;
-use app\common\services\LiveService;
 use Yii;
 use yii\data\Pagination;
 
@@ -44,7 +43,6 @@ class UserController extends BaseController
         if(empty($params['id'])){
             unset($params['id']);
         }
-
         foreach ($result as $key => &$val){
             if(!empty($val['realName']) && !empty($val['idCard']) && !empty($val['mobile'])){
                 $val['isValid'] = 1;
@@ -107,6 +105,11 @@ class UserController extends BaseController
         $params = Yii::$app->request->get();
         $id = intval($params['id']);
         $user = User::queryById($id);
+
+        $user['isAuth'] = 0;
+        if(!empty($user['realName']) && !empty($user['isCard'])){
+            $user['isAuth'] = 1;
+        }
         //送出礼物
         $receiveValue = Order::queryReceiveGiftByUserId($id,true);
         if(empty($receiveValue) || empty($receiveValue['totalPrice'])){

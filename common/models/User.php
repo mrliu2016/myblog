@@ -564,29 +564,58 @@ class User extends ActiveRecord
     public static function batchInsertRobotInfo($data){
 
         if (!empty($data) && isset($data)) {
-            $sql = 'INSERT INTO ' . static::tableName()
-                . ' (`nickName`, `sex`, `description`, `roomId`, `province`, `city`, `type`, `created`, `updated`, `followers_cnt`, `followees_cnt`) values ';
-            $value = '';
-            foreach ($data as $key => $val) {
+            foreach ($data as $val) {
+                $sql = 'INSERT INTO ' . static::tableName()
+                . ' (`nickName`, `sex`,  `roomId`, `province`, `city`, `type`, `created`, `updated`, `followers_cnt`, `followees_cnt`,`description`) values ';
+                 $value = '';
                 $value .= '(';
                 $value .= '\''.$val[0].'\',';
                 $value .= $val[1].',';
-                $value .= '\''.$val[2].'\',';
-                $value .= $val[3].',';
-                $value .= $val[4].',';
-                $value .= $val[5].',';
-                $value .= $val[6].',';
+                $value .= $val[2].',';
+                $value .= '\''.$val[3].'\',';
+                $value .= '\''.$val[4].'\',';
                 $value .= '1,';
                 $value .= $_SERVER['REQUEST_TIME'].',';
                 $value .= $_SERVER['REQUEST_TIME'].',';
-                $value .= '\''.$val[7].'\',';
+                $value .= '\''.$val[5].'\',';
+                $value .= $val[6].',';
+//                $value .= $val[7].',';
+                $value .= '\''.$val[9].'\',';
                 $value = trim($value,',');
-                $value  .= '),';
+                $value  .= ')';
+                $sql .= $value;
+                Yii::$app->db->createCommand($sql)->execute();
+                $userId = Yii::$app->db->getLastInsertId();
+                Order::insertRobotGift($userId,$val[7],true);
+                Order::insertRobotGift($userId,$val[8],false);
             }
-            $sql .= trim($value, ',');
-            return static::executeBySqlCondition($sql);
-
+            return ['code'=>0];
         }
+        return ['code'=>-1];
     }
+
+    //删除机器人
+    public static function deleteRobot($id)
+    {
+        return static::find()->andWhere(['id' => $id])->one()->delete();
+    }
+
+    //编辑机器人
+    public static function editRobot($params){
+
+        $model = static::find()->andWhere(['id' => $params['id']])->one();
+        $model->nickName = trim($params['nickName']);
+        $model->sex = intval($params['sex']);
+        $model->description = trim($params['description']);
+        $model->roomId = static::generateId();
+        $model->province = trim($params['province']);
+        $model->city = trim($params['city']);
+        $model->updated = time();
+        $model->followers_cnt = intval($params['followers_cnt']);
+        $model->followees_cnt = intval($params['followees_cnt']);
+        $model->save();
+        return $model->id;
+    }
+
 }
 

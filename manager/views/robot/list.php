@@ -25,10 +25,10 @@ $this->title = '机器人管理';
                 </div>
             </form>
         </div>
-        <!--<div class="s-gitf-operate">
-            <button class="c-btn u-radius--circle c-btn-primary">新增</button>
-            <a class="c-a s-gift-setting">设置连击</a>
-        </div>-->
+        <div class="s-gitf-operate">
+            <a class="c-btn u-radius--circle c-btn-primary" href="/robot/add-robot" >新增</a>
+            <a class="c-btn u-radius--circle c-btn-primary" href="/robot/batch-add">批量新增</a>
+        </div>
         <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
             <thead class="c-table-thead s-gift-thead">
@@ -78,12 +78,18 @@ $this->title = '机器人管理';
                     <td><!--粉丝数-->
                         <?= $item['followers_cnt'] ?>
                     </td>
+                    <td><!--收到礼物-->
+                        <?= $item['receiveValue'] ?>
+                    </td>
+                    <td><!--送出礼物-->
+                        <?= $item['sendValue'] ?>
+                    </td>
                     <td>
                         <?= date('Y-m-d H:i',$item['udpated']) ?>
                     </td>
                     <td>
-                        <a href="/gift/gift-edit?id=<?= $item['id'] ?>">编辑</a>
-                        <a href="/gift/gift-delete?id=<?= $item['id'] ?>">删除</a>
+                        <a href="/robot/edit-robot?id=<?= $item['id'] ?>">编辑</a>
+                        <a href="/robot/delete-robot?id=<?= $item['id'] ?>">删除</a>
                     </td>
                 </tr>
             <?php endforeach; ?>

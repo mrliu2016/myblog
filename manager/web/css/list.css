@@ -256,3 +256,109 @@ select.c-input {
     width: 75px;
     text-align: right;
 }
+
+.s-robot-form {
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #999999;
+    padding: 30px;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 2px 4px 2px rgba(234,234,234,0.50);
+    border-radius: 10px;
+}
+.s-robot-form_upload {
+    display: inline-block;
+    position: relative;
+    height: 220px;
+    border-bottom: 1px #D8D8D8 solid;
+}
+.s-robot-form_title {
+    font-size: 16px;
+    color: #364557;
+    margin-bottom: 18px;
+}
+.s-robot-form_selectimg {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    float: left;
+    background: #F0F0F0;
+    box-sizing: content-box;
+}
+.s-robot-form_selectimg-icon1,
+.s-robot-form_selectimg-icon2 {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 80px;
+    height: 6px;
+    margin: auto;
+    background: #D8D8D8;
+    border-radius: 5px;
+}
+.s-robot-form_selectimg-icon2 {
+    width: 6px;
+    height: 80px;
+}
+.s-robot-form_headimg {
+    padding-left: 30px;
+    width: 200px;
+    height: 200px;
+    float: left;
+    padding-bottom: 20px;
+    border-bottom: 1px #D8D8D8 solid;
+    box-sizing: content-box;
+}
+.s-robot-form_img-tips {
+    position: absolute;
+    left: calc(100% + 30px);
+    white-space: nowrap;
+    bottom: 4px;
+}
+
+.s-robot-form-details {
+    margin-top: 20px;
+}
+.s-robot-form_six-input {
+    width: 200px;
+}
+.s-robot-form_give-wrap,
+.s-robot-form_receive-wrap {
+    position: relative;
+}
+.s-robot-form_give,
+.s-robot-form_receive {
+    padding-right: 24px;
+}
+.s-robot-form_receive-wrap::after {
+    content: '豆';
+    position: absolute;
+    right: 6px;
+    top: 0;
+}
+.s-robot-form_give-wrap::after {
+    content: '币';
+    position: absolute;
+    right: 6px;
+    top: 0;
+}
+.s-robot-form_signature {
+    width: 430px;
+}
+.s-robot-form_address-select {
+    width: 110px;
+}
+
+.s-robot-form_btns {
+    margin-top: 40px;
+}
+.s-robot-form_confirm {
+    height: 35px;
+    margin: 0 48px 0 10px;
+}
+.s-robot-form_cancel {
+    height: 35px;
+}

@@ -16,15 +16,15 @@ $this->title = '编辑礼物';
             <tbody>
                 <tr>
                     <td>ID</td>
-                    <td id="id"><?= $id ?></td>
+                    <td id="id"><?= $item['id'] ?></td>
                 </tr>
                 <tr>
                     <td>礼物名称*:</td>
-                    <td><input type="text" placeholder="0-5个字符长度" id="name"/></td>
+                    <td><input type="text" placeholder="0-5个字符长度" id="name" value="<?=$item['name']?>"/></td>
                 </tr>
                 <tr>
                     <td>价格</td>
-                    <td><input type="text" id="price"/>豆</td>
+                    <td><input type="text" id="price" value="<?=$item['name']?>"/>豆</td>
                 </tr>
                 <tr>
                     <td>是否可以连发</td>
