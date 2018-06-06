@@ -72,6 +72,7 @@ class Constants
     const WS_ROOM_USER_LM_LIST = self::PROJECT_NAME . 'WSRoomUserLMList_';
     const WS_USER_BALANCE = self::PROJECT_NAME . 'WSUserBalance';
     const WS_KEYWORD = self::PROJECT_NAME . ':WSKeyword';
+    const WS_SEND_GIFT_VIRTUAL_CURRENCY = self::PROJECT_NAME . ':WSSendGiftVirtualCurrency_'; // 送礼虚拟货币
 
     const WS_HEARTBEAT_IDLE_TIME = 30; // TCP连接如果在30秒内
     const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
