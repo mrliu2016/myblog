@@ -94,16 +94,16 @@ class WebSocketController extends Controller
             $message = strtolower($request->server['request_method']) == 'get' ? $request->get : $request->post;
             switch ($message['messageType']) {
                 case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_REQ: // 禁播24小时
-                    LiveService::prohibitLiveOneDay($request, $response, $message);
+                    LiveService::prohibitLiveOneDay($this->server, $request, $response, $message);
                     break;
                 case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_30_DAYS_REQ: // 禁播30天
-                    LiveService::prohibitLive30Days($request, $response, $message);
+                    LiveService::prohibitLive30Days($this->server, $request, $response, $message);
                     break;
                 case Constants::MESSAGE_TYPE_PERPETUAL_PROHIBIT_LIVE_REQ: // 永久禁播
-                    LiveService::perpetualProhibitLive($request, $response, $message);
+                    LiveService::perpetualProhibitLive($this->server, $request, $response, $message);
                     break;
                 case Constants::MESSAGE_TYPE_PROHIBIT_ACCOUNT_NUMBER_REQ: // 禁封账号
-                    LiveService::prohibitAccountNumber($request, $response, $message);
+                    LiveService::prohibitAccountNumber($this->server, $request, $response, $message);
                     break;
                 default:
                     break;

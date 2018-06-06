@@ -998,48 +998,81 @@ class LiveService
     /**
      * 禁播一天
      *
+     * @param $server
      * @param $request
      * @param $response
      * @param $message
      */
-    public static function prohibitLiveOneDay($request, $response, $message)
+    public static function prohibitLiveOneDay($server, $request, $response, $message)
     {
-
+        static::forwardingProhibit($server, $request, $response, $message, Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_RES);
     }
 
     /**
      * 禁播30天
      *
+     * @param $server
      * @param $request
      * @param $response
      * @param $message
      */
-    public static function prohibitLive30Days($request, $response, $message)
+    public static function prohibitLive30Days($server, $request, $response, $message)
     {
-
+        static::forwardingProhibit($server, $request, $response, $message, Constants::MESSAGE_TYPE_PROHIBIT_LIVE_30_DAYS_RES);
     }
 
     /**
      * 永久禁播
      *
+     * @param $server
      * @param $request
      * @param $response
      * @param $message
      */
-    public static function perpetualProhibitLive($request, $response, $message)
+    public static function perpetualProhibitLive($server, $request, $response, $message)
     {
-
+        static::forwardingProhibit($server, $request, $response, $message, Constants::MESSAGE_TYPE_PERPETUAL_PROHIBIT_LIVE_RES);
     }
 
     /**
      * 禁封账号
      *
+     * @param $server
      * @param $request
      * @param $response
      * @param $message
      */
-    public static function prohibitAccountNumber($request, $response, $message)
+    public static function prohibitAccountNumber($server, $request, $response, $message)
     {
 
+        static::forwardingProhibit($server, $request, $response, $message, Constants::MESSAGE_TYPE_PROHIBIT_ACCOUNT_NUMBER_RES);
+    }
+
+    /**
+     * 转发禁播
+     *
+     * @param $server
+     * @param $request
+     * @param $response
+     * @param $message
+     * @param string $messageType
+     */
+    private static function forwardingProhibit($server, $request, $response, $message, $messageType = Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_RES)
+    {
+        $redisClient = RedisClient::getInstance();
+        $ip = static::getWsIp($message['data']['roomId']);
+        $key = Constants::WS_ROOM_USER . $ip . '_' . $message['data']['roomId'];
+        $userInfo = json_decode($redisClient->hget($key, $message['data']['userId']), true);
+        if (!empty($userInfo)) {
+            $responseMessage = [
+                'messageTpye' => $messageType,
+                'data' => [
+                    'userId' => $message['data']['userId'],
+                    'roomId' => $message['data']['roomId'],
+                    'message' => $message['data']['message']
+                ]
+            ];
+            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+        }
     }
 }
