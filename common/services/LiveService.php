@@ -1006,4 +1006,40 @@ class LiveService
     {
 
     }
+
+    /**
+     * 禁播30天
+     *
+     * @param $request
+     * @param $response
+     * @param $message
+     */
+    public static function prohibitLive30Days($request, $response, $message)
+    {
+
+    }
+
+    /**
+     * 永久禁播
+     *
+     * @param $request
+     * @param $response
+     * @param $message
+     */
+    public static function perpetualProhibitLive($request, $response, $message)
+    {
+
+    }
+
+    /**
+     * 禁封账号
+     *
+     * @param $request
+     * @param $response
+     * @param $message
+     */
+    public static function prohibitAccountNumber($request, $response, $message)
+    {
+
+    }
 }
