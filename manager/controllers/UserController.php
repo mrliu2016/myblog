@@ -2,9 +2,12 @@
 
 namespace app\manager\controllers;
 
+use app\common\components\AHelper;
+use app\common\models\Contraband;
 use app\common\models\Order;
 use app\common\models\Report;
 use app\common\models\User;
+use app\common\models\UserNoplay;
 use app\common\models\Video;
 use app\common\services\Constants;
 use Yii;
@@ -129,6 +132,64 @@ class UserController extends BaseController
         return $this->render('detail',[
             'item'=>$user
         ]);
+    }
 
+    //禁播
+    public function actionNoplay(){
+        $params = Yii::$app->request->post();
+        $type = $params['type'];
+        $messageType = '';
+        $message = '';
+        switch ($type){
+            case 1:
+                $messageType = Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_REQ ;
+                $message = '禁播24h';
+                break;
+            case 2:
+                $messageType = Constants::MESSAGE_TYPE_PROHIBIT_LIVE_30_DAYS_REQ ;
+                $message = '禁播30天';
+                break;
+            case 3:
+                $messageType = Constants::MESSAGE_TYPE_PERPETUAL_PROHIBIT_LIVE_REQ;
+                $message = '永久禁播';
+                break;
+            case 4:
+                $messageType = Constants::MESSAGE_TYPE_PROHIBIT_ACCOUNT_NUMBER_REQ;
+                $message = '封禁账号';
+                break;
+        }
+        $params['message'] = $message;
+        if(UserNoplay::operateNoplay($params)){
+//            $userId = $params['userId'];
+            //直播
+            $liveResult = Video::isLive($params['userId']);
+//            if(!empty($liveResult)){//是直播
+                $roomId = $params['roomId'];
+                //推送信息
+                $data = array(
+                    'messageType'=>$messageType,
+                    'data'=>array(
+                        'userId'=>$params['userId'],
+                        'roomId'=>$params['roomId'],
+                        'message'=>$message,
+                    ),
+                );
+                $url = Yii::$app->params['shareUrl'].'/server/location?roomId='.$roomId;//http://dev.api.customize.3ttech.cn/server/location
+                $result = AHelper::curl_get($url);
+                $result = json_decode($result,true);
+                $roomServer = $result['data']['roomServer'];
+                $host = $roomServer['host'];
+                $port = $roomServer['port'];
+                $url = 'http://'.$host.':'.$port;
+                $result = AHelper::curlPost($url,json_encode($data));
+//            }
+//            else{//发送系统消息
+//
+//            }
+            $this->jsonReturnSuccess(0);
+        }
+        else{
+            $this->jsonReturnError(-1);
+        }
     }
 }

@@ -95,6 +95,7 @@ class WebSocketController extends Controller
 
         $this->server->on('request', function (\swoole_http_request $request, \swoole_http_response $response) {
             $message = strtolower($request->server['request_method']) == 'get' ? $request->get : $request->post;
+            ll(json_encode($message), 'webSocketMessage.log');
             switch ($message['messageType']) {
                 case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_REQ: // 禁播24小时
                     LiveService::prohibitLiveOneDay($this->server, $request, $response, $message);
