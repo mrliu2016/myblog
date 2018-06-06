@@ -20,12 +20,13 @@ $this->title = '直播管理';
                         <span>房间号</span>
                         <input class="c-input s-gift-search-input" type="text" name="roomId" placeholder="房间号">
                     </div>
+                    <br/>
                     <div class="s-gift-search-item">
-                        <input type="text" style="width: 120px" id="startTime" name="startTime"
+                        <input type="text" style="width: 120px" name="startTime"
                                class="form-control datepicker-pop">
                     </div>
                     <div class="s-gift-search-item">
-                        <input type="text" style="width: 120px" id="startTime" name="startTime"
+                        <input type="text" style="width: 120px" name="endTime"
                                class="form-control datepicker-pop">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
@@ -78,8 +79,8 @@ $this->title = '直播管理';
                         } ?>
                     </td>
                     <td>
-                        <a href="#" onclick="check(<?=$item['id']?>)">查看</a>
-                        <a href="#" onclick="forbid(<?=$item['id']?>)">禁播</a>
+                        <a href="/live/check?id=<?=$item['id']?>">查看</a>
+                        <a href="#" onclick="noplay(<?=$item['id']?>,<?=$item['roomId']?>)">禁播</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -99,12 +100,29 @@ $this->title = '直播管理';
     </nav>
 </div>
 
+<!--禁播弹框start-->
+<div class="c-modal-wrap s-banlive" style="display: none;">
+    <div class="c-modal">
+        <div class="c-modal-close s-banlive-close">关闭</div>
+        <div class="s-banlive-content">
+            <button class="c-btn s-banlive-btn" data-val="1">禁播24h</button>
+            <button class="c-btn s-banlive-btn c-btn-primary" data-val="2">禁播30天</button>
+            <button class="c-btn s-banlive-btn" data-val="3">永久禁播</button>
+            <button class="c-btn s-banlive-btn" data-val="4">解封账号</button>
+        </div>
+        <div class="c-modal-footer s-banlive-operate">
+            <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+            <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
+        </div>
+    </div>
+</div>
+<!--禁播弹框end-->
 
 <script type="text/javascript">
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
-
+    //时间插件
     $(".datepicker-pop").datetimepicker({
         todayHighlight: true,
         todayBtn: true,
@@ -112,6 +130,21 @@ $this->title = '直播管理';
         minView: 3,
         format: 'yyyy-mm-dd',
         language: 'zh-CN'
+    });
+    //关闭
+    $(".s-banlive-close").click(function () {
+        $(".s-banlive").css("display","none");
+    });
+
+    //取消
+    $(".s-banlive-cancel").click(function () {
+        $(".s-banlive").css("display","none");
+    });
+    //封禁类型
+    $(".s-banlive-btn").click(function () {
+        // console.log($(this).attr("data-val"));
+        $(this).siblings().removeClass("c-btn-primary");
+        $(this).addClass("c-btn-primary");
     });
 
     function detail(serverName, begin, end) {
@@ -156,22 +189,37 @@ $this->title = '直播管理';
     }
 
     //禁播
-    function forbid(id) {
-        var params = {};
-        params.id = id;
-        $.ajax({
-            url: "/live/forbid",
-            type: "post",
-            data: params,
-            // cache: false,
-            dataType: "json",
-            success: function (data) {
+    function noplay(userId,roomId) {
+        $(".s-banlive").css("display","block");
+        $(".s-banlive-confirm").unbind('click').bind('click',function () {
+            var type = 0;
+            $(".s-banlive-btn").each(function () {
+                if($(this).hasClass("c-btn-primary")){
+                    // console.log($(this).attr("data-val"));
+                    type = $(this).attr("data-val")
+                }
+            });
+            var params = {};
+            params.userId = userId;
+            params.roomId = roomId;
+            params.type = type;
 
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('get issue');
-            }
+            console.log(params);
+            $.ajax({
+                type: 'post',
+                url: '/live/noplay',
+                data: params,
+                dataType: 'json',
+                timeout: 5000
+            }).done(function (data) {
+                if(data.code == 0){
+                    alert('禁播成功');
+                }
+                else{
+                    alert('禁播失败');
+                }
+            });
         });
     }
-    
+
 </script>

@@ -194,10 +194,10 @@ class Video extends ActiveRecord
             $find->andWhere('roomId= '.trim($params['roomId']));
         }
         if(!empty($params['startTime'])){
-            $find->andWhere(['>=','startTime',$params['startTime']]);
+            $find->andWhere(['>=','startTime',strtotime($params['startTime'])]);
         }
         if(!empty($params['endTime'])){
-            $find->andWhere(['<=','endTime',$params['endTime']]);
+            $find->andWhere(['<=','endTime',strtotime($params['endTime'])]);
         }
         if(!empty($params['id'])){
             $find->andWhere('id='.$params['id']);

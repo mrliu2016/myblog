@@ -61,7 +61,6 @@ $this->title = '用户管理';
     .switch-list-def span {
         color: #ccc;
     }
-
     .switch-list-on span {
         color: #448AFF;
     }
@@ -69,38 +68,44 @@ $this->title = '用户管理';
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
-            <div class="s-gift-search-content">
+            <form method="get" action="/user/index" id="searchForm" name="searchForm">
+                <div class="s-gift-search-content">
                 <div class="s-gift-search-item">
                     <span>ID</span>
-                    <input class="c-input s-gift-search-input" type="text">
+                    <input class="c-input s-gift-search-input" type="text" name="id">
                 </div>
                 <div class="s-gift-search-item">
                     <span>昵称</span>
-                    <input class="c-input s-gift-search-input" type="text">
+                    <input class="c-input s-gift-search-input" type="text" name="nickName">
                 </div>
                 <div class="s-gift-search-item">
                     <span>房间号</span>
-                    <input class="c-input s-gift-search-input" type="text">
+                    <input class="c-input s-gift-search-input" type="text" name="roomId">
                 </div>
                 <div class="s-gift-search-item">
                     <span>手机号</span>
-                    <input class="c-input s-gift-search-input" type="text">
+                    <input class="c-input s-gift-search-input" type="text" name="mobile">
                 </div>
+                    <br/>
                 <div class="s-gift-search-item">
                     <span>是否认证</span>
                     <span class="select-wrap">
-					<select class="c-input s-gift-search-select" name="bursts" id="borsts" default="0">
-						<option value="0">否</option>
-						<option value="1">是</option>
+					<select class="c-input s-gift-search-select" name="isAuth" id="isAuth" default="0">
+						<option value="0">全部</option>
+                        <option value="1">已认证</option>
+						<option value="2">未认证</option>
 					</select>
 				  </span>
                 </div>
                 <div class="s-gift-search-item">
                     <span>状态</span>
                     <span class="select-wrap">
-					<select class="c-input s-gift-search-select" name="bursts" id="borsts" default="0">
-						<option value="1">启用</option>
-                        <option value="0">禁用</option>
+					<select class="c-input s-gift-search-select" name="playType" id="status" default="0">
+						<option value="0">全部</option>
+                        <option value="1">正常</option>
+                        <option value="2">禁播中</option>
+                        <option value="3">永久禁播</option>
+                        <option value="4">停用</option>
 					</select>
 				  </span>
                 </div>
@@ -116,6 +121,7 @@ $this->title = '用户管理';
                 <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn">查询</button>
 
             </div>
+            </form>
         </div>
         <!--<div class="s-gitf-operate">
             <button class="c-btn u-radius--circle c-btn-primary">新增</button>
@@ -293,39 +299,6 @@ $this->title = '用户管理';
         $(this).siblings().removeClass("c-btn-primary");
         $(this).addClass("c-btn-primary");
     });
-    //禁播提交
-    // $(".s-banlive-confirm").click(function () {
-    //     var type = 0;
-    //     $(".s-banlive-btn").each(function () {
-    //         if($(this).hasClass("c-btn-primary")){
-    //             // console.log($(this).attr("data-val"));
-    //             type = $(this).attr("data-val")
-    //         }
-    //     });
-    //     // console.log(type);
-    //     // var value = $()
-    //     var params = {};
-    //     params.userId = '';
-    //     params.roomId = '';
-    //     params.type = type;
-    //
-    //     $.ajax({
-    //         type: 'post',
-    //         url: '/user/noplay',
-    //         data: params,
-    //         dataType: 'json',
-    //         timeout: 5000
-    //     }).done(function (data) {
-    //         if(data.code == 0){
-    //
-    //         }
-    //         else{
-    //
-    //         }
-    //     });
-    //
-    // });
-
     //禁播方法
     function noplay(userId,roomId) {
         $(".s-banlive").css("display","block");
@@ -358,6 +331,5 @@ $this->title = '用户管理';
                 }
             });
         });
-
     }
 </script>
