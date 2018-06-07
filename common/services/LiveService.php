@@ -274,7 +274,7 @@ class LiveService
                 'level' => intval($params['level']),
                 'count' => $roomMemberNum,
                 'userList' => $userList,
-                'income' => intval(static::masterIncome($params['masterUserId'], $params['roomId'])),
+                'income' => intval(static::masterIncome($params['masterUserId'], $params['roomId']))
             ]
         ];
 
