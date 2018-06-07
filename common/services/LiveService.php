@@ -128,6 +128,7 @@ class LiveService
             'price' => $price,
             'num' => $num,
             'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算以最小单位透传
+            'income' => intval(static::masterIncome($userIdTo, $roomId))
         ];
         $server->push($frame->fd, json_encode($respondMessage));
         static::sendGiftVirtualCurrency($userId, $userIdTo, $roomId, $price * $num);
@@ -147,7 +148,8 @@ class LiveService
             'giftName' => $giftName,
             'giftImg' => $giftImg,
             'price' => $price,
-            'num' => $num
+            'num' => $num,
+            'income' => intval(static::masterIncome($userIdTo, $roomId))
         ];
         $tmpStartTime = microtime(true);
         $roomAll = LiveService::fdListByRoomId($server, $roomId);
@@ -176,7 +178,7 @@ class LiveService
         $redis->hIncrby($key, $userId, intval($virtualCurrency)); // 用户送礼虚拟货币
         $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
 
-        $key = Constants::WS_RECEIVE_GIFT_VIRTUAL_CURRENCY . $wsIp . ':' . $roomId;
+        $key = Constants::WS_INCOME . $wsIp . ':' . $roomId;
         $redis->hIncrby($key, $masterUserId, intval($virtualCurrency)); // 主播接收礼物虚拟货币
         $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
     }
