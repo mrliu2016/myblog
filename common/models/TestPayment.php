@@ -63,6 +63,17 @@ class TestPayment
             'product_id' => $params['goodsid'],
         );
         ksort($data);
+        $data['key'] = self::$WeixinConfig['wxPayKey'];
+        $str = http_build_query($data);
+        $data['sign'] = strtoupper(md5($str));
+        $xml = static::arrToXML($data);
+        //请求统一下单订单接口,微信返回的xml
+        $result = static::postXmlCurl($xml, self::$WeixinConfig['unifiedOrder']);
+        echo $result;
+
+
+        /*
+        ksort($data);
         // 数组转url字符串
         $str = static::arrayToKeyValueString($data);
         // 字符串后面拼接key
@@ -73,7 +84,7 @@ class TestPayment
         $xml = static::arrToXML($data);
         //请求统一下单订单接口,微信返回的xml
         $result = static::postXmlCurl($xml, self::$WeixinConfig['unifiedOrder']);
-        echo $result;
+        echo $result;  */
     }
 
     /**
