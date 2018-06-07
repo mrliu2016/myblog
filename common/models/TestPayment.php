@@ -63,8 +63,8 @@ class TestPayment
             'product_id' => $params['goodsid'],
         );
         ksort($data);
-        $data['key'] = self::$WeixinConfig['wxPayKey'];
         $str = http_build_query($data);
+        $str = static::joinAPI_KEY($str);
         $data['sign'] = strtoupper(md5($str));
         $xml = static::arrToXML($data);
         //请求统一下单订单接口,微信返回的xml
