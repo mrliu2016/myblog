@@ -34,8 +34,35 @@ class TestweiXinAppPay
         $unifiedOrder->setNotifyUrl($weiXinConfig['notifyUrl']);
         $unifiedOrder->setTradeType('APP');
         $wxPayApi = WxPayApi::unifiedOrder($weiXinConfig['unifiedOrder'], $unifiedOrder);
-        print_r($wxPayApi);
+        if ($wxPayApi['code'] == -1) {
+            return ['code' => -1, 'message' => $wxPayApi['message']];
+        }
+        //调起支付接口
+        $result = static::getAppApiParameters($wxPayApi['data'], $weiXinConfig['wxPayKey']);
+        print_r($result);
         die;
     }
 
+
+    public static function getAppApiParameters($result, $wxPayKey)
+    {
+        if (!array_key_exists('appid', $result) || !array_key_exists('mch_id', $result) || !array_key_exists('prepay_id', $result)) {
+            return ['code' => -1, 'message' => '统一的下单未成功'];
+        }
+        $weiXinAppApi = new WxPayAppApiPay();
+        $weiXinAppApi->setPayKey($wxPayKey);
+        $weiXinAppApi->setAppId($result['appid']);
+        $weiXinAppApi->setPartnerId($result['mch_id']);
+        $weiXinAppApi->setPrepayId($result['prepay_id']);
+        $weiXinAppApi->setPackage($result['Sign=WXPay']);
+        $weiXinAppApi->setNonceStr(WxPayApi::getNonceStr());
+        $weiXinAppApi->setTimeStamp(strval(time()));
+        $weiXinAppApi->setSignType($result['sign']);
+        $weiXinAppApi->setPaySign($weiXinAppApi->makeSign());
+        return [
+            'code' => 1,
+            'message' => 'app api parameters success!',
+            'data' => $weiXinAppApi->getValues()
+        ];
+    }
 }
