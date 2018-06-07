@@ -21,8 +21,8 @@ class WebSocketController extends Controller
         $setConfig = [
             'ssl_key_file' => '/etc/nginx/cert/dev_api_demo.key',
             'ssl_cert_file' => '/etc/nginx/cert/dev_api_demo.pem',
-//            'heartbeat_check_interval' => Constants::WS_HEARTBEAT_CHECK_INTERVAL,
-//            'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME,
+            'heartbeat_check_interval' => Constants::WS_HEARTBEAT_CHECK_INTERVAL,
+            'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME,
             'max_connection' => Constants::WS_WEB_SOCKET_MAX_CONNECTION, // 最大链接数
             'worker_num' => Constants::WS_WORKER_NUM, // worker 数
             'socket_buffer_size' => intval(Constants::WS_SOCKET_BUFFER_SIZE), // M 必须为数字 用于设置客户端连接最大允许占用内存数量
@@ -124,7 +124,7 @@ class WebSocketController extends Controller
     public function actionGiftOrder()
     {
         $redis = RedisClient::getInstance();
-        while ($order = $redis->rpop(Constants::WSGIFTORDER)) {
+        while ($order = $redis->rpop(Constants::QUEUE_WS_GIFT_ORDER)) {
             $order = json_decode(base64_decode($order), true);
             $giftId = $order['giftId'];
             $userId = $order['userId'];

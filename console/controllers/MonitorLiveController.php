@@ -4,6 +4,8 @@ namespace app\console\controllers;
 
 use app\common\components\RedisClient;
 use app\common\components\RongCloud;
+use app\common\models\Gift;
+use app\common\models\Order;
 use app\common\models\User;
 use app\common\models\Video;
 use app\common\services\Constants;
@@ -53,10 +55,43 @@ class MonitorLiveController extends Controller
         }
     }
 
-
-    public function actionRongCloud()
+    /**
+     * 监控礼物队列
+     *
+     *
+     * 'giftId' => $giftId,
+     * 'userId' => $userId,
+     * 'userIdTo' => $userIdTo,
+     * 'num' => $num,
+     * 'price' => $price
+     * 'roomId' => $roomId
+     *
+     */
+    public function actionMonitorGift()
     {
-        $token = RongCloud::getToken('10000','nickName');
-        var_dump($token);
+        try {
+            $redis = RedisClient::getInstance();
+            while ($order = $redis->rpop(Constants::QUEUE_WS_GIFT_ORDER)) {
+                $itemList = json_decode(base64_decode($order), true);
+                // 支出
+                $userModel = User::queryById($itemList['userId'], true);
+                $priceReal = $itemList['price'] * $itemList['num'];
+                if (!empty($userModel)) {
+                    $userModel->balance -= $priceReal;
+                    $userModel->expenditure += $priceReal;
+                    $userModel->save();
+                }
+                Order::create($itemList['roomId'], $itemList['giftId'], $itemList['userId'],
+                    $itemList['userIdTo'], $itemList['price'], $itemList['num']);
+                // 收入
+                $toUserModel = User::queryById($itemList['userIdTo'], true);
+                if (!empty($toUserModel)) {
+                    $toUserModel->income += $priceReal;
+                    $toUserModel->save();
+                }
+            }
+        } catch (\Exception $exception) {
+            ll($exception->getMessage(), 'send_gift_' . date('Y-m-d') . '.log');
+        }
     }
 }

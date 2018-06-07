@@ -60,8 +60,6 @@ class Constants
     const MESSAGE_TYPE_GAG_REQ = 'gag_req'; // 禁言
     const MESSAGE_TYPE_GAG_RES = 'gag_res';
 
-    const WSGIFTORDER = self::PROJECT_NAME . 'WSGiftOrder';
-
     const WS_ROOM_LOCATION = self::PROJECT_NAME . 'WSRoomLocation_';
     const WS_ROOM_FD = self::PROJECT_NAME . 'WSRoomFD_';
     const WS_ROOM_USER = self::PROJECT_NAME . 'WSRoomUser_';
@@ -155,8 +153,6 @@ class Constants
     const CDN_FACTORY_WANG_SU = 'wangSu'; // 网宿
 
     const TTT_TECH_TOKEN = '3ttech_token';
-
-    const PROJECT = 'customize';
     const VERIFY_CODE = 'verify_code';
     const VERIFY_CODE_EXPIRES = 300; // 有效期5分钟
     const VERIFY_CODE_REGISTER = 'register'; // 注册

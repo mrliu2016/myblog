@@ -112,7 +112,8 @@ class LiveService
             'userId' => $userId,
             'userIdTo' => $userIdTo,
             'num' => $num,
-            'price' => $price
+            'price' => $price,
+            'roomId' => $roomId
         );
         $redis->lpush(Constants::QUEUE_WS_GIFT_ORDER, base64_encode(json_encode($order)));
         $redis->expire(Constants::QUEUE_WS_GIFT_ORDER, Constants::DEFAULT_EXPIRES);
