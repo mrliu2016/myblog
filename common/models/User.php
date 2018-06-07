@@ -69,9 +69,9 @@ class User extends ActiveRecord
         $userInfo['income'] = !empty($userInfo['income']) ? $userInfo['income'] : 0;
         $userInfo['expenditure'] = !empty($userInfo['expenditure']) ? $userInfo['expenditure'] : 0;
         $redis = RedisClient::getInstance();
-        $balance = $redis->hexists(Constants::WS_USER_BALANCE,$userInfo['id']);
+        $balance = $redis->hexists(Constants::WS_USER_BALANCE,$userInfo['userId']);
         if($balance){
-            $userInfo['balance'] = $redis->hget(Constants::WS_USER_BALANCE,$userInfo['id']);
+            $userInfo['balance'] = $redis->hget(Constants::WS_USER_BALANCE,$userInfo['userId']);
         }
         else{
             $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;;
