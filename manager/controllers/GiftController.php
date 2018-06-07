@@ -36,7 +36,8 @@ class GiftController extends BaseController
     public function actionTemplate()
     {
         $params = Yii::$app->request->getQueryParams();
-        $params['defaultPageSize'] = self::PAGE_SIZE;;
+        $params['defaultPageSize'] = self::PAGE_SIZE;
+        $params['isDelete'] = 0;
         $result = Gift::queryInfo($params);
         $count = Gift::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
@@ -60,8 +61,8 @@ class GiftController extends BaseController
     public function actionCreate()
     {
         if (Yii::$app->request->post()) {
-            if (!empty($_FILES['imgSrc']['tmp_name'])) {
 
+            if (!empty($_FILES['imgSrc']['tmp_name'])) {
                 $src = (new OSS())->upload($_FILES['imgSrc']['tmp_name'], $_FILES['imgSrc']['name'], 'gift');
             }
             $params = Yii::$app->request->post();
@@ -79,9 +80,7 @@ class GiftController extends BaseController
     public function actionGiftEdit(){
         $params = Yii::$app->request->getQueryParams();
         $id = $params['id'];
-
         $item = Gift::queryById($id);
-
         return $this->render('gift-edit',['item'=>$item]);
     }
 

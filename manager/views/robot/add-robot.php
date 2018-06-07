@@ -1,12 +1,31 @@
 <?php
 $this->title = '新增机器人';
 ?>
+
+<style>
+    #profileButton1{
+        position: absolute;
+        top:0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        opacity: 0;
+        width:200px;
+    }
+    .cover-img img{
+        width: 100%;
+        height: 100%;
+
+    }
+</style>
 <div class="s-robot-form">
     <!-- <div class="s-robot-form_title">用户详情</div>-->
     <div class="s-robot-form_upload">
         <div class="s-robot-form_selectimg">
             <div class="s-robot-form_selectimg-icon1"></div>
-            <div class="s-robot-form_selectimg-icon2"></div>
+            <!--<div class="s-robot-form_selectimg-icon2"></div>-->
+            <img src="" class="s-robot-form_selectimg-icon2" id="selectImg1">
+            <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
         </div>
         <img class="s-robot-form_headimg" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像">
         <div class="s-robot-form_img-tips">
@@ -140,6 +159,53 @@ $this->title = '新增机器人';
         $("#price").val("");
         $("input[name=fire]:eq(1)").attr("checked",'checked');
     });
+
+    function getPath(obj, fileQuery, transImg) {
+        var imgSrc = '', imgArr = [], strSrc = '';
+        var file = fileQuery.files[0];
+        var reader = new FileReader();
+        if (file.size >=1048576) {
+            $(".delect-check").click();
+        } else {
+            // 在这里需要判断当前所有文件中
+            var fileExt = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+            if (fileExt == ".png" || fileExt == ".gif" || fileExt == ".jpg" || fileExt == ".jpeg" ||fileExt == ".bmp") {
+                reader.onload = function (e) {
+                    imgSrc = fileQuery.value;
+                    imgArr = imgSrc.split('.');
+                    strSrc = imgArr[imgArr.length - 1].toLowerCase();
+                    obj.setAttribute("src", e.target.result);
+
+                };
+                reader.readAsDataURL(file);
+
+            } else {
+                $(".showintro").click();
+            }
+        }
+    }
+
+    function changepic() {
+        // var file_img = document.getElementById("selectImg1");
+        var file_img = document.getElementById("headImg");
+
+        console.log(file_img);
+
+        $(".delete-img").show();
+        var iptfileupload = document.getElementById('profileButton1');
+        getPath(file_img, iptfileupload, file_img);
+        $(".profileButton1").css("font-size", "0px");
+
+    }
+
+    $(".delete-img").on("click",function(){
+        $("#profileButton1").outerHTML = $("#profileButton1").outerHTML;
+        // $("#selectImg1").attr('src','/img/course/coverimg.png');
+        $("#headImg").attr('src','/img/course/coverimg.png');
+
+        $(".delete-img").css("display","none")
+
+    })
 </script>
 
 
