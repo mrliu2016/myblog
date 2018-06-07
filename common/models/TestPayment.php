@@ -64,15 +64,17 @@ class TestPayment
         );
         ksort($data);
         $str = http_build_query($data);
-        $str = static::joinAPI_KEY($str);
-        $data['sign'] = strtoupper(md5($str));
+        $str = static::joinAPI_KEY2($str);
+        $data['sign'] = strtoupper(md5(urldecode($str)));
         $xml = static::arrToXML($data);
         //请求统一下单订单接口,微信返回的xml
         $result = static::postXmlCurl($xml, self::$WeixinConfig['unifiedOrder']);
-        echo $result;
+// 解析微信返回的xml
+        $data = static::xmlToArr($result);
+        print_r($data);
 
 
-        /*
+        /*  另一种写法
         ksort($data);
         // 数组转url字符串
         $str = static::arrayToKeyValueString($data);
@@ -105,6 +107,11 @@ class TestPayment
         return $str . "key=" . self::$WeixinConfig['wxPayKey'];
     }
 
+    private static function joinAPI_KEY2($str)
+    {
+        return $str . "&key=" . self::$WeixinConfig['wxPayKey'];
+    }
+
     private static function getSign($signParams = '')
     {
         return strtoupper(md5($signParams));
@@ -127,6 +134,24 @@ class TestPayment
         }
         $xml .= "</xml>";
         return $xml;
+    }
+
+    /**
+     * xml 转换成数组
+     * */
+    private static function xmlToArr($xml)
+    {
+        $parser = xml_parser_create();
+        xml_parse_into_struct($parser, $xml, $data, $index);
+        $arr = array();
+        foreach ($data as $key => $value) {
+            if (isset($value['tag']) && isset($value['value']) && ($value['tag'] != 'XML')) {
+                if (!empty($value['value'])) {
+                    $arr[$value['tag']] = $value['value'];
+                }
+            }
+        }
+        return $arr;
     }
 
     /**
