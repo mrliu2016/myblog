@@ -34,8 +34,8 @@ class Constants
     const MESSAGE_TYPE_JOIN_REQ = 'join_req';
     const MESSAGE_TYPE_JOIN_RES = 'join_res';
     const MESSAGE_TYPE_JOIN_NOTIFY_RES = 'join_notify_res';
-    const MESSAGE_TYPE_LEAVE_REQ = 'leave_req';
-    const MESSAGE_TYPE_LEAVE_RES = 'leave_res';
+    const MESSAGE_TYPE_QUIT_REQ = 'leave_req';
+    const MESSAGE_TYPE_QUIT_RES = 'leave_res';
     const MESSAGE_TYPE_KICK_REQ = 'kick_req';
     const MESSAGE_TYPE_KICK_RES = 'kick_res';
     const MESSAGE_TYPE_LM_REQ = 'lm_req'; // 连麦请求

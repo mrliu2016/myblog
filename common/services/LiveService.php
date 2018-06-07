@@ -130,7 +130,7 @@ class LiveService
             'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算以最小单位透传
         ];
         $server->push($frame->fd, json_encode($respondMessage));
-        static::sendGiftVirtualCurrency($userId, $roomId, $price * $num);
+        static::sendGiftVirtualCurrency($userId, $userIdTo, $roomId, $price * $num);
         unset($respondMessage);
         //广播房间全体成员
         $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_NOTIFY_RES;
@@ -164,61 +164,41 @@ class LiveService
      * 送礼虚拟货币
      *
      * @param $userId
+     * @param $masterUserId
      * @param $roomId
      * @param $virtualCurrency
      */
-    private static function sendGiftVirtualCurrency($userId, $roomId, $virtualCurrency)
+    private static function sendGiftVirtualCurrency($userId, $masterUserId, $roomId, $virtualCurrency)
     {
         $redis = RedisClient::getInstance();
         $wsIp = static::getWsIp($roomId);
         $key = Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $wsIp . ':' . $roomId;
-        $redis->hIncrby($key, $userId, intval($virtualCurrency));
+        $redis->hIncrby($key, $userId, intval($virtualCurrency)); // 用户
+        $redis->hIncrby($key, $masterUserId, intval($virtualCurrency)); // 主播
         $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
     }
 
-    //心跳
+    /**
+     * 心跳
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
     public static function heartbeatRequest($server, $frame, $message)
     {
-        $startTime = microtime(true);
-
         $param = $message['data'];
         $redis = RedisClient::getInstance();
         $roomId = $param["roomId"];
         $userId = $param["userId"];
-        if ($param["isMaster"] == 1) { //1主播 0粉丝
+        if ($param['isMaster'] == Constants::WS_ROLE_MASTER) {
             $redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
                 base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId])));
             $redis->expire(Constants::QUEUE_WS_HEARTBEAT, Constants::DEFAULT_EXPIRES);
+
             $server->push($frame->fd, json_encode(['userId' => $userId, 'roomId' => $roomId]));
         }
-        $Warning = $redis->hget(Constants::WS_WARNING, $userId);
-        if ($Warning !== false) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
-            $respondMessage['code'] = Constants::CODE_WARNING;
-            $respondMessage['message'] = $Warning;
-            $respondMessage['data'] = array(
-                'roomId' => $roomId,
-                'userId' => $userId,
-                'isMaster' => $param["isMaster"]
-            );
-            $server->push($frame->fd, json_encode($respondMessage));
-            $redis->hdel(Constants::WS_WARNING, $userId);
-        }
-        $close = $redis->hget(Constants::WS_CLOSE, $userId);
-        if ($close !== false) {
-            $respondMessage['messageType'] = Constants::MESSAGE_TYPE_HEARTBEAT_RES;
-            $respondMessage['code'] = Constants::CODE_CLOSE;
-            $respondMessage['message'] = $close;
-            $respondMessage['data'] = array(
-                'roomId' => $roomId,
-                'userId' => $userId,
-                'isMaster' => $param["isMaster"]
-            );
-            $server->push($frame->fd, json_encode($respondMessage));
-            $redis->hdel(Constants::WS_CLOSE, $userId);
-        }
-        static::latestHeartbeat($frame->fd, $userId, $roomId, $param["isMaster"]);
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::heartbeatRequest】运行时长：');
+        static::latestHeartbeat($frame->fd, $userId, $roomId, $param['isMaster']);
     }
 
     /**
@@ -402,14 +382,14 @@ class LiveService
         return intval($num);
     }
 
-    public static function leaveRoom($server, $frame, $message, $fd = 0, $isExceptionExit = false)
+    public static function quitRoom($server, $frame, $message, $fd = 0, $isExceptionExit = false)
     {
         $startTime = microtime(true);
 
         $params = $message['data'];
         if (!empty($params)) {
             $messageAll = [
-                'messageType' => Constants::MESSAGE_TYPE_LEAVE_RES,
+                'messageType' => Constants::MESSAGE_TYPE_QUIT_RES,
                 'code' => Constants::CODE_SUCCESS,
                 'message' => '',
                 'data' => [
@@ -449,7 +429,7 @@ class LiveService
             static::broadcast($server, $fdList, $messageAll, $params['roomId']);
             static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::broadcast】运行时长：');
 
-            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::leaveRoom】运行时长：');
+            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::quitRoom】运行时长：');
         }
     }
 
@@ -472,9 +452,15 @@ class LiveService
                 $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
                 $redis->hdel($keyWSRoomUser, $userId);
             }
-            // 清除心跳
+            // 删除心跳
             $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
             $redis->hdel($keyLatestHeartbeat, $userId);
+            // 删除禁言
+            if (static::isManager($roomId, $fdId)) {
+                $redis->del(Constants::WS_GAG . $ip . '_' . $roomId); // 禁言
+            }
+            // 删除收益
+            $redis->hdel(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId);
         }
         static::updateConnection();
     }
@@ -845,9 +831,9 @@ class LiveService
                         'level' => $userInfo['level']
                     ];
                     $tmp = microtime(true);
-                    static::leaveRoom($server, null, $message, $fd, true);
+                    static::quitRoom($server, null, $message, $fd, true);
                     $redis->hdel($keyLatestHeartbeat, $userId);
-                    static::runtimeConsumeTime($tmp, microtime(true), '【static::leaveRoom】运行时长：');
+                    static::runtimeConsumeTime($tmp, microtime(true), '【static::quitRoom】运行时长：');
                 }
             } else {
                 self::leave($fd, $roomId);
