@@ -2,9 +2,11 @@
 
 namespace app\manager\controllers;
 
+use app\common\components\AHelper;
 use app\common\models\User;
 use app\common\models\Video;
 use app\common\models\VideoRecord;
+use app\common\services\Constants;
 use Yii;
 use yii\data\Pagination;
 
@@ -218,7 +220,6 @@ class LiveController extends BaseController
         $id = $params['id'];
         $result = VideoRecord::queryById($id);
         $videoSrc = $result['videoSrc'];
-
         return $this->render('play-back',[
             'videoSrc'=>$videoSrc
         ]);
@@ -227,6 +228,8 @@ class LiveController extends BaseController
     //禁播
     public function actionNoplay(){
         $params = Yii::$app->request->post();
+
+//        print_r($params);die;
         $type = $params['type'];
         $messageType = '';
         $message = '';
@@ -249,10 +252,11 @@ class LiveController extends BaseController
                 break;
         }
         $params['message'] = $message;
+
         if(User::operateNoplay($params)){
             //直播
-            $liveResult = Video::isLive($params['userId']);
-//            if(!empty($liveResult)){//是直播
+            $isLive = $params['isLive'];
+//            if($isLive){//是直播
             $roomId = $params['roomId'];
             //推送信息
             $data = array(

@@ -86,6 +86,10 @@ class RedisClient
         return $this->redis->del($key);
     }
 
+    public function hexists($key,$field){
+        return $this->redis->hExists($key,$field);
+    }
+
     public function hset($key, $field, $value)
     {
         return $this->redis->hSet($key, $field, $value);

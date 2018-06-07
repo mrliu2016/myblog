@@ -2,6 +2,7 @@
 
 namespace app\common\models;
 
+use app\common\components\RedisClient;
 use app\common\components\Token;
 use app\common\services\Constants;
 use app\common\services\VideoService;
@@ -56,25 +57,24 @@ class User extends ActiveRecord
         } else {
             $userInfo['age'] = 0;
         }
+
         $userInfo['roomId'] = intval($userInfo['roomId']);
         $userInfo['income'] = intval($userInfo['income']);
         $userInfo['avatar'] = !empty($userInfo['avatar']) ? $userInfo['avatar'] : Yii::$app->params['defaultAvatar'];
-        $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;
         $userInfo['followees_cnt'] = VideoService::computeUnit(intval(Follow::queryInfoNum(['userId' => $userId]))); // 我的关注
         $userInfo['followers_cnt'] = VideoService::computeUnit(intval(Follow::queryInfoNum(['userIdFollow' => $userId]))); // 关注我的
         $userInfo['isAttention'] = intval(Follow::isAttention($userId, $observerUserId) ? 1 : 0);
         $userInfo['isLive'] = intval(Video::isLive($userId) ? 1 : 0);
         $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($observerUserId, $userId));
-
-        if (isset($userId)) {
-            $launchT = Order::queryReceiveGiftByUserId($userId, true);
-            if (!empty($launchT)) { //送出的T币
-                $userInfo['launchT'] = intval($launchT['totalPrice']);
-            }
-            $receivedT = Order::queryReceiveGiftByUserId($userId, false);
-            if (!empty($receivedT)) {//收到的T币
-                $userInfo['receivedT'] = intval($receivedT['totalPrice']);
-            }
+        $userInfo['income'] = !empty($userInfo['income']) ? $userInfo['income'] : 0;
+        $userInfo['expenditure'] = !empty($userInfo['expenditure']) ? $userInfo['expenditure'] : 0;
+        $redis = RedisClient::getInstance();
+        $balance = $redis->hexists(Constants::WS_USER_BALANCE,$userInfo['userId']);
+        if($balance){
+            $userInfo['balance'] = $redis->hget(Constants::WS_USER_BALANCE,$userInfo['userId']);
+        }
+        else{
+            $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;;
         }
         return $userInfo;
     }
@@ -614,7 +614,11 @@ class User extends ActiveRecord
     //删除机器人
     public static function deleteRobot($id)
     {
-        return static::find()->andWhere(['id' => $id])->one()->delete();
+        $model = static::find()->andWhere(['id'=>$id])->one();
+        $model->isDelete = 1;
+        $model->updated = $_SERVER['REQUEST_TIME'];
+        $model->save();
+        return $model->id;
     }
 
     //编辑机器人
@@ -633,14 +637,25 @@ class User extends ActiveRecord
         $model->save();
         return $model->id;
     }
-
     //禁播
     public static function operateNoplay($params){
+
         $model = static::find()->andWhere(['id' => $params['userId']])->one();
         $model->playType = intval($params['type']);
         $model->playTime = $_SERVER['REQUEST_TIME'];
         $model->updated  = $_SERVER['REQUEST_TIME'];
         $model->save();
+        return $model->id;
+    }
+
+    //恢复
+    public static function operateRecovery($params){
+        $model = static::find()->andWhere(['id' => $params['userId']])->one();
+        $model->playType = 0;
+        $model->playTime = 0;
+        $model->updated  = $_SERVER['REQUEST_TIME'];
+        $model->save();
+        return $model->id;
     }
 
 }

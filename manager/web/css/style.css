@@ -8,14 +8,24 @@ input[type=number], input[type=password], input[type=text], textarea {
     touch-action: manipulation;
 }
 /* ---modal--- */
-/* .c-modal-wrap {
+.c-modal-mask {
     position: fixed;
     left: 0;
     top: 0;
     width: 100vw;
     height: 100vh;
+    opacity: 0.4;
+    background: #000000;
     z-index: 100
-} */
+}
+.c-modal-wrap {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 101
+}
 .c-modal {
     font-family: PingFangSC-Regular, system-ui;
     font-size: 14px;
@@ -27,22 +37,21 @@ input[type=number], input[type=password], input[type=text], textarea {
     color: #9B9B9B;
     padding: 0 20px;
     background: #FFFFFF;
-    box-shadow: 0 30px 75px 0 rgba(0,0,0,0.30);
     border-radius: 6px;
-    /* width: -webkit-max-content; */
-    /* width: -moz-max-content; */
-    /* width: max-content; */
-    width: 400px;
+    width: 434px;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
     height: -webkit-max-content;
     height: -moz-max-content;
     height: max-content;
     z-index: 100
 }
 .c-modal_header {
-    color: #9E9E9E;
+    font-size: 18px;
+    color: #24D4BD;
     letter-spacing: 0;
-    padding: 20px 0;
-    border-bottom: 2px #E6E6E6 solid;
+    padding: 15px 0;
 }
 .c-modal-close {
     cursor: pointer;
@@ -52,7 +61,7 @@ input[type=number], input[type=password], input[type=text], textarea {
     right: 0;
     top: 0;
     z-index: 10;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 1;
     text-decoration: none;
     -webkit-transition: color .3s;
@@ -75,7 +84,6 @@ input[type=number], input[type=password], input[type=text], textarea {
     background: url("/resources/images/close_9B.svg") no-repeat center;
 }
 .c-modal-footer {
-    border-top: 2px #E6E6E6 solid;
     padding: 20px 0;
 }
 
@@ -98,7 +106,7 @@ input[type=number], input[type=password], input[type=text], textarea {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    color: rgba(0, 0, 0, .65);
+    color: #24D4BD;
     border-radius: 4px;
     border: 1px solid transparent;
     position: relative;

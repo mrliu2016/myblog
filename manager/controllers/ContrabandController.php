@@ -1,6 +1,7 @@
 <?php
 namespace app\manager\controllers;
 
+use app\common\components\RedisClient;
 use app\common\models\Contraband;
 use Yii;
 use yii\data\Pagination;
@@ -125,5 +126,14 @@ class ContrabandController extends BaseController{
                 ]
             );
         }
+    }
+
+    //刷新redis
+    public function actionRefresh(){
+        $redis = RedisClient::getInstance();
+//        print_r($redis);die;
+        $data = Contraband::queryAllInfo();
+
+
     }
 }

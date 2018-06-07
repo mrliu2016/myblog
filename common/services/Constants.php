@@ -69,7 +69,7 @@ class Constants
     const WS_WARNING = self::PROJECT_NAME . 'WSWarning';
     const WS_CLOSE = self::PROJECT_NAME . 'WSClose';
     const WS_ROOM_USER_LM_LIST = self::PROJECT_NAME . 'WSRoomUserLMList_';
-    const WS_USER_BALANCE = self::PROJECT_NAME . 'WSUserBalance';
+    const WS_USER_BALANCE = self::PROJECT_NAME . 'WSUserBalance';//余额
     const WS_KEYWORD = self::PROJECT_NAME . ':WSKeyword';
     const WS_SEND_GIFT_VIRTUAL_CURRENCY = self::PROJECT_NAME . ':WSSendGiftVirtualCurrency_'; // 送礼虚拟货币
     const WS_INCOME = self::PROJECT_NAME.':WSIncome_'; // 收到、收益虚拟货币

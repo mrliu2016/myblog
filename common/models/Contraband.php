@@ -52,12 +52,19 @@ class Contraband extends ActiveRecord{
         if(!empty($params['id'])){
             $find->andWhere('id='.$params['id']);
         }
+        if(isset($params['isDelete'])){
+            $find->andWhere('isDelete='.$params['isDelete']);
+        }
         return $find;
     }
 
     //删除违禁词
     public static function deleteWord($id){
-        return static::find()->andWhere(['id' => $id])->one()->delete();
+        $model = static::find()->andWhere(['id' => $id])->one();
+        $model->isDelete = 1;
+        $model->updated = $_SERVER['REQUEST_TIME'];
+        $model->save();
+        return $model->id;
     }
 
     //编辑违禁词
@@ -85,6 +92,14 @@ class Contraband extends ActiveRecord{
         $command = $connection->createCommand($sql);
         return $command->execute();
     }
+
+    public static function queryBySQLCondition($sql = '')
+    {
+        $connection = Yii::$app->db;
+        $command = $connection->createCommand($sql);
+        return $command->queryAll();
+    }
+
     //批量导入违禁词
     public static function batchWord($data){
 
@@ -106,7 +121,19 @@ class Contraband extends ActiveRecord{
         else{
             return ['code'=>-1];
         }
-
     }
 
+
+    //查询出所有的违禁词
+    public static function queryAllInfo(){
+//        $params['isDelete'] = 0;
+//        $find = static::find();
+//        $find = self::buildParams($find, $params);
+//        $result = $find->asArray()
+//            ->orderBy('updated asc')
+//            ->all();
+        $sql = "SELECT word FROM ".static ::tableName() ." WHERE isDelete = 0";
+        $result = static ::queryBySQLCondition($sql);
+        return $result;
+    }
 }
