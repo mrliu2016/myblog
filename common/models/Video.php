@@ -84,14 +84,24 @@ class Video extends ActiveRecord
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
         $find = static::find();
-        $find = self::buildParams($find, $params);
-        $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive,viewerNum')
-            ->asArray()
-            ->orderBy('viewerNum desc,startTime desc')
-            ->offset($offset)
-            ->limit($params['defaultPageSize'])
-            ->all();
-        return static::processLiveInfo($result);
+//        $cn = Yii::$app->db;
+//        $find = self::buildParams($find, $params);
+//        $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive,viewerNum')
+//            ->asArray()
+//            ->orderBy('viewerNum desc,startTime desc')
+//            ->offset($offset)
+//            ->limit($params['defaultPageSize'])
+//            ->all();
+
+        $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum from ' . static::tableName() . ' as video '
+            . ' where video.isLive = 1 and video.userId not in ('
+            . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userIdd'] . ' and status = 1' . ')';
+        $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
+        return $find->createCommand($sql)->queryAll();
+
+//        return static::processLiveInfo($result);
     }
 
     /**
@@ -190,17 +200,17 @@ class Video extends ActiveRecord
 //        if(!empty($params['nickName'])){
 //            $find->andWhere('nickName like "'.trim($params['nickName']).'%"');
 //        }
-        if(!empty($params['roomId'])){
-            $find->andWhere('roomId= '.trim($params['roomId']));
+        if (!empty($params['roomId'])) {
+            $find->andWhere('roomId= ' . trim($params['roomId']));
         }
-        if(!empty($params['startTime'])){
-            $find->andWhere(['>=','startTime',strtotime($params['startTime'])]);
+        if (!empty($params['startTime'])) {
+            $find->andWhere(['>=', 'startTime', strtotime($params['startTime'])]);
         }
-        if(!empty($params['endTime'])){
-            $find->andWhere(['<=','endTime',strtotime($params['endTime'])]);
+        if (!empty($params['endTime'])) {
+            $find->andWhere(['<=', 'endTime', strtotime($params['endTime'])]);
         }
-        if(!empty($params['id'])){
-            $find->andWhere('id='.$params['id']);
+        if (!empty($params['id'])) {
+            $find->andWhere('id=' . $params['id']);
         }
         return $find;
     }
@@ -385,16 +395,17 @@ class Video extends ActiveRecord
     }
 
     //通过userId查询直播记录
-    public static function queryInfoByUserId($userId){
-        $sql = "SELECT * FROM ".static ::tableName()." WHERE userId={$userId}";
-        $result = static ::queryBySQLCondition($sql);
+    public static function queryInfoByUserId($userId)
+    {
+        $sql = "SELECT * FROM " . static::tableName() . " WHERE userId={$userId}";
+        $result = static::queryBySQLCondition($sql);
         return $result;
     }
 
     public static function JianYellowById($id)
     {
         $find = static::find();
-        $find->andWhere('id='.$id);
+        $find->andWhere('id=' . $id);
         $result = $find->select("id,userId,roomId,startTime,endTime,identifyYellow,isLive")->asArray()
             ->one();
         $yellow = json_decode($result['identifyYellow'], true);
