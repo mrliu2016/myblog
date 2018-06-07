@@ -45,11 +45,13 @@ class BlacklistController extends BaseController
             ]
         );
     }
+
     /**
      * 黑名单列表
      * @date(2018-6-1)
      */
-    public function actionQueryBlacklist(){
+    public function actionQueryBlacklist()
+    {
         $params = Yii::$app->request->post();
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
         $page = intval(!empty($params['page']) ? $params['page'] : 0);

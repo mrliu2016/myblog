@@ -129,7 +129,7 @@ class LiveService
             'price' => $price,
             'num' => $num,
             'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算以最小单位透传
-            'income' => intval(static::masterIncome($userIdTo, $roomId))
+            'income' => static::computeUnit(static::masterIncome($userIdTo, $roomId))
         ];
         $server->push($frame->fd, json_encode($respondMessage));
         static::sendGiftVirtualCurrency($userId, $userIdTo, $roomId, $price * $num);
@@ -150,7 +150,7 @@ class LiveService
             'giftImg' => $giftImg,
             'price' => $price,
             'num' => $num,
-            'income' => intval(static::masterIncome($userIdTo, $roomId))
+            'income' => static::computeUnit(static::masterIncome($userIdTo, $roomId))
         ];
         $tmpStartTime = microtime(true);
         $roomAll = LiveService::fdListByRoomId($server, $roomId);
