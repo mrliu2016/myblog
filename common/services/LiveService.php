@@ -179,6 +179,13 @@ class LiveService
         $redis->hIncrby($key, $userId, intval($virtualCurrency)); // 用户送礼虚拟货币
         $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
 
+//        $key = Constants::WS_ROOM_USER . $wsIp . '_' . $roomId;
+//        $userInfo = json_decode($redis->hget($key, $userId), true);
+//        if (!empty($userInfo)) {
+//            $userInfo['virtualCurrency'] += $virtualCurrency;
+//            $redis->hset($key, $userId, json_encode($userInfo));
+//        }
+
         $key = Constants::WS_INCOME . $wsIp . ':' . $roomId;
         $redis->hIncrby($key, $masterUserId, intval($virtualCurrency)); // 主播接收礼物虚拟货币
         $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);

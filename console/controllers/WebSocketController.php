@@ -119,34 +119,4 @@ class WebSocketController extends Controller
         });
         $this->server->start();
     }
-
-    //送礼物消费队列
-    public function actionGiftOrder()
-    {
-        $redis = RedisClient::getInstance();
-        while ($order = $redis->rpop(Constants::QUEUE_WS_GIFT_ORDER)) {
-            $order = json_decode(base64_decode($order), true);
-            $giftId = $order['giftId'];
-            $userId = $order['userId'];
-            $userIdTo = $order['userIdTo'];
-            $price = $order['price'];
-            $num = $order['num'];
-            $user = User::queryById($userId);
-            if (!empty($user)) {
-                $gift = Gift::queryById($giftId);
-                if (!empty($gift)) {
-                    $priceReal = $gift['price'] * $num; // 去掉分，webSocket不涉及业务，交易类结算已最小单位透传
-//                    $priceReal = $gift['price'] * $num * Constants::CENT;
-                    //更新余额
-                    $stat = User::updateUserBalance($userId, -$priceReal);
-                    if ($stat > 0) {
-                        //购买礼物记录
-                        Order::create($order['streamId'], $giftId, $userId, $userIdTo, $price, $num);
-//                        $balance = $user['balance'] - $priceReal; // 不涉及业务计算
-//                        $redis->hset('WSUserBalance', $userId, $balance); // 送礼物时已更新
-                    }
-                }
-            }
-        }
-    }
 }
