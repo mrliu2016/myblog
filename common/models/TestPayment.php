@@ -7,8 +7,7 @@ use app\common\components\TestweiXinAppPay;
 
 class TestPayment
 {
-
-    public static $weixinconfig = array(
+    private static $WeixinConfig = array(
         'wxAppId' => 'wx70a3358e75e061f7',
         'wxMchId' => '1440798702',   //商户号
         'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',  // 支付密钥
@@ -23,7 +22,6 @@ class TestPayment
         'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
     );
 
-
     public static function weiXinPay($params)
     {
         //先去检测订单表里是否存在该订单
@@ -32,7 +30,7 @@ class TestPayment
 
         $user['openId'] = 'o0P9800xU2o5yUQskZ2frc_nM7C8';  // 公众号支付需要
         $taskResult['name'] = '测试支付';
-        $result = TestweiXinAppPay::weiXinAppPay($user['openId'], self::$weixinconfig, $dat['price'], $dat['orderIdAlias'], $taskResult['name']);
+        $result = TestweiXinAppPay::weiXinAppPay($user['openId'], self::$WeixinConfig, $dat['price'], $dat['orderIdAlias'], $taskResult['name']);
         return [
             'code' => ($result['code'] == -1) ? -1 : 1,
             'message' => $result['message'],
@@ -41,7 +39,104 @@ class TestPayment
                 'prepayId' => $result['data']
             ]
         ];
+    }
 
+
+
+
+    /**
+     * 模拟space的二维码
+     * */
+    public static function WeiXinNativePay($params)
+    {
+        $data = array(
+            'appid' => self::$WeixinConfig['wxAppId'],
+            'mch_id' => self::$WeixinConfig['wxMchId'],
+            'nonce_str' => uniqid(),
+            'body' => self::$WeixinConfig['body'],
+            'out_trade_no' => time() . rand(10000, 99999),
+            'fee_type' => 'CNY',
+            'total_fee' => $params['price'] * 100,
+            'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
+            'time_start' => date('YmdHis'),
+            'time_expire' => date('YmdHis', strtotime('+2 hours')),
+            'notify_url' => self::$WeixinConfig['notifyUrl'],
+            'trade_type' => 'NATIVE',
+        );
+        ksort($data);
+        $data['key'] = self::$WeixinConfig['wxPayKey'];  // 传支付密钥，支付密钥必须放到最后
+        //将数组转换成url字符串
+        $str = http_build_query($data);
+        //获取签名
+        $data['sign'] = strtoupper(md5($str));
+        // 转换成xml
+        $xml = static::arrToXML($data);
+        // 调微信的统一下单接口,微信返回的是xml
+        $weiXinResponse = static::postXmlCurl($xml, self::$WeixinConfig['unifiedOrder']);
+        print_r($weiXinResponse);
+    }
+
+
+    /**
+     * 数组转换成xml
+     *
+     * */
+    private static function arrToXML($param, $cdata = false)
+    {
+        $xml = "<xml>";
+        $cdataPrefix = $cdataSuffix = '';
+        if ($cdata) {
+            $cdataPrefix = '<![CDATA[';
+            $cdataSuffix = ']]>';
+        }
+        foreach ($param as $key => $value) {
+            $xml .= "<{$key}>{$cdataPrefix}{$value}{$cdataSuffix}</$key>";
+        }
+        $xml .= "</xml>";
+        return $xml;
+    }
+
+    /**
+     *post方式提交xml
+     * $useCert  false 不需要验证证书
+     */
+    private static function postXmlCurl($xml, $url, $useCert = false, $second = 30)
+    {
+        $curl = curl_init();
+        try {
+            //设置超时
+            curl_setopt($curl, CURLOPT_TIMEOUT, $second);
+            if ($useCert == true) {
+                curl_setopt($curl, CURLOPT_URL, self::$weiXin['CASH_HTTPS']);
+                curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+                //设置证书
+                //使用证书：cert 与 key 分别属于两个.pem文件
+                curl_setopt($curl, CURLOPT_SSLCERTTYPE, 'PEM');
+                curl_setopt($curl, CURLOPT_SSLCERT, self::$weiXin['SSLCERT_PATH']);
+                curl_setopt($curl, CURLOPT_SSLKEYTYPE, 'PEM');
+                curl_setopt($curl, CURLOPT_SSLKEY, self::$weiXin['SSLKEY_PATH']);
+            } else {
+                curl_setopt($curl, CURLOPT_URL, $url);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, TRUE);
+                curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, 2);//严格校验
+                //post提交方式
+                curl_setopt($curl, CURLOPT_POST, TRUE);
+                //设置header
+                curl_setopt($curl, CURLOPT_HEADER, FALSE);
+            }
+            //要求结果为字符串且输出到屏幕上
+            curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+            curl_setopt($curl, CURLOPT_POSTFIELDS, $xml);
+            $result = curl_exec($curl);
+        } catch (Exception $exception) {
+            ll(curl_errno($curl), __FUNCTION__ . '_failed.log');
+            curl_close($curl);
+            return ['code' => Constants::CODE_FAILED, 'msg' => Constants::WEI_XIN_PAYMENT_EXCEPTION];
+        }
+        // ll($result, __FUNCTION__ . '_success.log');
+        return $result;
     }
 
 
