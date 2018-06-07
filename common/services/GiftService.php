@@ -15,6 +15,7 @@ class GiftService
     public static function getGiftList($params)
     {
         $params['defaultPageSize'] = self::PAGE_SIZE_MAX;
+        $params['isDelete'] = 0;
         $list = Gift::queryInfo($params);
         return ['code' => Constants::CODE_SUCCESS, 'msg' => 'success', 'data' => $list];
     }
