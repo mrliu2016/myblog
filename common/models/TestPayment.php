@@ -73,7 +73,7 @@ class TestPayment
         $xml = static::arrToXML($data);
         // 调微信的统一下单接口,微信返回的是xml
         $weiXinResponse = static::postXmlCurl($xml, self::$WeixinConfig['unifiedOrder']);
-        print_r($weiXinResponse);
+        print_r($weiXinResponse);die;
     }
 
 
