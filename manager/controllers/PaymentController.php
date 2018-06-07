@@ -35,7 +35,7 @@ class PaymentController extends Controller
         $code_url = TestPayment::WeiXinNativePay($params);
         if (!empty($code_url)) {
             return $this->render('placeanorder', [
-                'code' => $code_url,
+                'codeurl' => $code_url,
             ]);
         } else {
             echo "二维码获取失败";
