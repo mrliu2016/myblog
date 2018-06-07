@@ -17,6 +17,7 @@ class NotifyController extends BaseController
     {
         $result = WeiXinPay::weiXinPayResults(file_get_contents('php://input'));
         ll($result, 'notify_process.log');
+        die;
         $result = WeiXinPay::notifyProcess($result);
         ll($result, 'notify_process.log');
         if ($result['code'] == Constants::CODE_SUCCESS) {

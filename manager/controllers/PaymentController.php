@@ -30,7 +30,7 @@ class PaymentController extends Controller
     public function actionWeixinNativePay()
     {
         $this->layout = false;
-        $params = array('price' => 21.05, 'goodsid' => 55, 'userid' => 65);
+        $params = array('price' => 0.01, 'goodsid' => 55, 'userid' => 65);
         //微信支付
         $code_url = TestPayment::WeiXinNativePay($params);
         if (!empty($code_url)) {
