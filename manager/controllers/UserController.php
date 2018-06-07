@@ -3,11 +3,9 @@
 namespace app\manager\controllers;
 
 use app\common\components\AHelper;
-use app\common\models\Contraband;
 use app\common\models\Order;
 use app\common\models\Report;
 use app\common\models\User;
-use app\common\models\UserNoplay;
 use app\common\models\Video;
 use app\common\services\Constants;
 use Yii;
@@ -77,10 +75,7 @@ class UserController extends BaseController
                 $val['sendValue'] = $sendValue['totalPrice'];
             }
         }
-
-            $count = User::queryUserInfoNum($params);
-
-
+        $count = User::queryUserInfoNum($params);
 
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
@@ -113,10 +108,6 @@ class UserController extends BaseController
         $params = Yii::$app->request->get();
         $id = intval($params['id']);
         $user = User::queryById($id);
-
-
-
-
         $user['isAuth'] = 0;
         if(!empty($user['realName']) && !empty($user['isCard'])){
             $user['isAuth'] = 1;
@@ -193,6 +184,19 @@ class UserController extends BaseController
 //            else{//发送系统消息
 //
 //            }
+            $this->jsonReturnSuccess(0);
+        }
+        else{
+            $this->jsonReturnError(-1);
+        }
+    }
+
+    //启用
+    public function actionRecovery(){
+        $params = Yii::$app->request->post();
+        $params['type'] = 0;
+
+        if(User::operateRecovery($params)){
             $this->jsonReturnSuccess(0);
         }
         else{

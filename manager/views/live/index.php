@@ -80,7 +80,7 @@ $this->title = '直播管理';
                     </td>
                     <td>
                         <a href="/live/check?id=<?=$item['id']?>">查看</a>
-                        <a href="#" onclick="noplay(<?=$item['id']?>,<?=$item['roomId']?>)">禁播</a>
+                        <a href="#" onclick="noplay(<?=$item['userId']?>,<?=$item['roomId']?>,<?=$item['isLive']?>)">禁播</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -101,18 +101,21 @@ $this->title = '直播管理';
 </div>
 
 <!--禁播弹框start-->
-<div class="c-modal-wrap s-banlive" style="display: none;">
-    <div class="c-modal">
-        <div class="c-modal-close s-banlive-close">关闭</div>
-        <div class="s-banlive-content">
-            <button class="c-btn s-banlive-btn" data-val="1">禁播24h</button>
-            <button class="c-btn s-banlive-btn c-btn-primary" data-val="2">禁播30天</button>
-            <button class="c-btn s-banlive-btn" data-val="3">永久禁播</button>
-            <button class="c-btn s-banlive-btn" data-val="4">解封账号</button>
-        </div>
-        <div class="c-modal-footer s-banlive-operate">
-            <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
-            <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
+<div style="display: none;" id="forbid_frame">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive" >
+        <div class="c-modal">
+            <div class="c-modal-close s-banlive-close">关闭</div>
+            <div class="s-banlive-content">
+                <button class="c-btn s-banlive-btn" data-val="1">禁播24h</button>
+                <button class="c-btn s-banlive-btn c-btn-primary" data-val="2">禁播30天</button>
+                <button class="c-btn s-banlive-btn" data-val="3">永久禁播</button>
+                <button class="c-btn s-banlive-btn" data-val="4">解封账号</button>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
+            </div>
         </div>
     </div>
 </div>
@@ -133,12 +136,12 @@ $this->title = '直播管理';
     });
     //关闭
     $(".s-banlive-close").click(function () {
-        $(".s-banlive").css("display","none");
+        $("#forbid_frame").css("display","none");
     });
 
     //取消
     $(".s-banlive-cancel").click(function () {
-        $(".s-banlive").css("display","none");
+        $("#forbid_frame").css("display","none");
     });
     //封禁类型
     $(".s-banlive-btn").click(function () {
@@ -189,8 +192,8 @@ $this->title = '直播管理';
     }
 
     //禁播
-    function noplay(userId,roomId) {
-        $(".s-banlive").css("display","block");
+    function noplay(userId,roomId,isLive) {
+        $("#forbid_frame").css("display","block");
         $(".s-banlive-confirm").unbind('click').bind('click',function () {
             var type = 0;
             $(".s-banlive-btn").each(function () {
@@ -202,18 +205,21 @@ $this->title = '直播管理';
             var params = {};
             params.userId = userId;
             params.roomId = roomId;
+            params.isLive = isLive;
             params.type = type;
 
+            $("#forbid_frame").css("display","none");
             console.log(params);
             $.ajax({
-                type: 'post',
                 url: '/live/noplay',
+                type: 'post',
                 data: params,
                 dataType: 'json',
-                timeout: 5000
+                // timeout: 1000
             }).done(function (data) {
                 if(data.code == 0){
                     alert('禁播成功');
+                    window.location.reload();
                 }
                 else{
                     alert('禁播失败');

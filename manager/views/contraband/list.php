@@ -21,6 +21,7 @@ $this->title = '违禁词管理';
         <div class="s-gitf-operate">
             <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/add-word">新增</a>
             <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/batch-word">Excel导入</a>
+            <button class="c-btn u-radius--circle c-btn-primary" id="refresh">刷新redis</button>
         </div>
         <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
@@ -67,12 +68,30 @@ $this->title = '违禁词管理';
             </tr>
         </table>
     </nav>
-
 </div>
 
 <script type="text/javascript">
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
-
+    //刷新redis
+    $("#refresh").unbind('click').bind('click',function () {
+        $.ajax({
+            url: "/contraband/refresh",
+            type: "get",
+            // cache: false,
+            dataType: "json",
+            success: function (data) {
+                if(data.code == 0){
+                    alert("更新成功！");
+                }
+                else{
+                    alert("更新失败");
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('get issue');
+            }
+        });
+    });
 </script>

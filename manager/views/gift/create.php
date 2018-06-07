@@ -98,40 +98,6 @@ $this->title = '创建礼物';
     }
 
 </style>
-<style type="text/css">
-    body {
-        font: 12px/1.5 Arial;
-    }
-
-    input {
-        float: left;
-        font-size: 12px;
-        width: 150px;
-        font-family: arial;
-        padding: 3px;
-        border: 1px solid black;
-    }
-
-    input.error {
-        border: 1px solid red;
-    }
-
-    #tips {
-        float: left;
-        margin: 2px 0 0 20px;
-    }
-
-    #tips span {
-        float: left;
-        width: 50px;
-        height: 20px;
-        color: white;
-        background: green;
-        margin-right: 2px;
-        line-height: 20px;
-        text-align: center;
-    }
-</style>
 <script type="text/javascript" src="/js/detaile.js"></script>
 <form action="/gift/create" method="post" enctype="multipart/form-data">
     <table>
@@ -171,6 +137,50 @@ $this->title = '创建礼物';
         </tr>
     </table>
 </form>
+
+
+
+<div class="s-robot-form">
+    <!-- <div class="s-robot-form_title">用户详情</div>-->
+    <div class="s-robot-form_upload">
+        <div class="s-robot-form_selectimg">
+            <div class="s-robot-form_selectimg-icon1"></div>
+            <div class="s-robot-form_selectimg-icon2"></div>
+        </div>
+        <img class="s-robot-form_headimg" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像">
+        <div class="s-robot-form_img-tips">
+            <p>图片格式：JPG、JPEG、PNG</p>
+            <p>图片大小：小于一M</p>
+        </div>
+    </div>
+    <div class="s-robot-form-details">
+        <p class="c-form_item">
+            <span class="c-form_item-title">礼物名称：</span>
+            <span class="s-robot-form_receive-wrap">
+					<input class="c-input c-form_item-input s-robot-form_receive" id="name"/>
+				</span>
+        </p>
+        <p class="c-form_item">
+            <span class="c-form_item-title">价格：</span>
+            <span class="s-robot-form_give-wrap">
+					<input class="c-input c-form_item-input s-robot-form_give" id="price"/>
+				</span>
+        </p>
+        <p class="c-form_item">
+            <span class="c-form_item-title">是否连发：</span>
+            <span class="s-robot-form_give-wrap">
+					<input type="radio" value="1" name="fire">是
+                <input type="radio" value="0" name="fire" checked>否</td>
+				</span>
+        </p>
+    </div>
+    <div>
+        <button class="c-btn" id="confirm">确定</button>
+        <button class="c-btn">取消</button>
+    </div>
+</div>
+
+
 
 <script type="text/javascript">
     $("#show-list").on("click", function () {
