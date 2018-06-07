@@ -13,7 +13,7 @@ class TestPayment
         'wxMchId' => '1440798702',   //商户号
         'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',  // 支付密钥
         'wxAppSecret' => '32d60c56204a0622f6895574cb240c25',
-        'body'=>'下单测试',
+        'body' => '下单测试',
         'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',  // 统一下单接口
         'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',  //查询订单接口
         'notifyUrl' => 'http://dev.api.customize.3ttech.cn/notify/notify-process', // 回掉地址
@@ -30,10 +30,17 @@ class TestPayment
         $dat = TestOrder::queryAll($params);
         if ($dat['code'] == -1) return $dat;
 
-        $user['openId'] = 'o0P9800xU2o5yUQskZ2frc_nM7C8';
+        $user['openId'] = 'o0P9800xU2o5yUQskZ2frc_nM7C8';  // 公众号支付需要
         $taskResult['name'] = '测试支付';
-        TestweiXinAppPay::weiXinAppPay($user['openId'], self::$weixinconfig, $dat['price'], $dat['orderIdAlias'], $taskResult['name']);
-
+        $result = TestweiXinAppPay::weiXinAppPay($user['openId'], self::$weixinconfig, $dat['price'], $dat['orderIdAlias'], $taskResult['name']);
+        return [
+            'code' => ($result['code'] == -1) ? -1 : 1,
+            'message' => $result['message'],
+            'data' => ($result['code'] == -1) ? [] : [
+                'orderId' => $dat['orderIdAlias'],
+                'prepayId' => $result['data']
+            ]
+        ];
 
     }
 

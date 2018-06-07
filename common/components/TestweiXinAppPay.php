@@ -39,8 +39,11 @@ class TestweiXinAppPay
         }
         //调起支付接口
         $result = static::getAppApiParameters($wxPayApi['data'], $weiXinConfig['wxPayKey']);
-        print_r($result);
-        die;
+        return [
+            'code' => ($result['code'] == -1) ? -1 : 1,
+            'message' => $result['message'],
+            'data' => ($result['code'] == -1) ? [] : $result['data']
+        ];
     }
 
 
@@ -54,7 +57,7 @@ class TestweiXinAppPay
         $weiXinAppApi->setAppId($result['appid']);
         $weiXinAppApi->setPartnerId($result['mch_id']);
         $weiXinAppApi->setPrepayId($result['prepay_id']);
-        $weiXinAppApi->setPackage($result['Sign=WXPay']);
+        $weiXinAppApi->setPackage('Sign=WXPay');
         $weiXinAppApi->setNonceStr(WxPayApi::getNonceStr());
         $weiXinAppApi->setTimeStamp(strval(time()));
         $weiXinAppApi->setSignType($result['sign']);
