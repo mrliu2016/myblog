@@ -71,7 +71,11 @@ class TestPayment
         $result = static::postXmlCurl($xml, self::$WeixinConfig['unifiedOrder']);
 // 解析微信返回的xml
         $data = static::xmlToArr($result);
-        print_r($data);
+         if($data['RETURN_CODE'] == 'SUCCESS' && $data['RESULT_CODE'] == 'SUCCESS'){
+                 return $data['CODE_URL'];
+         } else {
+             return '';
+         }
 
 
         /*  另一种写法
