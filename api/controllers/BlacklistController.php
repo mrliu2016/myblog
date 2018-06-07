@@ -3,7 +3,9 @@
 namespace app\api\controllers;
 
 use app\common\models\Blacklist;
+use app\common\models\Follow;
 use app\common\services\Constants;
+use app\common\services\FollowService;
 use Yii;
 
 class BlacklistController extends BaseController
@@ -15,6 +17,7 @@ class BlacklistController extends BaseController
     {
         $params = Yii::$app->request->post();
         Blacklist::pullBlacklist($params); // 拉黑
+        FollowService::cancelAttention(['userId' => $params['blacklistUserId'], 'userIdFollow' => $params['userId']]); // 取消关注
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '拉黑成功！');
     }
 
