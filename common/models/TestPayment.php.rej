@@ -1,0 +1,10 @@
+diff a/common/models/TestPayment.php b/common/models/TestPayment.php	(rejected hunks)
+@@ -30,7 +30,7 @@
+ 
+         $user['openId'] = 'o0P9800xU2o5yUQskZ2frc_nM7C8';  // 公众号支付需要
+         $taskResult['name'] = '测试支付';
+-        $result = TestweiXinAppPay::weiXinAppPay($user['openId'], self::$weixinconfig, $dat['price'], $dat['orderIdAlias'], $taskResult['name']);
++        $result = TestweiXinAppPay::weiXinAppPay($user['openId'], self::$WeixinConfig, $dat['price'], $dat['orderIdAlias'], $taskResult['name']);
+         return [
+             'code' => ($result['code'] == -1) ? -1 : 1,
+             'message' => $result['message'],

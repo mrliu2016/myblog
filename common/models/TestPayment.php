@@ -9,13 +9,13 @@ class TestPayment
 {
     private static $WeixinConfig = array(
         'wxAppId' => 'wx70a3358e75e061f7',
-        'wxMchId' => '1440798702',   //商户号
-        'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',  // 支付密钥
+        'wxMchId' => '1440798702', // 商户号
+        'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924', // 支付密钥
         'wxAppSecret' => '32d60c56204a0622f6895574cb240c25',
-        'body' => '下单测试',
-        'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',  // 统一下单接口
-        'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',  //查询订单接口
-        'notifyUrl' => 'http://dev.api.customize.3ttech.cn/notify/notify-process', // 回掉地址
+        'body' => '模拟下单测试',
+        'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder', // 统一下单
+        'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery', //查询订单
+        'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',  //回调地址
         'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
         'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
         'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
@@ -42,8 +42,6 @@ class TestPayment
     }
 
 
-
-
     /**
      * 模拟space的二维码
      * */
@@ -52,30 +50,54 @@ class TestPayment
         $data = array(
             'appid' => self::$WeixinConfig['wxAppId'],
             'mch_id' => self::$WeixinConfig['wxMchId'],
-            'nonce_str' => uniqid(),
+            'nonce_str' => md5(microtime() . 'weixin' . rand(100, 9999)),
             'body' => self::$WeixinConfig['body'],
-            'out_trade_no' => time() . rand(10000, 99999),
+            'out_trade_no' => time() . rand(100000, 999999),
             'fee_type' => 'CNY',
             'total_fee' => $params['price'] * 100,
-            'spbill_create_ip' => $_SERVER['REMOTE_ADDR'],
+            'spbill_create_ip' => $_SERVER["REMOTE_ADDR"],
             'time_start' => date('YmdHis'),
             'time_expire' => date('YmdHis', strtotime('+2 hours')),
             'notify_url' => self::$WeixinConfig['notifyUrl'],
             'trade_type' => 'NATIVE',
+            'product_id' => $params['goodsid'],
         );
         ksort($data);
-        $data['key'] = self::$WeixinConfig['wxPayKey'];  // 传支付密钥，支付密钥必须放到最后
-        //将数组转换成url字符串
-        $str = http_build_query($data);
-        //获取签名
-        $data['sign'] = strtoupper(md5($str));
-        // 转换成xml
+        // 数组转url字符串
+        $str = static::arrayToKeyValueString($data);
+        // 字符串后面拼接key
+        $str = static::joinAPI_KEY($str);
+        // 获取签名
+        $data['sign'] = static::getSign($str);
+        // 数组 data  转换成xml
         $xml = static::arrToXML($data);
-        // 调微信的统一下单接口,微信返回的是xml
-        $weiXinResponse = static::postXmlCurl($xml, self::$WeixinConfig['unifiedOrder']);
-        print_r($weiXinResponse);die;
+        //请求统一下单订单接口,微信返回的xml
+        $result = static::postXmlCurl($xml, self::$WeixinConfig['unifiedOrder']);
+        echo $result;
     }
 
+    /**
+     *  数组转换字符串
+     *
+     * */
+    public static function arrayToKeyValueString($params)
+    {
+        $str = '';
+        foreach ($params as $key => $value) {
+            $str = $str . $key . '=' . $value . '&';
+        }
+        return $str;
+    }
+
+    private static function joinAPI_KEY($str)
+    {
+        return $str . "key=" . self::$WeixinConfig['wxPayKey'];
+    }
+
+    private static function getSign($signParams = '')
+    {
+        return strtoupper(md5($signParams));
+    }
 
     /**
      * 数组转换成xml
@@ -97,7 +119,7 @@ class TestPayment
     }
 
     /**
-     *post方式提交xml
+     *post方式提交url
      * $useCert  false 不需要验证证书
      */
     private static function postXmlCurl($xml, $url, $useCert = false, $second = 30)
@@ -138,6 +160,4 @@ class TestPayment
         // ll($result, __FUNCTION__ . '_success.log');
         return $result;
     }
-
-
 }
