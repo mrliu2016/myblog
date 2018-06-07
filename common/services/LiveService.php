@@ -245,6 +245,7 @@ class LiveService
 
         $tmpStartTime = microtime(true);
         $userList = array_values(LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true));
+        ll($userList, 'webSocketMessage.log');
         static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::getUserInfoListByRoomId】运行时长：');
 
         $resMessage = [
@@ -419,8 +420,6 @@ class LiveService
 
     public static function quitRoom($server, $frame, $message, $fd = 0, $isExceptionExit = false)
     {
-        $startTime = microtime(true);
-
         $params = $message['data'];
         if (!empty($params)) {
             $messageAll = [
@@ -437,34 +436,18 @@ class LiveService
                 ],
             ];
             $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::fdListByRoomId】运行时长：');
+
             //处理用户离开房间数据
-            $tmp = microtime(true);
             if ($params['isMaster']) {
                 $count = LiveService::roomMemberNum($params['roomId']);
             } else {
                 $count = LiveService::roomMemberNum($params['roomId']) - 1;
             }
-            static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::roomMemberNum】运行时长：');
-
-            $tmp = microtime(true);
             self::leave($isExceptionExit ? $fd : $frame->fd, $params['roomId']);
-            static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::leave】运行时长：');
-
-            $tmp = microtime(true);
             self::clearLMList($params);
-            static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::clearLMList】运行时长：');
-
-            $tmp = microtime(true);
             $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true));
-            static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::getUserInfoListByRoomId】运行时长：');
-
-            $tmp = microtime(true);
             $messageAll['data']['count'] = $count;
             static::broadcast($server, $fdList, $messageAll, $params['roomId']);
-            static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::broadcast】运行时长：');
-
-            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::quitRoom】运行时长：');
         }
     }
 
