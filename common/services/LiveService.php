@@ -161,7 +161,7 @@ class LiveService
     }
 
     /**
-     * 送礼虚拟货币
+     * 送礼、接收虚拟货币
      *
      * @param $userId
      * @param $masterUserId
@@ -173,8 +173,11 @@ class LiveService
         $redis = RedisClient::getInstance();
         $wsIp = static::getWsIp($roomId);
         $key = Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $wsIp . ':' . $roomId;
-        $redis->hIncrby($key, $userId, intval($virtualCurrency)); // 用户
-        $redis->hIncrby($key, $masterUserId, intval($virtualCurrency)); // 主播
+        $redis->hIncrby($key, $userId, intval($virtualCurrency)); // 用户送礼虚拟货币
+        $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
+
+        $key = Constants::WS_RECEIVE_GIFT_VIRTUAL_CURRENCY . $wsIp . ':' . $roomId;
+        $redis->hIncrby($key, $masterUserId, intval($virtualCurrency)); // 主播接收礼物虚拟货币
         $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
     }
 
@@ -230,7 +233,7 @@ class LiveService
         $params = $message['data'];
         //用户进入房间
         static::join($frame->fd, $params["userId"], $params["roomId"], $params["role"],
-            $params["avatar"], $params["nickName"], $params["level"], $params['balance']);
+            $params["avatar"], $params["nickName"], $params["level"], $params['balance'], isset($params['income']) ? $params['income'] : 0);
         static::runtimeConsumeTime($startTime, microtime(true), '【static::join】运行时长：');
 
         $tmpStartTime = microtime(true);
@@ -251,9 +254,10 @@ class LiveService
                 'avatar' => $params["masterAvatar"],
                 'nickName' => $params["masterNickName"],
                 'level' => intval($params["masterLevel"]),
-                'income' => intval($params['balance']),
+                'income' => intval(static::masterIncome($params['masterUserId'], $params['roomId'])),
                 'count' => $roomMemberNum,
-                'userList' => $userList
+                'userList' => $userList,
+                'balance' => $params['balance']
             ],
         ];
         $server->push($frame->fd, json_encode($resMessage));
@@ -269,8 +273,9 @@ class LiveService
                 'nickName' => $params['nickName'],
                 'level' => intval($params['level']),
                 'count' => $roomMemberNum,
-                'userList' => $userList
-            ],
+                'userList' => $userList,
+                'income' => intval(static::masterIncome($params['masterUserId'], $params['roomId'])),
+            ]
         ];
 
         $tmpStartTime = microtime(true);
@@ -326,7 +331,7 @@ class LiveService
     }
 
     //加入房间
-    private static function join($fd, $userId, $roomId, $role, $avatar, $nickName, $level, $balance)
+    private static function join($fd, $userId, $roomId, $role, $avatar, $nickName, $level, $balance, $income)
     {
         //服务器fd映射关系，异常退出用
         $ip = self::getWsIp($roomId);
@@ -360,6 +365,33 @@ class LiveService
         // 用户余额
         $redis->hset(Constants::WS_USER_BALANCE, $userId, $balance);
         $redis->expire(Constants::WS_USER_BALANCE, Constants::DEFAULT_EXPIRES);
+
+        // 主播总收益
+        switch ($role) {
+            case Constants::WS_ROLE_MASTER:
+                $key = Constants::WS_INCOME . $ip . ':' . $roomId;
+                $redis->hset($key, $userId, intval($income));
+                $redis->expire($key, Constants::DEFAULT_EXPIRES);
+                break;
+        }
+    }
+
+    /**
+     * 主播收益
+     *
+     * @param $masterUserId
+     * @param $roomId
+     * @return int|string
+     */
+    private static function masterIncome($masterUserId, $roomId)
+    {
+        $redis = RedisClient::getInstance();
+        $ip = self::getWsIp($roomId);
+        $key = Constants::WS_INCOME . $ip . ':' . $roomId;
+        if ($redis->exists($key)) {
+            return $redis->hget($key, $masterUserId);
+        }
+        return intval(false);
     }
 
     //房间fd列表

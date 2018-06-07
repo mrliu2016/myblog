@@ -72,6 +72,7 @@ class Constants
     const WS_USER_BALANCE = self::PROJECT_NAME . 'WSUserBalance';
     const WS_KEYWORD = self::PROJECT_NAME . ':WSKeyword';
     const WS_SEND_GIFT_VIRTUAL_CURRENCY = self::PROJECT_NAME . ':WSSendGiftVirtualCurrency_'; // 送礼虚拟货币
+    const WS_INCOME = self::PROJECT_NAME.':WSIncome_'; // 收到、收益虚拟货币
     const WS_GAG = self::PROJECT_NAME.':WSGag_'; // 禁言
 
     const WS_HEARTBEAT_IDLE_TIME = 30; // TCP连接如果在30秒内
