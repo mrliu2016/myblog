@@ -247,12 +247,11 @@ class LiveService
         static::runtimeConsumeTime($startTime, microtime(true), '【static::join】运行时长：');
 
         $tmpStartTime = microtime(true);
-        $roomMemberNum = LiveService::roomMemberNum($params['roomId']);
+        $roomMemberNum = static::computeUnit(LiveService::roomMemberNum($params['roomId']));
         static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::roomMemberNum】运行时长：');
 
         $tmpStartTime = microtime(true);
         $userList = array_values(LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true));
-        ll($userList, 'webSocketMessage.log');
         static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::getUserInfoListByRoomId】运行时长：');
 
         $resMessage = [
@@ -1185,6 +1184,33 @@ class LiveService
                 'data' => []
             ];
             $server->push($frame->fd, json_encode($responseMessage));
+        }
+    }
+
+    public static function computeUnit($number)
+    {
+        for ($index = 1; $index <= 10; $index++) {
+            $base = pow(10, $index);
+            if ($number >= pow(10, 4) && ($number < pow(10, 8))) {
+                switch (strlen($base)) {
+                    case 5:
+                    case 6:
+                    case 7:
+                    case 8:
+                        return sprintf('%.1f', $number / $base) . 'w+';
+                        break;
+                }
+            } elseif ($number >= pow(10, 8)) {
+                switch (strlen($base)) {
+                    case 9:
+                    case 10:
+                    case 11:
+                        return sprintf('%.1f', $number / $base) . '亿+';
+                        break;
+                }
+            } else {
+                return strval($number);
+            }
         }
     }
 }

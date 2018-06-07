@@ -30,7 +30,7 @@ class VideoService
                     case 6:
                     case 7:
                     case 8:
-                        return sprintf('%.1f', $number / $base) . '万';
+                        return sprintf('%.1f', $number / $base) . 'w+';
                         break;
                 }
             } elseif ($number >= pow(self::BASE, 8)) {
@@ -38,7 +38,7 @@ class VideoService
                     case 9:
                     case 10:
                     case 11:
-                        return sprintf('%.1f', $number / $base) . '亿';
+                        return sprintf('%.1f', $number / $base) . '亿+';
                         break;
                 }
             } else {
