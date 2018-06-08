@@ -3,6 +3,7 @@
 namespace app\manager\controllers;
 
 use app\common\components\AHelper;
+use app\common\extensions\RongCloud\RongCloud;
 use app\common\models\KeyWord;
 use app\common\models\Message;
 use app\common\models\User;
@@ -219,6 +220,26 @@ class MessageController extends BaseController
 //        $data['pageNo'] = $page;
         $data['count'] = $count;
         $this->jsonReturnSuccess(0,$data);
+    }
+
+    //test
+    public function actionTest(){
+
+//        $config = Yii::$app->params['rongCloud'];
+////        static::$rongCloud = new RongCloudExtensions($config['appKey'], $config['appSecret']);
+//        $rongCloud = new RongCloud($config['appKey'], $config['appSecret']);
+//        $message = $rongCloud->message();
+//        $fromUserId = '900025';
+//        $toUserId= '800010';
+//        $objectName = 'RC:TxtMsg';
+//        $content = 'test hello';
+//        $pushContent = 'thisisapush';
+//        $pushData = 'test hello';
+//
+//
+////        content={\"content\":\"c#hello\"}&fromUserId=2191&toUserId=2191&toUserId=2192&objectName=RC:TxtMsg&pushContent=thisisapush&pushData={\"pushData\":\"hello\"}
+//        $result = $message->PublishSystem($fromUserId, $toUserId, $objectName, $content);
+//        print_r($result);die;
 
 
     }

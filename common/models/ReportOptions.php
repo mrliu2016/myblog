@@ -29,7 +29,6 @@ class ReportOptions extends ActiveRecord
             return $find->asArray()->one();
         }
     }
-
     /**
      * @param $params
      * @param null $fields
@@ -74,4 +73,35 @@ class ReportOptions extends ActiveRecord
         }
         return $find;
     }
+
+    //查询到连发数据
+    public static function selectReportType(){
+        $sql = "SELECT `id`,`content` FROM ".static ::tableName()." WHERE isDelete =0  LIMIT 5";
+        $result = Yii::$app->db->createCommand($sql)->queryAll();
+        return $result;
+    }
+
+    //保存举报类型
+    public static function saveReportType($data){
+        if (!empty($data) && isset($data)) {
+            foreach ($data as $key => $val){
+                $model = static::find()->andWhere(['id' => $val['id']])->one();
+                if(!empty($model)){
+                    $model->content  = $val['content'];
+                }
+                else{
+                    $model = new self();
+                    $model->content  = $val['content'];
+                    $model->created = $_SERVER['REQUEST_TIME'];
+                }
+                $model->updated = $_SERVER['REQUEST_TIME'];
+                $model->save();
+            }
+            return ['code'=>0];
+        }
+        else {
+            return ['code'=>-1];
+        }
+    }
+
 }

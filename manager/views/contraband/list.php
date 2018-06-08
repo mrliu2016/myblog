@@ -50,7 +50,7 @@ $this->title = '违禁词管理';
                         <?= date('Y-m-d H:i:s',$item['updated']) ?>
                     </td>
                     <td>
-                        <a href="/contraband/edit-word?id=<?= $item['id'] ?>">编辑</a>
+                        <a href="#" onclick="editWord(<?= $item['id'] ?>,'<?= $item['word'] ?>')">编辑</a>
                         <a href="/contraband/delete-word?id=<?= $item['id'] ?>">删除</a>
                     </td>
                 </tr>
@@ -70,9 +70,36 @@ $this->title = '违禁词管理';
     </nav>
 </div>
 
+<!--编辑弹框-->
+<div id="edit_frame" style="display: none;">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banword" >
+        <div class="c-modal">
+            <div class="c-modal-close s-banword-close">关闭</div>
+            <div class="c-modal_header">编辑违禁词</div>
+            <div class="s-banword-content">
+                <input class="c-input s-banword-input" type="text" placeholder="0到10个字符长度">
+            </div>
+            <div class="c-modal-footer s-banword-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banword-confirm">确认</button>
+                <button class="c-btn c-btn--large s-banword-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--编辑弹框end-->
+
 <script type="text/javascript">
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
+    });
+
+    $(".s-banword-cancel").unbind('click').bind('click',function () {
+        $("#edit_frame").css("display","none");
+    });
+
+    $(".s-banword-close").unbind('click').bind('click',function(){
+        $("#edit_frame").css("display","none");
     });
     //刷新redis
     $("#refresh").unbind('click').bind('click',function () {
@@ -94,4 +121,37 @@ $this->title = '违禁词管理';
             }
         });
     });
+
+    //添加一个编辑方法
+    function editWord(id,word) {
+
+        $("#edit_frame").css("display","block");
+        // $(".s-banword-input").val(word);
+        $(".s-banword-input").focus();//聚焦
+        $(".s-banword-confirm").unbind('click').bind('click',function () {
+            var params = {};
+            params.id = id;
+            params.word = $(".s-banword-input").val();
+            $("#edit_frame").css("display","none");
+            $.ajax({
+                url: "/contraband/edit-word",
+                type: "post",
+                data:params,
+                // cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if(data.code == 0){
+                        alert("编辑成功！");
+                    }
+                    else{
+                        alert("编辑失败");
+                    }
+                    window.location.reload();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('get issue');
+                }
+            });
+        });
+    }
 </script>

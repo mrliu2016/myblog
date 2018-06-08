@@ -65,8 +65,17 @@ class User extends ActiveRecord
         $userInfo['followers_cnt'] = VideoService::computeUnit(intval(Follow::queryInfoNum(['userIdFollow' => $userId]))); // 关注我的
         $userInfo['isAttention'] = intval(Follow::isAttention($userId, $observerUserId) ? 1 : 0);
         $userInfo['isLive'] = intval(Video::isLive($userId) ? 1 : 0);
-        $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($userId, $observerUserId));
-        $userInfo['expenditure'] = intval($userInfo['expenditure']);
+        $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($observerUserId, $userId));
+        $userInfo['income'] = !empty($userInfo['income']) ? $userInfo['income'] : 0;
+        $userInfo['expenditure'] = !empty($userInfo['expenditure']) ? $userInfo['expenditure'] : 0;
+        $redis = RedisClient::getInstance();
+        $balance = $redis->hexists(Constants::WS_USER_BALANCE,$userInfo['userId']);
+        if($balance){
+            $userInfo['balance'] = $redis->hget(Constants::WS_USER_BALANCE,$userInfo['userId']);
+        }
+        else{
+            $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;;
+        }
         return $userInfo;
     }
 

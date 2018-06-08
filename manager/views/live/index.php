@@ -183,7 +183,6 @@ $this->title = '直播管理';
             // cache: false,
             dataType: "json",
             success: function (data) {
-
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert('get issue');
@@ -218,7 +217,7 @@ $this->title = '直播管理';
                 // timeout: 1000
             }).done(function (data) {
                 if(data.code == 0){
-                    alert('禁播成功');
+                    // alert('禁播成功');
                     window.location.reload();
                 }
                 else{
