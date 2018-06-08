@@ -87,6 +87,12 @@ class Report extends ActiveRecord
         if (isset($params['id']) && !empty($params['id'])) {
             $find->andWhere('id=' . $params['id']);
         }
+        if (!empty($params['startTime'])) {
+            $find->andWhere(['>=', 'created', strtotime($params['startTime'])]);
+        }
+        if (!empty($params['endTime'])) {
+            $find->andWhere(['<=', 'created', strtotime($params['endTime'])]);
+        }
         return $find;
     }
 
@@ -134,11 +140,9 @@ class Report extends ActiveRecord
 
         return static ::queryBySQLCondition($sql);
     }
-
     //对查询出的举报信息排序
     public static function reportSort($list)
     {
-
         $len = count($list);
         //该层循环控制 需要冒泡的轮数
         for ($i = 1; $i < $len; $i++) { //该层循环用来控制每轮 冒出一个数 需要比较的次数

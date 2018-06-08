@@ -16,23 +16,23 @@ $this->title = '举报管理';
                         <span>被举报人昵称</span>
                         <input class="c-input s-gift-search-input" type="text" name="nickName">
                     </div>
-                    <br/>
+
+                    <span>注册时间</span>
                     <div class="s-gift-search-item">
-                        <span>注册时间</span>
-                        <input type="text" style="width: 120px" name="startTime" class="form-control datepicker-pop">
+                        <input type="text" style="width: 100px" name="startTime" class="form-control datepicker-pop">
                     </div>
                     <div class="s-gift-search-item">
-                        <input type="text" style="width: 120px" name="endTime" class="form-control datepicker-pop">
+                        <input type="text" style="width: 100px" name="endTime" class="form-control datepicker-pop">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 
                 </div>
             </form>
         </div>
-        <!--<div class="s-gitf-operate">
-            <button class="c-btn u-radius--circle c-btn-primary">新增</button>
-            <a class="c-a s-gift-setting">设置连击</a>
-        </div>-->
+        <div class="s-gitf-operate">
+            <!--<button class="c-btn u-radius--circle c-btn-primary">新增</button>-->
+            <a class="c-a s-gift-setting" href="/report/set-type">设置举报类型</a>
+        </div>
         <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
             <thead class="c-table-thead s-gift-thead">

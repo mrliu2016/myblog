@@ -94,4 +94,13 @@ $this->title = '直播记录';
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
+    //时间插件
+    $(".datepicker-pop").datetimepicker({
+        todayHighlight: true,
+        todayBtn: true,
+        autoclose: true,
+        minView: 3,
+        format: 'yyyy-mm-dd',
+        language: 'zh-CN'
+    });
 </script>

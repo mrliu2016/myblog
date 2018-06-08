@@ -3,6 +3,7 @@ namespace app\manager\controllers;
 
 use app\common\components\RedisClient;
 use app\common\models\Contraband;
+use app\common\services\Constants;
 use Yii;
 use yii\data\Pagination;
 
@@ -39,10 +40,20 @@ class ContrabandController extends BaseController{
     //违禁词编辑
     public function actionEditWord(){
 
-        $id = Yii::$app->request->get('id');
-        return $this->render('edit-word',[
-            'id'=>$id
-        ]);
+//        $id = Yii::$app->request->get('id');
+//        return $this->render('edit-word',[
+//            'id'=>$id
+//        ]);
+//
+        if (Yii::$app->request->post()) {
+            $params = Yii::$app->request->post();
+            if(Contraband::editWord($params)){
+                $this->jsonReturnSuccess(0,'编辑成功.');
+            }
+            else{
+                $this->jsonReturnError(-1,'编辑失败.');
+            }
+        }
     }
     //违禁词删除
     public function actionDeleteWord(){
@@ -133,6 +144,9 @@ class ContrabandController extends BaseController{
         $redis = RedisClient::getInstance();
 //        print_r($redis);die;
         $data = Contraband::queryAllInfo();
+
+//        $redis->hget()
+
 
 
     }

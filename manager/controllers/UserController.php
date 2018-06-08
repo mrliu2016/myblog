@@ -44,7 +44,6 @@ class UserController extends BaseController
         if(empty($params['id'])){
             unset($params['id']);
         }
-
         //先判断状态
         foreach ($result as $key => &$val){
             if(!empty($val['realName']) && !empty($val['idCard']) && !empty($val['mobile'])){
