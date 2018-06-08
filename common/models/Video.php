@@ -114,6 +114,7 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
      *
      * @param $params
      * @return mixed
+     * @throws \yii\db\Exception
      */
     public static function queryLatest($params)
     {
@@ -121,14 +122,22 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
-        $find = static::find();
-        $find = self::buildParams($find, $params);
-        $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive,viewerNum')
-            ->asArray()
-            ->orderBy('startTime desc')
-            ->offset($offset)
-            ->limit($params['defaultPageSize'])
-            ->all();
+//        $find = static::find();
+//        $find = self::buildParams($find, $params);
+//        $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive,viewerNum')
+//            ->asArray()
+//            ->orderBy('startTime desc')
+//            ->offset($offset)
+//            ->limit($params['defaultPageSize'])
+//            ->all();
+
+        $find = Yii::$app->db;
+        $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum from ' . static::tableName() . ' as video '
+            . ' where video.isLive = 1 and video.userId not in ('
+            . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by startTime desc';
+        $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
+        $result = $find->createCommand($sql)->queryAll();
         return static::processLiveInfo($result);
     }
 
