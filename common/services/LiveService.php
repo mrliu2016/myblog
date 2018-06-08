@@ -408,7 +408,7 @@ class LiveService
         if ($redis->exists($key)) {
             return $redis->hget($key, $masterUserId);
         }
-        return false;
+        return '0';
     }
 
     //房间fd列表
