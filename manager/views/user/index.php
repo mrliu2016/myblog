@@ -203,8 +203,18 @@ $this->title = '用户管理';
                         <td>
                             <?php if(empty($item['playType']) || $item['playType'] == 0):?>
                                 <span class="s-basic_item-value">正常</span>
-                            <?php elseif($item['playType'] == 1 || $item['playType'] == 2):?>
-                                <span class="s-basic_item-value">禁播中</span>
+                            <?php elseif($item['playType'] == 1):?>
+                                <?php if(time() - $item['playTime'] > 86400):?>
+                                    <span class="s-basic_item-value">正常</span>
+                                <?php else:?>
+                                    <span class="s-basic_item-value">禁播中(还剩<?=ceil((time() - $item['playTime'])/3600)?>h)</span>
+                                <?php endif;?>
+                            <?php elseif($item['playType'] == 2):?>
+                                <?php if(time() - $item['playTime'] > 2592000):?>
+                                    <span class="s-basic_item-value">正常</span>
+                                <?php else:?>
+                                    <span class="s-basic_item-value">禁播中(还剩<?=ceil((time() - $item['playTime'])/86400)?>天)</span>
+                                <?php endif;?>
                             <?php elseif($item['playType'] == 3):?>
                                 <span class="s-basic_item-value">永久禁播</span>
                             <?php elseif($item['playType'] == 4):?>
@@ -354,7 +364,7 @@ $this->title = '用户管理';
             params.roomId = roomId;
             params.type = type;
 
-            console.log(params);
+            // console.log(params);
             $("#forbid_frame").css("display","none");
 
             $.ajax({
@@ -365,7 +375,8 @@ $this->title = '用户管理';
                 // timeout: 5000
             }).done(function (data) {
                 if(data.code == 0){
-                    alert('禁播成功');
+                    // alert('禁播成功');
+                    window.location.reload();
                 }
                 else{
                     alert('禁播失败');
@@ -375,15 +386,14 @@ $this->title = '用户管理';
     }
 
     //恢复禁播状态
-    function recovery(){
+    function recovery(userId,roomId){
         $("#recovery_frame").css("display","block");
         $(".s-banlive-confirm").unbind('click').bind('click',function () {
             $("#recovery_frame").css("display","block");
             var params = {};
             params.userId = userId;
             params.roomId = roomId;
-
-            console.log(params);
+            // console.log(params);
             $.ajax({
                 type: 'post',
                 url: '/user/recovery',
@@ -393,6 +403,7 @@ $this->title = '用户管理';
             }).done(function (data) {
                 if(data.code == 0){
                     alert("恢复成功");
+                    window.location.reload();
                 }
                 else{
                     alert("恢复失败");

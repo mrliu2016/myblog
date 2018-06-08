@@ -24,7 +24,7 @@ $this->title = '编辑礼物';
                 </tr>
                 <tr>
                     <td>价格</td>
-                    <td><input type="text" id="price" value="<?=$item['name']?>"/>豆</td>
+                    <td><input type="text" id="price" value="<?=$item['price']?>"/>豆</td>
                 </tr>
                 <tr>
                     <td>是否可以连发</td>
