@@ -4,6 +4,7 @@ namespace app\common\services;
 
 use app\common\components\CdnUtils;
 use app\common\extensions\OSS\Model\CnameConfig;
+use app\common\models\Blacklist;
 use app\common\models\Follow;
 use app\common\models\User;
 use app\common\models\Video;
@@ -22,6 +23,9 @@ class FollowService
     {
         if (!isset($params['userId']) || !isset($params['userIdFollow'])) {
             return ['code' => Constants::CODE_FAILED, 'msg' => '系统繁忙，请稍后重试！'];
+        }
+        if (Blacklist::isPullBlacklist($params['userIdFollow'], $params['userId'])) {
+            return ['code' => Constants::CODE_FAILED, 'msg' => '你已被主播拉黑，不能加关注'];
         }
         Follow::attention($params['userId'], $params['userIdFollow']);
         return ['code' => Constants::CODE_SUCCESS, 'msg' => '关注成功', 'data' => []];

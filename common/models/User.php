@@ -365,6 +365,7 @@ class User extends ActiveRecord
 //        $result = static::findBySql($sql)->asArray()->offset($offset)->limit($params['defaultPageSize'])->all();
         foreach ($result as $key => $value) {
             $result[$key]['isAttention'] = intval(Follow::isAttention($value['id'], $observerUserId) ? 1 : 0);
+//            $result[$key]['isBlacklist'] = intval(Blacklist::isPullBlacklist($value['userId'], $observerUserId));
             $result[$key]['avatar'] = !empty($value['avatar']) ? $value['avatar'] : Yii::$app->params['defaultAvatar'];
         }
         return $result;
@@ -498,7 +499,7 @@ class User extends ActiveRecord
         if (!empty($params['mobile'])) {
             $find->andWhere('mobile like "' . trim($params['mobile']) . '%"');
         }
-        if(!empty($params['type'])){
+        if (!empty($params['type'])) {
             $find->andWhere('type=' . trim($params['type']));
         }
 
@@ -509,27 +510,23 @@ class User extends ActiveRecord
         if (!empty($params['endTime'])) {
             $find->andWhere(['<=', 'created', strtotime($params['endTime'])]);
         }
-        if(!empty($params['isAuth'])){
-            if($params['isAuth'] == 1){
+        if (!empty($params['isAuth'])) {
+            if ($params['isAuth'] == 1) {
                 $find->andWhere(['<>', 'realName', '']);
                 $find->andWhere(['<>', 'mobile', '']);
-            }
-            else if($params['isAuth'] == 2){
+            } else if ($params['isAuth'] == 2) {
                 $find->andWhere('realName=""');
                 $find->andWhere('mobile=""');
             }
         }
         //状态
-        if(isset($params['playType']) && $params['playType'] == 1){//正常  playTpye = 0
+        if (isset($params['playType']) && $params['playType'] == 1) {//正常  playTpye = 0
             $find->andWhere('playType=0');
-        }
-        else if(isset($params['playType']) && $params['playType'] == 2){//禁播  playTpye = 1 或者2
-            $find->andWhere(['playType'=>[1,2]]);
-        }
-        else if(isset($params['playType']) && $params['playType'] == 3){ //永久禁播 playTpye = 3
+        } else if (isset($params['playType']) && $params['playType'] == 2) {//禁播  playTpye = 1 或者2
+            $find->andWhere(['playType' => [1, 2]]);
+        } else if (isset($params['playType']) && $params['playType'] == 3) { //永久禁播 playTpye = 3
             $find->andWhere('playType=3');
-        }
-        else if(isset($params['playType']) && $params['playType'] == 4){//停用 playTpye = 4
+        } else if (isset($params['playType']) && $params['playType'] == 4) {//停用 playTpye = 4
             $find->andWhere('playType=4');
         }
         return $find;
@@ -543,14 +540,16 @@ class User extends ActiveRecord
     }
 
     //通过用户昵称获取用户信息
-    public static function queryInfoByNickName($nickName){
-        $sql = "SELECT id,nickName FROM `".static ::tableName() ."` WHERE `nickName` LIKE '".trim($nickName) ."%'";
+    public static function queryInfoByNickName($nickName)
+    {
+        $sql = "SELECT id,nickName FROM `" . static::tableName() . "` WHERE `nickName` LIKE '" . trim($nickName) . "%'";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }
 
     //新增机器人
-    public static function addRobotInfo($params){
+    public static function addRobotInfo($params)
+    {
 
         $model = new self();
         $model->nickName = trim($params['nickName']);
@@ -578,43 +577,44 @@ class User extends ActiveRecord
     }
 
     //批量插入机器人信息
-    public static function batchInsertRobotInfo($data){
+    public static function batchInsertRobotInfo($data)
+    {
 
         if (!empty($data) && isset($data)) {
             foreach ($data as $val) {
                 $sql = 'INSERT INTO ' . static::tableName()
-                . ' (`nickName`, `sex`,  `roomId`, `province`, `city`, `type`, `created`, `updated`, `followers_cnt`, `followees_cnt`,`description`) values ';
-                 $value = '';
+                    . ' (`nickName`, `sex`,  `roomId`, `province`, `city`, `type`, `created`, `updated`, `followers_cnt`, `followees_cnt`,`description`) values ';
+                $value = '';
                 $value .= '(';
-                $value .= '\''.$val[0].'\',';
-                $value .= $val[1].',';
-                $value .= $val[2].',';
-                $value .= '\''.$val[3].'\',';
-                $value .= '\''.$val[4].'\',';
+                $value .= '\'' . $val[0] . '\',';
+                $value .= $val[1] . ',';
+                $value .= $val[2] . ',';
+                $value .= '\'' . $val[3] . '\',';
+                $value .= '\'' . $val[4] . '\',';
                 $value .= '1,';
-                $value .= $_SERVER['REQUEST_TIME'].',';
-                $value .= $_SERVER['REQUEST_TIME'].',';
-                $value .= '\''.$val[5].'\',';
-                $value .= $val[6].',';
+                $value .= $_SERVER['REQUEST_TIME'] . ',';
+                $value .= $_SERVER['REQUEST_TIME'] . ',';
+                $value .= '\'' . $val[5] . '\',';
+                $value .= $val[6] . ',';
 //                $value .= $val[7].',';
-                $value .= '\''.$val[9].'\',';
-                $value = trim($value,',');
-                $value  .= ')';
+                $value .= '\'' . $val[9] . '\',';
+                $value = trim($value, ',');
+                $value .= ')';
                 $sql .= $value;
                 Yii::$app->db->createCommand($sql)->execute();
                 $userId = Yii::$app->db->getLastInsertId();
-                Order::insertRobotGift($userId,$val[7],true);
-                Order::insertRobotGift($userId,$val[8],false);
+                Order::insertRobotGift($userId, $val[7], true);
+                Order::insertRobotGift($userId, $val[8], false);
             }
-            return ['code'=>0];
+            return ['code' => 0];
         }
-        return ['code'=>-1];
+        return ['code' => -1];
     }
 
     //删除机器人
     public static function deleteRobot($id)
     {
-        $model = static::find()->andWhere(['id'=>$id])->one();
+        $model = static::find()->andWhere(['id' => $id])->one();
         $model->isDelete = 1;
         $model->updated = $_SERVER['REQUEST_TIME'];
         $model->save();
@@ -622,7 +622,8 @@ class User extends ActiveRecord
     }
 
     //编辑机器人
-    public static function editRobot($params){
+    public static function editRobot($params)
+    {
 
         $model = static::find()->andWhere(['id' => $params['id']])->one();
         $model->nickName = trim($params['nickName']);
@@ -637,29 +638,33 @@ class User extends ActiveRecord
         $model->save();
         return $model->id;
     }
+
     //禁播
-    public static function operateNoplay($params){
+    public static function operateNoplay($params)
+    {
 
         $model = static::find()->andWhere(['id' => $params['userId']])->one();
         $model->playType = intval($params['type']);
         $model->playTime = $_SERVER['REQUEST_TIME'];
-        $model->updated  = $_SERVER['REQUEST_TIME'];
+        $model->updated = $_SERVER['REQUEST_TIME'];
         $model->save();
         return $model->id;
     }
 
     //恢复
-    public static function operateRecovery($params){
+    public static function operateRecovery($params)
+    {
         $model = static::find()->andWhere(['id' => $params['userId']])->one();
         $model->playType = 0;
         $model->playTime = 0;
-        $model->updated  = $_SERVER['REQUEST_TIME'];
+        $model->updated = $_SERVER['REQUEST_TIME'];
         $model->save();
         return $model->id;
     }
 
     //消息推送的用户信息
-    public static function queryMessageUserInfo($params){
+    public static function queryMessageUserInfo($params)
+    {
         $offset = 0;
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
