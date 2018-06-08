@@ -19,7 +19,6 @@ class LiveService
     public static function barrageRequest($server, $frame, $message)
     {
         try {
-            $startTime = microtime(true);
             $param = $message['data'];
             $redis = RedisClient::getInstance();
             $gagKey = Constants::WS_GAG . static::getWsIp($message['data']['roomId']) . '_' . $message['data']['roomId'];
@@ -32,7 +31,6 @@ class LiveService
                 $keyWords = json_decode(base64_decode($redis->get(Constants::WS_KEYWORD)), true);
             }
             $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
-            static::runtimeConsumeTime($startTime, microtime(true), '【keyWords】运行时长：');
 
             $respondMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
@@ -47,15 +45,8 @@ class LiveService
                 ]
             ];
             //广播房间全体成员
-            $tmpStartTime = microtime(true);
             $roomAll = LiveService::fdListByRoomId($server, $param["roomId"]);
-            static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::fdListByRoomId】运行时长：');
-
-            $tmpStartTime = microtime(true);
             static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
-            static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::broadcast】运行时长：');
-
-            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::barrageRequest】运行时长：');
         } catch (\Exception $exception) {
             if (YII_DEBUG) {
                 static::webSocketLog(
@@ -681,7 +672,7 @@ class LiveService
     }
 
     /**
-     * 推送连麦用户列表
+     * 申请连麦列表
      *
      * @param $server
      * @param $frame
@@ -689,39 +680,34 @@ class LiveService
      */
     public static function requestLMList($server, $frame, $message)
     {
-        $startTime = microtime(true);
         $messageInfo = $message['data'];
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
-        $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
-        if (!empty($userInfo) && $userInfo['role']) {
+        $adminUserInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
+        if (!empty($adminUserInfo) && $adminUserInfo['role']) {
             $lmUser = [
                 'userId' => $messageInfo['userId'],
                 'nickName' => $messageInfo['nickName'],
                 'avatar' => $messageInfo['avatar'],
-                'introduction' => $messageInfo['introduction'],
+                'roomId' => $messageInfo['roomId'],
                 'type' => Constants::LM_APPLY
             ];
-            $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
+            $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
             $redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUser));
             $redis->expire($keyWSRoomUserLMList, Constants::DEFAULT_EXPIRES);
+
+            $lmUserList = LiveService::getUserLMListByRoomId($messageInfo['roomId']);
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_LM_LIST_RES,
                 'data' => [
-                    'userList' => array_values(LiveService::getUserLMListByRoomId($messageInfo['roomId']))
+                    'roomId' => $messageInfo['roomId'],
+                    'userList' => array_values($lmUserList),
+                    'count' => count($lmUserList)
                 ]
             ];
-
-            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::getUserLMListByRoomId】运行时长：');
-
-            try {
-                $server->push(intval($userInfo['fd']), json_encode($responseMessage));
-            } catch (ErrorException $ex) {
-                ll($ex->getMessage(), __FUNCTION__ . '.log');
-            }
+            $server->push(intval($adminUserInfo['fd']), json_encode($responseMessage));
         }
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::requestLMList】运行时长：');
     }
 
     /**
@@ -733,7 +719,7 @@ class LiveService
     public static function getUserLMListByRoomId($roomId)
     {
         $wsIp = self::getWsIp($roomId);
-        $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $roomId;
+        $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $roomId;
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomUserLMList);
         if (empty($result)) return [];

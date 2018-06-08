@@ -66,7 +66,7 @@ class Constants
     const WS_ROOM_USER_COUNT = self::PROJECT_NAME . 'WSRoom_';
     const WS_WARNING = self::PROJECT_NAME . 'WSWarning';
     const WS_CLOSE = self::PROJECT_NAME . 'WSClose';
-    const WS_ROOM_USER_LM_LIST = self::PROJECT_NAME . 'WSRoomUserLMList_';
+    const WS_ROOM_USER_LM_LIST = self::PROJECT_NAME . 'WSRoomUserLMList_'; // 连麦用户列表
     const WS_USER_BALANCE = self::PROJECT_NAME . 'WSUserBalance';//余额
     const WS_KEYWORD = self::PROJECT_NAME . ':WSKeyword';
     const WS_SEND_GIFT_VIRTUAL_CURRENCY = self::PROJECT_NAME . ':WSSendGiftVirtualCurrency_'; // 送礼虚拟货币
@@ -170,9 +170,9 @@ class Constants
     /**
      * 连麦
      */
-    const LM_APPLY = 1; // 申请连麦
-    const LM_TYPE_AGREE = 1; // 连麦同意
-    const LM_TYPE_REFUSE = 0; // 连麦拒绝
+    const LM_APPLY = 1; // 连麦申请
+    const LM_TYPE_AGREE = 2; // 连麦同意
+    const LM_TYPE_REFUSE = 3; // 连麦拒绝
 
     /**
      * 角色
