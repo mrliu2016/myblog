@@ -36,7 +36,7 @@ class UserController extends BaseController
             self::jsonReturnError(Constants::CODE_FAILED, '手机号错误!');
         }
         if (!empty($verifyCode)) {
-            $key = Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_LOGIN . ':' . $mobile;
+            $key = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_LOGIN . ':' . $mobile;
             if (!($redisClient->exists($key))) {
                 self::jsonReturnError(Constants::CODE_FAILED, '手机验证码已失效!');
             }
@@ -126,7 +126,7 @@ class UserController extends BaseController
         );
         $verifyCode = Yii::$app->request->post('verifyCode');
         $redisClient = RedisClient::getInstance();
-        $key = Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_RESET . ':' . $params['mobile'];
+        $key = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_RESET . ':' . $params['mobile'];
         $cacheVerifyCode = $redisClient->get($key);
         if (intval($cacheVerifyCode) != intval($verifyCode)) {
             self::jsonReturnError(Constants::CODE_FAILED, '手机验证码错误');
@@ -225,7 +225,7 @@ class UserController extends BaseController
             $this->jsonReturnError(Constants::CODE_FAILED, '请输入手机号', []);
         }
         $redisClient = RedisClient::getInstance();
-        $key = Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_REGISTER . ':' . $mobile;
+        $key = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_REGISTER . ':' . $mobile;
         if (!($redisClient->exists($key))) {
             self::jsonReturnError(Constants::CODE_FAILED, '手机验证码已失效!');
         }
@@ -257,7 +257,7 @@ class UserController extends BaseController
         $result['code'] = Token::code();
         if (SMSHelper::send($result['code'], '三体云联验证码', $mobile)) {
             $redis = RedisClient::getInstance();
-            $key = Constants::PROJECT . ':' . Constants::VERIFY_CODE . ':' . $type . ':' . $mobile;
+            $key = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE . ':' . $type . ':' . $mobile;
             $redis->set($key, $result['code']);
             $redis->expire($key, Constants::VERIFY_CODE_EXPIRES);
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '验证码发送成功', $result);
