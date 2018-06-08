@@ -153,7 +153,7 @@ $this->title = '用户管理';
                 </tr>
                 </thead>
                 <tbody class="c-table-tbody s-gift-tbody">
-                <?php foreach ($itemList as $key => $item): ?>
+                <?php foreach ($itemList as $key => $item){ ?>
                     <tr>
                         <td>
                             <?= $key+1 ?>
@@ -219,7 +219,7 @@ $this->title = '用户管理';
                                 <span class="s-basic_item-value">永久禁播</span>
                             <?php elseif($item['playType'] == 4):?>
                                 <span class="s-basic_item-value">停用</span>
-                            <? endif;?>
+                            <?php endif;?>
                         </td>
                         <td>
                             <?php if(empty($item['playType']) || $item['playType'] == 0):?>
@@ -237,10 +237,9 @@ $this->title = '用户管理';
                                     <label for="show-notes" class="lable-switch-mod" ></label>
                                 </div>
                             <?php endif; ?>
-
                         </td>
                     </tr>
-                <?php endforeach; ?>
+                <?php } ?>
                 </tbody>
             </table>
         </div>
