@@ -33,7 +33,7 @@ class LiveController extends BaseController
         $page = intval(!empty($params['page']) ? $params['page'] : 0);
         $params['isLive'] = Constants::CODE_LIVE;
         $list = Video::queryHot($params);
-        $totalCount = intval(Video::queryInfoNum($params));
+        $totalCount = intval(Video::querySqlInfoNum($params));
         $pageCount = ceil($totalCount / $params['size']);
         if (!empty($list)) {
             $this->jsonReturnSuccess(

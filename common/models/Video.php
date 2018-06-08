@@ -87,10 +87,26 @@ class Video extends ActiveRecord
         $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
 video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum from ' . static::tableName() . ' as video '
             . ' where video.isLive = 1 and video.userId not in ('
-            . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ')';
+            . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by viewerNum desc';
         $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
         $result = $find->createCommand($sql)->queryAll();
         return static::processLiveInfo($result);
+    }
+
+    /**
+     * 计算记录总数
+     *
+     * @param $params
+     * @return int
+     * @throws \yii\db\Exception
+     */
+    public static function querySqlInfoNum($params)
+    {
+        $find = Yii::$app->db;
+        $sql = 'select video.id as id from ' . static::tableName() . ' as video '
+            . ' where video.isLive = 1 and video.userId not in ('
+            . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ')';
+        return count($find->createCommand($sql)->queryAll());
     }
 
     /**
