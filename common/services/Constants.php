@@ -70,7 +70,8 @@ class Constants
     const WS_USER_BALANCE = self::PROJECT_NAME . 'WSUserBalance';//余额
     const WS_KEYWORD = self::PROJECT_NAME . ':WSKeyword';
     const WS_SEND_GIFT_VIRTUAL_CURRENCY = self::PROJECT_NAME . ':WSSendGiftVirtualCurrency_'; // 送礼虚拟货币
-    const WS_INCOME = self::PROJECT_NAME.':WSIncome_'; // 收到、收益虚拟货币
+    const WS_INCOME = self::PROJECT_NAME.':WSIncome_'; // 总收到、收益虚拟货币
+    const WS_MASTER_CURRENT_INCOME = self::PROJECT_NAME.'WSCurrentIncome_'; // 主播本场直播收益
     const WS_GAG = self::PROJECT_NAME.':WSGag_'; // 禁言
     const WS_ROBOT = self::PROJECT_NAME.'WSRobot'; // 机器人
     const WS_BANNED_WORD = self::PROJECT_NAME.'WSBannedWord'; // 违禁词
