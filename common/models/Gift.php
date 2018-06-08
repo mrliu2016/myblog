@@ -54,12 +54,19 @@ class Gift extends ActiveRecord
         if (isset($params['isFire'])) {
             $find->andWhere('isFire='.$params['isFire']);
         }
+        if (isset($params['isDelete'])) {
+            $find->andWhere('isDelete='.$params['isDelete']);
+        }
         return $find;
     }
 
     public static function deleteGift($id)
     {
-        return static::find()->andWhere(['id' => $id])->one()->delete();
+        $model = static ::find()->andWhere(['id' => $id])->one();
+        $model->isDelete = 1;
+        $model->updated = $_SERVER['REQUEST_TIME'];
+        $model->save();
+        return $model->id;
     }
 
     //新建礼物

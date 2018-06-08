@@ -68,14 +68,14 @@ class User extends ActiveRecord
         $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($observerUserId, $userId));
         $userInfo['income'] = !empty($userInfo['income']) ? $userInfo['income'] : 0;
         $userInfo['expenditure'] = !empty($userInfo['expenditure']) ? $userInfo['expenditure'] : 0;
-        $redis = RedisClient::getInstance();
-        $balance = $redis->hexists(Constants::WS_USER_BALANCE,$userInfo['userId']);
-        if($balance){
-            $userInfo['balance'] = $redis->hget(Constants::WS_USER_BALANCE,$userInfo['userId']);
-        }
-        else{
-            $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;;
-        }
+//        $redis = RedisClient::getInstance();
+//        $balance = $redis->hexists(Constants::WS_USER_BALANCE,$userInfo['userId']);
+//        if($balance){
+//            $userInfo['balance'] = $redis->hget(Constants::WS_USER_BALANCE,$userInfo['userId']);
+//        }
+//        else{
+//            $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;;
+//        }
         return $userInfo;
     }
 
@@ -656,6 +656,21 @@ class User extends ActiveRecord
         $model->updated  = $_SERVER['REQUEST_TIME'];
         $model->save();
         return $model->id;
+    }
+
+    //消息推送的用户信息
+    public static function queryMessageUserInfo($params){
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+        $find = static::find();
+        $find = self::buildParams($find, $params);
+        return $find->select('id,nickName,roomId,mobile')
+            ->asArray()
+            ->offset($offset)
+            ->limit($params['defaultPageSize'])
+            ->all();
     }
 
 }
