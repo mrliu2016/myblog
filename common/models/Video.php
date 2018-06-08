@@ -84,16 +84,6 @@ class Video extends ActiveRecord
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
         $find = Yii::$app->db;
-//        $find = static::find();
-//        $find = self::buildParams($find, $params);
-//        $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive,viewerNum')
-//            ->asArray()
-//            ->orderBy('viewerNum desc,startTime desc')
-//            ->offset($offset)
-//            ->limit($params['defaultPageSize'])
-//            ->all();
-
-//        $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
 video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum from ' . static::tableName() . ' as video '
             . ' where video.isLive = 1 and video.userId not in ('
