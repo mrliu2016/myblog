@@ -59,15 +59,14 @@ class User extends ActiveRecord
         }
 
         $userInfo['roomId'] = intval($userInfo['roomId']);
-        $userInfo['income'] = intval($userInfo['income']);
+        $userInfo['income'] = strval($userInfo['income']);
         $userInfo['avatar'] = !empty($userInfo['avatar']) ? $userInfo['avatar'] : Yii::$app->params['defaultAvatar'];
         $userInfo['followees_cnt'] = VideoService::computeUnit(intval(Follow::queryInfoNum(['userId' => $userId]))); // 我的关注
         $userInfo['followers_cnt'] = VideoService::computeUnit(intval(Follow::queryInfoNum(['userIdFollow' => $userId]))); // 关注我的
         $userInfo['isAttention'] = intval(Follow::isAttention($userId, $observerUserId) ? 1 : 0);
         $userInfo['isLive'] = intval(Video::isLive($userId) ? 1 : 0);
         $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($observerUserId, $userId));
-        $userInfo['income'] = !empty($userInfo['income']) ? $userInfo['income'] : 0;
-        $userInfo['expenditure'] = !empty($userInfo['expenditure']) ? $userInfo['expenditure'] : 0;
+        $userInfo['expenditure'] = strval($userInfo['expenditure']);
         $redis = RedisClient::getInstance();
         $balance = $redis->hexists(Constants::WS_USER_BALANCE,$userInfo['userId']);
         if($balance){

@@ -19,7 +19,6 @@ class LiveService
     public static function barrageRequest($server, $frame, $message)
     {
         try {
-            $startTime = microtime(true);
             $param = $message['data'];
             $redis = RedisClient::getInstance();
             $gagKey = Constants::WS_GAG . static::getWsIp($message['data']['roomId']) . '_' . $message['data']['roomId'];
@@ -32,7 +31,6 @@ class LiveService
                 $keyWords = json_decode(base64_decode($redis->get(Constants::WS_KEYWORD)), true);
             }
             $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
-            static::runtimeConsumeTime($startTime, microtime(true), '【keyWords】运行时长：');
 
             $respondMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
@@ -47,15 +45,8 @@ class LiveService
                 ]
             ];
             //广播房间全体成员
-            $tmpStartTime = microtime(true);
             $roomAll = LiveService::fdListByRoomId($server, $param["roomId"]);
-            static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::fdListByRoomId】运行时长：');
-
-            $tmpStartTime = microtime(true);
             static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
-            static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::broadcast】运行时长：');
-
-            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::barrageRequest】运行时长：');
         } catch (\Exception $exception) {
             if (YII_DEBUG) {
                 static::webSocketLog(
@@ -186,7 +177,13 @@ class LiveService
 //            $redis->hset($key, $userId, json_encode($userInfo));
 //        }
 
+        // 主播-总收益
         $key = Constants::WS_INCOME . $wsIp . ':' . $roomId;
+        $redis->hIncrby($key, $masterUserId, intval($virtualCurrency)); // 主播接收礼物虚拟货币
+        $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
+
+        // 主播-本场直播收益
+        $key = Constants::WS_MASTER_CURRENT_INCOME . $wsIp . ':' . $roomId;
         $redis->hIncrby($key, $masterUserId, intval($virtualCurrency)); // 主播接收礼物虚拟货币
         $redis->expire($key, Constants::WS_DEFAULT_EXPIRE);
     }
@@ -264,7 +261,7 @@ class LiveService
                 'avatar' => $params["masterAvatar"],
                 'nickName' => $params["masterNickName"],
                 'level' => intval($params["masterLevel"]),
-                'income' => intval(static::masterIncome($params['masterUserId'], $params['roomId'])),
+                'income' => static::computeUnit(static::masterIncome($params['masterUserId'], $params['roomId'])),
                 'count' => $roomMemberNum,
                 'userList' => $userList,
                 'balance' => $params['balance']
@@ -284,7 +281,7 @@ class LiveService
                 'level' => intval($params['level']),
                 'count' => $roomMemberNum,
                 'userList' => $userList,
-                'income' => intval(static::masterIncome($params['masterUserId'], $params['roomId']))
+                'income' => static::computeUnit(static::masterIncome($params['masterUserId'], $params['roomId']))
             ]
         ];
 
@@ -368,6 +365,7 @@ class LiveService
             $userInfo['fd'] = $fd;
             $userInfo['role'] = $role;
             $userInfo['virtualCurrency'] = intval($redis->hget(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId));
+            $userInfo['startTime'] = time();
             $redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
             $redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
         }
@@ -391,7 +389,7 @@ class LiveService
      *
      * @param $masterUserId
      * @param $roomId
-     * @return int|string
+     * @return bool|string
      */
     private static function masterIncome($masterUserId, $roomId)
     {
@@ -401,7 +399,7 @@ class LiveService
         if ($redis->exists($key)) {
             return $redis->hget($key, $masterUserId);
         }
-        return intval(false);
+        return '0';
     }
 
     //房间fd列表
@@ -424,6 +422,15 @@ class LiveService
         return intval($num);
     }
 
+    /**
+     * 退出房间
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     * @param int $fd
+     * @param bool $isExceptionExit
+     */
     public static function quitRoom($server, $frame, $message, $fd = 0, $isExceptionExit = false)
     {
         $params = $message['data'];
@@ -449,6 +456,8 @@ class LiveService
             } else {
                 $count = LiveService::roomMemberNum($params['roomId']) - 1;
             }
+            $messageAll['data']['income'] = static::isManager($params['roomId'], $isExceptionExit ? $fd : $frame->fd) ? static::masterCurrentIncome($params['roomId'], $params['userId']) : '0';
+            $messageAll['data']['duration'] = static::isManager($params['roomId'], $isExceptionExit ? $fd : $frame->fd) ? static::computeDuration($params['roomId'], $params['userId']) : '00:00';
             self::leave($isExceptionExit ? $fd : $frame->fd, $params['roomId']);
             self::clearLMList($params);
             $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true));
@@ -463,7 +472,7 @@ class LiveService
         $ip = self::getWsIp($roomId);
         $redis = RedisClient::getInstance();
         $keyWSRoomLocation = Constants::WS_ROOM_LOCATION . $ip;
-        $info = $redis->hget($keyWSRoomLocation, $fdId);
+        $info = json_decode($redis->hget($keyWSRoomLocation, $fdId), true);
         if (!empty($info)) {
             //删除服务器fd 映射关系
             $redis->hdel($keyWSRoomLocation, $fdId);
@@ -482,6 +491,10 @@ class LiveService
             // 删除禁言
             if (static::isManager($roomId, $fdId)) {
                 $redis->del(Constants::WS_GAG . $ip . '_' . $roomId); // 禁言
+//                $redis->hdel(Constants::WS_INCOME . $ip . ':' . $roomId, $info['userId']); // 主播接收礼物虚拟货币
+
+                // 主播-本场直播收益
+//                $key = Constants::WS_MASTER_CURRENT_INCOME . $wsIp . ':' . $roomId;
             }
             // 删除收益
             $redis->hdel(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId);
@@ -659,7 +672,7 @@ class LiveService
     }
 
     /**
-     * 推送连麦用户列表
+     * 申请连麦列表
      *
      * @param $server
      * @param $frame
@@ -667,39 +680,34 @@ class LiveService
      */
     public static function requestLMList($server, $frame, $message)
     {
-        $startTime = microtime(true);
         $messageInfo = $message['data'];
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
-        $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
-        if (!empty($userInfo) && $userInfo['role']) {
+        $adminUserInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
+        if (!empty($adminUserInfo) && $adminUserInfo['role']) {
             $lmUser = [
                 'userId' => $messageInfo['userId'],
                 'nickName' => $messageInfo['nickName'],
                 'avatar' => $messageInfo['avatar'],
-                'introduction' => $messageInfo['introduction'],
+                'roomId' => $messageInfo['roomId'],
                 'type' => Constants::LM_APPLY
             ];
-            $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
+            $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
             $redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUser));
             $redis->expire($keyWSRoomUserLMList, Constants::DEFAULT_EXPIRES);
+
+            $lmUserList = LiveService::getUserLMListByRoomId($messageInfo['roomId']);
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_LM_LIST_RES,
                 'data' => [
-                    'userList' => array_values(LiveService::getUserLMListByRoomId($messageInfo['roomId']))
+                    'roomId' => $messageInfo['roomId'],
+                    'userList' => array_values($lmUserList),
+                    'count' => count($lmUserList)
                 ]
             ];
-
-            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::getUserLMListByRoomId】运行时长：');
-
-            try {
-                $server->push(intval($userInfo['fd']), json_encode($responseMessage));
-            } catch (ErrorException $ex) {
-                ll($ex->getMessage(), __FUNCTION__ . '.log');
-            }
+            $server->push(intval($adminUserInfo['fd']), json_encode($responseMessage));
         }
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::requestLMList】运行时长：');
     }
 
     /**
@@ -711,7 +719,7 @@ class LiveService
     public static function getUserLMListByRoomId($roomId)
     {
         $wsIp = self::getWsIp($roomId);
-        $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $roomId;
+        $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $roomId;
         $redis = RedisClient::getInstance();
         $result = $redis->hGetAll($keyWSRoomUserLMList);
         if (empty($result)) return [];
@@ -972,32 +980,6 @@ class LiveService
     }
 
     /**
-     * 秒数转换为时间
-     *
-     * @param $times
-     * @return string
-     */
-    private static function _secToTime($times)
-    {
-        $result = '';
-        if ($times > 0) {
-            $hour = sprintf('%02s', floor($times / 3600));
-            $minute = sprintf('%02s', floor(($times - 3600 * $hour) / 60));;
-            $second = sprintf('%02s', floor((($times - 3600 * $hour) - 60 * $minute) % 60));
-            if (!empty($hour) && ($hour != '00')) {
-                $result .= $hour . ':';
-            }
-            if (!empty($minute)) {
-                $result .= $minute . ':';
-            }
-            if (!empty($second)) {
-                $result .= $second;
-            }
-        }
-        return !empty($result) ? $result : '00:00';
-    }
-
-    /**
      * 记录 webSocket 日志
      *
      * @param $message
@@ -1187,6 +1169,12 @@ class LiveService
         }
     }
 
+    /**
+     * 将数字转换对应的单位
+     *
+     * @param $number
+     * @return string
+     */
     public static function computeUnit($number)
     {
         for ($index = 1; $index <= 10; $index++) {
@@ -1212,5 +1200,63 @@ class LiveService
                 return strval($number);
             }
         }
+    }
+
+    /**
+     * 主播-本场直播收益
+     *
+     * @param $roomId
+     * @param $userId
+     * @return string
+     */
+    public static function masterCurrentIncome($roomId, $userId)
+    {
+        $redis = RedisClient::getInstance();
+        $wsIp = static::getWsIp($roomId);
+        $key = Constants::WS_MASTER_CURRENT_INCOME . $wsIp . ':' . $roomId;
+        $result = $redis->hget($key, $userId);
+        return static::computeUnit($result);
+    }
+
+    /**
+     * 计算时长
+     *
+     * @param $roomId
+     * @param $userId
+     * @return string
+     */
+    private static function computeDuration($roomId, $userId)
+    {
+        $redis = RedisClient::getInstance();
+        $wsIp = static::getWsIp($roomId);
+        $key = Constants::WS_ROOM_USER . $wsIp . '_' . $roomId;
+        $result = json_decode($redis->hget($key, $userId), true);
+        return static::timestampsToTime(time() - $result['startTime']);
+    }
+
+    /**
+     * 秒数转换为时间
+     *
+     * @param $times
+     * @return string
+     */
+    private static function timestampsToTime($times)
+    {
+        $result = '';
+        if ($times > 0) {
+            $hour = sprintf('%02s', floor($times / 3600));
+            $minute = sprintf('%02s', floor(($times - 3600 * $hour) / 60));;
+            $second = sprintf('%02s', floor((($times - 3600 * $hour) - 60 * $minute) % 60));
+            if (!empty($hour) && ($hour != '00')) {
+                $result .= $hour . ':';
+            }
+            if (!empty($minute)) {
+                $result .= $minute . ':';
+            }
+            if (!empty($second)) {
+                $result .= $second;
+            }
+        }
+        return !empty($result) ? $result : '00:00';
     }
 }
