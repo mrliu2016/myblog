@@ -685,12 +685,14 @@ class LiveService
         $redis = RedisClient::getInstance();
         $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
         $adminUserInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
-        if (!empty($adminUserInfo) && $adminUserInfo['role']) {
+        if (!empty($adminUserInfo)
+            && $adminUserInfo['role'] == Constants::WS_ROLE_MASTER) {
             $lmUser = [
                 'userId' => $messageInfo['userId'],
                 'nickName' => $messageInfo['nickName'],
                 'avatar' => $messageInfo['avatar'],
                 'roomId' => $messageInfo['roomId'],
+                'fd' => intval($frame->fd),
                 'type' => Constants::LM_APPLY
             ];
             $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
@@ -702,7 +704,10 @@ class LiveService
                 'messageType' => Constants::MESSAGE_TYPE_LM_LIST_RES,
                 'data' => [
                     'roomId' => $messageInfo['roomId'],
-                    'userList' => array_values($lmUserList),
+                    'userId' => $messageInfo['userId'],
+                    'nickName' => $messageInfo['nickName'],
+                    'avatar' => $messageInfo['avatar'],
+                    'type' => Constants::LM_APPLY,
                     'count' => count($lmUserList)
                 ]
             ];
@@ -755,31 +760,72 @@ class LiveService
         }
     }
 
+    /**
+     * 连麦同意、拒绝请求
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
     public static function responseLMList($server, $frame, $message)
     {
-        $startTime = microtime(true);
         $messageInfo = $message['data'];
-        $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
-        $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
-        $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['userId']), true);
-        if (!empty($userInfo)) {
+        $wsIp = self::getWsIp($messageInfo['roomId']);
+
+        $masterUserKey = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
+        $masterUserInfo = json_decode($redis->hget($masterUserKey, $messageInfo['adminUserId']), true);
+        if (!empty($masterUserInfo) && $masterUserInfo['role'] == Constants::WS_ROLE_MASTER) {
+
+            $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
+            $userInfo = json_decode($redis->hget($key, $messageInfo['userId']), true);
+            switch ($messageInfo['type']) {
+                case Constants::LM_TYPE_AGREE:
+                    $userInfo['type'] = intval($messageInfo['type']);
+                    $redis->hset($key, $messageInfo['userId'], json_encode($userInfo));
+                    break;
+                case Constants::LM_TYPE_REFUSE:
+                    $redis->hdel($key, $messageInfo['userId']);
+                    break;
+                default:
+                    break;
+            }
+
             $responseMessage = [
-                'messageType' => Constants::MESSAGE_TYPE_LM_AGREE_RES,
+                'messageType' => Constants::MESSAGE_TYPE_LM_AGREE_OR_REFUSE_RES,
                 'data' => [
+                    'adminUserId' => $messageInfo['adminUserId'],
                     'userId' => $messageInfo['userId'],
-                    'type' => $messageInfo['type'] // 0：拒绝，1：同意
+                    'roomId' => $messageInfo['roomId'],
+                    'type' => intval($messageInfo['type']) // 2：同意,3：拒绝
                 ]
             ];
-            if ($messageInfo['type'] == Constants::LM_TYPE_AGREE) {
-                $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
-                $lmUserInfo = json_decode($redis->hget($keyWSRoomUserLMList, $messageInfo['userId']), true);
-                $lmUserInfo['type'] = 2; // 2：同意连麦
-                $redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUserInfo));
-            }
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::responseLMList】运行时长：');
+    }
+
+    /**
+     * 更新连麦用户列表
+     *
+     * @param $messageInfo
+     * @param $userInfo
+     */
+    private static function updateLMUserList($messageInfo, $userInfo)
+    {
+        $redis = RedisClient::getInstance();
+        $wsIp = self::getWsIp($messageInfo['roomId']);
+        $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
+        switch ($messageInfo['type']) {
+            case Constants::LM_TYPE_AGREE:
+                $userInfo['type'] = intval($messageInfo['type']);
+                $redis->hset($key, $messageInfo['userId'], json_encode($userInfo));
+                break;
+            case Constants::LM_TYPE_REFUSE:
+                $redis->hdel($key, $messageInfo['userId']);
+                break;
+            default:
+                break;
+        }
     }
 
     /**
