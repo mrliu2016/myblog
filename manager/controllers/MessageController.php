@@ -21,7 +21,7 @@ class MessageController extends BaseController
         ];
     }
 
-    const PAGE_SIZE = 10;
+    const PAGE_SIZE = 5;
     public $enableCsrfValidation = false;
 
     private static function pagination($pageNo, $count)
@@ -37,24 +37,32 @@ class MessageController extends BaseController
 
     public function actionIndex()
     {
-        if (Yii::$app->request->isPost) {
-            if (!empty($_POST['userId'])) {
-                Message::send($_POST['type'], $_POST['userId'], $_POST['message']);
-            }
-        }
-        $params = Yii::$app->request->getQueryParams();
-        $params['defaultPageSize'] = self::PAGE_SIZE;;
-        $result = Message::queryInfo($params);
-        $count = Message::queryInfoNum($params);
-        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
-        return $this->render('index', [
-            'itemList' => $result,
-            'pagination' => self::pagination($pageNo, $count),
-            'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
-        ]);
+//        if (Yii::$app->request->isPost) {
+//            if (!empty($_POST['userId'])) {
+//                Message::send($_POST['type'], $_POST['userId'], $_POST['message']);
+//            }
+//        }
+//        $params = Yii::$app->request->getQueryParams();
+//        $params['defaultPageSize'] = self::PAGE_SIZE;;
+//        $result = Message::queryInfo($params);
+//        $count = Message::queryInfoNum($params);
+//        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+//        return $this->render('index', [
+//            'itemList' => $result,
+//            'pagination' => self::pagination($pageNo, $count),
+//            'params' => Yii::$app->request->getQueryParams(),
+//            'count' => $count
+//        ]);
 
-        return $this->render('index', []);
+        $user = User::queryAllUserId();
+        $userStr = '';
+        foreach ($user as $val){
+            $userStr .= $val['id'].',';
+        }
+        $userStr = trim($userStr,',');
+        return $this->render('index', [
+            'userStr'=>$userStr
+            ]);
     }
 
     public function actionKey()
@@ -79,10 +87,9 @@ class MessageController extends BaseController
 
         $data = $params['data'];
 
-
-        foreach ($data as $key => $val){
-
-        }
+//        foreach ($data as $key => $val){
+//
+//        }
 
         $roomId = $params['roomId'];
         $url = Yii::$app->params['shareUrl'].'/server/location?roomId='.$roomId;//http://dev.api.customize.3ttech.cn/server/location
@@ -222,25 +229,39 @@ class MessageController extends BaseController
         $this->jsonReturnSuccess(0,$data);
     }
 
-    //test
-    public function actionTest(){
+    //发送推送消息
+    public function actionSendMessage(){
+        $params = Yii::$app->request->post();
+        if(empty($params) && !isset($params['data']) && !isset($params['message'])){
+            return $this->jsonReturnError(-1,'请求参数错误.');
+        }
+        $toUserIds = explode(',',$params['data']);
+        unset($params['data']);
+        $config = Yii::$app->params['rongCloud'];
+        $rongCloud = new RongCloud($config['appKey'], $config['appSecret']);
+        $message = $rongCloud->message();
+        $fromUserId = '900025';
+//        $toUserId=  array('800010','800042');
+        $toUserId=  $toUserIds;
+        $objectName = 'RC:TxtMsg';
+        $content = array(
+            'content' => $params['message']
+        );
+        $content = json_encode($content);
+        $pushContent = 'thisisapush';
+        $push = array(
+            'pushData' => $params['message']
+        );
+        $pushData = json_encode($push);
+//        content={\"content\":\"c#hello\"}&fromUserId=2191&toUserId=2191&toUserId=2192&objectName=RC:TxtMsg&pushContent=thisisapush&pushData={\"pushData\":\"hello\"}
+        $result = $message->PublishSystem($fromUserId, $toUserId, $objectName, $content,$pushContent,$pushData,1,1);
+        $result = json_decode($result,true);
 
-//        $config = Yii::$app->params['rongCloud'];
-////        static::$rongCloud = new RongCloudExtensions($config['appKey'], $config['appSecret']);
-//        $rongCloud = new RongCloud($config['appKey'], $config['appSecret']);
-//        $message = $rongCloud->message();
-//        $fromUserId = '900025';
-//        $toUserId= '800010';
-//        $objectName = 'RC:TxtMsg';
-//        $content = 'test hello';
-//        $pushContent = 'thisisapush';
-//        $pushData = 'test hello';
-//
-//
-////        content={\"content\":\"c#hello\"}&fromUserId=2191&toUserId=2191&toUserId=2192&objectName=RC:TxtMsg&pushContent=thisisapush&pushData={\"pushData\":\"hello\"}
-//        $result = $message->PublishSystem($fromUserId, $toUserId, $objectName, $content);
-//        print_r($result);die;
-
-
+        if(isset($result) && $result['code'] == 200){
+            $this->jsonReturnSuccess(0);
+        }
+        else{
+            $this->jsonReturnError(-1);
+        }
     }
 }

@@ -100,8 +100,8 @@ class ContrabandController extends BaseController{
         $str = "违禁词\n";
         $title = "违禁词模板";
         $queryTime = date('Y-m-d',$_SERVER['REQUEST_TIME']);
-        header("Content-type:text/csv");
-        header("Content-Disposition:attachment;filename=" . $title . $queryTime . '.xlsx');
+        header("Content-type:application/vnd.ms-excel");
+        header("Content-Disposition:attachment;filename=" . $title . $queryTime . '.xls');
         header('Cache-Control:must-revalidate,post-check=0,pre-check=0');
         header('Expires:0');
         header('Pragma:public');
@@ -126,9 +126,7 @@ class ContrabandController extends BaseController{
                     $dataset[] = $sheet->getCell($column.$row)->getValue();
                 }
             }
-
             $result = Contraband::batchWord($dataset);
-
             $this->redirect('/contraband/add-word');
         } else {
             return $this->render(
@@ -141,13 +139,12 @@ class ContrabandController extends BaseController{
 
     //刷新redis
     public function actionRefresh(){
-        $redis = RedisClient::getInstance();
-//        print_r($redis);die;
-        $data = Contraband::queryAllInfo();
-
-//        $redis->hget()
-
-
-
+        $result = Contraband::refreshRedis();
+        if(isset($result) && $result['code'] == 0){
+            $this->jsonReturnSuccess(0);
+        }
+        else{
+            $this->jsonReturnError(-1);
+        }
     }
 }

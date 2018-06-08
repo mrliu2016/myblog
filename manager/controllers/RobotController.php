@@ -154,7 +154,7 @@ class RobotController extends BaseController{
         $str = "昵称,性别,所在地,关注数,粉丝数,收到礼物,送出礼物,个性签名\n";
         $title = "批量新增机器人模板";
         $queryTime = date('Y-m-d',$_SERVER['REQUEST_TIME']);
-        header("Content-type:text/csv");
+        header("Content-type:application/vnd.ms-excel");
         header("Content-Disposition:attachment;filename=" . $title . $queryTime . '.xls');
         header('Cache-Control:must-revalidate,post-check=0,pre-check=0');
         header('Expires:0');

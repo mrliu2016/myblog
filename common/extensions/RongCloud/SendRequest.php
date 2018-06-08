@@ -120,7 +120,7 @@ class SendRequest
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false); //处理http证书问题
         curl_setopt($ch, CURLOPT_HEADER, false);
         curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-        curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, false);
+//        curl_setopt($ch, CURLOPT_DNS_USE_GLOBAL_CACHE, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $ret = curl_exec($ch);
         if (false === $ret) {

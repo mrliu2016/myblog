@@ -1,6 +1,8 @@
 <?php
 namespace app\common\models;
 
+use app\common\components\RedisClient;
+use app\common\services\Constants;
 use yii\db\ActiveRecord;
 use Yii;
 
@@ -64,6 +66,7 @@ class Contraband extends ActiveRecord{
         $model->isDelete = 1;
         $model->updated = $_SERVER['REQUEST_TIME'];
         $model->save();
+        Contraband::refreshRedis();
         return $model->id;
     }
 
@@ -73,6 +76,7 @@ class Contraband extends ActiveRecord{
         $model->word    = $params['word'];
         $model->updated = $_SERVER['REQUEST_TIME'];
         $model->save();
+        Contraband::refreshRedis();
         return $model->id;
     }
 
@@ -116,13 +120,13 @@ class Contraband extends ActiveRecord{
             }
             $sql .= trim($value, ',');
             static ::executeBySqlCondition($sql);
+            Contraband::refreshRedis();
             return ['code'=>0];
         }
         else{
             return ['code'=>-1];
         }
     }
-
 
     //查询出所有的违禁词
     public static function queryAllInfo(){
@@ -135,5 +139,26 @@ class Contraband extends ActiveRecord{
         $sql = "SELECT word FROM ".static ::tableName() ." WHERE isDelete = 0";
         $result = static ::queryBySQLCondition($sql);
         return $result;
+    }
+
+    /*
+     * @author  lhz
+     * @date 2018.6.8
+     * @des 在redis中更新违禁词
+     */
+    public static function refreshRedis(){
+        $data = Contraband::queryAllInfo();
+        $str = '';
+        if(!empty($data)){
+            foreach ($data as $v){
+                $str .= $v['word'].',';
+            }
+            $str = trim($str,',');
+            $redis = RedisClient::getInstance();
+            $redis->set(Constants::WS_BANNED_WORD,$str);
+            $redis->expire(Constants::WS_BANNED_WORD,-1);
+            return ['code' => 0];
+        }
+        return ['code' => -1];
     }
 }
