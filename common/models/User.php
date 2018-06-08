@@ -678,5 +678,14 @@ class User extends ActiveRecord
             ->all();
     }
 
+    //查询所有用户的id
+    public static function queryAllUserId(){
+        $find = static::find();
+//        $find = self::buildParams($find, $params);
+        return $find->select('id')
+            ->asArray()
+            ->all();
+    }
+
 }
 

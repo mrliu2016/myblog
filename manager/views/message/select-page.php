@@ -141,7 +141,6 @@ $this->title = '选择用户';
     var nickName = [];
     //选择用户确定
     $("#selectBtn").unbind('click').bind('click',function () {
-
         for(var key in dataObj){
             data[key] = dataObj[key][0];
             nickName.push(dataObj[key][1]);
@@ -149,7 +148,9 @@ $this->title = '选择用户';
         console.log(dataObj);
         //使用nickName显示
 
+        console.log(nickName);
         //使用data 推送消息
+        console.log(data);
 
     });
     //选择用户取消

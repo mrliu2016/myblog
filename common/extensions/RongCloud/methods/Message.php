@@ -125,7 +125,6 @@ class Message
             if (empty($content))
                 throw new Exception('Paramer "$content" is required');
 
-
             $params = array(
                 'fromUserId' => $fromUserId,
                 'toUserId' => $toUserId,
@@ -160,14 +159,11 @@ class Message
             if (empty($templateMessage))
                 throw new Exception('Paramer "templateMessage" is required');
 
-
             $params = json_decode($templateMessage, TRUE);
-
             $ret = $this->SendRequest->curl('/message/system/publish_template.json', $params, 'json', 'im', 'POST');
             if (empty($ret))
                 throw new Exception('bad request');
             return $ret;
-
         } catch (Exception $e) {
             print_r($e->getMessage());
         }
