@@ -34,24 +34,6 @@ class NotifyController extends BaseController
         }
     }
 
-    //微信回调
-    public function actionWeixinCallBack()
-    {
-        $result = file_get_contents('php://input');
-        // ll($result,'call_back.log');
-        // 将微信回调返回的xml转换成数组
-        $dat = TestPayment::xmlToArr($result);
-        ll(json_encode($dat), 'call_back.log');
-        if($dat['RETURN_CODE'] == 'SUCCESS' && $dat['RESULT_CODE'] == 'SUCCESS'){
-                //更改订单状态，减库存等业务操作
-               TestOrder::saveDb($dat);
-                // 给微信返回xml格式，告诉微信我已经接收到回调了
-            $xml = TestPayment::arrToXML(['return_code' => 'SUCCESS', 'return_msg' => 'OK'],true);
-            echo $xml;
-        }
-    }
-
-
     //更新视频录播地址和视频封面图
     public function actionVideo()
     {
