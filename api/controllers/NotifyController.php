@@ -7,6 +7,7 @@ use app\common\models\Deposit;
 use app\common\models\User;
 use app\common\services\Constants;
 use app\common\services\VideoService;
+use app\common\models\TestPayment;
 
 class NotifyController extends BaseController
 {
@@ -35,7 +36,11 @@ class NotifyController extends BaseController
     //微信回调
     public function actionWeixinCallBack(){
          $result = file_get_contents('php://input');
-         ll($result,'call_back.log');
+        // ll($result,'call_back.log');
+         // 将微信回调返回的xml转换成数组
+        $dat = TestPayment::xmlToArr($result);
+          ll(json_encode($dat),'call_back.log');
+
     }
 
 

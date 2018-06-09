@@ -144,7 +144,7 @@ class TestPayment
     /**
      * xml 转换成数组
      * */
-    private static function xmlToArr($xml)
+    public static function xmlToArr($xml)
     {
         $parser = xml_parser_create();
         xml_parse_into_struct($parser, $xml, $data, $index);
