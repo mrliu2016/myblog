@@ -126,7 +126,7 @@ class TestPayment
      * 数组转换成xml
      *
      * */
-    private static function arrToXML($param, $cdata = false)
+    public static function arrToXML($param, $cdata = false)
     {
         $xml = "<xml>";
         $cdataPrefix = $cdataSuffix = '';

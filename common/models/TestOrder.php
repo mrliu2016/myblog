@@ -40,8 +40,26 @@ class TestOrder extends ActiveRecord
             'message' => '',
             'price' => $model->price,
             'orderIdAlias' => $model->orderIdAlias,
-            'goodsid'=>$model->goodsid
+            'goodsid' => $model->goodsid
         ];
+    }
+
+    //回调成功之后更改订单状态
+    public static function saveDb($params)
+    {
+        $model = static::findOne(['orderIdAlias' => $params['OUT_TRADE_NO']]);
+        if (empty($model)) {
+            return false;
+        }
+        if (!empty($params['TRANSACTION_ID'])) {
+            $model->transactionId = $params['TRANSACTION_ID'];
+        }
+        $model->status = 2;
+        $model->orderPayTime = $params['TIME_END'];
+        $model->updated = time();
+        $model->save();
+
+
     }
 
     /**
