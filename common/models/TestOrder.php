@@ -26,7 +26,8 @@ class TestOrder extends ActiveRecord
             $model = new self();
             $model->userid = $params['userid'];
             $model->price = $params['price'];
-            $model->orderIdAlias = static::orderIdAlias();
+            $model->goodsid = $params['goodsid'];
+            $model->orderIdAlias = time() . rand(10000, 99999);
             $model->source = 1;
             $model->status = 1;
             $model->orderCreateTime = time();
@@ -38,7 +39,8 @@ class TestOrder extends ActiveRecord
             'code' => 1,
             'message' => '',
             'price' => $model->price,
-            'orderIdAlias' => $model->orderIdAlias
+            'orderIdAlias' => $model->orderIdAlias,
+            'goodsid'=>$model->goodsid
         ];
     }
 

@@ -5,6 +5,7 @@ namespace app\manager\controllers;
 use app\common\services\Constants;
 use yii\web\Controller;
 use app\common\models\TestPayment;
+use app\common\models\TestOrder;
 
 class PaymentController extends Controller
 {
@@ -31,16 +32,21 @@ class PaymentController extends Controller
     {
         $this->layout = false;
         $params = array('price' => 0.01, 'goodsid' => 55, 'userid' => 65);
-        //微信支付
-        $code_url = TestPayment::WeiXinNativePay($params);
-        if (!empty($code_url)) {
-            return $this->render('placeanorder', [
-                'codeurl' => $code_url,
-            ]);
-        } else {
-            echo "二维码获取失败";
+        $dat = TestOrder::queryAll($params);
+        if ($dat['code'] == 1) {
+            //微信支付
+            $data = array(
+                'price' => $dat['price'],
+                'orderIdAlias' => $dat['orderIdAlias'],
+                'goodsid' => $dat['goodsid']
+            );
+            $code_url = TestPayment::WeiXinNativePay($data);
+            if (!empty($code_url)) {
+                return $this->render('placeanorder', [
+                    'codeurl' => $code_url,
+                ]);
+            }
         }
+        echo "二维码获取失败";
     }
-
-
 }

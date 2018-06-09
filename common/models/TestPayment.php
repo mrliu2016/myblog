@@ -15,7 +15,8 @@ class TestPayment
         'body' => '模拟下单测试',
         'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder', // 统一下单
         'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery', //查询订单
-        'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',  //回调地址
+       // 'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',  //回调地址
+        'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/weixin-call-back',  //回调地址
         'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
         'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
         'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
@@ -52,7 +53,7 @@ class TestPayment
             'mch_id' => self::$WeixinConfig['wxMchId'],
             'nonce_str' => md5(microtime() . 'weixin' . rand(100, 9999)),
             'body' => self::$WeixinConfig['body'],
-            'out_trade_no' => time() . rand(100000, 999999),
+            'out_trade_no' => $params['orderIdAlias'],
             'fee_type' => 'CNY',
             'total_fee' => $params['price'] * 100,
             'spbill_create_ip' => $_SERVER["REMOTE_ADDR"],

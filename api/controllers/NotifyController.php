@@ -17,7 +17,6 @@ class NotifyController extends BaseController
     {
         $result = WeiXinPay::weiXinPayResults(file_get_contents('php://input'));
         ll($result, 'notify_process.log');
-        die;
         $result = WeiXinPay::notifyProcess($result);
         ll($result, 'notify_process.log');
         if ($result['code'] == Constants::CODE_SUCCESS) {
@@ -32,6 +31,14 @@ class NotifyController extends BaseController
             }
         }
     }
+
+    //微信回调
+    public function actionWeixinCallBack(){
+         $result = file_get_contents('php://input');
+         ll($result,'call_back.log');
+    }
+
+
 
     //更新视频录播地址和视频封面图
     public function actionVideo(){
