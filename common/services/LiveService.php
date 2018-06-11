@@ -236,20 +236,12 @@ class LiveService
      */
     public static function joinRoomAndAI($server, $frame, $message)
     {
-        $startTime = microtime(true);
         $params = $message['data'];
         //用户进入房间
         static::join($frame->fd, $params["userId"], $params["roomId"], $params["role"],
             $params["avatar"], $params["nickName"], $params["level"], $params['balance'], isset($params['income']) ? $params['income'] : 0);
-        static::runtimeConsumeTime($startTime, microtime(true), '【static::join】运行时长：');
-
-        $tmpStartTime = microtime(true);
         $roomMemberNum = static::computeUnit(LiveService::roomMemberNum($params['roomId']));
-        static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::roomMemberNum】运行时长：');
-
-        $tmpStartTime = microtime(true);
         $userList = array_values(LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true));
-        static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::getUserInfoListByRoomId】运行时长：');
 
         $resMessage = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
@@ -284,16 +276,8 @@ class LiveService
                 'income' => static::computeUnit(static::masterIncome($params['masterUserId'], $params['roomId']))
             ]
         ];
-
-        $tmpStartTime = microtime(true);
         $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-        static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::fdListByRoomId】运行时长：');
-
-        $tmpStartTime = microtime(true);
         static::broadcast($server, $fdList, $messageAll, $params['roomId']);
-        static::runtimeConsumeTime($tmpStartTime, microtime(true), '【LiveService::broadcast】运行时长：');
-
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::' . __FUNCTION__ . '】运行时长：');
     }
 
     //获取webSocket服务ip
@@ -538,7 +522,7 @@ class LiveService
     {
         $respondMessage = [
             'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
-            'code' => Constants::CODE_SUCCESS,
+            'code' => Constants::CODE_FAILED,
             'message' => '你已被主播禁言',
             'data' => [
                 'userId' => $message['data']['userId'],
