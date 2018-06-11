@@ -5,6 +5,7 @@ namespace app\manager\controllers;
 use app\common\models\Report;
 use app\common\models\ReportOptions;
 use app\common\models\User;
+use app\common\services\BroadcastService;
 use Yii;
 use yii\data\Pagination;
 
@@ -20,7 +21,7 @@ class ReportController extends BaseController
         ];
     }
 
-    const PAGE_SIZE = 15;
+    const PAGE_SIZE = 10;
     public $enableCsrfValidation = false;
 
     private static function pagination($pageNo, $count)
@@ -34,7 +35,7 @@ class ReportController extends BaseController
     }
 
     //举报管理
-    public function actionReport(){
+    public function actionIndex(){
 
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
@@ -75,11 +76,12 @@ class ReportController extends BaseController
             $count  = Report::queryInfoNum($params);
         }
 //        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
-        return $this->render('report', [
+        return $this->render('index', [
             'itemList' => $list,
             'pagination' => self::pagination($pageNo, $count),
-            'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
+//            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count,
+            'page'=>BroadcastService::pageBanner('/report/index',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
         ]);
     }
 

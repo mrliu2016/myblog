@@ -3,12 +3,13 @@ namespace app\manager\controllers;
 
 use app\common\models\Order;
 use app\common\models\User;
+use app\common\services\BroadcastService;
 use Yii;
 use yii\data\Pagination;
 
 class RobotController extends BaseController{
 
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 10;
     private static function pagination($pageNo, $count)
     {
         $pagination = new Pagination([
@@ -19,7 +20,7 @@ class RobotController extends BaseController{
         return $pagination;
     }
 
-    public function actionList(){
+    public function actionIndex(){
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
@@ -45,13 +46,13 @@ class RobotController extends BaseController{
             }
         }
 
-//        print_r($list);die;
         $count  = User::queryUserInfoNum($params);
-        return $this->render('list', [
+        return $this->render('index', [
             'itemList' => $list,
-            'pagination' => self::pagination($pageNo, $count),
+           /* 'pagination' => self::pagination($pageNo, $count),*/
             'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
+            'count' => $count,
+            'page'=>BroadcastService::pageBanner('/robot/index',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
         ]);
     }
     //机器人详情

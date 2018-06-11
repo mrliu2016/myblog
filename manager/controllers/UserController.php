@@ -7,6 +7,7 @@ use app\common\models\Order;
 use app\common\models\Report;
 use app\common\models\User;
 use app\common\models\Video;
+use app\common\services\BroadcastService;
 use app\common\services\Constants;
 use Yii;
 use yii\data\Pagination;
@@ -22,7 +23,7 @@ class UserController extends BaseController
         ];
     }
 
-    const PAGE_SIZE = 15;
+    const PAGE_SIZE = 10;
     public $enableCsrfValidation = false;
 
     private static function pagination($pageNo, $count)
@@ -79,7 +80,9 @@ class UserController extends BaseController
             'itemList' => $result,
             'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
+            'count' => $count,
+            'isAuth'=> $params['isAuth'],
+            'page'=>BroadcastService::pageBanner('/user/index',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
         ]);
     }
 

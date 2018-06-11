@@ -5,6 +5,7 @@ namespace app\manager\controllers;
 use app\common\models\Gift;
 use app\common\models\GiftFire;
 use app\common\models\Order;
+use app\common\services\BroadcastService;
 use Yii;
 use yii\data\Pagination;
 use app\common\components\OSS;
@@ -33,7 +34,7 @@ class GiftController extends BaseController
         return $pagination;
     }
 
-    public function actionTemplate()
+    public function actionIndex()
     {
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
@@ -45,11 +46,12 @@ class GiftController extends BaseController
         $result = Gift::queryInfo($params);
         $count = Gift::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
-        return $this->render('template', [
+        return $this->render('index', [
             'itemList' => $result,
             'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
+            'count' => $count,
+            'page'=>BroadcastService::pageBanner('/gift/index',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
         ]);
     }
 
@@ -58,7 +60,7 @@ class GiftController extends BaseController
         $id = Yii::$app->request->get('id');
         $id = Gift::deleteGift($id);
         if ($id) {
-            Yii::$app->getResponse()->redirect('/gift/template');
+            Yii::$app->getResponse()->redirect('/gift/index');
         }
     }
 
@@ -73,7 +75,7 @@ class GiftController extends BaseController
             $params['imgSrc'] = $src;
 
             if (Gift::created($params)) {
-                Yii::$app->getResponse()->redirect('/gift/template');
+                Yii::$app->getResponse()->redirect('/gift/index');
             }
         } else {
             return $this->render('create');

@@ -486,13 +486,14 @@ class User extends ActiveRecord
     private static function buildUserParams($find, $params)
     {
         if (!empty($params['id'])) {
-            $find->andWhere('id=' . trim($params['id']));
+            $find->andWhere('id="' .$params['id'].'"');
         }
         if (!empty($params['nickName'])) {
             $find->andWhere('nickName like "' . trim($params['nickName']) . '%"');
         }
         if (!empty($params['roomId'])) {
-            $find->andWhere('roomId=' . trim($params['roomId']));
+//            $find->andWhere('roomId=' .trim($params['roomId']));
+            $find->andWhere('roomId like "' . trim($params['roomId']) . '%"');
         }
 
         if (!empty($params['mobile'])) {

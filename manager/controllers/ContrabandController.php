@@ -2,6 +2,7 @@
 namespace app\manager\controllers;
 
 use app\common\models\Contraband;
+use app\common\services\BroadcastService;
 use Yii;
 use yii\data\Pagination;
 
@@ -31,7 +32,8 @@ class ContrabandController extends BaseController{
             'itemList' => $list,
             'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
+            'count' => $count,
+            'page'=>BroadcastService::pageBanner('/contraband/list',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
         ]);
     }
 

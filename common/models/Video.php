@@ -211,12 +211,11 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
         if (isset($params['isLive'])) {
             $find->andWhere(['isLive' => $params['isLive']]);
         }
-//        if(!empty($params['nickName'])){
-//            $find->andWhere('nickName like "'.trim($params['nickName']).'%"');
-//        }
+
         if (!empty($params['roomId'])) {
-            $find->andWhere('roomId= ' . trim($params['roomId']));
+            $find->andWhere(['like', 'roomId', $params['roomId']]);
         }
+
         if (!empty($params['startTime'])) {
             $find->andWhere(['>=', 'startTime', strtotime($params['startTime'])]);
         }
@@ -224,7 +223,7 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
             $find->andWhere(['<=', 'endTime', strtotime($params['endTime'])]);
         }
         if (!empty($params['id'])) {
-            $find->andWhere('id=' . $params['id']);
+            $find->andWhere('id="' .$params['id'].'"');
         }
         return $find;
     }
