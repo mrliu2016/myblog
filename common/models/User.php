@@ -489,7 +489,7 @@ class User extends ActiveRecord
             $find->andWhere('id=' . trim($params['id']));
         }
         if (!empty($params['nickName'])) {
-            $find->andWhere('nickName like ' . trim($params['nickName']) . '%');
+            $find->andWhere('nickName like "' . trim($params['nickName']) . '%"');
         }
         if (!empty($params['roomId'])) {
             $find->andWhere('roomId=' . trim($params['roomId']));
