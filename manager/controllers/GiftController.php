@@ -38,6 +38,10 @@ class GiftController extends BaseController
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $params['isDelete'] = 0;
+
+        if(isset($params['isFire']) && $params['isFire'] == ''){
+            unset($params['isFire']);
+        }
         $result = Gift::queryInfo($params);
         $count = Gift::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;

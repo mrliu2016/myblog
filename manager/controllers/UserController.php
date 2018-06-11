@@ -38,7 +38,6 @@ class UserController extends BaseController
     public function actionIndex()
     {
         $params = Yii::$app->request->getQueryParams();
-
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $result = User::queryUserInfo($params);
         if(empty($params['id'])){
@@ -75,7 +74,6 @@ class UserController extends BaseController
             }
         }
         $count = User::queryUserInfoNum($params);
-
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
             'itemList' => $result,
