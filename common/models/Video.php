@@ -84,13 +84,27 @@ class Video extends ActiveRecord
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
         $find = Yii::$app->db;
-        $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
+        if (isset($params['type'])) {
+            switch ($params['type']) {
+                case 0:
+                    $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
 video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum from ' . static::tableName() . ' as video '
-            . ' where video.isLive = 1 and video.userId not in ('
-            . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by viewerNum desc';
-        $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
-        $result = $find->createCommand($sql)->queryAll();
-        return static::processLiveInfo($result);
+                        . ' where video.isLive = 1 and video.userId not in ('
+                        . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by viewerNum desc';
+                    $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
+                    break;
+                case 1:
+                    $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum from ' . static::tableName() . ' as video '
+                        . ' where video.isLive = 1 and video.userId = ' . $params['userId'] . ' and video.userId not in ('
+                        . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by viewerNum desc';
+                    $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
+                    break;
+            }
+            $result = $find->createCommand($sql)->queryAll();
+            return static::processLiveInfo($result);
+        }
+        return [];
     }
 
     /**
