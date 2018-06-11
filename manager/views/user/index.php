@@ -91,9 +91,20 @@ $this->title = '用户管理';
                     <span>是否认证</span>
                     <span class="select-wrap">
 					<select class="c-input s-gift-search-select" name="isAuth" id="isAuth" default="0">
-						<option value="0">全部</option>
-                        <option value="1">已认证</option>
-						<option value="2">未认证</option>
+
+                        <?php if(empty($isAuth) || $isAuth == 0){?>
+                            <option value="0" selected>全部</option>
+                            <option value="1">已认证</option>
+                            <option value="2">未认证</option>
+                        <?php }elseif ($isAuth== 1){?>
+                            <option value="0">全部</option>
+                            <option value="1" selected>已认证</option>
+                            <option value="2">未认证</option>
+                        <?php }elseif ($isAuth== 2){?>
+                            <option value="0">全部</option>
+                            <option value="1">已认证</option>
+                            <option value="2" selected>未认证</option>
+                        <?php }?>
 					</select>
 				  </span>
                 </div>
@@ -246,10 +257,10 @@ $this->title = '用户管理';
         <p class="s-gift-count">共 <?= $count ?> 条记录</p>
 
     </div>
-    <nav class="text-center">
+    <nav class="text-center" style="margin-left:30%">
         <table>
             <tr>
-                <td> <?= LinkPager::widget(['pagination' => $pagination]) ?></td>
+                <td class="page-space"> <?= $page ?></td>
                 <td>共<?= $count ?> 条</td>
             </tr>
         </table>

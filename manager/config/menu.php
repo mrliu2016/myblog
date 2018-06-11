@@ -34,7 +34,7 @@ return [
         ],
     ],
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '礼物管理', 'icon' => 'liwuguanli.png', 'href' => '/gift/template'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '礼物管理', 'icon' => 'liwuguanli.png', 'href' => '/gift/index'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '礼物列表', 'href' => '/gift/template'],
         ],
@@ -46,7 +46,7 @@ return [
         ],
     ],
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '举报管理', 'icon' => 'jubaoguanli.png', 'href' => '/report/report'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '举报管理', 'icon' => 'jubaoguanli.png', 'href' => '/report/index'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '举报管理', 'href' => '/report/report'],
 //            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
@@ -67,7 +67,7 @@ return [
         ],
     ],
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '机器人管理', 'icon' => 'jiqirenguanli.png', 'href' => '/robot/list'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '机器人管理', 'icon' => 'jiqirenguanli.png', 'href' => '/robot/index'],
         'level2' => [
             ['permissionId' => '/application/index', 'name' => '机器人管理', 'href' => '/robot/list'],
         ],

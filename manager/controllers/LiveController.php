@@ -6,6 +6,7 @@ use app\common\components\AHelper;
 use app\common\models\User;
 use app\common\models\Video;
 use app\common\models\VideoRecord;
+use app\common\services\BroadcastService;
 use app\common\services\Constants;
 use Yii;
 use yii\data\Pagination;
@@ -21,7 +22,7 @@ class LiveController extends BaseController
         ];
     }
 
-    const PAGE_SIZE = 15;
+    const PAGE_SIZE = 10;
     public $enableCsrfValidation = false;
 
     private static function pagination($pageNo, $count)
@@ -70,9 +71,10 @@ class LiveController extends BaseController
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
             'itemList' => $list,
-            'pagination' => self::pagination($pageNo, $count),
+//            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
+            'count' => $count,
+            'page' => BroadcastService::pageBanner('/live/index',$pageNo+1,$count,10,5,'select')
         ]);
     }
 
@@ -106,43 +108,13 @@ class LiveController extends BaseController
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('live-record', [
             'itemList' => $list,
-            'pagination' => self::pagination($pageNo, $count),
+//            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
+            'count' => $count,
+            'page' => BroadcastService::pageBanner('/live/live-record',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
         ]);
     }
 
-    public function actionHot()
-    {
-        $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
-        $params['page'] = intval(!empty($params['page']) ? $params['page'] : 0);
-        $params['isLive'] = 1;
-        $result = Video::queryHot($params);
-        $count = Video::queryInfoNum($params);
-        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
-        $this->layout = '@app/views/layouts/wenlian.php';
-        return $this->render('hot', [
-            'itemList' => $result,
-            'pagination' => self::pagination($pageNo, $count),
-            'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
-        ]);
-    }
-
-    public function actionRecord()
-    {
-        $params = Yii::$app->request->getQueryParams();
-        $params['defaultPageSize'] = self::PAGE_SIZE;;
-        $result = Video::queryInfo($params);
-        $count = Video::queryInfoNum($params);
-        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
-        return $this->render('record', [
-            'itemList' => $result,
-            'pagination' => self::pagination($pageNo, $count),
-            'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
-        ]);
-    }
 
     public function actionYellow(){
         $params = Yii::$app->request->getQueryParams();
@@ -173,9 +145,10 @@ class LiveController extends BaseController
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('yellow',[
             'itemList' => $list,
-            'pagination' => self::pagination($pageNo, $count),
+//            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
+            'count' => $count,
+            'page'=>BroadcastService::pageBanner('/live/yellow',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
         ]);
     }
     //鉴黄查看
@@ -229,7 +202,6 @@ class LiveController extends BaseController
     public function actionNoplay(){
         $params = Yii::$app->request->post();
 
-//        print_r($params);die;
         $type = $params['type'];
         $messageType = '';
         $message = '';

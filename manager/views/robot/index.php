@@ -1,12 +1,11 @@
 <?php
-use yii\widgets\LinkPager;
 $this->title = '机器人管理';
 ?>
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
             <!--<p class="s-gift-search-title">礼物管理</p>-->
-            <form method="get" action="/robot/list" id="searchForm" name="searchForm">
+            <form method="get" action="/robot/index" id="searchForm" name="searchForm">
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
                         <span>ID</span>
@@ -98,10 +97,10 @@ $this->title = '机器人管理';
         </div>
         <p class="s-gift-count">共 <?= $count ?> 条记录</p>
     </div>
-    <nav class="text-center">
+    <nav class="text-center" style="margin-left:30%">
         <table>
             <tr>
-                <td> <?= LinkPager::widget(['pagination' => $pagination]) ?></td>
+                <td class="page-space"> <?= $page ?></td>
                 <td>共<?= $count ?> 条</td>
             </tr>
         </table>
