@@ -22,6 +22,7 @@ $this->title = '机器人管理';
     <form action="" method="post" enctype="multipart/form-data" id="robotForm">
         <div class="s-robot-form_upload">
             <div class="s-robot-form_selectimg">
+                <div class="s-robot-form_selectimg-icon1"></div>
                 <img src="" class="s-robot-form_selectimg-icon2" id="selectImg1">
                 <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
             </div>
