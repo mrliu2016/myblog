@@ -23,7 +23,7 @@ class LiveService
             $redis = RedisClient::getInstance();
             $gagKey = Constants::WS_GAG . static::getWsIp($message['data']['roomId']) . '_' . $message['data']['roomId'];
             if ($redis->hget($gagKey, $message['data']['userId'])) {
-                static::pushGagMessage($frame->fd, $server, $frame, $message);
+                static::pushGagMessage($frame->fd, $server, $frame, $message, false);
                 return true;
             }
             $keyWords = [];
@@ -508,14 +508,15 @@ class LiveService
     }
 
     /**
-     * 推送禁言消息到 fd
+     * 推送禁言消息
      *
      * @param $fd
      * @param $server
      * @param $frame
      * @param $message
+     * @param bool $isBroadcast
      */
-    private static function pushGagMessage($fd, $server, $frame, $message)
+    private static function pushGagMessage($fd, $server, $frame, $message, $isBroadcast = true)
     {
         $respondMessage = [
             'messageType' => Constants::MESSAGE_TYPE_GAG_RES,
@@ -529,9 +530,12 @@ class LiveService
             ]
         ];
 //        //广播房间全体成员
-        $roomAll = LiveService::fdListByRoomId($server, $message['data']['roomId']);
-        static::broadcast($server, $roomAll, $respondMessage, $message['data']["roomId"]);
-//        $server->push(intval($fd), json_encode($respondMessage));
+        if ($isBroadcast) {
+            $roomAll = LiveService::fdListByRoomId($server, $message['data']['roomId']);
+            static::broadcast($server, $roomAll, $respondMessage, $message['data']["roomId"]);
+        } else {
+            $server->push(intval($fd), json_encode($respondMessage));
+        }
     }
 
     /**
