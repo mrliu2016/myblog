@@ -464,16 +464,16 @@ class LiveService
         $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
         $redis->hdel($keyLatestHeartbeat, $userId);
         // 退出用户是否为主播
-        ll(static::isManager($roomId, $fdId),'webSocketMessage.log');
+        ll(static::isManager($roomId, $fdId), 'webSocketMessage.log');
         if ($isManager) {
             $redis->del(Constants::WS_GAG . $ip . '_' . $roomId); // 禁言
-            ll('asfasdfasfasdfasdfs','webSocketMessage.log');
+            ll('asfasdfasfasdfasdfs', 'webSocketMessage.log');
 //                $redis->hdel(Constants::WS_INCOME . $ip . ':' . $roomId, $info['userId']); // 主播接收礼物虚拟货币
 
             // 主播-本场直播收益
 //                $key = Constants::WS_MASTER_CURRENT_INCOME . $wsIp . ':' . $roomId;
         }
-        ll(__FUNCTION__,'webSocketMessage.log');
+        ll(__FUNCTION__, 'webSocketMessage.log');
         // 删除收益
         $redis->hdel(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId);
         static::updateConnection();
@@ -944,7 +944,9 @@ class LiveService
      */
     public static function secondaryCloseCall($server, $frame, $message)
     {
-        static::forwardingCloseCallLM($server, $frame, $message, Constants::MESSAGE_TYPE_CLOSE_CALL_SECONDARY_RES);
+        static::forwardingCloseCallLM($server, $frame, $message, Constants::MESSAGE_TYPE_CLOSE_CALL_RES);
+        static::forwardingCloseCallLMPushMaster($server, $frame, $message, Constants::MESSAGE_TYPE_CLOSE_CALL_RES);
+
     }
 
     /**
@@ -974,6 +976,27 @@ class LiveService
             ];
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
             $redis->hdel($key, $messageInfo['userId']);
+        }
+    }
+
+    private static function forwardingCloseCallLMPushMaster($server, $frame, $message, $message)
+    {
+        $messageInfo = $message['data'];
+        $wsIp = self::getWsIp($messageInfo['roomId']);
+        $redis = RedisClient::getInstance();
+        $key = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
+        $userInfo = json_decode($redis->hget($key, $messageInfo['adminUserId']), true);
+        if (!empty($userInfo)) {
+            $responseMessage = [
+                'messageType' => $message,
+                'data' => [
+                    'adminUserId' => $messageInfo['adminUserId'],
+                    'roomId' => $messageInfo['roomId'],
+                    'userId' => $messageInfo['userId'],
+                    'type' => Constants::LM_TYPE_CLOSE // 4：断开连麦
+                ]
+            ];
+            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
     }
 
