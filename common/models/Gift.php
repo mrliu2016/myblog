@@ -29,7 +29,7 @@ class Gift extends ActiveRecord
         $find = static::find();
         $find = self::buildParams($find, $params);
         $result = $find->asArray()
-            ->orderBy('price asc')
+            ->orderBy('created asc')
             ->offset($offset)->limit($params['defaultPageSize'])->all();
         return $result;
     }
