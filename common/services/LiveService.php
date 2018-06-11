@@ -979,7 +979,7 @@ class LiveService
         }
     }
 
-    private static function forwardingCloseCallLMPushMaster($server, $frame, $message, $message)
+    private static function forwardingCloseCallLMPushMaster($server, $frame, $message, $messageType)
     {
         $messageInfo = $message['data'];
         $wsIp = self::getWsIp($messageInfo['roomId']);
@@ -988,7 +988,7 @@ class LiveService
         $userInfo = json_decode($redis->hget($key, $messageInfo['adminUserId']), true);
         if (!empty($userInfo)) {
             $responseMessage = [
-                'messageType' => $message,
+                'messageType' => $messageType,
                 'data' => [
                     'adminUserId' => $messageInfo['adminUserId'],
                     'roomId' => $messageInfo['roomId'],
