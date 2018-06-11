@@ -1,6 +1,7 @@
 <?php
 namespace app\manager\controllers;
 
+use app\common\components\OSS;
 use app\common\models\Order;
 use app\common\models\User;
 use app\common\services\BroadcastService;
@@ -87,12 +88,13 @@ class RobotController extends BaseController{
 
         if(Yii::$app->request->post()){//编辑保存
             $params = Yii::$app->request->post();
+            if (!empty($_FILES['imgSrc']['tmp_name'])) {
+                $src = (new OSS())->upload($_FILES['imgSrc']['tmp_name'], $_FILES['imgSrc']['name'], 'gift');
+            }
+            $params['imgSrc'] = $src;
             if(User::editRobot($params)){
 //                Yii::$app->getResponse()->redirect('/robot/list');
-                $this->jsonReturnSuccess(0,'编辑成功');
-            }
-            else{
-                $this->jsonReturnError(-1,'编辑失败');
+                Yii::$app->getResponse()->redirect('/robot/index');
             }
         }
         else{
@@ -113,7 +115,26 @@ class RobotController extends BaseController{
     }
     //新增
     public function actionAddRobot(){
-        return $this->render('add-robot');
+        if(Yii::$app->request->post()){//编辑保存
+            $params = Yii::$app->request->post();
+            if (!empty($_FILES['imgSrc']['tmp_name'])) {
+                $src = (new OSS())->upload($_FILES['imgSrc']['tmp_name'], $_FILES['imgSrc']['name'], 'gift');
+            }
+            $params['imgSrc'] = $src;
+            if(User::addRobotInfo($params)){
+//                Yii::$app->getResponse()->redirect('/robot/list');
+                Yii::$app->getResponse()->redirect('/robot/index');
+            }
+//            if (User::addRobotInfo($params)) {
+//                $this->jsonReturnSuccess(0, '新增成功.');
+//            } else {
+//                $this->jsonReturnError('-1', '新增失败.');
+//            }
+        }
+        else{
+            return $this->render('add-robot');
+        }
+
     }
 
     //批量新增机器人信息
