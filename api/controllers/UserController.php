@@ -1,14 +1,7 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: 左撇子
- * Date: 2017/11/1/001
- * Time: 14:12
- */
 
 namespace app\api\controllers;
 
-use app\common\components\WeiXinApi;
 use app\common\components\Token;
 use app\common\components\RedisClient;
 use app\common\models\User;
@@ -255,7 +248,7 @@ class UserController extends BaseController
             self::jsonReturnError(Constants::CODE_FAILED, '请输入正确的手机号!');
         }
         $result['code'] = Token::code();
-        if (SMSHelper::send($result['code'], '三体云联验证码', $mobile)) {
+        if (SMSHelper::sendCaptcha($result['code'], $mobile)) {
             $redis = RedisClient::getInstance();
             $key = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE . ':' . $type . ':' . $mobile;
             $redis->set($key, $result['code']);
@@ -271,7 +264,7 @@ class UserController extends BaseController
      */
     public function actionSearch()
     {
-        $content = Yii::$app->request->post('content');
+        $content = str_replace([" ", "　", "\t", "\n", "\r"], '', Yii::$app->request->post('content'));
         $observerUserId = Yii::$app->request->post('observerUserId');
         $params = Yii::$app->request->post();
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
@@ -303,56 +296,58 @@ class UserController extends BaseController
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '可以', []);
         }
     }
+
     //编辑用户信息
-    public function actionEditUser(){
+    public function actionEditUser()
+    {
         $params = Yii::$app->request->post();
-        if (empty($params['userId'])){
+        if (empty($params['userId'])) {
             $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
         }
         $result = User::updateUserInfoByUserId($params);
         $message = '';
-        if(!empty($result['avatar'])){
+        if (!empty($result['avatar'])) {
             $message = '编辑';
-        }
-        else{
+        } else {
             $message = '保存';
         }
-        if(isset($result) && $result['code'] == 0){
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $message.'成功', []);
-        }
-        else{
-            $this->jsonReturnError(Constants::CODE_FAILED, $message.'失败', []);
+        if (isset($result) && $result['code'] == 0) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $message . '成功', []);
+        } else {
+            $this->jsonReturnError(Constants::CODE_FAILED, $message . '失败', []);
         }
     }
+
     //判断该用户是否已认证
-    public function actionCheckAuth(){
+    public function actionCheckAuth()
+    {
         $params = Yii::$app->request->post();
-        if(empty($params['userId'])){
+        if (empty($params['userId'])) {
             $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
         }
         $result = User::checkUserCredentials($params);
-        if(!empty($result) && $result['code'] == 0){
+        if (!empty($result) && $result['code'] == 0) {
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '验证成功', []);
-        }
-        else{
+        } else {
             $this->jsonReturnError(Constants::CODE_FAILED, '验证失败', []);
         }
     }
 
     //意见反馈
-    public function actionUserFeedback(){
+    public function actionUserFeedback()
+    {
         $params = Yii::$app->request->post();
-        if(empty($params['userId'])){
+        if (empty($params['userId'])) {
             $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
         }
-        if(empty($params['content'])){
+        if (empty($params['content'])) {
             $this->jsonReturnError(Constants::CODE_FAILED, '提交的内容为空', []);
         }
         $result = UserFeedback::insertUserFeedback($params);
-        if($result['code'] == 0){
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS,'提交成功');
+        if ($result['code'] == 0) {
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '提交成功');
         }
-        $this->jsonReturnError(Constants::CODE_FAILED,'提交失败');
+        $this->jsonReturnError(Constants::CODE_FAILED, '提交失败');
     }
 
 }
