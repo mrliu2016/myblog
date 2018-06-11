@@ -42,11 +42,13 @@ class Constants
     const MESSAGE_TYPE_LM_RES = 'lm_res'; // 连麦响应
     const MESSAGE_TYPE_LM_LIST_REQ = 'lm_list_req'; // 连麦请求
     const MESSAGE_TYPE_LM_LIST_RES = 'lm_list_res'; // 连麦响应
-    const MESSAGE_TYPE_LM_AGREE_REQ = 'lm_agree_req'; // 连麦同意请求
-    const MESSAGE_TYPE_LM_AGREE_RES = 'lm_agree_res'; // 连麦同意响应
+    const MESSAGE_TYPE_LM_AGREE_OR_REFUSE_REQ = 'lm_agree_or_refuse_req'; // 连麦同意、拒绝请求
+    const MESSAGE_TYPE_LM_AGREE_OR_REFUSE_RES = 'lm_agree_or_refuse_res'; // 连麦同意、拒绝响应
     const MESSAGE_TYPE_LM_USER_LIST_RES = 'lm_user_list_res'; // 连麦响应
-    const MESSAGE_TYPE_CLOSE_CALL_REQ = 'close_call_req';
+    const MESSAGE_TYPE_CLOSE_CALL_REQ = 'close_call_req'; // 断开连麦
     const MESSAGE_TYPE_CLOSE_CALL_RES = 'close_call_res';
+    const MESSAGE_TYPE_CLOSE_CALL_SECONDARY_REQ = 'close_call_secondary_req'; // 副播断开连麦
+    const MESSAGE_TYPE_CLOSE_CALL_SECONDARY_RES = 'close_call_secondary_res';
     const MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_REQ = 'prohibit_live_one_day_req'; // 禁播24小时
     const MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_RES = 'prohibit_live_one_day_res';
     const MESSAGE_TYPE_PROHIBIT_LIVE_30_DAYS_REQ = 'prohibit_live_30_days_req'; // 禁播30天
@@ -173,6 +175,7 @@ class Constants
     const LM_APPLY = 1; // 连麦申请
     const LM_TYPE_AGREE = 2; // 连麦同意
     const LM_TYPE_REFUSE = 3; // 连麦拒绝
+    const LM_TYPE_CLOSE = 4; // 断开连麦
 
     /**
      * 角色
