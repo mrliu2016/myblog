@@ -264,7 +264,7 @@ class UserController extends BaseController
      */
     public function actionSearch()
     {
-        $content = Yii::$app->request->post('content');
+        $content = str_replace([" ", "　", "\t", "\n", "\r"], '', Yii::$app->request->post('content'));
         $observerUserId = Yii::$app->request->post('observerUserId');
         $params = Yii::$app->request->post();
         $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
