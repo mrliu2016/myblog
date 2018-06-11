@@ -27,8 +27,8 @@ class LiveService
                 return true;
             }
             $keyWords = [];
-            if ($redis->exists(Constants::WS_KEYWORD)) {
-                $keyWords = json_decode(base64_decode($redis->get(Constants::WS_KEYWORD)), true);
+            if ($redis->exists(Constants::WS_BANNED_WORD)) {
+                $keyWords = json_decode(base64_decode($redis->get(Constants::WS_BANNED_WORD)), true);
             }
             $keyWords = array_combine($keyWords, array_fill(0, count($keyWords), '*'));
 

@@ -213,7 +213,6 @@ class MessageController extends BaseController
         return $pageBanner;
     }
 
-
     //查询
     public function actionSearch(){
 
