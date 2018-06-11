@@ -22,7 +22,7 @@ class LiveService
             $param = $message['data'];
             $redis = RedisClient::getInstance();
             $gagKey = Constants::WS_GAG . static::getWsIp($message['data']['roomId']) . '_' . $message['data']['roomId'];
-            if ($redis->hget($gagKey, $message['data']['roomId'])) {
+            if ($redis->hget($gagKey, $message['data']['userId'])) {
                 static::pushGagMessage($frame->fd, $server, $frame, $message);
                 return true;
             }
