@@ -448,6 +448,7 @@ class LiveService
         $ip = self::getWsIp($roomId);
         $redis = RedisClient::getInstance();
         $keyWSRoomLocation = Constants::WS_ROOM_LOCATION . $ip;
+        $isManager = static::isManager($roomId, $fdId);
         //删除服务器fd 映射关系
         $redis->hdel($keyWSRoomLocation, $fdId);
         //删除房间用户
@@ -464,7 +465,7 @@ class LiveService
         $redis->hdel($keyLatestHeartbeat, $userId);
         // 退出用户是否为主播
         ll(static::isManager($roomId, $fdId),'webSocketMessage.log');
-        if (static::isManager($roomId, $fdId)) {
+        if ($isManager) {
             $redis->del(Constants::WS_GAG . $ip . '_' . $roomId); // 禁言
             ll('asfasdfasfasdfasdfs','webSocketMessage.log');
 //                $redis->hdel(Constants::WS_INCOME . $ip . ':' . $roomId, $info['userId']); // 主播接收礼物虚拟货币
