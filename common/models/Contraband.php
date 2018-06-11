@@ -148,14 +148,13 @@ class Contraband extends ActiveRecord{
      */
     public static function refreshRedis(){
         $data = Contraband::queryAllInfo();
-        $str = '';
         if(!empty($data)){
+            $word = array();
             foreach ($data as $v){
-                $str .= $v['word'].',';
+                $word[] = $v['word'];
             }
-            $str = trim($str,',');
             $redis = RedisClient::getInstance();
-            $redis->set(Constants::WS_BANNED_WORD,$str);
+            $redis->set(Constants::WS_BANNED_WORD,base64_encode(json_encode($word)));
             $redis->expire(Constants::WS_BANNED_WORD,-1);
             return ['code' => 0];
         }
