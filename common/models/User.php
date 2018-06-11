@@ -578,7 +578,6 @@ class User extends ActiveRecord
     //批量插入机器人信息
     public static function batchInsertRobotInfo($data)
     {
-
         if (!empty($data) && isset($data)) {
             foreach ($data as $val) {
                 $sql = 'INSERT INTO ' . static::tableName()

@@ -282,13 +282,13 @@ $this->title = '用户管理';
     <div class="c-modal-mask"></div>
     <div class="c-modal-wrap s-banlive">
         <div class="c-modal">
-            <div class="c-modal-close s-banlive-close">关闭</div>
+            <div class="c-modal-close s-banlive-close s-banlive-close2">关闭</div>
             <div class="s-banlive-content">
                 <span class="s-banlive-confirm-text">确认恢复用户正常状态？</span>
             </div>
             <div class="c-modal-footer s-banlive-operate">
                 <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
-                <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
+                <button class="c-btn c-btn--large s-banlive-cancel2">取消</button>
             </div>
         </div>
     </div>
@@ -334,12 +334,20 @@ $this->title = '用户管理';
     });
 
     //关闭禁播
-    $(".s-banlive-close").click(function () {
+    $(".s-banlive-close").unbind('click').bind('click',function () {
         $("#forbid_frame").css("display","none");
+    });
+
+    $(".s-banlive-close2").unbind('click').bind('click',function () {
+        $("#recovery_frame").css("display","none");
     });
 
     $(".s-banlive-cancel").click(function () {
         $("#forbid_frame").css("display","none");
+    });
+
+    $(".s-banlive-cancel2").click(function () {
+        $("#recovery_frame").css("display","none");
     });
 
     $(".s-banlive-btn").click(function () {
