@@ -81,8 +81,11 @@ class WebSocketController extends Controller
                     case Constants::MESSAGE_TYPE_KICK_REQ: // 踢人
                         LiveService::kickUser($server, $frame, $message);
                         break;
-                    case Constants::MESSAGE_TYPE_CLOSE_CALL_REQ: // 断开连麦
+                    case Constants::MESSAGE_TYPE_CLOSE_CALL_REQ: // 主播断开连麦
                         LiveService::closeCall($server, $frame, $message);
+                        break;
+                    case Constants::MESSAGE_TYPE_CLOSE_CALL_SECONDARY_REQ: // 副播断开连麦
+                        LiveService::secondaryCloseCall($server, $frame, $message);
                         break;
                     case Constants::MESSAGE_TYPE_BLACKLIST_REQ: // 黑名单
                         LiveService::blacklist($server, $frame, $message);

@@ -931,7 +931,7 @@ class LiveService
     }
 
     /**
-     * 断开连麦
+     * 主播断开连麦
      *
      * @param $server
      * @param $frame
@@ -939,23 +939,50 @@ class LiveService
      */
     public static function closeCall($server, $frame, $message)
     {
+        if (static::isManager($message['data']['roomId'], $frame->fd)) {
+            static::forwardingCloseCallLM($server, $frame, $message, Constants::MESSAGE_TYPE_CLOSE_CALL_RES);
+        }
+    }
+
+    /**
+     * 副播断开连麦
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    public static function secondaryCloseCall($server, $frame, $message)
+    {
+        static::forwardingCloseCallLM($server, $frame, $message, Constants::MESSAGE_TYPE_CLOSE_CALL_SECONDARY_RES);
+    }
+
+    /**
+     * 转发断开连麦
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     * @param string $messageType
+     */
+    private static function forwardingCloseCallLM($server, $frame, $message, $messageType = Constants::MESSAGE_TYPE_CLOSE_CALL_RES)
+    {
         $messageInfo = $message['data'];
         $wsIp = self::getWsIp($messageInfo['roomId']);
         $redis = RedisClient::getInstance();
-        // 主播
-        $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
-        $userInfo = json_decode($redis->hget($keyWSRoomUser, $messageInfo['adminUserId']), true);
+        $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
+        $userInfo = json_decode($redis->hget($key, $messageInfo['userId']), true);
         if (!empty($userInfo)) {
             $responseMessage = [
-                'messageType' => Constants::MESSAGE_TYPE_CLOSE_CALL_RES,
+                'messageType' => $messageType,
                 'data' => [
+                    'adminUserId' => $messageInfo['adminUserId'],
+                    'roomId' => $messageInfo['roomId'],
                     'userId' => $messageInfo['userId'],
-                    'type' => 3 // 3：断开连麦
+                    'type' => Constants::LM_TYPE_CLOSE // 4：断开连麦
                 ]
             ];
-            $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $messageInfo['roomId'];
-            $redis->hdel($keyWSRoomUserLMList, $messageInfo['userId']);
-            $server->push($frame->fd, json_encode($responseMessage));
+            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+            $redis->hdel($key, $messageInfo['userId']);
         }
     }
 
