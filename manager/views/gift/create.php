@@ -67,8 +67,6 @@ $this->title = '礼物管理';
             event.preventDefault();
             return;
         }
-        $("#giftForm").attr('action','/gift/create');
-
         //判断输入的礼物名称
         var name = $("#name").val();
         if(name == '' || name == undefined || name == null){
@@ -84,6 +82,7 @@ $this->title = '礼物管理';
             alert("请输入礼物价格");
             return;
         }
+        $("#giftForm").attr('action','/gift/create');
         $("#giftForm").submit();
     });
     $("#cancel").unbind('click').bind('click',function () {

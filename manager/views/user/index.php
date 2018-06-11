@@ -1,17 +1,7 @@
 <?php
-use yii\widgets\LinkPager;
 $this->title = '用户管理';
 ?>
-
 <style>
-    .switch-disable {
-        color: #ccc;
-    }
-
-    .switch-list-def {
-
-    }
-
     .switch-hover {
         color: #448AFF
     }
@@ -134,10 +124,6 @@ $this->title = '用户管理';
             </div>
             </form>
         </div>
-        <!--<div class="s-gitf-operate">
-            <button class="c-btn u-radius--circle c-btn-primary">新增</button>
-            <a class="c-a s-gift-setting">设置连击</a>
-        </div>-->
         <div class="s-gift-table-wrap">
             <table class="c-table s-gift-table">
                 <thead class="c-table-thead s-gift-thead">
