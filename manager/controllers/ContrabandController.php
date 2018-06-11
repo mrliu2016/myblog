@@ -1,9 +1,7 @@
 <?php
 namespace app\manager\controllers;
 
-use app\common\components\RedisClient;
 use app\common\models\Contraband;
-use app\common\services\Constants;
 use Yii;
 use yii\data\Pagination;
 
@@ -80,9 +78,35 @@ class ContrabandController extends BaseController{
 
         return $this->render('add-word');
     }
+
     //导入Excel
     public function actionBatchWord(){
-        return $this->render('batch-word');
+
+        if (Yii::$app->request->isPost) {
+            $filename = $_FILES['name']['tmp_name'];
+            $reader = \PHPExcel_IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
+            $PHPExcel = $reader->load($filename); // 载入excel文件
+            $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
+            $highestRow = $sheet->getHighestRow(); // 取得总行数
+//            $highestColumm = $sheet->getHighestColumn(); // 取得总列数
+            /** 循环读取每个单元格的数据 */
+            for ($row = 2; $row <= $highestRow; $row++){//行数是以第1行开始
+                for ($column = 'A'; $column <= 'A'; $column++) {//列数是以A列开始
+                    $dataset[] = $sheet->getCell($column.$row)->getValue();
+                }
+            }
+            $result = Contraband::batchWord($dataset);
+            if($result['code'] == 0){//成功
+                $this->redirect('/contraband/list');
+            }
+//            else{
+//                $this->redirect('/contraband/list');
+//            }
+        }
+        else{
+            return $this->render('batch-word');
+        }
+
     }
     //新增保存
     public function actionAddSave(){
@@ -108,33 +132,6 @@ class ContrabandController extends BaseController{
         print(chr(0xEF) . chr(0xBB) . chr(0xBF));
         echo $str;
         exit();
-    }
-
-    //批量新增机器人信息
-    public function actionBatchAdd(){
-        if (Yii::$app->request->isPost) {
-            $filename = $_FILES['name']['tmp_name'];
-            $reader = \PHPExcel_IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
-            $PHPExcel = $reader->load($filename); // 载入excel文件
-            $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
-            $highestRow = $sheet->getHighestRow(); // 取得总行数
-            $highestColumm = $sheet->getHighestColumn(); // 取得总列数
-            /** 循环读取每个单元格的数据 */
-            for ($row = 2; $row <= $highestRow; $row++){//行数是以第1行开始
-                for ($column = 'A'; $column <= 'A'; $column++) {//列数是以A列开始
-//                    $dataset[$column][] = $sheet->getCell($column.$row)->getValue();
-                    $dataset[] = $sheet->getCell($column.$row)->getValue();
-                }
-            }
-            $result = Contraband::batchWord($dataset);
-            $this->redirect('/contraband/add-word');
-        } else {
-            return $this->render(
-                'batch-add',
-                [
-                ]
-            );
-        }
     }
 
     //刷新redis
