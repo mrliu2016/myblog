@@ -49,11 +49,7 @@ class LiveService
             static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
         } catch (\Exception $exception) {
             if (YII_DEBUG) {
-                static::webSocketLog(
-                    $exception->getMessage(),
-                    __FUNCTION__ . '.log',
-                    true
-                );
+                static::webSocketLog($exception->getMessage(), __FUNCTION__ . '.log', true);
             }
         }
     }
@@ -506,6 +502,7 @@ class LiveService
                     'data' => []
                 ];
                 $server->push($frame->fd, json_encode($respondMessage));
+                ll($respondMessage, 'webSocketMessage.log');
             }
         }
     }
@@ -530,7 +527,24 @@ class LiveService
                 'roomId' => $message['data']['roomId']
             ]
         ];
-        $server->push(intval($fd), json_encode($respondMessage));
+        $server->push(intval($fd), json_encode($respondMessage)); // 推送给当前 fd
+        ll($respondMessage, 'webSocketMessage.log');
+
+//        $respondMessage = [
+//            'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
+//            'code' => Constants::CODE_SUCCESS,
+//            'message' => strtr($param["message"], $keyWords),
+//            'data' => [
+//                'roomId' => $param["roomId"],
+//                'userId' => $param["userId"],
+//                'nickName' => $param["nickName"],
+//                'avatar' => $param["avatar"],
+//                'fly' => isset($param["fly"]) ? (int)$param["fly"] : 1 // 1 弹幕 0 普通
+//            ]
+//        ];
+//        //广播房间全体成员
+//        $roomAll = LiveService::fdListByRoomId($server, $param["roomId"]);
+//        static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
     }
 
     /**
@@ -984,15 +998,17 @@ class LiveService
     private static function broadcast($server, $fdList, $respondMessage, $roomId)
     {
         if (empty($fdList)) return false;
+        $mergeRespondMessage = $respondMessage;
+        $respondMessage = json_encode($respondMessage);
         foreach ($fdList as $fd) {
             try {
                 if (!$server->exist($fd)) {
                     self::leave($fd, $roomId);
                 } else {
-                    $server->push($fd, json_encode($respondMessage));
+                    $server->push($fd, $respondMessage);
                 }
                 if (YII_DEBUG) {
-                    ll(var_export(array_merge($respondMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
+                    ll(var_export(array_merge($mergeRespondMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
                 }
             } catch (\Exception $ex) {
                 ll(var_export(array_merge(['codeMessage' => $ex->getMessage()], array("fd" => $fd)), true), 'webSocketMessage.log');
