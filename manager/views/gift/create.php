@@ -1,7 +1,6 @@
 <?php
-$this->title = '创建礼物';
+$this->title = '礼物管理';
 ?>
-
 <style>
     #profileButton1{
         position: absolute;
@@ -15,24 +14,18 @@ $this->title = '创建礼物';
     .cover-img img{
         width: 100%;
         height: 100%;
-
     }
 </style>
 
 <div class="s-robot-form">
-    <!-- <div class="s-robot-form_title">用户详情</div>-->
     <form action="" method="post" enctype="multipart/form-data" id="giftForm">
         <div class="s-robot-form_upload">
             <div class="s-robot-form_selectimg">
                 <div class="s-robot-form_selectimg-icon1"></div>
-                <!--<div class="s-robot-form_selectimg-icon2" id="uploadImg"></div>-->
-                <!--<input type="file" class="s-robot-form_selectimg-icon2" name="imgSrc" id="uploadImg"/>-->
                 <img src="" class="s-robot-form_selectimg-icon2" id="selectImg1">
                 <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
             </div>
-           <!-- <input type="file" name="imgSrc" class="s-robot-form_selectimg-icon2"/>-->
             <img class="s-robot-form_headimg" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像" name="img" id="headImg">
-            <!--<button class="s-robot-form_headimg-close"></button>-->
             <div class="s-robot-form_headimg-close" style="display: none;"></div>
 
             <div class="s-robot-form_img-tips">
@@ -66,10 +59,7 @@ $this->title = '创建礼物';
 
 
 <script type="text/javascript">
-
-
     $("#confirm").unbind('click').bind('click',function () {
-
         var fileEl = $('#profileButton1');
         if (typeof(fileEl[0].files[0])=='undefined'){
             fileEl[0].focus();
@@ -77,7 +67,6 @@ $this->title = '创建礼物';
             event.preventDefault();
             return;
         }
-
         $("#giftForm").attr('action','/gift/create');
         $("#giftForm").submit();
     });
@@ -86,12 +75,10 @@ $this->title = '创建礼物';
         $("#price").val("");
         $("input[name=fire]:eq(1)").attr("checked",'checked');
     });
-
     function getPath(obj, fileQuery, transImg) {
         var imgSrc = '', imgArr = [], strSrc = '';
         var file = fileQuery.files[0];
         var reader = new FileReader();
-
         if (file.size >=1048576) {
             $(".delect-check").click();
         } else {
@@ -106,7 +93,6 @@ $this->title = '创建礼物';
 
                 };
                 reader.readAsDataURL(file);
-
             } else {
                 $(".showintro").click();
             }
@@ -114,24 +100,18 @@ $this->title = '创建礼物';
     }
 
     function changepic() {
-        // var file_img = document.getElementById("selectImg1");
         var file_img = document.getElementById("headImg");
-
         console.log(file_img);
         $(".s-robot-form_headimg-close").css('display','block');
         var iptfileupload = document.getElementById('profileButton1');
         getPath(file_img, iptfileupload, file_img);
         $(".profileButton1").css("font-size", "0px");
-
     }
 
     $(".s-robot-form_headimg-close").unbind('click').bind("click",function(){
         $("#profileButton1").outerHTML = $("#profileButton1").outerHTML;
-        // $("#selectImg1").attr('src','/img/course/coverimg.png');
         $("#headImg").attr('src','http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png');
-
         $(".s-robot-form_headimg-close").css("display","none")
-
     })
 </script>
 

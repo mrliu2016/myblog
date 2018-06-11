@@ -1,6 +1,6 @@
 <?php
 use yii\widgets\LinkPager;
-$this->title = '鉴黄查看';
+$this->title = '鉴黄管理';
 ?>
 
 <style>

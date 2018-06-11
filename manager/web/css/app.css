@@ -8096,3 +8096,7 @@ textarea.no-resize {
 .container-fluid{
   padding: 0;
 }
+
+.sidebar-nav-select {
+  background-image: linear-gradient(75deg, rgba(0,237,168,0.80) 0%, #1AC2AD 100%);
+}

@@ -1,5 +1,5 @@
 <?php
-$this->title="设置举报类型";
+$this->title="举报管理";
 ?>
 <div class="container-fluid">
     <div><a href="#" class="edit">编辑</a> </div><a><a href="/report/report">返回</a></div>

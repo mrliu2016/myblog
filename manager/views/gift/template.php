@@ -1,6 +1,6 @@
 <?php
 use yii\widgets\LinkPager;
-$this->title = '礼物列表';
+$this->title = '礼物管理';
 ?>
 
 <div class="container-fluid">

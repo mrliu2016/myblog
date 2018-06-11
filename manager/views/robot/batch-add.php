@@ -1,5 +1,5 @@
 <?php
-$this->title = '上传文件';
+$this->title = '机器人管理';
 ?>
 <div class="container-fluid">
     <div class="card">
