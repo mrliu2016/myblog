@@ -1,5 +1,5 @@
 <?php
-$this->title = '消息管理';
+$this->title = '消息推送';
 ?>
 
 <div class="s-message-push-wrap">

@@ -1,5 +1,5 @@
 <?php
-$this->title = '编辑礼物';
+$this->title = '礼物管理';
 ?>
 <style>
     .gift-edit{
