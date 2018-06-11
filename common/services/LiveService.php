@@ -361,6 +361,12 @@ class LiveService
                 $redis->hset($key, $userId, intval($income));
                 $redis->expire($key, Constants::DEFAULT_EXPIRES);
                 break;
+            case Constants::WS_ROLE_AUDIENCE:
+                // 统计房间人数
+                $key = Constants::WS_ROOM_USER_QUANTITY . $ip . ':' . $roomId;
+                $redis->incr($key);
+                $redis->expire($key, Constants::DEFAULT_EXPIRES);
+                break;
         }
     }
 
@@ -397,9 +403,13 @@ class LiveService
     public static function roomMemberNum($roomId)
     {
         $wsIp = self::getWsIp($roomId);
-        $keyWSRoomFD = Constants::WS_ROOM_FD . $wsIp . '_' . $roomId;
-        $num = RedisClient::getInstance()->hLen($keyWSRoomFD);
-        return intval($num);
+//        $keyWSRoomFD = Constants::WS_ROOM_FD . $wsIp . '_' . $roomId;
+//        $num = RedisClient::getInstance()->hLen($keyWSRoomFD);
+//        return intval($num);
+
+        $key = Constants::WS_ROOM_USER_QUANTITY . $wsIp . ':' . $roomId;
+        $num = RedisClient::getInstance()->get($key);
+        return intval(!empty($num) ? $num : false);
     }
 
     /**
@@ -431,17 +441,12 @@ class LiveService
             $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
 
             //处理用户离开房间数据
-            if ($params['isMaster']) {
-                $count = LiveService::roomMemberNum($params['roomId']);
-            } else {
-                $count = LiveService::roomMemberNum($params['roomId']) - 1;
-            }
             $messageAll['data']['income'] = static::isManager($params['roomId'], $isExceptionExit ? $fd : $frame->fd) ? static::masterCurrentIncome($params['roomId'], $params['userId']) : '0';
             $messageAll['data']['duration'] = static::isManager($params['roomId'], $isExceptionExit ? $fd : $frame->fd) ? static::computeDuration($params['roomId'], $params['userId']) : '00:00';
             self::leave($isExceptionExit ? $fd : $frame->fd, $params['roomId']);
             self::clearLMList($params);
             $messageAll['data']['userList'] = array_values(LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true));
-            $messageAll['data']['count'] = $count;
+            $messageAll['data']['count'] = static::computeUnit(LiveService::roomMemberNum($params['roomId']));
             static::broadcast($server, $fdList, $messageAll, $params['roomId']);
         }
     }
@@ -477,6 +482,10 @@ class LiveService
         // 删除收益
         $redis->hdel(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId);
         static::updateConnection();
+
+        // 用户退出房间人数自减
+        $key = Constants::WS_ROOM_USER_QUANTITY . $ip . ':' . $roomId;
+        $redis->decr($key);
     }
 
     //禁言
