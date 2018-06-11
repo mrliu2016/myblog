@@ -145,6 +145,7 @@ class GiftController extends BaseController
             $item['meaning'] = $meaning[$i];
             $data[] = $item;
         }
+
         $result = GiftFire::batchInsertGiftFire($data);
         if($result['code'] == 0){
             $this->jsonReturnSuccess(0,'success');

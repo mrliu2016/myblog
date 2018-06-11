@@ -2,7 +2,7 @@
 $this->title="连发设置";
 ?>
 <div class="container-fluid">
-    <div>编辑</div><a><a href="/gift/template">返回</a></div>
+    <div><a href="#" class="edit">编辑</a></div><a><a href="/gift/template">返回</a></div>
     <div class="card">
         <div class="table-responsive">
             <table>
@@ -20,10 +20,10 @@ $this->title="连发设置";
                         <input type="hidden" class="id" value="<?=$val['id']?>">
                         <td><input type="text" class="number" value="<?=$val['number']?>" readOnly></td>
                         <td><input type="text" class="meaning" value="<?=$val['meaning']?>" readOnly></td>
-                        <td>
+                        <!--<td>
                             <a href="#" class="edit">编辑</a>
                             <!--<a href="#" class="updateSave" style="display: none;">保存</a>-->
-                        </td>
+                       <!-- </td>-->
                     </tr>
                 <?php }?>
                     <tr style="display: none;" class="updateSave">
@@ -129,8 +129,12 @@ $this->title="连发设置";
     //编辑
     $(".edit").click(function () {
         // $(this).parent('td').siblings('td').children('input').attr('readOnly','true');
-        $(this).parent('td').siblings('td').children('input').removeAttr('readOnly');
+        // $(this).parent('td').siblings('td').children('input').removeAttr('readOnly');
         // $(this).siblings('a').css('display','block');
+
+        $(".number").removeAttr('readOnly');
+        $(".meaning").removeAttr('readOnly');
         $(".updateSave").css('display','block');
+
     });
 </script>
