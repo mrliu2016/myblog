@@ -524,7 +524,7 @@ class LiveService
             'message' => '你已被主播禁言',
             'data' => [
                 'userId' => $message['data']['userId'],
-                'adminUserId' => $message['data']['adminUserId'],
+//                'adminUserId' => $message['data']['adminUserId'],
                 'roomId' => $message['data']['roomId'],
                 'nickName' => $message['data']['nickName']
             ]
