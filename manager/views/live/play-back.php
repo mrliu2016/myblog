@@ -1,5 +1,5 @@
 <?php
-$this->title = '回访直播';
+$this->title = '直播记录';
 ?>
 
 <style>

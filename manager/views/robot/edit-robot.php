@@ -1,5 +1,5 @@
 <?php
-$this->title = '编辑机器人';
+$this->title = '机器人管理';
 ?>
 
 <div class="s-robot-form">

@@ -1,5 +1,5 @@
 <?php
-$this->title = '直播查看';
+$this->title = '直播管理';
 ?>
 
 <div class="container-fluid">

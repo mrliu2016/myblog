@@ -44,7 +44,7 @@ class LiveController extends BaseController
     {
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
-//        $params['isLive'] = 1;
+        $params['isLive'] = 1;
         $list = array();
         //通过昵称查询
         if(!empty($params['nickName'])){
