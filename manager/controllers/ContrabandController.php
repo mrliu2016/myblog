@@ -7,7 +7,7 @@ use yii\data\Pagination;
 
 class ContrabandController extends BaseController{
 
-    const PAGE_SIZE = 5;
+    const PAGE_SIZE = 10;
     private static function pagination($pageNo, $count)
     {
         $pagination = new Pagination([

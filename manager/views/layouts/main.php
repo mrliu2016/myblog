@@ -1,5 +1,4 @@
 <?php
-
 /* @var $this \yii\web\View */
 /* @var $content string */
 use app\manager\models\Menu;
@@ -49,78 +48,18 @@ $menus = (new Menu())->getMenu();
                 <ul>
                     <?php foreach ($menus as $menu) { ?>
                     <li>
-                        <a href="<?= $menu['level1']['href'] ?>" <?php if (isset($menu['level1']['target'])) { ?> target="<?= $menu['level1']['target'] ?>" <?php } ?> class="ripple">
-								<span class="nav-icon">
+                        <?php if($this->title == $menu['level1']['name']):?>
+                            <a href="<?= $menu['level1']['href'] ?>" <?php if (isset($menu['level1']['target'])) { ?> target="<?= $menu['level1']['target'] ?>" <?php } ?> class="ripple sidebar-nav-select">
+                        <?php else:?>
+                            <a href="<?= $menu['level1']['href'] ?>" <?php if (isset($menu['level1']['target'])) { ?> target="<?= $menu['level1']['target'] ?>" <?php } ?> class="ripple">
+                        <?php endif; ?>
+									<span class="nav-icon">
 									<img src="/img/live/<?=$menu['level1']['icon']?>" alt="MenuItem">
 								</span>
                             <span class="nav-text"><?= $menu['level1']['name'] ?></span>
                         </a>
                     </li>
                     <?php } ?>
-                    <!--<li class="active">
-                        <a href="" class="ripple">
-								<span class="nav-icon">
-									<img src="/img/live/zhiboguanli.png" alt="MenuItem">
-								</span>
-                            <span class="nav-text">直播管理</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="ripple">
-								<span class="nav-icon">
-									<img src="/img/live/zhibojilu.png" alt="MenuItem">
-								</span>
-                            <span class="nav-text">直播记录</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="ripple">
-								<span class="nav-icon">
-									<img src="/img/live/liwuguanli.png" alt="MenuItem">
-								</span>
-                            <span class="nav-text">礼物管理</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="ripple">
-								<span class="nav-icon">
-									<img src="/img/live/jianhuangguanli.png" alt="MenuItem">
-								</span>
-                            <span class="nav-text">鉴黄管理</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="ripple">
-								<span class="nav-icon">
-									<img src="/img/live/jubaoguanli.png" alt="MenuItem">
-								</span>
-                            <span class="nav-text">举报管理</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="ripple">
-								<span class="nav-icon">
-									<img src="/img/live/xiaoxituisong.png" alt="MenuItem">
-								</span>
-                            <span class="nav-text">消息推送</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="ripple">
-								<span class="nav-icon">
-									<img src="/img/live/weijinciguanli.png" alt="MenuItem">
-								</span>
-                            <span class="nav-text">违禁词管理</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="" class="ripple">
-								<span class="nav-icon">
-									<img src="/img/live/jiqirenguanli.png" alt="MenuItem">
-								</span>
-                            <span class="nav-text">机器人管理</span>
-                        </a>
-                    </li>-->
                 </ul>
             </nav>
         </div>
@@ -366,7 +305,5 @@ $menus = (new Menu())->getMenu();
         </div>
     </div>
 </div>
-
 </body>
-
 </html>

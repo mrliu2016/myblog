@@ -1,5 +1,5 @@
 <?php
-$this->title = '新增机器人';
+$this->title = '机器人管理';
 ?>
 
 <style>
