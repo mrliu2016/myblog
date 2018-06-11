@@ -81,7 +81,7 @@ class UserController extends BaseController
             'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
-            'isAuth'=> $params['isAuth'],
+            'isAuth'=> empty($params['isAuth'])?0:$params['isAuth'],
             'page'=>BroadcastService::pageBanner('/user/index',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
         ]);
     }
