@@ -33,7 +33,7 @@ $this->title = '用户详情';
                     <span class="s-basic_item-value">永久禁播</span>
                 <?php elseif($item['playType'] == 4):?>
                     <span class="s-basic_item-value">停用</span>
-                <? endif ?>
+                <?php endif ?>
             </p>
             <p class="s-basic_item">
                 <span class="s-basic_item-title">注册时间：</span>
