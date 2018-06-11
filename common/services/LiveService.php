@@ -472,33 +472,30 @@ class LiveService
         $ip = self::getWsIp($roomId);
         $redis = RedisClient::getInstance();
         $keyWSRoomLocation = Constants::WS_ROOM_LOCATION . $ip;
-        $info = json_decode($redis->hget($keyWSRoomLocation, $fdId), true);
-        if (!empty($info)) {
-            //删除服务器fd 映射关系
-            $redis->hdel($keyWSRoomLocation, $fdId);
-            //删除房间用户
-            $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $roomId;
-            $userId = $redis->hget($keyWSRoomFD, $fdId);
-            if (!empty($userId)) {
-                $redis->hdel($keyWSRoomFD, $fdId);
-                //删除房间用户头像
-                $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
-                $redis->hdel($keyWSRoomUser, $userId);
-            }
-            // 删除心跳
-            $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
-            $redis->hdel($keyLatestHeartbeat, $userId);
-            // 删除禁言
-            if (static::isManager($roomId, $fdId)) {
-                $redis->del(Constants::WS_GAG . $ip . '_' . $roomId); // 禁言
+        //删除服务器fd 映射关系
+        $redis->hdel($keyWSRoomLocation, $fdId);
+        //删除房间用户
+        $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $roomId;
+        $userId = $redis->hget($keyWSRoomFD, $fdId);
+        if (!empty($userId)) {
+            $redis->hdel($keyWSRoomFD, $fdId);
+            //删除房间用户头像
+            $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
+            $redis->hdel($keyWSRoomUser, $userId);
+        }
+        // 删除心跳
+        $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
+        $redis->hdel($keyLatestHeartbeat, $userId);
+        // 退出用户是否为主播
+        if (static::isManager($roomId, $fdId)) {
+            $redis->del(Constants::WS_GAG . $ip . '_' . $roomId); // 禁言
 //                $redis->hdel(Constants::WS_INCOME . $ip . ':' . $roomId, $info['userId']); // 主播接收礼物虚拟货币
 
-                // 主播-本场直播收益
+            // 主播-本场直播收益
 //                $key = Constants::WS_MASTER_CURRENT_INCOME . $wsIp . ':' . $roomId;
-            }
-            // 删除收益
-            $redis->hdel(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId);
         }
+        // 删除收益
+        $redis->hdel(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId);
         static::updateConnection();
     }
 
@@ -852,13 +849,10 @@ class LiveService
      */
     public static function fdClose($server, $fd)
     {
-        $startTime = microtime(true);
         $responseMessage = [
             'messageType' => "close",
         ];
         $local_ip = IPUtils::get_local_ip();
-        static::runtimeConsumeTime($startTime, microtime(true), '【IPUtils::get_local_ip】运行时长：');
-
         $redis = RedisClient::getInstance();
         //服务器fd映射关系，异常退出用
         $keyWSRoomLocation = Constants::WS_ROOM_LOCATION . $local_ip;
@@ -869,53 +863,16 @@ class LiveService
             $userId = $info[1];
             $roleId = $info[2];
             // 房间用户信息
-            $keyWSRoomUser = Constants::WS_ROOM_USER . $local_ip . '_' . $roomId;
-            $redis->hdel($keyWSRoomUser, $userId);
+//            $keyWSRoomUser = Constants::WS_ROOM_USER . $local_ip . '_' . $roomId;
+//            $redis->hdel($keyWSRoomUser, $userId);
             //房间的fd列表
-            $keyWSRoomFD = Constants::WS_ROOM_FD . $local_ip . '_' . $roomId;
-            $redis->hdel($keyWSRoomFD, $fd);
+//            $keyWSRoomFD = Constants::WS_ROOM_FD . $local_ip . '_' . $roomId;
+//            $redis->hdel($keyWSRoomFD, $fd);
             //删除fd数据
-            $redis->hdel($keyWSRoomLocation, $fd);
+//            $redis->hdel($keyWSRoomLocation, $fd);
 
             // 心跳
-            $tmp = microtime(true);
-
-            $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
-            $latestHeartbeat = $redis->hget($keyLatestHeartbeat, $userId);
-            if (!empty($latestHeartbeat)) {
-                $latestHeartbeat = explode('_', $latestHeartbeat);
-                $keyWSRoomUser = Constants::WS_ROOM_USER . $roomId;
-                $userInfo = json_decode($redis->hget($keyWSRoomUser, $userId), true);
-                switch ($latestHeartbeat[1]) {
-                    case 0: // 观众
-                        self::leave($fd, $roomId);
-                        static::runtimeConsumeTime($tmp, microtime(true), '【static::leave】运行时长：');
-                        break;
-                    case 1: // 主播
-                        if ((time() - $latestHeartbeat[2]) <= Constants::WS_HEARTBEAT_IDLE_TIME) {
-                            self::leave($fd, $roomId);
-                            static::runtimeConsumeTime($tmp, microtime(true), '【static::leave】运行时长：');
-                        }
-                        break;
-                }
-                if ((time() - $latestHeartbeat[2]) > Constants::WS_HEARTBEAT_IDLE_TIME) {
-                    $message['data'] = [
-                        'roomId' => $roomId,
-                        'isMaster' => $roleId,
-                        'userId' => $userId,
-                        'avatar' => $userInfo['avatar'],
-                        'nickName' => $userInfo['nickName'],
-                        'level' => $userInfo['level']
-                    ];
-                    $tmp = microtime(true);
-                    static::quitRoom($server, null, $message, $fd, true);
-                    $redis->hdel($keyLatestHeartbeat, $userId);
-                    static::runtimeConsumeTime($tmp, microtime(true), '【static::quitRoom】运行时长：');
-                }
-            } else {
-                self::leave($fd, $roomId);
-                static::runtimeConsumeTime($tmp, microtime(true), '【static::leave_2】运行时长：');
-            }
+            static::keepUserRoomMap($server, $fd, $userId, $roomId, $roleId, $local_ip);
 
             $responseMessage['data'] = [
                 'data' => [
@@ -925,8 +882,54 @@ class LiveService
                 ]
             ];
         }
-        static::runtimeConsumeTime($startTime, microtime(true), '【static::fdClose】运行时长：');
         ll(var_export(array_merge($responseMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
+    }
+
+    /**
+     * 切换网络情况下，心跳在时间阈值内，清除 fd 对应数据
+     *
+     * 主播超出心跳阈值，清除多有映射关系
+     *
+     * @param $server
+     * @param $fd
+     * @param $userId
+     * @param $roomId
+     * @param $roleId
+     * @param $local_ip
+     */
+    private static function keepUserRoomMap($server, $fd, $userId, $roomId, $roleId, $local_ip)
+    {
+        $redis = RedisClient::getInstance();
+        $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
+        $latestHeartbeat = $redis->hget($keyLatestHeartbeat, $userId);
+        if (!empty($latestHeartbeat)) {
+            $latestHeartbeat = explode('_', $latestHeartbeat);
+            $userInfo = json_decode($redis->hget(Constants::WS_ROOM_USER . $roomId, $userId), true);
+
+            switch ($latestHeartbeat[1]) {
+                case 0: // 观众
+                    static::leave($fd, $roomId);
+                    break;
+                case 1: // 主播
+                    if ((time() - $latestHeartbeat[2]) <= Constants::WS_HEARTBEAT_IDLE_TIME) {
+                        static::leave($fd, $roomId);
+                    }
+                    break;
+            }
+            if ((time() - $latestHeartbeat[2]) > Constants::WS_HEARTBEAT_IDLE_TIME) {
+                $message['data'] = [
+                    'roomId' => $roomId,
+                    'isMaster' => $roleId,
+                    'userId' => $userId,
+                    'avatar' => $userInfo['avatar'],
+                    'nickName' => $userInfo['nickName'],
+                    'level' => $userInfo['level']
+                ];
+                static::quitRoom($server, null, $message, $fd, true);
+            }
+        } else {
+            static::leave($fd, $roomId);
+        }
     }
 
     /**
