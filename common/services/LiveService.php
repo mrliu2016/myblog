@@ -524,27 +524,14 @@ class LiveService
             'data' => [
                 'userId' => $message['data']['userId'],
                 'adminUserId' => $message['data']['adminUserId'],
-                'roomId' => $message['data']['roomId']
+                'roomId' => $message['data']['roomId'],
+                'nickName' => $message['data']['nickName']
             ]
         ];
-        $server->push(intval($fd), json_encode($respondMessage)); // 推送给当前 fd
-        ll($respondMessage, 'webSocketMessage.log');
-
-//        $respondMessage = [
-//            'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
-//            'code' => Constants::CODE_SUCCESS,
-//            'message' => strtr($param["message"], $keyWords),
-//            'data' => [
-//                'roomId' => $param["roomId"],
-//                'userId' => $param["userId"],
-//                'nickName' => $param["nickName"],
-//                'avatar' => $param["avatar"],
-//                'fly' => isset($param["fly"]) ? (int)$param["fly"] : 1 // 1 弹幕 0 普通
-//            ]
-//        ];
 //        //广播房间全体成员
-//        $roomAll = LiveService::fdListByRoomId($server, $param["roomId"]);
-//        static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
+        $roomAll = LiveService::fdListByRoomId($server, $message['data']['roomId']);
+        static::broadcast($server, $roomAll, $respondMessage, $message['data']["roomId"]);
+//        $server->push(intval($fd), json_encode($respondMessage));
     }
 
     /**
