@@ -36,7 +36,7 @@ $this->title = '礼物管理';
         <div class="s-robot-form-details">
             <p class="c-form_item">
                 <span class="c-form_item-title">礼物名称：</span>
-                <input class="c-input c-form_item-input" placeholder="0-10个字符长度" name="name" id="name"/>
+                <input class="c-input c-form_item-input" placeholder="0-10个字符长度" name="name" id="name" maxlength="10"/>
             </p>
             <p class="c-form_item">
                 <span class="c-form_item-title">价格：</span>
@@ -68,6 +68,22 @@ $this->title = '礼物管理';
             return;
         }
         $("#giftForm").attr('action','/gift/create');
+
+        //判断输入的礼物名称
+        var name = $("#name").val();
+        if(name == '' || name == undefined || name == null){
+            alert("请输入正确的礼物名称");
+            return;
+        }
+        if(name.length>10){
+            alert("礼物名称10个字符");
+            return;
+        }
+        var price = $("#price").val();
+        if(price == '' || price == undefined || price == null){
+            alert("请输入礼物价格");
+            return;
+        }
         $("#giftForm").submit();
     });
     $("#cancel").unbind('click').bind('click',function () {
@@ -79,12 +95,13 @@ $this->title = '礼物管理';
         var imgSrc = '', imgArr = [], strSrc = '';
         var file = fileQuery.files[0];
         var reader = new FileReader();
-        if (file.size >=1048576) {
-            $(".delect-check").click();
+        if (file.size >=1024*1024) {
+            // $(".delect-check").click();
+            alert("上传的图片大于1M");
         } else {
             // 在这里需要判断当前所有文件中
             var fileExt = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();//获得文件后缀名
-            if (fileExt == ".png" || fileExt == ".gif" || fileExt == ".jpg" || fileExt == ".jpeg" ||fileExt == ".bmp") {
+            if (fileExt == ".png"|| fileExt == ".jpg" || fileExt == ".jpeg") {
                 reader.onload = function (e) {
                     imgSrc = fileQuery.value;
                     imgArr = imgSrc.split('.');
@@ -94,7 +111,7 @@ $this->title = '礼物管理';
                 };
                 reader.readAsDataURL(file);
             } else {
-                $(".showintro").click();
+                alert("图片格式只能为：JPG、JPEG、PNG");
             }
         }
     }

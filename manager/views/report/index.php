@@ -77,10 +77,10 @@ $this->title = '举报管理';
         </div>
         <p class="s-gift-count">共 <?= $count ?> 条记录</p>
     </div>
-    <nav class="text-center">
+    <nav class="text-center" style="margin-left:30%">
         <table>
             <tr>
-                <td> <?= LinkPager::widget(['pagination' => $pagination]) ?></td>
+                <td class="page-space"> <?= $page ?></td>
                 <td>共<?= $count ?> 条</td>
             </tr>
         </table>

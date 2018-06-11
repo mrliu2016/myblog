@@ -8100,3 +8100,7 @@ textarea.no-resize {
 .sidebar-nav-select {
   background-image: linear-gradient(75deg, rgba(0,237,168,0.80) 0%, #1AC2AD 100%);
 }
+
+.page-space a{
+  margin-right: 3px;
+}
