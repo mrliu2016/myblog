@@ -69,6 +69,15 @@ $this->title = '创建礼物';
 
 
     $("#confirm").unbind('click').bind('click',function () {
+
+        var fileEl = $('#profileButton1');
+        if (typeof(fileEl[0].files[0])=='undefined'){
+            fileEl[0].focus();
+            alert("请选择头像");
+            event.preventDefault();
+            return;
+        }
+
         $("#giftForm").attr('action','/gift/create');
         $("#giftForm").submit();
     });
