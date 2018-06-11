@@ -7,7 +7,7 @@ $this->title = '礼物管理';
     <div class="s-gift">
         <div class="s-gift-search">
             <!--<p class="s-gift-search-title">礼物管理</p>-->
-            <form method="get" action="/gift/template" id="searchForm" name="searchForm">
+            <form method="get" action="/gift/index" id="searchForm" name="searchForm">
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
                         <span>ID</span>
