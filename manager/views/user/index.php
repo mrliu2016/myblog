@@ -3,13 +3,11 @@ $this->title = '用户管理';
 ?>
 <style>
     .switch-hover {
-        color: #448AFF
+        color: #464646
     }
-
     .switch-list-def span {
         color: #ccc;
     }
-
     .switch-list-on span {
         color: #448AFF;
     }
@@ -223,13 +221,13 @@ $this->title = '用户管理';
                                 <?php if(time() - $item['playTime'] > 86400):?>
                                     <span class="s-basic_item-value">正常</span>
                                 <?php else:?>
-                                    <span class="s-basic_item-value">禁播中(还剩<?=ceil((time() - $item['playTime'])/3600)?>h)</span>
+                                    <span class="s-basic_item-value" style="color:#ea5b5b;">禁播中(还剩<?=ceil(($item['playTime'] + 86400 - time())/3600)?>h)</span>
                                 <?php endif;?>
                             <?php elseif($item['playType'] == 2):?>
                                 <?php if(time() - $item['playTime'] > 2592000):?>
                                     <span class="s-basic_item-value">正常</span>
                                 <?php else:?>
-                                    <span class="s-basic_item-value">禁播中(还剩<?=ceil((time() - $item['playTime'])/86400)?>天)</span>
+                                    <span class="s-basic_item-value" style="color:#ea5b5b;">禁播中(还剩<?=ceil(($item['playTime'] + 2592000 - time())/86400)?>天)</span>
                                 <?php endif;?>
                             <?php elseif($item['playType'] == 3):?>
                                 <span class="s-basic_item-value">永久禁播</span>
@@ -239,14 +237,14 @@ $this->title = '用户管理';
                         </td>
                         <td>
                             <?php if(empty($item['playType']) || $item['playType'] == 0):?>
-                                <div class="switch-mod switch-mod-open switch-hover"><span>停用</span>
-                                    <input class="show-notes input-switch" type="checkbox" name="show-notes"
+                                <div class="switch-mod switch-mod-open switch-hover"><span>启用</span>
+                                    <input class="show-notes input-switch " type="checkbox" name="show-notes"
                                            checked="checked"
                                            value="<?= $item["id"]. ",".$item["roomId"]?>" onclick="noplay(<?= $item['id']?>,<?=$item['roomId']?>)">
-                                    <label for="show-notes" class="lable-switch-mod" ></label>
+                                    <label for="show-notes" class="lable-switch-mod-open" ></label>
                                 </div>
-                            <?php elseif($item['playType'] == 1 || $item['playType'] == 2):?>
-                                <div class="switch-mod switch-mod-open switch-hover"><span> 启用</span>
+                            <?php elseif($item['playType'] == 1 || $item['playType'] == 2 || $item['playType'] == 3 || $item['playType'] == 4):?>
+                                <div class="switch-mod switch-mod-open switch-hover"><span>停用</span>
                                     <input class="show-notes input-switch" type="checkbox" name="show-notes"
                                            checked="checked"
                                            value="<?= $item["id"]. ",".$item["roomId"]?>" onclick="recovery(<?= $item['id']?>,<?=$item['roomId']?>)">
@@ -285,7 +283,7 @@ $this->title = '用户管理';
                 <button class="c-btn s-banlive-btn" data-val="4">解封账号</button>
             </div>
             <div class="c-modal-footer s-banlive-operate">
-                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="noplay-comfirm">确认</button>
                 <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
             </div>
         </div>
@@ -303,7 +301,7 @@ $this->title = '用户管理';
                 <span class="s-banlive-confirm-text">确认恢复用户正常状态？</span>
             </div>
             <div class="c-modal-footer s-banlive-operate">
-                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="recovery-confirm">确认</button>
                 <button class="c-btn c-btn--large s-banlive-cancel2">取消</button>
             </div>
         </div>
@@ -329,31 +327,28 @@ $this->title = '用户管理';
         $(this).closest('form').find("input[type=text]").val("")
     });
 
-    $('.show-notes').change(function () {
-        // var appId = $(this).val();
-        var that = this;
-        if ($(this).is(':checked')) {
-            $(that).parent().removeClass("switch-list-def");
-            $(that).parent().addClass("switch-list-on");
-            $(that).prev().html("启用");
-            // $(".s-banlive").css("display","block");
-            // $("")
-        }
-        else {
-            //禁播
-            // $(".s-banlive").css("display","block");
-            // alert(2222);
-            $(that).prev().html("停用");
-            $(that).parent().removeClass("switch-list-on");
-            $(that).parent().addClass("switch-list-def");
-        }
-    });
+    // $('.show-notes').change(function () {
+    //     // var appId = $(this).val();
+    //     var that = this;
+    //     if ($(this).is(':checked')) {
+    //         $(that).parent().removeClass("switch-list-def");
+    //         $(that).parent().addClass("switch-list-on");
+    //         $(that).prev().html("启用");
+    //         // $(".s-banlive").css("display","block");
+    //     }
+    //     else {
+    //         //禁播
+    //         // $(".s-banlive").css("display","block");
+    //         $(that).prev().html("停用");
+    //         $(that).parent().removeClass("switch-list-on");
+    //         $(that).parent().addClass("switch-list-def");
+    //     }
+    // });
 
     //关闭禁播
     $(".s-banlive-close").unbind('click').bind('click',function () {
         $("#forbid_frame").css("display","none");
     });
-
     $(".s-banlive-close2").unbind('click').bind('click',function () {
         $("#recovery_frame").css("display","none");
     });
@@ -374,7 +369,9 @@ $this->title = '用户管理';
     //禁播方法
     function noplay(userId,roomId) {
         $("#forbid_frame").css("display","block");
-        $(".s-banlive-confirm").unbind('click').bind('click',function () {
+        $("#noplay-comfirm").unbind('click').bind('click',function () {
+
+
             var type = 0;
             $(".s-banlive-btn").each(function () {
                 if($(this).hasClass("c-btn-primary")){
@@ -386,10 +383,7 @@ $this->title = '用户管理';
             params.userId = userId;
             params.roomId = roomId;
             params.type = type;
-
-            // console.log(params);
             $("#forbid_frame").css("display","none");
-
             $.ajax({
                 type: 'post',
                 url: '/user/noplay',
@@ -411,12 +405,12 @@ $this->title = '用户管理';
     //恢复禁播状态
     function recovery(userId,roomId){
         $("#recovery_frame").css("display","block");
-        $(".s-banlive-confirm").unbind('click').bind('click',function () {
-            $("#recovery_frame").css("display","block");
+        $("#recovery-confirm").unbind('click').bind('click',function () {
+            $("#recovery_frame").css("display","none");
             var params = {};
             params.userId = userId;
             params.roomId = roomId;
-            // console.log(params);
+            $("#recovery_frame").css("display","none");
             $.ajax({
                 type: 'post',
                 url: '/user/recovery',
@@ -425,7 +419,7 @@ $this->title = '用户管理';
                 // timeout: 1000
             }).done(function (data) {
                 if(data.code == 0){
-                    alert("恢复成功");
+                    // alert("恢复成功");
                     window.location.reload();
                 }
                 else{
