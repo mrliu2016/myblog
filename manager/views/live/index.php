@@ -79,7 +79,11 @@ $this->title = '直播管理';
                     </td>
                     <td>
                         <a href="/live/check?id=<?=$item['id']?>">查看</a>
-                        <a href="#" onclick="noplay(<?=$item['userId']?>,<?=$item['roomId']?>,<?=$item['isLive']?>)">禁播</a>
+                        <?php if(empty($item['status']) || $item['status'] == 0): ?>
+                            <a href="#" onclick="noplay(<?=$item['userId']?>,<?=$item['roomId']?>,<?=$item['isLive']?>)">禁播</a>
+                        <?php elseif ($item['status'] == 1):?>
+                            <a disabled class="c-btn s-gift-page" href="#" style="text-decoration: none;">禁播</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -207,7 +211,7 @@ $this->title = '直播管理';
             params.type = type;
 
             $("#forbid_frame").css("display","none");
-            console.log(params);
+            // console.log(params);
             $.ajax({
                 url: '/live/noplay',
                 type: 'post',

@@ -56,6 +56,7 @@ class LiveController extends BaseController
                 $list = Video::queryInfo($params);
                 foreach ($list as &$elem){
                     $elem['nickName'] = $v['nickName'];
+                    $elem['status']   = $v['status'];
                 }
             }
         }
@@ -64,9 +65,9 @@ class LiveController extends BaseController
             foreach ($list as &$val){
                 $userInfo = User::queryById($val['userId']);
                 $val['nickName'] = $userInfo['nickName'];
+                $val['status']   = $userInfo['status'];
             }
         }
-
         $count = Video::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
@@ -224,34 +225,33 @@ class LiveController extends BaseController
                 break;
         }
         $params['message'] = $message;
-
         if(User::operateNoplay($params)){
             //直播
             $isLive = $params['isLive'];
-//            if($isLive){//是直播
-            $roomId = $params['roomId'];
-            //推送信息
-            $data = array(
-                'messageType'=>$messageType,
-                'data'=>array(
-                    'userId'=>$params['userId'],
-                    'roomId'=>$params['roomId'],
-                    'message'=>$message,
-                ),
-            );
-            $url = Yii::$app->params['shareUrl'].'/server/location?roomId='.$roomId;//http://dev.api.customize.3ttech.cn/server/location
-            $result = AHelper::curl_get($url);
-            $result = json_decode($result,true);
-            $roomServer = $result['data']['roomServer'];
-            $host = $roomServer['host'];
-            $port = $roomServer['port'];
-            $url = 'http://'.$host.':'.$port;
-            $result = AHelper::curlPost($url,json_encode($data));
-//            }
-//            else{//发送系统消息
-//
-//            }
-            $this->jsonReturnSuccess(0);
+            if($isLive){//是直播
+                $roomId = $params['roomId'];
+                //推送信息
+                $data = array(
+                    'messageType'=>$messageType,
+                    'data'=>array(
+                        'userId'=>$params['userId'],
+                        'roomId'=>$params['roomId'],
+                        'message'=>$message,
+                    ),
+                );
+                $url = Yii::$app->params['shareUrl'].'/server/location?roomId='.$roomId;//http://dev.api.customize.3ttech.cn/server/location
+                $result = AHelper::curl_get($url);
+                $result = json_decode($result,true);
+                $roomServer = $result['data']['roomServer'];
+                $host = $roomServer['host'];
+                $port = $roomServer['port'];
+                $url = 'http://'.$host.':'.$port;
+                $result = AHelper::curlPost($url,json_encode($data));
+                $this->jsonReturnSuccess(0);
+            }
+            else{//发送系统消息
+                $this->jsonReturnError(-1);//只能直播才推送消息
+            }
         }
         else{
             $this->jsonReturnError(-1);
