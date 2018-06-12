@@ -10,7 +10,7 @@ $this->title = '上传文件';
                     <div class="form-group">
                         <div class="col-sm-10">
                             <div class="col-md-3">
-                                <input type="file" class="form-control" id="File1" name="name" accept="*.xls,*.xlsx">
+                                <input type="file" class="form-control" id="File1" name="name" accept="*.xls">
                             </div>
                         </div>
                     </div>
@@ -30,7 +30,7 @@ $this->title = '上传文件';
     </div>
 </div>
 
-<!--确认是否删除start-->
+<!--确认start-->
 <div id="confirm_frame" style="display: none">
     <div class="c-modal-mask"></div>
     <div class="c-modal-wrap s-banlive">
@@ -46,7 +46,7 @@ $this->title = '上传文件';
         </div>
     </div>
 </div>
-<!--确认是否删除end-->
+<!--确认end-->
 <script>
     //上传模板
     $("#upload").click(function (event) {
@@ -65,12 +65,12 @@ $this->title = '上传文件';
 
         var filePath = $('#File1').val().toLowerCase().split(".");
         var fileType =  filePath[filePath.length - 1];
-        if(fileType == "xls" || fileType == "xlsx"){
+        if(fileType == "xls"){
             $("#searchForm").submit();
         }
         else{
             $("#confirm_frame").css("display","block");
-            $(".s-banlive-confirm-text").text("请选择.xls或者.xlsx格式的文件!");
+            $(".s-banlive-confirm-text").text("请选择.xls格式的文件!");
             $(".s-banlive-confirm").unbind("click").bind("click",function () {
                 $("#confirm_frame").css("display","none");
             });
