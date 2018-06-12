@@ -24,7 +24,7 @@ class User extends ActiveRecord
         } else {
             return static::find()
                 ->select('id as userId,userName,avatar,nickName,sex,birth,mobile,expenditure,
-                balance,level,description,isValid,idCard,realName,roomId,income,province,city,region,profession,followers_cnt,followees_cnt,created,playType,playTime')
+                balance,level,description,isValid,idCard,realName,roomId,income,province,city,region,profession,followers_cnt,followees_cnt,created,playType,playTime,status')
                 ->where(['id' => $id])
                 ->asArray()
                 ->one();
@@ -542,7 +542,7 @@ class User extends ActiveRecord
     //通过用户昵称获取用户信息
     public static function queryInfoByNickName($nickName)
     {
-        $sql = "SELECT id,nickName FROM `" . static::tableName() . "` WHERE `nickName` LIKE '" . trim($nickName) . "%'";
+        $sql = "SELECT id,nickName,`status` FROM `" . static::tableName() . "` WHERE `nickName` LIKE '" . trim($nickName) . "%'";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }
@@ -646,6 +646,7 @@ class User extends ActiveRecord
         $model->playType = intval($params['type']);
         $model->playTime = $_SERVER['REQUEST_TIME'];
         $model->updated = $_SERVER['REQUEST_TIME'];
+        $model->status  = 1;
         $model->save();
         return $model->id;
     }

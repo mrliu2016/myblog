@@ -663,9 +663,10 @@ select.c-input {
     height: 24px;
     padding: 0;
 }
-input.s-message-push-m_select:checked {
+
+/*input.s-message-push-m_select:checked {
     background: url(../img/switch-box.png) no-repeat 0 0 / 100%;
-}
+}*/
 
 input.s-message-push-m_select {
     color: #364557;
@@ -700,4 +701,15 @@ input.s-user_all_select {
 }
 input.s-user_all_select:checked {
     background-position-y: 0;
+}
+
+input.s-message-select-checked{
+    background: url(../img/switch-box.png) no-repeat 0 0 / 100%;
+    color: #364557;
+    padding: 12px;
+    transition: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    -webkit-appearance: none;
 }

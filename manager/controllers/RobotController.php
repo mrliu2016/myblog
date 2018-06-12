@@ -107,10 +107,14 @@ class RobotController extends BaseController{
     }
     //删除
     public function actionDeleteRobot(){
-        $id = Yii::$app->request->get('id');
+        $id = Yii::$app->request->post('id');
         $id = User::deleteRobot($id);
         if ($id) {
-            Yii::$app->getResponse()->redirect('/robot/list');
+//            Yii::$app->getResponse()->redirect('/robot/index');
+            $this->jsonReturnSuccess(0,'删除机器人成功.');
+        }
+        else{
+            $this->jsonReturnError(-1,'删除机器人失败.');
         }
     }
     //新增
@@ -173,7 +177,7 @@ class RobotController extends BaseController{
     //下载模板
     public function actionDownloadTemplate(){
 
-        $str = "昵称,性别,所在地,关注数,粉丝数,收到礼物,送出礼物,个性签名\n";
+        $str = "昵称,性别(男:1女:0),房间号,所在省,所在市,关注数,粉丝数,收到礼物,送出礼物,个性签名\n";
         $title = "批量新增机器人模板";
         $queryTime = date('Y-m-d',$_SERVER['REQUEST_TIME']);
         header("Content-type:application/vnd.ms-excel");

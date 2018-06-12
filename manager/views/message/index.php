@@ -9,9 +9,9 @@ $this->title = '消息推送';
             <textarea class="c-input u-radius--0 s-message-push_input" id="message"></textarea>
             <div class="s-message-push_select-wrap">
 <!--                <button class="c-btn c-btn-dull s-message-push_selectall">全部用户</button>-->
-                <span class="s-message-push_selectall"><input class="s-user_all_select" type="checkbox" onclick="selectAllUser()"/>全部用户</span>
+                <!--<span class="s-message-push_selectall"><input class="s-user_all_select" type="checkbox" onclick="selectAllUser()"/>全部用户</span>-->
                 <!--<button class="c-btn c-btn-dull s-message-push_selectuser">选择用户</button>-->
-                <a href="#" class="c-btn c-btn-dull s-message-push_selectuser" id="selectUser">选择用户</a>
+                <span><a href="#" class="c-btn c-btn-dull s-message-push_selectuser" id="selectUser" style="text-decoration: none;">选择用户</a></span>
             </div>
             <div id="select-push-user">
 
@@ -24,7 +24,7 @@ $this->title = '消息推送';
 <!--选择用户start-->
 <div class="select-user" style="display: none;">
     <div class="c-modal-mask"></div>
-    <div class="c-modal-wrap s-message-push-m_">
+    <div class="c-modal-wrap s-message-push-m">
         <div class="c-modal">
             <div class="c-modal-close s-message-push-m_close">关闭</div>
             <div class="c-modal_header">选择用户</div>
@@ -84,26 +84,61 @@ $this->title = '消息推送';
     </div>
 </div>
 <!--选择用户end-->
+
+<!--确认start-->
+<div id="confirm_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <!-- <div class="c-modal-close s-banlive-close">关闭</div>-->
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text"></span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <!--<button class="c-btn c-btn--large s-banlive-cancel">取消</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--确认end-->
+
 <script type="text/javascript">
 
     var dataObj = {};//定义全局存储选择用户的对象
     var data = '';//存储用户ID
-    $("#selectUser").click(function () {
+    $("#selectUser").unbind('click').bind('click',function () {
+        if($(this).attr("disabled")){
+            return false;
+        }
         $(".select-user").css("display","block");
+        //选择用户取消
+        $(".s-message-push-m_close").unbind('click').bind('click',function () {
+            // dataObj = {};
+            $(".select-user").css("display","none");
+        });
+        $(".s-message-push-m_cancel").unbind('click').bind('click',function () {
+            // dataObj = {};
+            $(".select-user").css("display","none");
+        });
+        handPaging(1);
+        $("#id").val("");
+        $("#nickName").val("");
+        $("#roomId").val("");
+        $("#mobile").val("");
+
     });
     //发送消息
     $(".s-message-push_submit").unbind('click').bind('click',function () {
+
         var message = $("#message").val();
         var params = {};
         params.data = data;
         params.message = message;
 
-        if(dataObj == {} || dataObj == undefined){
-            alert("请选择要推送消息的用户.");
-            return false;
-        }
         if(message == '' || message == undefined || message == null){
-            alert("请输入要推送的内容.");
+            // alert("请输入要推送的内容.");
+            tip("请输入要推送的内容");
             return false;
         }
         $.ajax({
@@ -116,58 +151,50 @@ $this->title = '消息推送';
                 if(data.code == 0){
                     window.location.reload();
                 }
-                else{
-                    alert("消息推送失败！");
+                else if(data.code == -1){
+                    tip("消息推送失败");
+                }
+                else if(data.code == -2){
+                    tip("选择的用户多余100人,推送失败！");
+                }
+                else if(data.code == -3){
+                    tip("未选择推送用户！");
                 }
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('异常错误，正在紧急排查！');
-            }
         });
     });
-
     //选择全部用户
     function selectAllUser() {
         if($(".s-user_all_select").prop('checked')){
             //将选择用户不可点
-            // console.log(111);
             data = "<?=$userStr?>"
-            console.log(dataObj);
-
+            //设置选择用户不可点
+            $("#selectUser").attr("disabled","true");
         }
         else{
-            // console.log(222);
             data = {};
             $("#select-push-user").remove();
+            $("#selectUser").removeAttr("disabled");
         }
     }
 /*-------------------------
     选择用户部分
 --------------------------*/
-
-    //选择用户取消
-    $(".s-message-push-m_close").unbind('click').bind('click',function () {
-        dataObj = {};
-        $(".select-user").css("display","none");
-    });
-    $(".s-message-push-m_cancel").unbind('click').bind('click',function () {
-        dataObj = {};
-        $(".select-user").css("display","none");
-    });
     function toObj(userId,roomId){//组成对象的方法
         var data = {};
         data[userId] = roomId;
         return data;
     }
-
     //选中添加用户  取消去掉用户
     function checkboxOnclick(pageNo,key,userId,roomId,nickName){
         var cName = "page"+pageNo+'_'+key;
         if($('.'+cName).prop('checked')){//将用户Id，房间Id添加到对象中
+            $('.'+cName).addClass("s-message-select-checked");
             //添加对象
             dataObj[userId] = [roomId,nickName];
         }
         else {//将用户Id，房间Id从对象移除
+            $('.'+cName).removeClass("s-message-select-checked");
             for(var key in dataObj){
                 if(key == userId){
                     delete dataObj[userId];
@@ -200,33 +227,39 @@ $this->title = '消息推送';
             // cache: false,
             dataType: "json",
             success: function (data) {
-                var list = data.data.list;
-                var pageNo = 1;
-                var tbody = '';
-                $.each(list,function (k,v) {
-                    // console.log(k);
-                    tbody += '<tr>';
-                    tbody += '<td><input type="checkbox" class="s-message-push-m_select page'+pageNo+'_'+k+'" onclick="checkboxOnclick('+pageNo+','+k+','+v.id+','+v.roomId+',\''+v.nickName+'\')"/></td>';
-                    tbody += '<td>'+(k+1)+'</td>';
-                    tbody += '<td>'+v.id+'</td>';
-                    tbody += '<td>'+v.nickName+'</td>';
-                    tbody += '<td>'+v.roomId+'</td>';
-                    tbody += '<td>'+v.mobile+'</td>';
-                    tbody += '</tr>';
-                });
-                $("#tbody").html(tbody);
-                $(".count").text(data.data.count);
-                $("#pageBanner").html('');
+
+                if(data.code == 0){
+                    var list = data.data.list;
+                    var pageNo = 1;
+                    var tbody = '';
+                    $.each(list,function (k,v) {
+                        // console.log(k);
+                        tbody += '<tr>';
+                        tbody += '<td><input type="checkbox" class="s-message-push-m_select page'+pageNo+'_'+k+'" onclick="checkboxOnclick('+pageNo+','+k+','+v.id+','+v.roomId+',\''+v.nickName+'\')"/></td>';
+                        tbody += '<td>'+(k+1)+'</td>';
+                        tbody += '<td>'+v.id+'</td>';
+                        tbody += '<td>'+v.nickName+'</td>';
+                        tbody += '<td>'+v.roomId+'</td>';
+                        tbody += '<td>'+v.mobile+'</td>';
+                        tbody += '</tr>';
+                    });
+                    $("#tbody").html(tbody);
+                    $(".count").text(data.data.count);
+                    $("#pageBanner").html('');
+                }
+                else if(data.code == -1){
+                    tip("消息推送失败");
+                }
+                else if(data.code == -2){
+                    tip("选择的用户多余100人,推送失败！");
+                }
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('get issue');
-            }
         });
     });
-
-    handPaging(1);
+    // handPaging(1);
     //分页
     function handPaging(val) {
+        // console.log(dataObj);
         var params = {};
         params.page = val;
         $.ajax({
@@ -241,8 +274,15 @@ $this->title = '消息推送';
                     var pageNo = data.data.pageNo;
                     var tbody = '';
                     $.each(list,function (k,v) {
+                        // console.log(v);
                         tbody += '<tr>';
-                        tbody += '<td><input type="checkbox" class="s-message-push-m_select page'+pageNo+'_'+k+'" onclick="checkboxOnclick('+pageNo+','+k+','+v.id+','+v.roomId+',\''+v.nickName+'\')"/></td>';
+                        //判断是否在对象中
+                        if(dataObj.hasOwnProperty(v.id)){
+                            tbody += '<td><input type="checkbox" class="s-message-push-m_select s-message-select-checked page'+pageNo+'_'+k+'" onclick="checkboxOnclick('+pageNo+','+k+','+v.id+','+v.roomId+',\''+v.nickName+'\')"/></td>';
+                        }
+                        else{
+                            tbody += '<td><input type="checkbox" class="s-message-push-m_select page'+pageNo+'_'+k+'" onclick="checkboxOnclick('+pageNo+','+k+','+v.id+','+v.roomId+',\''+v.nickName+'\')"/></td>';
+                        }
                         tbody += '<td>'+(k+1)+'</td>';
                         tbody += '<td>'+v.id+'</td>';
                         tbody += '<td>'+v.nickName+'</td>';
@@ -256,10 +296,13 @@ $this->title = '消息推送';
                     $("#pageBanner").html(pageBanner);
                     $(".count").text(data.data.count);
                 }
+                else {
+                    tip("推送失败");
+                }
             },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('get issue');
-            }
+            // error: function (XMLHttpRequest, textStatus, errorThrown) {
+            //     alert('get issue');
+            // }
         });
     }
     //选择用户确定
@@ -286,12 +329,19 @@ $this->title = '消息推送';
                     delete dataObj[userId];
                 }
             }
-            // console.log(dataObj);
         });
-
         for(var key in dataObj){
             data += key + ',';
         }
         data =data.substring(0,data.length-1);
     });
+
+    //提示框
+    function tip($message) {
+        $("#confirm_frame").css("display","block");
+        $(".s-banlive-confirm-text").text($message);
+        $(".s-banlive-confirm").unbind("click").bind("click",function () {
+            $("#confirm_frame").css("display","none");
+        });
+    }
 </script>

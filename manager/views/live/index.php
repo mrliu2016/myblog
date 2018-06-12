@@ -22,12 +22,11 @@ $this->title = '直播管理';
                     </div>
                     <br/>
                     <div class="s-gift-search-item">
-                        <input type="text" style="width: 120px" name="startTime"
-                               class="form-control datepicker-pop">
-                    </div>
-                    <div class="s-gift-search-item">
-                        <input type="text" style="width: 120px" name="endTime"
-                               class="form-control datepicker-pop">
+                        <span>注册时间</span>
+                        <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off">
+                        —
+                        <input type="text" id="endTime" name="endTime"
+                               class="c-input s-gift-search-input form-control datepicker-pop">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
                 </div>
@@ -80,7 +79,11 @@ $this->title = '直播管理';
                     </td>
                     <td>
                         <a href="/live/check?id=<?=$item['id']?>">查看</a>
-                        <a href="#" onclick="noplay(<?=$item['userId']?>,<?=$item['roomId']?>,<?=$item['isLive']?>)">禁播</a>
+                        <?php if(empty($item['status']) || $item['status'] == 0): ?>
+                            <a href="#" onclick="noplay(<?=$item['userId']?>,<?=$item['roomId']?>,<?=$item['isLive']?>)">禁播</a>
+                        <?php elseif ($item['status'] == 1):?>
+                            <a disabled class="c-btn s-gift-page" href="#" style="text-decoration: none;">禁播</a>
+                        <?php endif; ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -208,7 +211,7 @@ $this->title = '直播管理';
             params.type = type;
 
             $("#forbid_frame").css("display","none");
-            console.log(params);
+            // console.log(params);
             $.ajax({
                 url: '/live/noplay',
                 type: 'post',

@@ -88,7 +88,8 @@ $this->title = '机器人管理';
                     </td>
                     <td>
                         <a href="/robot/edit-robot?id=<?= $item['id'] ?>">编辑</a>
-                        <a href="/robot/delete-robot?id=<?= $item['id'] ?>">删除</a>
+                       <!-- <a href="/robot/delete-robot?id=<?/*= $item['id'] */?>">删除</a>-->
+                        <a href="#" onclick="deleteRobot(<?=$item['id']?>)">删除</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -107,8 +108,61 @@ $this->title = '机器人管理';
     </nav>
 </div>
 
+<!--确认是否删除start-->
+<div id="confirm_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <div class="c-modal-close s-banlive-close">关闭</div>
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text">确认删除此机器人？</span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--确认是否删除end-->
 <script type="text/javascript">
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
+
+    //删除机器人
+    function deleteRobot(id) {
+        $("#confirm_frame").css("display","block");
+        //点击确认
+        $(".s-banlive-confirm").unbind("click").bind("click",function () {
+            var params = {};
+            params.id = id;
+            $.ajax({
+                url: "/robot/delete-robot",
+                type: "post",
+                data:params,
+                // cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if(data.code == 0){
+                        window.location.reload();
+                    }
+                    else{
+                        alert("删除失败");
+                    }
+                    // window.location.reload();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('get issue');
+                }
+            });
+        });
+        $(".s-banlive-close").unbind('click').bind('click',function () {
+            $("#confirm_frame").css("display","none");
+        });
+        $(".s-banlive-cancel").unbind('click').bind('click',function () {
+            $("#confirm_frame").css("display","none");
+        });
+    }
+
 </script>

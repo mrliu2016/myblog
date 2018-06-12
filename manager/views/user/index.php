@@ -3,13 +3,11 @@ $this->title = '用户管理';
 ?>
 <style>
     .switch-hover {
-        color: #448AFF
+        color: #464646
     }
-
     .switch-list-def span {
         color: #ccc;
     }
-
     .switch-list-on span {
         color: #448AFF;
     }
@@ -30,7 +28,7 @@ $this->title = '用户管理';
     .lable-switch-mod{
         width: 20px;
         height: 12px;
-        background: #898989;
+        background: #cacaca;
         box-shadow: inset 0 1px 3px 0 rgba(0,0,0,.3);
         border-radius: 6px;
         cursor: pointer;
@@ -41,6 +39,27 @@ $this->title = '用户管理';
         position: absolute;
         content: "";
         right: 10px;
+        width: 10px;
+        height: 12px;
+        background-image: linear-gradient(-180deg,#F8F9F6 0,#F5F5F5 100%);
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,.3);
+        border-radius: 6px;
+        transition: all .15s ease;
+    }
+    .lable-switch-mod-open {
+        width: 20px;
+        height: 12px;
+        background: #0ccb99;
+        box-shadow: inset 0 1px 3px 0 rgba(0,0,0,.3);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all .2s ease;
+        margin-bottom: 0px;
+    }
+    .lable-switch-mod-open:after{
+        position: absolute;
+        content: "";
+        right: 0;
         width: 10px;
         height: 12px;
         background-image: linear-gradient(-180deg,#F8F9F6 0,#F5F5F5 100%);
@@ -62,19 +81,19 @@ $this->title = '用户管理';
                 <div class="s-gift-search-content">
                 <div class="s-gift-search-item">
                     <span>ID</span>
-                    <input class="c-input s-gift-search-input" type="text" name="id">
+                    <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
                 </div>
                 <div class="s-gift-search-item">
                     <span>昵称</span>
-                    <input class="c-input s-gift-search-input" type="text" name="nickName">
+                    <input class="c-input s-gift-search-input" type="text" name="nickName" autocomplete="off">
                 </div>
                 <div class="s-gift-search-item">
                     <span>房间号</span>
-                    <input class="c-input s-gift-search-input" type="text" name="roomId">
+                    <input class="c-input s-gift-search-input" type="text" name="roomId" autocomplete="off">
                 </div>
                 <div class="s-gift-search-item">
                     <span>手机号</span>
-                    <input class="c-input s-gift-search-input" type="text" name="mobile">
+                    <input class="c-input s-gift-search-input" type="text" name="mobile" autocomplete="off">
                 </div>
                     <br/>
                 <div class="s-gift-search-item">
@@ -112,12 +131,10 @@ $this->title = '用户管理';
                 </div>
                 <div class="s-gift-search-item">
                     <span>注册时间</span>
-                    <input type="text" style="width: 120px" id="startTime" name="startTime"
-                           class="form-control datepicker-pop">
-                </div>
-                <div class="s-gift-search-item">
-                    <input type="text" style="width: 120px" id="startTime" name="endTime"
-                           class="form-control datepicker-pop">
+                    <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off">
+                    —
+                    <input type="text" id="endTime" name="endTime"
+                           class="c-input s-gift-search-input form-control datepicker-pop">
                 </div>
                 <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn">查询</button>
 
@@ -204,13 +221,13 @@ $this->title = '用户管理';
                                 <?php if(time() - $item['playTime'] > 86400):?>
                                     <span class="s-basic_item-value">正常</span>
                                 <?php else:?>
-                                    <span class="s-basic_item-value">禁播中(还剩<?=ceil((time() - $item['playTime'])/3600)?>h)</span>
+                                    <span class="s-basic_item-value" style="color:#ea5b5b;">禁播中(还剩<?=ceil(($item['playTime'] + 86400 - time())/3600)?>h)</span>
                                 <?php endif;?>
                             <?php elseif($item['playType'] == 2):?>
                                 <?php if(time() - $item['playTime'] > 2592000):?>
                                     <span class="s-basic_item-value">正常</span>
                                 <?php else:?>
-                                    <span class="s-basic_item-value">禁播中(还剩<?=ceil((time() - $item['playTime'])/86400)?>天)</span>
+                                    <span class="s-basic_item-value" style="color:#ea5b5b;">禁播中(还剩<?=ceil(($item['playTime'] + 2592000 - time())/86400)?>天)</span>
                                 <?php endif;?>
                             <?php elseif($item['playType'] == 3):?>
                                 <span class="s-basic_item-value">永久禁播</span>
@@ -220,14 +237,14 @@ $this->title = '用户管理';
                         </td>
                         <td>
                             <?php if(empty($item['playType']) || $item['playType'] == 0):?>
-                                <div class="switch-mod switch-mod-open switch-hover"><span>停用</span>
-                                    <input class="show-notes input-switch" type="checkbox" name="show-notes"
+                                <div class="switch-mod switch-mod-open switch-hover"><span>启用</span>
+                                    <input class="show-notes input-switch " type="checkbox" name="show-notes"
                                            checked="checked"
                                            value="<?= $item["id"]. ",".$item["roomId"]?>" onclick="noplay(<?= $item['id']?>,<?=$item['roomId']?>)">
-                                    <label for="show-notes" class="lable-switch-mod" ></label>
+                                    <label for="show-notes" class="lable-switch-mod-open" ></label>
                                 </div>
-                            <?php elseif($item['playType'] == 1 || $item['playType'] == 2):?>
-                                <div class="switch-mod switch-mod-open switch-hover"><span> 启用</span>
+                            <?php elseif($item['playType'] == 1 || $item['playType'] == 2 || $item['playType'] == 3 || $item['playType'] == 4):?>
+                                <div class="switch-mod switch-mod-open switch-hover"><span>停用</span>
                                     <input class="show-notes input-switch" type="checkbox" name="show-notes"
                                            checked="checked"
                                            value="<?= $item["id"]. ",".$item["roomId"]?>" onclick="recovery(<?= $item['id']?>,<?=$item['roomId']?>)">
@@ -266,7 +283,7 @@ $this->title = '用户管理';
                 <button class="c-btn s-banlive-btn" data-val="4">解封账号</button>
             </div>
             <div class="c-modal-footer s-banlive-operate">
-                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="noplay-comfirm">确认</button>
                 <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
             </div>
         </div>
@@ -284,7 +301,7 @@ $this->title = '用户管理';
                 <span class="s-banlive-confirm-text">确认恢复用户正常状态？</span>
             </div>
             <div class="c-modal-footer s-banlive-operate">
-                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="recovery-confirm">确认</button>
                 <button class="c-btn c-btn--large s-banlive-cancel2">取消</button>
             </div>
         </div>
@@ -310,31 +327,28 @@ $this->title = '用户管理';
         $(this).closest('form').find("input[type=text]").val("")
     });
 
-    $('.show-notes').change(function () {
-        // var appId = $(this).val();
-        var that = this;
-        if ($(this).is(':checked')) {
-            $(that).parent().removeClass("switch-list-def");
-            $(that).parent().addClass("switch-list-on");
-            $(that).prev().html("启用");
-            // $(".s-banlive").css("display","block");
-            // $("")
-        }
-        else {
-            //禁播
-            // $(".s-banlive").css("display","block");
-            // alert(2222);
-            $(that).prev().html("停用");
-            $(that).parent().removeClass("switch-list-on");
-            $(that).parent().addClass("switch-list-def");
-        }
-    });
+    // $('.show-notes').change(function () {
+    //     // var appId = $(this).val();
+    //     var that = this;
+    //     if ($(this).is(':checked')) {
+    //         $(that).parent().removeClass("switch-list-def");
+    //         $(that).parent().addClass("switch-list-on");
+    //         $(that).prev().html("启用");
+    //         // $(".s-banlive").css("display","block");
+    //     }
+    //     else {
+    //         //禁播
+    //         // $(".s-banlive").css("display","block");
+    //         $(that).prev().html("停用");
+    //         $(that).parent().removeClass("switch-list-on");
+    //         $(that).parent().addClass("switch-list-def");
+    //     }
+    // });
 
     //关闭禁播
     $(".s-banlive-close").unbind('click').bind('click',function () {
         $("#forbid_frame").css("display","none");
     });
-
     $(".s-banlive-close2").unbind('click').bind('click',function () {
         $("#recovery_frame").css("display","none");
     });
@@ -355,7 +369,9 @@ $this->title = '用户管理';
     //禁播方法
     function noplay(userId,roomId) {
         $("#forbid_frame").css("display","block");
-        $(".s-banlive-confirm").unbind('click').bind('click',function () {
+        $("#noplay-comfirm").unbind('click').bind('click',function () {
+
+
             var type = 0;
             $(".s-banlive-btn").each(function () {
                 if($(this).hasClass("c-btn-primary")){
@@ -367,10 +383,7 @@ $this->title = '用户管理';
             params.userId = userId;
             params.roomId = roomId;
             params.type = type;
-
-            // console.log(params);
             $("#forbid_frame").css("display","none");
-
             $.ajax({
                 type: 'post',
                 url: '/user/noplay',
@@ -392,12 +405,12 @@ $this->title = '用户管理';
     //恢复禁播状态
     function recovery(userId,roomId){
         $("#recovery_frame").css("display","block");
-        $(".s-banlive-confirm").unbind('click').bind('click',function () {
-            $("#recovery_frame").css("display","block");
+        $("#recovery-confirm").unbind('click').bind('click',function () {
+            $("#recovery_frame").css("display","none");
             var params = {};
             params.userId = userId;
             params.roomId = roomId;
-            // console.log(params);
+            $("#recovery_frame").css("display","none");
             $.ajax({
                 type: 'post',
                 url: '/user/recovery',
@@ -406,7 +419,7 @@ $this->title = '用户管理';
                 // timeout: 1000
             }).done(function (data) {
                 if(data.code == 0){
-                    alert("恢复成功");
+                    // alert("恢复成功");
                     window.location.reload();
                 }
                 else{

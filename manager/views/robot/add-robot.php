@@ -1,7 +1,6 @@
 <?php
 $this->title = '机器人管理';
 ?>
-
 <style>
     #profileButton1{
         position: absolute;
@@ -139,16 +138,16 @@ $this->title = '机器人管理';
         //     alert('请输入正确的礼物价格.');
         //     return false;
         // }
-        var params  = {};
-        params.nickName  = nickName;
-        params.sex  = sex;
-        params.province = province;
-        params.city = city;
-        params.followees_cnt = followees_cnt;
-        params.followers_cnt = followers_cnt;
-        params.receivedGift = receivedGift;
-        params.sendGift = sendGift;
-        params.description = description;
+        // var params  = {};
+        // params.nickName  = nickName;
+        // params.sex  = sex;
+        // params.province = province;
+        // params.city = city;
+        // params.followees_cnt = followees_cnt;
+        // params.followers_cnt = followers_cnt;
+        // params.receivedGift = receivedGift;
+        // params.sendGift = sendGift;
+        // params.description = description;
 
         // $.ajax({
         //     url: "/robot/add-submit",
@@ -179,7 +178,7 @@ $this->title = '机器人管理';
         var imgSrc = '', imgArr = [], strSrc = '';
         var file = fileQuery.files[0];
         var reader = new FileReader();
-        if (file.size >=1048576) {
+        if (file.size >=1024*1024) {
             $(".delect-check").click();
         } else {
             // 在这里需要判断当前所有文件中
