@@ -4,9 +4,11 @@ namespace app\api\controllers;
 
 use app\common\components\WeiXinPay;
 use app\common\models\Deposit;
+use app\common\models\TestOrder;
 use app\common\models\User;
 use app\common\services\Constants;
 use app\common\services\VideoService;
+use app\common\models\TestPayment;
 
 class NotifyController extends BaseController
 {
@@ -26,14 +28,15 @@ class NotifyController extends BaseController
             );
 
             if ($res) {
-                User::updateUserBalance($res['userId'],$res['price']);
+                User::updateUserBalance($res['userId'], $res['price']);
                 echo $result['data'];
             }
         }
     }
 
     //更新视频录播地址和视频封面图
-    public function actionVideo(){
+    public function actionVideo()
+    {
         $params = \Yii::$app->request->get();
         $result = VideoService::updateVideoInfo($params);
         if ($result['code'] == Constants::CODE_FAILED) {
