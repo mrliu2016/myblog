@@ -63,7 +63,7 @@ $this->title = '机器人管理';
                         <?= $item['roomId'] ?>
                     </td>
                     <td>
-                        <?= $item['sex'] ?>
+                        <?= isset($item['sex'])&& $item['sex']==1?'男':'女' ?>
                     </td>
                     <td>
                         <?= $item['province'].$item['city'] ?>
