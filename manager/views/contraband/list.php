@@ -21,7 +21,7 @@ $this->title = '违禁词管理';
         <div class="s-gitf-operate">
             <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/add-word">新增</a>
             <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/batch-word">Excel导入</a>
-            <button class="c-btn u-radius--circle c-btn-primary" id="refresh">刷新redis</button>
+            <button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>
         </div>
         <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
@@ -182,7 +182,7 @@ $this->title = '违禁词管理';
         });
     }
 
-    //删除w违禁词
+    //删除违禁词
     function deleteWord(id) {
         $("#confirm_frame").css("display","block");
         //点击确认
@@ -209,7 +209,6 @@ $this->title = '违禁词管理';
                 }
             });
         });
-
         $(".s-banlive-close").unbind('click').bind('click',function () {
             $("#confirm_frame").css("display","none");
         });
