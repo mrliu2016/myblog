@@ -76,10 +76,8 @@ $this->title = '上传文件';
             });
         }
     });
-
     //下载模板
     $("#download").click(function () {
-        alert(1);
         $('#downloadForm').attr('action', '/contraband/download-template');
         $("#downloadForm").submit()
     });
