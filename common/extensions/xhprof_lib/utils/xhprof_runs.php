@@ -107,6 +107,12 @@ class XHProfRuns_Default implements iXHProfRuns
                     "directory location as an argument to the constructor " .
                     "for XHProfRuns_Default() or set xhprof.output_dir " .
                     "ini param.");
+            } else {
+                $dir = $dir . "/" . date('Ymd');
+                if (!is_dir($dir)) {
+                    mkdir($dir, 0777, true);
+                    chmod($dir, 0777);
+                }
             }
         }
         $this->dir = $dir;
