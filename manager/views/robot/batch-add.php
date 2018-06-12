@@ -10,7 +10,7 @@ $this->title = '机器人管理';
                     <div class="form-group">
                         <div class="col-sm-10">
                             <div class="col-md-3">
-                                <input type="file" class="form-control" id="selectTemplate" name="name" accept="*.csv,*.xls,*.xlsx">
+                                <input type="file" class="form-control" id="selectTemplate" name="name" accept="*.xls">
                             </div>
                         </div>
                     </div>
@@ -30,16 +30,53 @@ $this->title = '机器人管理';
         </div>
     </div>
 </div>
+
+<!--确认start-->
+<div id="confirm_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <!-- <div class="c-modal-close s-banlive-close">关闭</div>-->
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text"></span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <!--<button class="c-btn c-btn--large s-banlive-cancel">取消</button>-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--确认end-->
 <script>
     $("#upload").click(function () {
         var fileEl = $('#selectTemplate');
         if (typeof(fileEl[0].files[0])=='undefined'){
             fileEl[0].focus();
-            alert('请选择一个模板文件');
+            // alert('请选择一个模板文件');
+            $("#confirm_frame").css("display","block");
+            $(".s-banlive-confirm-text").text("请选择一个正确的模板文件!");
+            $(".s-banlive-confirm").unbind("click").bind("click",function () {
+                $("#confirm_frame").css("display","none");
+            });
             event.preventDefault();
             return;
         }
-        $("#uploadForm").submit();
+
+        var filePath = $('#selectTemplate').val().toLowerCase().split(".");
+        var fileType =  filePath[filePath.length - 1];
+        if(fileType == "xls"){
+            $("#uploadForm").submit();
+        }
+        else{
+            $("#confirm_frame").css("display","block");
+            $(".s-banlive-confirm-text").text("请选择.xls格式的文件!");
+            $(".s-banlive-confirm").unbind("click").bind("click",function () {
+                $("#confirm_frame").css("display","none");
+            });
+        }
+
+        // $("#uploadForm").submit();
     });
     //导出EXCEL
     $("#download").click(function () {
