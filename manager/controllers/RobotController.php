@@ -107,10 +107,14 @@ class RobotController extends BaseController{
     }
     //删除
     public function actionDeleteRobot(){
-        $id = Yii::$app->request->get('id');
+        $id = Yii::$app->request->post('id');
         $id = User::deleteRobot($id);
         if ($id) {
-            Yii::$app->getResponse()->redirect('/robot/index');
+//            Yii::$app->getResponse()->redirect('/robot/index');
+            $this->jsonReturnSuccess(0,'删除机器人成功.');
+        }
+        else{
+            $this->jsonReturnError(-1,'删除机器人失败.');
         }
     }
     //新增
