@@ -979,6 +979,14 @@ class LiveService
         }
     }
 
+    /**
+     * 副播断开连麦-推送消息给主播
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     * @param $messageType
+     */
     private static function forwardingCloseCallLMPushMaster($server, $frame, $message, $messageType)
     {
         $messageInfo = $message['data'];
@@ -986,7 +994,7 @@ class LiveService
         $redis = RedisClient::getInstance();
         $key = Constants::WS_ROOM_USER . $wsIp . '_' . $messageInfo['roomId'];
         $userInfo = json_decode($redis->hget($key, $messageInfo['adminUserId']), true);
-        if (!empty($userInfo)) {
+        if (!empty($userInfo) && static::isManager($messageInfo['roomId'], intval($userInfo['fd']))) {
             $responseMessage = [
                 'messageType' => $messageType,
                 'data' => [
