@@ -234,12 +234,21 @@ class MessageController extends BaseController
         if(empty($params) && !isset($params['data']) && !isset($params['message'])){
             return $this->jsonReturnError(-1,'请求参数错误.');
         }
+
+        if(empty($params['data'])){
+            $this->jsonReturnError(-3,'未选择推送用户!');
+        }
         $toUserIds = explode(',',$params['data']);
+
+        if(!empty($toUserIds) && count($toUserIds) > 100){
+            $this->jsonReturnError(-2,'选择的用户多余100人,推送失败！');
+        }
         unset($params['data']);
         $config = Yii::$app->params['rongCloud'];
         $rongCloud = new RongCloud($config['appKey'], $config['appSecret']);
         $message = $rongCloud->message();
-        $fromUserId = '900025';
+        //添加一个100
+        $fromUserId = 'admin';
 //        $toUserId=  array('800010','800042');
         $toUserId=  $toUserIds;
         $objectName = 'RC:TxtMsg';
@@ -252,10 +261,11 @@ class MessageController extends BaseController
             'pushData' => $params['message']
         );
         $pushData = json_encode($push);
-//        content={\"content\":\"c#hello\"}&fromUserId=2191&toUserId=2191&toUserId=2192&objectName=RC:TxtMsg&pushContent=thisisapush&pushData={\"pushData\":\"hello\"}
-        $result = $message->PublishSystem($fromUserId, $toUserId, $objectName, $content,$pushContent,$pushData,1,1);
-        $result = json_decode($result,true);
 
+        $result = $message->PublishSystem($fromUserId, $toUserId, $objectName, $content,$pushContent,$pushData,1,1);
+//        content={\"content\":\"c#hello\"}&fromUserId=2191&toUserId=2191&toUserId=2192&objectName=RC:TxtMsg&pushContent=thisisapush&pushData={\"pushData\":\"hello\"}
+
+        $result = json_decode($result,true);
         if(isset($result) && $result['code'] == 200){
             $this->jsonReturnSuccess(0);
         }
