@@ -57,10 +57,14 @@ class GiftController extends BaseController
 
     public function actionGiftDelete()
     {
-        $id = Yii::$app->request->get('id');
+        $id = Yii::$app->request->post('id');
         $id = Gift::deleteGift($id);
         if ($id) {
-            Yii::$app->getResponse()->redirect('/gift/index');
+//            Yii::$app->getResponse()->redirect('/gift/index');
+            $this->jsonReturnSuccess(0,'删除成功.');
+        }
+        else{
+            $this->jsonReturnError(-1,'删除失败');
         }
     }
 
