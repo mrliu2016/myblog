@@ -110,7 +110,7 @@ class RobotController extends BaseController{
         $id = Yii::$app->request->get('id');
         $id = User::deleteRobot($id);
         if ($id) {
-            Yii::$app->getResponse()->redirect('/robot/list');
+            Yii::$app->getResponse()->redirect('/robot/index');
         }
     }
     //新增

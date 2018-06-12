@@ -3241,6 +3241,9 @@ fieldset[disabled] .btn-inverse.active {
 /**
  * Themes
  */
+.theme-1 .layout-container {
+  overflow-x: hidden;
+}
 .theme-1 .layout-container > aside {
   background-color: #364557;
   color: #FFFFFF;
@@ -3255,6 +3258,10 @@ fieldset[disabled] .btn-inverse.active {
 .theme-1 .layout-container > header {
   background-color: #1976D2;
   color: #fff;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
 }
 .theme-2 .layout-container > aside {
   background-color: #263238;
@@ -3270,6 +3277,10 @@ fieldset[disabled] .btn-inverse.active {
 }
 .theme-2 .layout-container > main {
   background-color: #ECEFF1;
+  padding: 70px 0 20px;
+  height: 100vh;
+  overflow-x: hidden;
+  width: calc(100% - 220px);
 }
 .theme-3 {
   background-color: #2f3c43;
@@ -4113,8 +4124,9 @@ body {
 }
 .main-container {
   position: relative;
-  height: calc(100% - 65px);
-  overflow: auto;
+  height: 100%;
+    overflow: auto;
+  padding: 70px 0 20px;
   -webkit-overflow-scrolling: touch;
 }
 @media only screen and (min-width: 992px) {

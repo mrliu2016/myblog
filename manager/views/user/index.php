@@ -30,7 +30,7 @@ $this->title = '用户管理';
     .lable-switch-mod{
         width: 20px;
         height: 12px;
-        background: #898989;
+        background: #cacaca;
         box-shadow: inset 0 1px 3px 0 rgba(0,0,0,.3);
         border-radius: 6px;
         cursor: pointer;
@@ -41,6 +41,27 @@ $this->title = '用户管理';
         position: absolute;
         content: "";
         right: 10px;
+        width: 10px;
+        height: 12px;
+        background-image: linear-gradient(-180deg,#F8F9F6 0,#F5F5F5 100%);
+        box-shadow: 0 1px 2px 0 rgba(0,0,0,.3);
+        border-radius: 6px;
+        transition: all .15s ease;
+    }
+    .lable-switch-mod-open {
+        width: 20px;
+        height: 12px;
+        background: #0ccb99;
+        box-shadow: inset 0 1px 3px 0 rgba(0,0,0,.3);
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all .2s ease;
+        margin-bottom: 0px;
+    }
+    .lable-switch-mod-open:after{
+        position: absolute;
+        content: "";
+        right: 0;
         width: 10px;
         height: 12px;
         background-image: linear-gradient(-180deg,#F8F9F6 0,#F5F5F5 100%);
@@ -62,19 +83,19 @@ $this->title = '用户管理';
                 <div class="s-gift-search-content">
                 <div class="s-gift-search-item">
                     <span>ID</span>
-                    <input class="c-input s-gift-search-input" type="text" name="id">
+                    <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
                 </div>
                 <div class="s-gift-search-item">
                     <span>昵称</span>
-                    <input class="c-input s-gift-search-input" type="text" name="nickName">
+                    <input class="c-input s-gift-search-input" type="text" name="nickName" autocomplete="off">
                 </div>
                 <div class="s-gift-search-item">
                     <span>房间号</span>
-                    <input class="c-input s-gift-search-input" type="text" name="roomId">
+                    <input class="c-input s-gift-search-input" type="text" name="roomId" autocomplete="off">
                 </div>
                 <div class="s-gift-search-item">
                     <span>手机号</span>
-                    <input class="c-input s-gift-search-input" type="text" name="mobile">
+                    <input class="c-input s-gift-search-input" type="text" name="mobile" autocomplete="off">
                 </div>
                     <br/>
                 <div class="s-gift-search-item">
@@ -112,12 +133,10 @@ $this->title = '用户管理';
                 </div>
                 <div class="s-gift-search-item">
                     <span>注册时间</span>
-                    <input type="text" style="width: 120px" id="startTime" name="startTime"
-                           class="form-control datepicker-pop">
-                </div>
-                <div class="s-gift-search-item">
-                    <input type="text" style="width: 120px" id="startTime" name="endTime"
-                           class="form-control datepicker-pop">
+                    <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off">
+                    —
+                    <input type="text" id="endTime" name="endTime"
+                           class="c-input s-gift-search-input form-control datepicker-pop">
                 </div>
                 <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn">查询</button>
 

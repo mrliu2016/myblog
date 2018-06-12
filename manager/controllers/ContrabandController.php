@@ -57,12 +57,18 @@ class ContrabandController extends BaseController{
     }
     //违禁词删除
     public function actionDeleteWord(){
-        $id = Yii::$app->request->get('id');
+        $id = Yii::$app->request->post('id');
         $id = Contraband::deleteWord($id);
         if ($id) {
-            Yii::$app->getResponse()->redirect('/contraband/list');
+//            Yii::$app->getResponse()->redirect('/contraband/list');
+            $this->jsonReturnSuccess(0,'删除成功.');
+        }
+        else{
+            $this->jsonReturnError(-1,'删除失败.');
         }
     }
+
+
 
     public function actionWordSubmit(){
         if (Yii::$app->request->post()) {
