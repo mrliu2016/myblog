@@ -209,7 +209,7 @@ class VideoRecord extends ActiveRecord
             $videoInfo = static::queryBySQLCondition($sql);
         }
         foreach ($result as $key => $value) {
-            $result[$key]['isLive'] = Constants::CODE_PLAYBACK;
+            $result[$key]['isLive'] = strval(Constants::CODE_PLAYBACK);
             $result[$key]['watchTime'] = VideoService::computeUnit($result[$key]['watchTime']);
             $flag = true;
             foreach ($videoInfo as $itemKey => $itemValue) {
