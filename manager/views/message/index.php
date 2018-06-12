@@ -121,8 +121,12 @@ $this->title = '消息推送';
             // dataObj = {};
             $(".select-user").css("display","none");
         });
-
         handPaging(1);
+        $("#id").val("");
+        $("#nickName").val("");
+        $("#roomId").val("");
+        $("#mobile").val("");
+
     });
     //发送消息
     $(".s-message-push_submit").unbind('click').bind('click',function () {
