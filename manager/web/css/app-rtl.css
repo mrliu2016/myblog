@@ -4016,7 +4016,7 @@ body {
 }
 .main-container {
   position: relative;
-  height: calc(100% - 65px);
+  height: calc(100% - 70px);
   overflow: auto;
   -webkit-overflow-scrolling: touch;
 }

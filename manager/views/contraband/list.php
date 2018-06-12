@@ -51,7 +51,8 @@ $this->title = '违禁词管理';
                     </td>
                     <td>
                         <a href="#" onclick="editWord(<?= $item['id'] ?>,'<?= $item['word'] ?>')">编辑</a>
-                        <a href="/contraband/delete-word?id=<?= $item['id'] ?>">删除</a>
+                      <!--  <a href="/contraband/delete-word?id=<?/*= $item['id'] */?>">删除</a>-->
+                        <a href="#" onclick="deleteWord(<?= $item['id'] ?>)">删除</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -78,7 +79,7 @@ $this->title = '违禁词管理';
             <div class="c-modal-close s-banword-close">关闭</div>
             <div class="c-modal_header">编辑违禁词</div>
             <div class="s-banword-content">
-                <input class="c-input s-banword-input" type="text" placeholder="0到10个字符长度">
+                <input class="c-input s-banword-input" type="text" placeholder="0到10个字符长度" maxlength="10">
             </div>
             <div class="c-modal-footer s-banword-operate">
                 <button class="c-btn c-btn-primary c-btn--large s-banword-confirm">确认</button>
@@ -88,6 +89,25 @@ $this->title = '违禁词管理';
     </div>
 </div>
 <!--编辑弹框end-->
+
+<!--确认是否删除start-->
+<div id="confirm_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+    <div class="c-modal">
+        <div class="c-modal-close s-banlive-close">关闭</div>
+        <div class="s-banlive-content">
+            <span class="s-banlive-confirm-text">确认是否删除？</span>
+        </div>
+        <div class="c-modal-footer s-banlive-operate">
+            <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+            <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
+        </div>
+    </div>
+</div>
+</div>
+
+<!--确认是否删除start-->
 
 <script type="text/javascript">
     $("#searchBtn").click(function () {
@@ -129,9 +149,16 @@ $this->title = '违禁词管理';
         // $(".s-banword-input").val(word);
         $(".s-banword-input").focus();//聚焦
         $(".s-banword-confirm").unbind('click').bind('click',function () {
+
+            var word = $(".s-banword-input").val();
+            if(word.length >10){
+                alert("字段长度要求不能超过10个字符。");
+                return false;
+            }
+
             var params = {};
             params.id = id;
-            params.word = $(".s-banword-input").val();
+            params.word = word;
             $("#edit_frame").css("display","none");
             $.ajax({
                 url: "/contraband/edit-word",
@@ -152,6 +179,42 @@ $this->title = '违禁词管理';
                     alert('get issue');
                 }
             });
+        });
+    }
+
+    //删除w违禁词
+    function deleteWord(id) {
+        $("#confirm_frame").css("display","block");
+        //点击确认
+        $(".s-banlive-confirm").unbind("click").bind("click",function () {
+            var params = {};
+            params.id = id;
+            $.ajax({
+                url: "/contraband/delete-word",
+                type: "post",
+                data:params,
+                // cache: false,
+                dataType: "json",
+                success: function (data) {
+                    if(data.code == 0){
+                        window.location.reload();
+                    }
+                    else{
+                        alert("删除失败");
+                    }
+                    // window.location.reload();
+                },
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert('get issue');
+                }
+            });
+        });
+
+        $(".s-banlive-close").unbind('click').bind('click',function () {
+            $("#confirm_frame").css("display","none");
+        });
+        $(".s-banlive-cancel").unbind('click').bind('click',function () {
+            $("#confirm_frame").css("display","none");
         });
     }
 </script>
