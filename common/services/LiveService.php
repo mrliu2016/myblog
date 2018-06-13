@@ -779,28 +779,43 @@ class LiveService
 
             $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
             $userInfo = json_decode($redis->hget($key, $messageInfo['userId']), true);
-            switch ($messageInfo['type']) {
-                case Constants::LM_TYPE_AGREE:
-                    $userInfo['type'] = intval($messageInfo['type']);
-                    $redis->hset($key, $messageInfo['userId'], json_encode($userInfo));
-                    break;
-                case Constants::LM_TYPE_REFUSE:
-                    $redis->hdel($key, $messageInfo['userId']);
-                    break;
-                default:
-                    break;
-            }
 
-            $responseMessage = [
-                'messageType' => Constants::MESSAGE_TYPE_LM_AGREE_OR_REFUSE_RES,
-                'data' => [
-                    'adminUserId' => $messageInfo['adminUserId'],
-                    'userId' => $messageInfo['userId'],
-                    'roomId' => $messageInfo['roomId'],
-                    'type' => intval($messageInfo['type']) // 2：同意,3：拒绝
-                ]
-            ];
-            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+            if($server->connection_info($userInfo['fd'])){//在线
+                switch ($messageInfo['type']) {
+                    case Constants::LM_TYPE_AGREE:
+                        $userInfo['type'] = intval($messageInfo['type']);
+                        $redis->hset($key, $messageInfo['userId'], json_encode($userInfo));
+                        break;
+                    case Constants::LM_TYPE_REFUSE:
+                        $redis->hdel($key, $messageInfo['userId']);
+                        break;
+                    default:
+                        break;
+                }
+                $responseMessage = [
+                    'messageType' => Constants::MESSAGE_TYPE_LM_AGREE_OR_REFUSE_RES,
+                    'data' => [
+                        'adminUserId' => $messageInfo['adminUserId'],
+                        'userId' => $messageInfo['userId'],
+                        'roomId' => $messageInfo['roomId'],
+                        'type' => intval($messageInfo['type']) // 2：同意,3：拒绝
+                    ]
+                ];
+                $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+            }
+            else{//离线
+                $redis->hdel($key, $messageInfo['userId']);//将用户信息从列表中删除
+                $responseMessage = [
+                    'messageType' => Constants::MESSAGE_TYPE_LM_AGREE_OR_REFUSE_RES,
+                    'data' => [
+                        'adminUserId' => $messageInfo['adminUserId'],
+                        'userId' => $userInfo['userId'],
+                        'roomId' => $userInfo['roomId'],
+                        'type' => Constants::LM_USER_OFFLINE, // 0:离线 1:在线
+                    ]
+                ];
+                $server->push(intval($masterUserInfo['fd']), json_encode($responseMessage));
+            }
         }
     }
 

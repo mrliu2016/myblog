@@ -183,4 +183,10 @@ class Constants
     const WS_ROLE_AUDIENCE = 0; // 观众
     const WS_ROLE_MASTER = 1; // 主播
     const WS_ROLE_OTHER = -1; // 其他
+
+    /**
+     * 申请连麦用户
+     */
+    const LM_USER_ONLINE = 1;//在线
+    const LM_USER_OFFLINE = 0;//离线
 }
