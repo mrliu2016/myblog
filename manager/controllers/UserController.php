@@ -82,7 +82,7 @@ class UserController extends BaseController
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
             'isAuth'=> empty($params['isAuth'])?0:$params['isAuth'],
-            'page'=>BroadcastService::pageBanner('/user/index',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
+            'page'=>BroadcastService::pageBanner('/user/index',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
         ]);
     }
 

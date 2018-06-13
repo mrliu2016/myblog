@@ -1048,3 +1048,9 @@ input.s-message-select-checked{
 .s-robot-form_address-select {
     width: 110px;
 }
+
+.s-gift-page-hover {
+    color: white;
+    background: #1AC2AD;
+    border-color: #1AC2AD
+}

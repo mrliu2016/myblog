@@ -53,7 +53,7 @@ class RobotController extends BaseController{
            /* 'pagination' => self::pagination($pageNo, $count),*/
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
-            'page'=>BroadcastService::pageBanner('/robot/index',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
+            'page'=>BroadcastService::pageBanner('/robot/index',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
         ]);
     }
     //机器人详情
