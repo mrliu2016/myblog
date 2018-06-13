@@ -3,6 +3,7 @@
 namespace app\manager\controllers;
 
 use app\common\components\AHelper;
+use app\common\components\CdnUtils;
 use app\common\models\User;
 use app\common\models\Video;
 use app\common\models\VideoRecord;
@@ -57,6 +58,7 @@ class LiveController extends BaseController
                 foreach ($list as &$elem){
                     $elem['nickName'] = $v['nickName'];
                     $elem['status']   = $v['status'];
+                    $elem['liveUrl'] = CdnUtils::getPullUrl($elem['id']);
                 }
             }
         }
@@ -66,8 +68,10 @@ class LiveController extends BaseController
                 $userInfo = User::queryById($val['userId']);
                 $val['nickName'] = $userInfo['nickName'];
                 $val['status']   = $userInfo['status'];
+                $val['liveUrl'] = CdnUtils::aliAppPullRtmpStream($val['id']);
             }
         }
+
         $count = Video::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
@@ -104,7 +108,6 @@ class LiveController extends BaseController
                 $val['nickName'] = $userInfo['nickName'];
             }
         }
-
         $count = VideoRecord::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('live-record', [
@@ -115,7 +118,6 @@ class LiveController extends BaseController
             'page' => BroadcastService::pageBanner('/live/live-record',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
         ]);
     }
-
 
     public function actionYellow(){
         $params = Yii::$app->request->getQueryParams();

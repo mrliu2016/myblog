@@ -78,8 +78,8 @@ $this->title = '直播管理';
                         } ?>
                     </td>
                     <td>
-                       <a href="/live/check?id=<?=$item['id']?>">查看</a>
-                       <!-- <a href="#" onclick="watchVideo('<?/*=$item['videoSrc'] */?>')">查看</a>-->
+                       <!--<a href="/live/check?id=<?/*=$item['id']*/?>">查看</a>-->
+                       <a href="#" onclick="watchVideo('<?=$item['liveUrl'] ?>')">查看</a>
                         <?php if(empty($item['status']) || $item['status'] == 0): ?>
                             <a href="#" onclick="noplay(<?=$item['userId']?>,<?=$item['roomId']?>,<?=$item['isLive']?>)">禁播</a>
                         <?php elseif ($item['status'] == 1):?>
@@ -127,11 +127,15 @@ $this->title = '直播管理';
 
 <!--视频弹框start-->
 <div id="video_modal" class="c-modal s-video-m" style="display: none;">
-    <div class="c-modal-close s-video-m_close"></div>
-    <video class="s-video-m_video" src=""  controls="controls"></video>
+    <div id="video_drag" style="position: relative">
+        <div class="c-modal-close s-video-m_close"></div>
+        <div id="id_video_container" style="width:100%; height:auto;"></div>
+    </div>
 </div>
 <!--视频弹框end-->
 
+
+<script src="//qzonestyle.gtimg.cn/open/qcloud/video/live/h5/live_connect.js" charset="utf-8"></script>
 <script type="text/javascript">
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
@@ -147,15 +151,33 @@ $this->title = '直播管理';
     });
     
     //视频查看
-    function watchVideo(videoSrc) {
-        $(".s-video-m_video").attr("src",videoSrc);
+    function watchVideo(liveUrl) {
         $("#video_modal").css("display","block");
+        var player = new qcVideo.Player("id_video_container", {
+            // "channel_id": "16093104850682282611",
+            // "app_id": "1251783441",
+            "live_url":liveUrl,
+            "width" : 480,
+            "height" : 320
+        });
 
         $(".s-video-m_close").unbind("click").bind("click",function () {
             $("#video_modal").css("display","none");
         });
+
     }
-    
+
+
+    // (function () {
+    //     var player = new qcVideo.Player("id_video_container", {
+    //         // "channel_id": "16093104850682282611",
+    //         // "app_id": "1251783441",
+    //         "live_url":"rtmp://ali.3tlive.customize.cdn.3ttech.cn/customize/0?auth_key=1528873569-0-0-02213b3409d805126e7d471d5f648745",
+    //         "width" : 480,
+    //         "height" : 320
+    //     });
+    // })();
+
     //关闭
     $(".s-banlive-close").click(function () {
         $("#forbid_frame").css("display","none");
@@ -310,6 +332,6 @@ $this->title = '直播管理';
             }
         };
     }
-    var modal = document.getElementById('video_modal');
+    var modal = document.getElementById('video_drag');
     dragRegist(modal, modal);
 </script>
