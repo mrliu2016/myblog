@@ -78,7 +78,8 @@ $this->title = '直播管理';
                         } ?>
                     </td>
                     <td>
-                        <a href="/live/check?id=<?=$item['id']?>">查看</a>
+                       <a href="/live/check?id=<?=$item['id']?>">查看</a>
+                       <!-- <a href="#" onclick="watchVideo('<?/*=$item['videoSrc'] */?>')">查看</a>-->
                         <?php if(empty($item['status']) || $item['status'] == 0): ?>
                             <a href="#" onclick="noplay(<?=$item['userId']?>,<?=$item['roomId']?>,<?=$item['isLive']?>)">禁播</a>
                         <?php elseif ($item['status'] == 1):?>
@@ -124,6 +125,13 @@ $this->title = '直播管理';
 </div>
 <!--禁播弹框end-->
 
+<!--视频弹框start-->
+<div id="video_modal" class="c-modal s-video-m" style="display: none;">
+    <div class="c-modal-close s-video-m_close"></div>
+    <video class="s-video-m_video" src=""  controls="controls"></video>
+</div>
+<!--视频弹框end-->
+
 <script type="text/javascript">
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
@@ -137,6 +145,17 @@ $this->title = '直播管理';
         format: 'yyyy-mm-dd',
         language: 'zh-CN'
     });
+    
+    //视频查看
+    function watchVideo(videoSrc) {
+        $(".s-video-m_video").attr("src",videoSrc);
+        $("#video_modal").css("display","block");
+
+        $(".s-video-m_close").unbind("click").bind("click",function () {
+            $("#video_modal").css("display","none");
+        });
+    }
+    
     //关闭
     $(".s-banlive-close").click(function () {
         $("#forbid_frame").css("display","none");
@@ -229,5 +248,68 @@ $this->title = '直播管理';
             });
         });
     }
+</script>
+<script>
+    function dragRegist(bar, target, platform, callback) {
+        var params = {
+            left: 0,
+            top: 0,
+            currentX: 0,
+            currentY: 0,
+            flag: false
+        };
+        var platformElement = platform || document;
+        var getCss = function(o, key) {
+            return o.currentStyle ? o.currentStyle[key] : document.defaultView.getComputedStyle(o, false)[key];
+        };
+        if (getCss(target, 'left') !== 'auto') {
+            params.left = getCss(target, 'left');
+        }
+        if (getCss(target, 'top') !== 'auto') {
+            params.top = getCss(target, 'top');
+        }
+        bar.onmousedown = function(event) {
+            params.flag = true;
+            if (!event) {
+                event = window.event;
+                bar.onselectstart = function() {
+                    return false;
+                };
+            }
+            var e = event;
+            params.currentX = e.clientX;
+            params.currentY = e.clientY;
+        };
+        bar.onmouseup = function() {
+            params.flag = false;
+            if (getCss(target, 'left') !== 'auto') {
+                params.left = getCss(target, 'left');
+            }
+            if (getCss(target, 'top') !== 'auto') {
+                params.top = getCss(target, 'top');
+            }
+        };
+        platformElement.onmousemove = function(event) {
+            var e = event ? event : window.event;
+            if (params.flag) {
+                var nowX = e.clientX,
+                    nowY = e.clientY;
+                var disX = nowX - params.currentX,
+                    disY = nowY - params.currentY;
+                target.style.left = parseInt(params.left) + disX + 'px';
+                target.style.top = parseInt(params.top) + disY + 'px';
 
+                if (typeof callback == 'function') {
+                    callback((parseInt(params.left) || 0) + disX, (parseInt(params.top) || 0) + disY);
+                }
+
+                if (event.preventDefault) {
+                    event.preventDefault();
+                }
+                return false;
+            }
+        };
+    }
+    var modal = document.getElementById('video_modal');
+    dragRegist(modal, modal);
 </script>
