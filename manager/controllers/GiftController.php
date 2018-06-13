@@ -141,6 +141,9 @@ class GiftController extends BaseController
     public function actionSettingSave(){
 
         $params = Yii::$app->request->post();
+        if(empty($params['id']) || empty($params['number']) || $params['meaning']){
+            $this->jsonReturnError(-1,"编辑失败");
+        }
         $ids = explode(',',$params['id']);
         $number = explode(',',$params['number']);
         $meaning = explode(',',$params['meaning']);

@@ -1,67 +1,59 @@
 <?php
 $this->title="举报管理";
 ?>
-<div class="container-fluid">
-    <div><a href="#" class="edit">编辑</a> </div><a><a href="/report/report">返回</a></div>
-<div class="card">
-    <div class="table-responsive">
-        <table>
-            <thead>
-            <tr>
-                <th>举报类型</th>
-            </tr>
-            </thead>
-            <?php if(!empty($list)):?>
-                <tbody>
-                <?php foreach ($list as $key => $val){?>
-                    <tr>
-                        <input type="hidden" class="id" value="<?=$val['id']?>">
-                        <td><input type="text" class="content" value="<?=$val['content']?>" readOnly></td>
-                    </tr>
-                <?php }?>
-                <tr style="display: none;" class="updateSave">
-                    <td colspan="2">
-                        <input type="button" value="保存" class="save">
-                    </td>
-                </tr>
-                </tbody>
+<div class="s-accuse">
+    <div class="s-accuse_title">举报管理</div>
+    <a class="s-accuse_back" href="/report/report">返回</a>
+    <div class="s-accuse_content">
+        <h3 class="s-accuse_type-title">
+            <span>举报类型</span>
+            <button class="c-btn s-accuse_type-edit-btn">编辑</button>
+        </h3>
+        <?php if(!empty($list)):?>
+        <div class="s-accuse_type-wrap">
+            <?php foreach ($list as $key => $val){?>
+                <input type="hidden" class="id" value="<?=$val['id']?>">
+                <input type="text" class="c-input c-form_item-input s-accuse_type-input content" value="<?=$val['content']?>" readOnly>
+            <?php }?>
+                <div class="updateSave" style="display: none;">
+                    <button class="c-btn s-accuse_confirm-btn">确认</button>
+                </div>
             <?php else:?>
-                <tbody>
-                <tr>
-                    <input type="hidden" class="id" value="1">
-                    <td><input type="text" class="content"></td>
-                </tr>
-                <tr>
-                    <input type="hidden" class="id" value="1">
-                    <td><input type="text" class="content"></td>
-                </tr>
-                <tr>
-                    <input type="hidden" class="id" value="1">
-                    <td><input type="text" class="content"></td>
-                </tr>
-                <tr>
-                    <input type="hidden" class="id" value="1">
-                    <td><input type="text" class="content"></td>
-                </tr>
-                <tr>
-                    <input type="hidden" class="id" value="1">
-                    <td><input type="text" class="content"></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="button" value="保存" class="save">
-                        <input type="button" value="取消" class="cancel">
-                    </td>
-                </tr>
-                </tbody>
-            <?php endif ?>
-        </table>
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
+        </div>
+        <div class="s-accuse_operate">
+            <button class="c-btn s-accuse_confirm-btn">确认</button>
+            <button class="c-btn s-accuse_cancel-btn">取消</button>
+        </div>
+        <?php endif ?>
     </div>
 </div>
-</div>
 
+<!--确认是否删除start-->
+<div id="confirm_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text">编辑失败！</span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
-    $(".save").unbind('click').bind('click',function () {
+    $(".s-accuse_confirm-btn").unbind('click').bind('click',function () {
         var id = '';
         $(".id").each(function () {
             id = id + $(this).val()+',';
@@ -74,6 +66,7 @@ $this->title="举报管理";
         });
         content=(content.substring(content.length-1)==',')?content.substring(0,content.length-1):content;
 
+        console.log(content);
         var params = {};
         params.id = id;
         params.content = content;
@@ -88,18 +81,24 @@ $this->title="举报管理";
                 if(data.code == 0){
                     window.location.reload();
                 }
+                else if(data.code == -1){
+                    $("#confirm_frame").css("display","block");
+                    $(".s-banlive-confirm").unbind('click').bind('click',function () {
+                        $("#confirm_frame").css("display","none");
+                    });
+                }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert('error');
             }
         });
     });
-    $(".cancel").unbind('click').bind('click',function () {
+    $(".s-accuse_cancel-btn").unbind('click').bind('click',function () {
         $(".meaning").val("");
         $(".number").val("");
     });
     //编辑
-    $(".edit").click(function () {
+    $(".s-accuse_type-edit-btn").click(function () {
         //输入框可编辑
         $(".content").removeAttr('readOnly');
         $(".updateSave").css('display','block');
