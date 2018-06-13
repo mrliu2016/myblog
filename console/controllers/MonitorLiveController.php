@@ -32,23 +32,19 @@ class MonitorLiveController extends Controller
         try {
             while ($item = $redis->rpop(Constants::QUEUE_WS_HEARTBEAT)) {
                 $item = json_decode(base64_decode($item), true);
-                $video = Video::findLastRecord($item['userId'], $item['roomId']);
-                if (empty($video)) {
-                    //直播开始
-//                Video::create($userId, $roomId);
-                } else {
+                $video = Video::queryById($item['streamId'], true);
+                if (!empty($video)) {
                     //更新观众人数
                     $wsIp = LiveService::getWsIp($item['roomId']);
                     $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $item['roomId'];
                     $viewerNum = $redis->hLen($keyWSRoomUser);
+                    $viewerNum = ($viewerNum <= Constants::NUM_WS_ROOM_USER) ? $viewerNum : LiveService::roomMemberNum($item['roomId']);
                     if ($viewerNum > $video->viewerNum) {
                         $video->viewerNum = $viewerNum;
                     }
                     //更新直播结束时间
                     Video::updateEndTime($video);
                 }
-                //更新用户直播时间
-                User::updateLiveTime($item['userId']);
             }
         } catch (\Exception $ex) {
             ll($ex->getMessage(), __FUNCTION__ . '.log');

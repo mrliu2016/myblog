@@ -199,10 +199,10 @@ class LiveService
         $userId = $param["userId"];
         if ($param['isMaster'] == Constants::WS_ROLE_MASTER) {
             $redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
-                base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId])));
+                base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId, 'streamId' => $param['streamId']])));
             $redis->expire(Constants::QUEUE_WS_HEARTBEAT, Constants::DEFAULT_EXPIRES);
 
-            $server->push($frame->fd, json_encode(['userId' => $userId, 'roomId' => $roomId]));
+            $server->push($frame->fd, json_encode(['userId' => $userId, 'roomId' => $roomId, 'streamId' => $param['streamId']]));
         }
         static::latestHeartbeat($frame->fd, $userId, $roomId, $param['isMaster']);
     }
@@ -464,16 +464,13 @@ class LiveService
         $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
         $redis->hdel($keyLatestHeartbeat, $userId);
         // 退出用户是否为主播
-        ll(static::isManager($roomId, $fdId), 'webSocketMessage.log');
         if ($isManager) {
             $redis->del(Constants::WS_GAG . $ip . '_' . $roomId); // 禁言
-            ll('asfasdfasfasdfasdfs', 'webSocketMessage.log');
 //                $redis->hdel(Constants::WS_INCOME . $ip . ':' . $roomId, $info['userId']); // 主播接收礼物虚拟货币
 
             // 主播-本场直播收益
 //                $key = Constants::WS_MASTER_CURRENT_INCOME . $wsIp . ':' . $roomId;
         }
-        ll(__FUNCTION__, 'webSocketMessage.log');
         // 删除收益
         $redis->hdel(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId);
         static::updateConnection();
@@ -765,7 +762,7 @@ class LiveService
             $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
             $userInfo = json_decode($redis->hget($key, $messageInfo['userId']), true);
 
-            if($server->connection_info($userInfo['fd'])){//在线
+            if ($server->connection_info($userInfo['fd'])) {//在线
                 switch ($messageInfo['type']) {
                     case Constants::LM_TYPE_AGREE:
                         $userInfo['type'] = intval($messageInfo['type']);
@@ -787,8 +784,7 @@ class LiveService
                     ]
                 ];
                 $server->push(intval($userInfo['fd']), json_encode($responseMessage));
-            }
-            else{//离线
+            } else {//离线
                 $redis->hdel($key, $messageInfo['userId']);//将用户信息从列表中删除
                 $responseMessage = [
                     'messageType' => Constants::MESSAGE_TYPE_LM_AGREE_OR_REFUSE_RES,
