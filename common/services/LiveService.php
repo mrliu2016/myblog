@@ -199,10 +199,10 @@ class LiveService
         $userId = $param["userId"];
         if ($param['isMaster'] == Constants::WS_ROLE_MASTER) {
             $redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
-                base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId])));
+                base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId, 'streamId' => $param['streamId']])));
             $redis->expire(Constants::QUEUE_WS_HEARTBEAT, Constants::DEFAULT_EXPIRES);
 
-            $server->push($frame->fd, json_encode(['userId' => $userId, 'roomId' => $roomId]));
+            $server->push($frame->fd, json_encode(['userId' => $userId, 'roomId' => $roomId, 'streamId' => $param['streamId']]));
         }
         static::latestHeartbeat($frame->fd, $userId, $roomId, $param['isMaster']);
     }
@@ -765,7 +765,7 @@ class LiveService
             $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
             $userInfo = json_decode($redis->hget($key, $messageInfo['userId']), true);
 
-            if($server->connection_info($userInfo['fd'])){//在线
+            if ($server->connection_info($userInfo['fd'])) {//在线
                 switch ($messageInfo['type']) {
                     case Constants::LM_TYPE_AGREE:
                         $userInfo['type'] = intval($messageInfo['type']);
@@ -787,8 +787,7 @@ class LiveService
                     ]
                 ];
                 $server->push(intval($userInfo['fd']), json_encode($responseMessage));
-            }
-            else{//离线
+            } else {//离线
                 $redis->hdel($key, $messageInfo['userId']);//将用户信息从列表中删除
                 $responseMessage = [
                     'messageType' => Constants::MESSAGE_TYPE_LM_AGREE_OR_REFUSE_RES,

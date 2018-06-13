@@ -316,7 +316,7 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
         $result = $find->select('id,userId,roomId,isLive,updated')->orderBy('startTime desc')->all();
         $time = time();
         foreach ($result as $key => $value) {
-            if (($time - $value->updated) > 20) {
+            if (($time - $value->updated) > 10) {
                 $value->isLive = 0;
                 $value->save();
             }
