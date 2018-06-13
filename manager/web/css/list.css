@@ -713,3 +713,154 @@ input.s-message-select-checked{
     cursor: pointer;
     -webkit-appearance: none;
 }
+
+.s-accuse {
+    position: relative;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #999999;
+    padding: 30px;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 2px 4px 2px rgba(234, 234, 234, 0.50);
+    border-radius: 10px;
+}
+
+.s-accuse_title {
+    font-size: 16px;
+    color: #364557;
+    margin-bottom: 18px;
+}
+
+.s-accuse_back {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 16px;
+    color: #364557;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.s-accuse_content {
+    margin: 60px 0;
+}
+
+.s-accuse_type-title {
+    font-weight: 400;
+    font-size: 14px;
+    color: #999999;
+}
+
+.s-accuse_type-edit-btn {
+    margin-left: 58px;
+    border: 0;
+}
+
+.s-accuse_type-title .s-accuse_type-edit-btn:disabled {
+    background: transparent;
+}
+
+.s-accuse_type-input {
+    display: block;
+    margin: 17px 0;
+    width: 140px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.s-accuse_type-input:disabled {
+    background-color: #F7F7F7;
+}
+
+.s-accuse_operate {
+    margin-top: 80px;
+}
+
+.s-accuse_confirm-btn,
+.s-accuse_cancel-btn {
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    color: #24D4BD;
+    margin-right: 45px;
+}
+
+.s-gift-manage {
+    position: relative;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #999999;
+    padding: 30px;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 2px 4px 2px rgba(234, 234, 234, 0.50);
+    border-radius: 10px;
+}
+
+.s-gift-manage_title {
+    font-size: 16px;
+    color: #364557;
+    margin-bottom: 18px;
+}
+
+.s-gift-manage_back {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 16px;
+    color: #364557;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.s-gift-manage_content {
+    margin: 60px 0 0;
+}
+
+.s-gift-manage_type-title {
+    font-weight: 400;
+    font-size: 14px;
+    color: #999999;
+}
+
+.s-gift-manage_label {
+    display: inline-block;
+    width: 118px;
+}
+
+.s-gift-manage_type-edit-btn {
+    padding: 0;
+    border: 0;
+}
+
+.s-gift-manage_type-title .s-gift-manage_type-edit-btn:disabled {
+    background: transparent;
+}
+
+.s-gift-manage_type-wrap {
+    color: #999999;
+}
+
+.s-gift-manage_type-input {
+    margin: 17px 0;
+    width: 100px;
+    text-align: center;
+    font-size: 12px;
+}
+
+.s-gift-manage_type-input:disabled {
+    background-color: #F7F7F7;
+}
+
+.s-gift-manage_operate {
+    margin-top: 80px;
+}
+.s-gift-manage_confirm-btn,
+.s-gift-manage_cancel-btn {
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    color: #24D4BD;
+    margin-right: 45px;
+}
