@@ -89,14 +89,14 @@ $this->title = '直播记录';
         </table>
     </nav>
 </div>
-
 <!--视频弹框start-->
 <div id="video_modal" class="c-modal s-video-m" style="display: none;">
-    <div class="c-modal-close s-video-m_close"></div>
-    <video class="s-video-m_video" src=""  controls="controls"></video>
+    <div id="video_drag" style="position: relative">
+        <div class="c-modal-close s-video-m_close"></div>
+        <video class="s-video-m_video" src=""  controls="controls"></video>
+    </div>
 </div>
 <!--视频弹框end-->
-
 <script>
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
@@ -110,18 +110,15 @@ $this->title = '直播记录';
         format: 'yyyy-mm-dd',
         language: 'zh-CN'
     });
-
     //回访视频弹窗
     function playBack(videoSrc) {
-
         $(".s-video-m_video").attr("src",videoSrc);
         $("#video_modal").css("display","block");
-
         $(".s-video-m_close").unbind("click").bind("click",function () {
             $("#video_modal").css("display","none");
         });
+        $("#video_drag").css({"top":"0px","left":"0px"});
     }
-
 </script>
 <script>
     function dragRegist(bar, target, platform, callback) {
@@ -184,6 +181,6 @@ $this->title = '直播记录';
             }
         };
     }
-    var modal = document.getElementById('video_modal');
+    var modal = document.getElementById('video_drag');
     dragRegist(modal, modal);
 </script>
