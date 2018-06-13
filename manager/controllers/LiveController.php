@@ -79,7 +79,7 @@ class LiveController extends BaseController
 //            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
-            'page' => BroadcastService::pageBanner('/live/index',$pageNo+1,$count,10,5,'select')
+            'page' => BroadcastService::pageBanner('/live/index',$pageNo+1,$count,10,5,'s-gift-page-hover')
         ]);
     }
 
@@ -115,7 +115,7 @@ class LiveController extends BaseController
 //            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
-            'page' => BroadcastService::pageBanner('/live/live-record',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
+            'page' => BroadcastService::pageBanner('/live/live-record',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
         ]);
     }
 
@@ -151,7 +151,7 @@ class LiveController extends BaseController
 //            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
-            'page'=>BroadcastService::pageBanner('/live/yellow',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
+            'page'=>BroadcastService::pageBanner('/live/yellow',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
         ]);
     }
     //鉴黄查看

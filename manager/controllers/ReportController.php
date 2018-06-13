@@ -81,7 +81,7 @@ class ReportController extends BaseController
             'pagination' => self::pagination($pageNo, $count),
 //            'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
-            'page'=>BroadcastService::pageBanner('/report/index',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
+            'page'=>BroadcastService::pageBanner('/report/index',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
         ]);
     }
 

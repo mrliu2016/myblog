@@ -44,7 +44,7 @@ class BroadcastService{
         for($i=$start;$i<=$end-1;$i++){
             if($page==$i){
 //                $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$i.")'  class='".$act."'><span>".$i."</span></a>";
-                $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$i.'">'.$i.'</a>';
+                $pageBanner .= '<a class="c-btn s-gift-page '.$act.'" href="'.$url.'?page='.$i.'">'.$i.'</a>';
             }
             else{
 //                $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$i.")'>".$i."</a>";
@@ -61,7 +61,7 @@ class BroadcastService{
         }
         if($page==$total_pages){
 //            $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$total_pages.")' class='".$act."'><span>".$total_pages."</span></a>";
-            $pageBanner .= '<a class="c-btn s-gift-page"href="'.$url.'?page='.$total_pages.'">'.$total_pages.'</a>';
+            $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$total_pages.'">'.$total_pages.'</a>';
         }
         return $pageBanner;
     }
