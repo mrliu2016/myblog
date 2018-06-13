@@ -864,3 +864,187 @@ input.s-message-select-checked{
     color: #24D4BD;
     margin-right: 45px;
 }
+
+.s-accuse-manage {
+    position: relative;
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #999999;
+    padding: 30px;
+    background: #F6F8F9;
+}
+
+.s-accuse-manage_title {
+    position: relative;
+    font-size: 16px;
+    color: #364557;
+    margin-bottom: 18px;
+    padding: 30px;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 2px 4px 2px rgba(234, 234, 234, 0.50);
+    border-radius: 10px;
+}
+
+.s-accuse-manage_back {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    font-size: 16px;
+    color: #364557;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.s-accuse-manage_content {
+    margin: 60px 0 0;
+}
+
+.s-am_list {
+    padding: 0;
+    -webkit-text-size-adjust: none;
+    font-size: 0;
+}
+
+.s-am_item {
+    font-size: 14px;
+    color: #767676;
+    display: inline-block;
+    list-style: none;
+    width: 22%;
+    margin-right: 4%;
+    box-sizing: border-box;
+}
+
+.s-am_item:nth-child(4n) {
+    margin-right: 0;
+}
+
+.s-am_item-img {
+    width: 100%;
+    padding-bottom: 68%;
+    background: url(http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png) center / cover;
+    border-radius: 10px;
+}
+
+.s-am_item-info {
+    margin: 10px 0 30px;
+}
+
+.s-am_item-scene {
+    float: right;
+}
+
+.s-robot-form {
+    font-family: PingFangSC-Regular;
+    font-size: 14px;
+    color: #999999;
+    padding: 30px;
+    background: #FFFFFF;
+    border: 1px solid #FFFFFF;
+    box-shadow: 0 2px 4px 2px rgba(234,234,234,0.50);
+    border-radius: 10px;
+}
+.s-robot-form_upload {
+    display: inline-block;
+    position: relative;
+    height: 220px;
+    border-bottom: 1px #D8D8D8 solid;
+}
+.s-robot-form_title {
+    font-size: 16px;
+    color: #364557;
+    margin-bottom: 18px;
+}
+.s-robot-form_selectimg {
+    position: relative;
+    width: 200px;
+    height: 200px;
+    float: left;
+    background: #F0F0F0;
+    box-sizing: content-box;
+}
+.s-robot-form_selectimg-icon1,
+.s-robot-form_selectimg-icon2 {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 80px;
+    height: 6px;
+    margin: auto;
+    background: #D8D8D8;
+    border-radius: 5px;
+}
+.s-robot-form_selectimg-icon2 {
+    width: 6px;
+    height: 80px;
+}
+.s-robot-form_headimg-wrap {
+    position: relative;
+    padding-left: 30px;
+    width: 200px;
+    height: 200px;
+    float: left;
+    padding-bottom: 20px;
+    border-bottom: 1px #D8D8D8 solid;
+    box-sizing: content-box;
+}
+.s-robot-form_headimg {
+    width: 100%;
+    height: 100%;
+}
+.s-robot-form_headimg-close {
+    position: absolute;
+    outline: none;
+    padding: 12px;
+    margin: 0;
+    border: 0;
+    top: -12px;
+    right: -12px;
+    background: url("../img/close1.png") no-repeat -28px 0 / auto 100%;
+    cursor: pointer;
+}
+.s-robot-form_headimg-close:active {
+    background: url("../img/close1.png") no-repeat 0 0 / auto 100%;
+}
+.s-robot-form_img-tips {
+    position: absolute;
+    left: calc(100% + 30px);
+    white-space: nowrap;
+    bottom: 4px;
+}
+
+.s-robot-form-details {
+    margin-top: 20px;
+}
+.s-robot-form_six-input {
+    width: 200px;
+}
+.s-robot-form_give-wrap,
+.s-robot-form_receive-wrap {
+    position: relative;
+}
+.s-robot-form_give,
+.s-robot-form_receive {
+    padding-right: 24px;
+}
+.s-robot-form_receive-wrap::after {
+    content: '豆';
+    position: absolute;
+    right: 6px;
+    top: 0;
+}
+.s-robot-form_give-wrap::after {
+    content: '币';
+    position: absolute;
+    right: 6px;
+    top: 0;
+}
+.s-robot-form_signature {
+    width: 430px;
+}
+.s-robot-form_address-select {
+    width: 110px;
+}
