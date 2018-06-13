@@ -8,7 +8,7 @@
 
 namespace app\common\models;
 
-use yii\db\ActiveQuery;
+use yii\db\ActiveRecord;
 
 class TestWeixin extends ActiveRecord
 {

@@ -11,7 +11,7 @@ use Yii;
 use yii\data\Pagination;
 use app\common\models\TestWeixin;
 
-class TestPaymentController extends BaseController
+class TestpaymentController extends BaseController
 {
 
      public function actionWeixinRefund(){
