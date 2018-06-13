@@ -45,6 +45,8 @@ class TestWeixin extends ActiveRecord
         $xml = static::arrToXML($data);
         $result = static::postXmlCurl($xml, self::$WeixinConfig['CASH_HTTPS'], true);
         echo $result;
+
+        die;
     }
 
     private static function joinAPI_KEY2($str)
