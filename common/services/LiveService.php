@@ -298,7 +298,7 @@ class LiveService
             $tmpItem = json_decode($value, true);
             switch ($order) {
                 case 'virtualCurrency':
-                    $orderKey = $tmpItem['virtualCurrency'];
+                    $orderKey = !empty($tmpItem['virtualCurrency']) ? $tmpItem['virtualCurrency'] : rand(100, 999);
                     break;
                 default:
                     $orderKey = $key;
