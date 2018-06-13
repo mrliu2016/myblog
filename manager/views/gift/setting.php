@@ -1,84 +1,83 @@
 <?php
 $this->title="连发设置";
 ?>
-<div class="container-fluid">
-    <div><a href="#" class="edit">编辑</a></div><a><a href="/gift/template">返回</a></div>
-    <div class="card">
-        <div class="table-responsive">
-            <table>
-                <thead>
-                    <tr>
-                        <th>连发礼物*</th>
-                        <th>代表含义*</th>
-                        <th>操作</th>
-                    </tr>
-                </thead>
-                <?php if(!empty($list)):?>
-                <tbody>
-                    <?php foreach ($list as $key => $val){?>
-                    <tr>
-                        <input type="hidden" class="id" value="<?=$val['id']?>">
-                        <td><input type="text" class="number" value="<?=$val['number']?>" readOnly></td>
-                        <td><input type="text" class="meaning" value="<?=$val['meaning']?>" readOnly></td>
-                        <!--<td>
-                            <a href="#" class="edit">编辑</a>
-                            <!--<a href="#" class="updateSave" style="display: none;">保存</a>-->
-                       <!-- </td>-->
-                    </tr>
-                <?php }?>
-                    <tr style="display: none;" class="updateSave">
-                        <td colspan="2">
-                            <input type="button" value="保存" class="save">
-                        </td>
-                    </tr>
-                </tbody>
-                <?php else:?>
-                    <tbody>
-                    <tr>
-                        <input type="hidden" class="id" value="1">
-                        <td><input type="text" class="number"></td>
-                        <td><input type="text" class="meaning"></td>
-                    </tr>
-                    <tr>
-                        <input type="hidden" class="id" value="1">
-                        <td><input type="text" class="number"></td>
-                        <td><input type="text" class="meaning"></td>
-                    </tr>
-                    <tr>
-                        <input type="hidden" class="id" value="1">
-                        <td><input type="text" class="number"></td>
-                        <td><input type="text" class="meaning"></td>
-                    </tr>
-                    <tr>
-                        <input type="hidden" class="id" value="1">
-                        <td><input type="text" class="number"></td>
-                        <td><input type="text" class="meaning"></td>
-                    </tr>
-                    <tr>
-                        <input type="hidden" class="id" value="1">
-                        <td><input type="text" class="number"></td>
-                        <td><input type="text" class="meaning"></td>
-                    </tr>
-                    <tr>
-                        <input type="hidden" class="id" value="1">
-                        <td><input type="text" class="number"></td>
-                        <td><input type="text" class="meaning"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">
-                            <input type="button" value="保存" class="save">
-                            <input type="button" value="取消" class="cancel">
-                        </td>
-                    </tr>
-                    </tbody>
-                <?php endif ?>
-            </table>
+<div class="s-gift-manage">
+    <div class="s-gift-manage_title">礼物管理</div>
+    <a class="s-gift-manage_back" href="/gift/index">返回</a>
+    <div class="s-gift-manage_content">
+        <h3 class="s-gift-manage_type-title">
+            <span class="s-gift-manage_label">连发数量*</span>
+            <span class="s-gift-manage_label">代表含义*</span>
+            <button class="c-btn s-gift-manage_type-edit-btn">编辑</button>
+        </h3>
+        <?php if(!empty($list)):?>
+            <?php foreach ($list as $key => $val){?>
+                <input type="hidden" class="id" value="<?=$val['id']?>">
+                <input type="text" class="c-input c-form_item-input s-gift-manage_type-input number" value="<?=$val['number']?>" readOnly>
+                <span> — </span>
+                <input type="text" class="c-input c-form_item-input s-gift-manage_type-input meaning" value="<?=$val['meaning']?>" readOnly>
+                <br/>
+            <?php }?>
+            <div class="updateSave" style="display: none;">
+                <button class="c-btn s-gift-manage_confirm-btn">确认</button>
+            </div>
+        <?php else:?>
+        <div class="s-gift-manage_type-wrap">
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <span> — </span>
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <br>
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <span> — </span>
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <br>
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <span> — </span>
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <br>
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <span> — </span>
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <br>
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <span> — </span>
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <br>
+            <input type="hidden" class="id" value="1">
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+            <span> — </span>
+            <input class="c-input c-form_item-input s-gift-manage_type-input" />
+        </div>
+        <div class="s-gift-manage_operate">
+            <button class="c-btn s-gift-manage_confirm-btn">确认</button>
+            <button class="c-btn s-gift-manage_cancel-btn">取消</button>
+        </div>
+        <?php endif ?>
+    </div>
+</div>
+
+<!--确认是否删除start-->
+<div id="confirm_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text">编辑失败！</span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
-    $(".save").unbind('click').bind('click',function () {
+    $(".s-gift-manage_confirm-btn").unbind('click').bind('click',function () {
         var id = '';
         $(".id").each(function () {
             id = id + $(this).val()+',';
@@ -116,21 +115,24 @@ $this->title="连发设置";
                 if(data.code == 0){
                     window.location.reload();
                 }
+                else if(data.code == -1){
+                    $("#confirm_frame").css("display","block");
+                    $(".s-banlive-confirm").unbind('click').bind('click',function () {
+                        $("#confirm_frame").css("display","none");
+                    });
+                }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert('error');
             }
         });
     });
-    $(".cancel").unbind('click').bind('click',function () {
+    $(".s-gift-manage_cancel-btn").unbind('click').bind('click',function () {
         $(".meaning").val("");
         $(".number").val("");
     });
     //编辑
-    $(".edit").click(function () {
-        // $(this).parent('td').siblings('td').children('input').attr('readOnly','true');
-        // $(this).parent('td').siblings('td').children('input').removeAttr('readOnly');
-        // $(this).siblings('a').css('display','block');
+    $(".s-gift-manage_type-edit-btn").click(function () {
 
         $(".number").removeAttr('readOnly');
         $(".meaning").removeAttr('readOnly');

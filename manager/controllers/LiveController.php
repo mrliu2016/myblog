@@ -158,9 +158,9 @@ class LiveController extends BaseController
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $id = $params['id'];
+
         //通过id获取鉴黄信息
         $result = Video::JianYellowById($id);
-
         return $this->render('yellow-check',[
             'itemList' => $result,
             'yellowurl' => $result['yellowurl'],

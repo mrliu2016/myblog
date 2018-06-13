@@ -106,8 +106,22 @@ $this->title = '违禁词管理';
     </div>
 </div>
 </div>
+<!--确认是否删除start-->
 
 <!--确认是否删除start-->
+<div id="tip_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text">确认删除此机器人？</span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
     $("#searchBtn").click(function () {
@@ -151,8 +165,8 @@ $this->title = '违禁词管理';
         $(".s-banword-confirm").unbind('click').bind('click',function () {
 
             var word = $(".s-banword-input").val();
-            if(word.length >10){
-                alert("字段长度要求不能超过10个字符。");
+            if(word.length >10 || word == "" || word == null || word == undefined){
+                // alert("字段长度要求不能超过10个字符。");
                 return false;
             }
 
@@ -168,7 +182,7 @@ $this->title = '违禁词管理';
                 dataType: "json",
                 success: function (data) {
                     if(data.code == 0){
-                        alert("编辑成功！");
+                        window.location.reload();
                     }
                     else{
                         alert("编辑失败");

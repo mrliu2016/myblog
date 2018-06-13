@@ -106,6 +106,9 @@ class ReportController extends BaseController
     public function actionSetSave(){
 
         $params = Yii::$app->request->post();
+        if(empty($params['id']) || empty($params['content'])){
+            $this->jsonReturnError(-1);
+        }
         $ids = explode(',',$params['id']);
         $content = explode(',',$params['content']);
 

@@ -22,6 +22,7 @@ $menus = (new Menu())->getMenu();
     <link rel="stylesheet" href="/css/main.css">
     <link rel="stylesheet" href="/css/style.css??bbb=999">
     <link rel="stylesheet" href="/css/list.css?aaa=1314">
+    <link rel="stylesheet" href="/css/modal.css?aaa=1314">
     <script src="/vendor/jquery/dist/jquery.js"></script>
     <script src="/vendor/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
     <script src="/vendor/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
