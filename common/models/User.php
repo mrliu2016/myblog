@@ -687,5 +687,17 @@ class User extends ActiveRecord
             ->all();
     }
 
+    //刷新机器人Redis
+    public static function refreshRedis(){
+        $sql = "SELECT id,applicationId,balance,income,expenditure,avatar,nickName,sex,profession,description,roomId,province,city,`level`,followers_cnt,followees_cnt,is_attention FROM ".static ::tableName()." WHERE type=1 ORDER BY created desc";
+        $data = static ::queryBySQLCondition($sql);
+        if(!empty($data)){
+            $redis = RedisClient::getInstance();
+            $redis->set(Constants::WS_ROBOT,base64_encode(json_encode($data)));
+            $redis->expire(Constants::WS_ROBOT,-1);
+            return ['code' => 0];
+        }
+        return ['code' => -1];
+    }
 }
 

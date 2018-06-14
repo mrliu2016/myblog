@@ -129,16 +129,10 @@ class RobotController extends BaseController{
 //                Yii::$app->getResponse()->redirect('/robot/list');
                 Yii::$app->getResponse()->redirect('/robot/index');
             }
-//            if (User::addRobotInfo($params)) {
-//                $this->jsonReturnSuccess(0, '新增成功.');
-//            } else {
-//                $this->jsonReturnError('-1', '新增失败.');
-//            }
         }
         else{
             return $this->render('add-robot');
         }
-
     }
 
     //批量新增机器人信息
@@ -199,6 +193,17 @@ class RobotController extends BaseController{
             } else {
                 $this->jsonReturnError('-1', '新增失败.');
             }
+        }
+    }
+
+    //刷新Redis缓存
+    public function actionRefresh(){
+        $result = User::refreshRedis();
+        if(isset($result) && $result['code'] == 0){
+            $this->jsonReturnSuccess(0);
+        }
+        else{
+            $this->jsonReturnError(-1);
         }
     }
 

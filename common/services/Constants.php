@@ -176,6 +176,8 @@ class Constants
     const LM_TYPE_AGREE = 2; // 连麦同意
     const LM_TYPE_REFUSE = 3; // 连麦拒绝
     const LM_TYPE_CLOSE = 4; // 断开连麦
+    const LM_USER_ONLINE = 5;//连麦用户在线
+    const LM_USER_OFFLINE = 6;//连麦用户离线
 
     /**
      * 角色
@@ -184,9 +186,4 @@ class Constants
     const WS_ROLE_MASTER = 1; // 主播
     const WS_ROLE_OTHER = -1; // 其他
 
-    /**
-     * 申请连麦用户
-     */
-    const LM_USER_ONLINE = 1;//在线
-    const LM_USER_OFFLINE = 0;//离线
 }

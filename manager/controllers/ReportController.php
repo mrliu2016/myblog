@@ -111,7 +111,6 @@ class ReportController extends BaseController
         }
         $ids = explode(',',$params['id']);
         $content = explode(',',$params['content']);
-
         $item = array();
         $data = array();
 
