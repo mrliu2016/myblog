@@ -46,4 +46,9 @@ class VideoService
             }
         }
     }
+
+    public static function queryByStreamId($id)
+    {
+        return Video::queryById($id);
+    }
 }

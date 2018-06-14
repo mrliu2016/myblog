@@ -165,7 +165,7 @@ class LiveController extends BaseController
     {
         $params = Yii::$app->request->post();
         if (empty($params['streamId']) || !isset($params['streamId'])) {
-            $this->jsonReturnError(-1, '流id为空');
+            $this->jsonReturnError(Constants::CODE_FAILED, '流id为空');
         }
         $shareUrl = Yii::$app->params['shareUrl'] . "/wap/index?streamId=" . $params['streamId'];
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'success', ['shareUrl' => $shareUrl]);
