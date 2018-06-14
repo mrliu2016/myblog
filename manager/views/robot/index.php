@@ -27,6 +27,7 @@ $this->title = '机器人管理';
         <div class="s-gitf-operate">
             <a class="c-btn u-radius--circle c-btn-primary" href="/robot/add-robot" >新增</a>
             <a class="c-btn u-radius--circle c-btn-primary" href="/robot/batch-add">批量新增</a>
+            <button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>
         </div>
         <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
@@ -164,5 +165,27 @@ $this->title = '机器人管理';
             $("#confirm_frame").css("display","none");
         });
     }
+    
+    //更新缓存
+    //刷新redis
+    $("#refresh").unbind('click').bind('click',function () {
+        $.ajax({
+            url: "/robot/refresh",
+            type: "post",
+            // cache: false,
+            dataType: "json",
+            success: function (data) {
+                if(data.code == 0){
+                    alert("更新成功！");
+                }
+                else{
+                    alert("更新失败");
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('get issue');
+            }
+        });
+    });
 
 </script>

@@ -792,7 +792,7 @@ class LiveService
                         'adminUserId' => $messageInfo['adminUserId'],
                         'userId' => $userInfo['userId'],
                         'roomId' => $userInfo['roomId'],
-                        'type' => Constants::LM_USER_OFFLINE, // 0:离线 1:在线
+                        'type' => Constants::LM_USER_OFFLINE, // 6:离线 5:在线
                     ]
                 ];
                 $server->push(intval($masterUserInfo['fd']), json_encode($responseMessage));
