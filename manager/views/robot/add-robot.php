@@ -27,7 +27,7 @@ $this->title = '机器人管理';
                 <img src="" class="s-robot-form_selectimg-icon2" id="selectImg1">
                 <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
             </div>
-            <img class="s-robot-form_headimg" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像" name="img" id="headImg">
+            <img class="s-robot-form_head-img" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像" name="img" id="headImg">
             <div class="s-robot-form_headimg-close" style="display: none;"></div>
             <div class="s-robot-form_img-tips">
                 <p>图片格式：JPG、JPEG、PNG</p>

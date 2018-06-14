@@ -27,6 +27,7 @@ $this->title = '机器人管理';
         <div class="s-gitf-operate">
             <a class="c-btn u-radius--circle c-btn-primary" href="/robot/add-robot" >新增</a>
             <a class="c-btn u-radius--circle c-btn-primary" href="/robot/batch-add">批量新增</a>
+            <button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>
         </div>
         <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
@@ -125,11 +126,27 @@ $this->title = '机器人管理';
     </div>
 </div>
 <!--确认是否删除end-->
+
+<!--提示框Start-->
+<div id="tip_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text2"></span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="close-tip">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--提示框end-->
+
 <script type="text/javascript">
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
-
     //删除机器人
     function deleteRobot(id) {
         $("#confirm_frame").css("display","block");
@@ -148,7 +165,7 @@ $this->title = '机器人管理';
                         window.location.reload();
                     }
                     else{
-                        alert("删除失败");
+                        tip("删除失败");
                     }
                     // window.location.reload();
                 },
@@ -164,5 +181,34 @@ $this->title = '机器人管理';
             $("#confirm_frame").css("display","none");
         });
     }
+    //刷新redis
+    $("#refresh").unbind('click').bind('click',function () {
+        $.ajax({
+            url: "/robot/refresh",
+            type: "post",
+            // cache: false,
+            dataType: "json",
+            success: function (data) {
+                if(data.code == 0){
+                    tip("更新成功");
+                }
+                else{
+                    tip("更新失败");
+                }
+            },
+            error: function (XMLHttpRequest, textStatus, errorThrown) {
+                alert('get issue');
+            }
+        });
+    });
 
+    function tip($message) {
+        $("#tip_frame").css("display","block");
+        $(".s-banlive-confirm-text2").text($message);
+
+        $("#close-tip").unbind("click").bind("click",function(){
+            $("#tip_frame").css("display","none");
+        });
+    }
+    
 </script>

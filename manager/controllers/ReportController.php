@@ -81,7 +81,7 @@ class ReportController extends BaseController
             'pagination' => self::pagination($pageNo, $count),
 //            'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
-            'page'=>BroadcastService::pageBanner('/report/index',$pageNo+1,$count,self::PAGE_SIZE,5,'select')
+            'page'=>BroadcastService::pageBanner('/report/index',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
         ]);
     }
 
@@ -99,7 +99,6 @@ class ReportController extends BaseController
             'editFlag'=>$editFlag,
             'list'=>$result
         ]);
-
     }
 
     //举报类型设置保存
@@ -111,7 +110,6 @@ class ReportController extends BaseController
         }
         $ids = explode(',',$params['id']);
         $content = explode(',',$params['content']);
-
         $item = array();
         $data = array();
 
