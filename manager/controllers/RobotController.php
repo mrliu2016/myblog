@@ -206,5 +206,4 @@ class RobotController extends BaseController{
             $this->jsonReturnError(-1);
         }
     }
-
 }

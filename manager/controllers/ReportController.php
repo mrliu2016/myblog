@@ -99,7 +99,6 @@ class ReportController extends BaseController
             'editFlag'=>$editFlag,
             'list'=>$result
         ]);
-
     }
 
     //举报类型设置保存
