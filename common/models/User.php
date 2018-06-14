@@ -564,9 +564,9 @@ class User extends ActiveRecord
         $model->followers_cnt = intval($params['followers_cnt']);
         $model->followees_cnt = intval($params['followees_cnt']);
         $model->save();
+        static ::refreshRedis();//更新机器人缓存
         //在礼物表中插入数据
         return $model->id;
-
     }
 
     public static function executeBySqlCondition($sql = '')
@@ -605,6 +605,8 @@ class User extends ActiveRecord
                 Order::insertRobotGift($userId, $val[7], true);
                 Order::insertRobotGift($userId, $val[8], false);
             }
+
+            static ::refreshRedis();//更新缓存
             return ['code' => 0];
         }
         return ['code' => -1];
@@ -617,6 +619,7 @@ class User extends ActiveRecord
         $model->isDelete = 1;
         $model->updated = $_SERVER['REQUEST_TIME'];
         $model->save();
+        static ::refreshRedis();//更新缓存
         return $model->id;
     }
 
@@ -677,7 +680,6 @@ class User extends ActiveRecord
             ->limit($params['defaultPageSize'])
             ->all();
     }
-
     //查询所有用户的id
     public static function queryAllUserId(){
         $find = static::find();
@@ -686,10 +688,9 @@ class User extends ActiveRecord
             ->asArray()
             ->all();
     }
-
     //刷新机器人Redis
     public static function refreshRedis(){
-        $sql = "SELECT id,applicationId,balance,income,expenditure,avatar,nickName,sex,profession,description,roomId,province,city,`level`,followers_cnt,followees_cnt,is_attention FROM ".static ::tableName()." WHERE type=1 ORDER BY created desc";
+        $sql = "SELECT id,applicationId,balance,income,expenditure,avatar,nickName,sex,profession,description,roomId,province,city,`level`,followers_cnt,followees_cnt,is_attention FROM ".static ::tableName()." WHERE type=1 AND isDelete = 0 ORDER BY created desc";
         $data = static ::queryBySQLCondition($sql);
         if(!empty($data)){
             $redis = RedisClient::getInstance();

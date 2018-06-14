@@ -126,11 +126,27 @@ $this->title = '机器人管理';
     </div>
 </div>
 <!--确认是否删除end-->
+
+<!--提示框Start-->
+<div id="tip_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text2"></span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="close-tip">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--提示框end-->
+
 <script type="text/javascript">
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
-
     //删除机器人
     function deleteRobot(id) {
         $("#confirm_frame").css("display","block");
@@ -149,7 +165,7 @@ $this->title = '机器人管理';
                         window.location.reload();
                     }
                     else{
-                        alert("删除失败");
+                        tip("删除失败");
                     }
                     // window.location.reload();
                 },
@@ -165,8 +181,6 @@ $this->title = '机器人管理';
             $("#confirm_frame").css("display","none");
         });
     }
-    
-    //更新缓存
     //刷新redis
     $("#refresh").unbind('click').bind('click',function () {
         $.ajax({
@@ -176,10 +190,10 @@ $this->title = '机器人管理';
             dataType: "json",
             success: function (data) {
                 if(data.code == 0){
-                    alert("更新成功！");
+                    tip("更新成功");
                 }
                 else{
-                    alert("更新失败");
+                    tip("更新失败");
                 }
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
@@ -188,4 +202,13 @@ $this->title = '机器人管理';
         });
     });
 
+    function tip($message) {
+        $("#tip_frame").css("display","block");
+        $(".s-banlive-confirm-text2").text($message);
+
+        $("#close-tip").unbind("click").bind("click",function(){
+            $("#tip_frame").css("display","none");
+        });
+    }
+    
 </script>
