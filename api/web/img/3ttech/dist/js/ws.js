@@ -68,7 +68,7 @@ var SocketIO = {
                     streamId: streamId,
                     userId: userInfo.userId
                 },
-                messageType: "heartbeat_req"
+                messageType: MESSAGE_TYPE_HEARTBEAT_REQ
             };
             SocketIO._wbSocket.send(JSON.stringify(message));
         }, 10000);
