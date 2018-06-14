@@ -32,17 +32,22 @@ class WapController extends BaseController
                 'balance' => intval($masterUserInfo['balance']),
                 'income' => $masterUserInfo['income'],
                 'expenditure' => $masterUserInfo['expenditure'],
-                'avatar' => $masterUserInfo['avatar'],
+                'avatar' => !empty($masterUserInfo['avatar']) ? $masterUserInfo['avatar'] : Yii::$app->params['defaultAvatar'],
                 'nickName' => $masterUserInfo['nickName'],
-                'roomId' => $masterUserInfo['roomId']
+                'roomId' => $masterUserInfo['roomId'],
+                'masterLevel' => 1
             ],
             'pullWapStream' => CdnUtils::getPullUrl($result['id'], false),
             'webSocket' => 'wss://' . $webSocket['roomServer-wss']['host'] . ':' . $webSocket['roomServer-wss']['port'],
             'liveInfo' => $result,
             'streamId' => $params,
             'userInfo' => [
-                'userId' => 10000,
-                'balance' => intval(1000000)
+                'userId' => 300001,
+                'avatar' => Yii::$app->params['defaultAvatar'],
+                'balance' => intval(1000000),
+                'role' => 0,
+                'level' => 1,
+                'nickName' => __FUNCTION__
             ],
             'shareUrl' => Yii::$app->params['shareUrl'] . '/wap/index?streamId=' . $result['id']
         ]);

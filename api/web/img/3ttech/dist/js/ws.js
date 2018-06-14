@@ -38,19 +38,19 @@ var SocketIO = {
                 var message = {
                     data: {
                         message: "",
-                        masterUserId: 800079,
-                        balance: 74490060,
-                        roomId: 60481622,
-                        userId: 300001,
-                        avatar: "http://wx.qlogo.cn/mmopen/vi_32/DYAIOgq83erqRKRhLTRSYMazTGzEd3j3egMjO1RZgVlBdF6IrUHvotDP1Yib8auJTxI1sFhYCL6nh0PH5d6qJFA/132",
-                        level: 1,
-                        nickName: "沿途看风景的人",
-                        masterNickName: "150****4816",
-                        role: 0,
-                        masterAvatar: "http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png",
-                        masterLevel: 1
+                        balance: userInfo.balance,
+                        userId: userInfo.userId,
+                        avatar: userInfo.avatar,
+                        level: userInfo.level,
+                        nickName: userInfo.nickName,
+                        role: userInfo.role,
+                        roomId: masterUserInfo.roomId,
+                        masterNickName: masterUserInfo.nickName,
+                        masterAvatar: masterUserInfo.avatar,
+                        masterLevel: masterUserInfo.masterLevel,
+                        masterUserId: masterUserInfo.userId,
                     },
-                    messageType: "join_req"
+                    messageType: MESSAGE_TYPE_JOIN_REQ
                 };
                 SocketIO._wbSocket.send(JSON.stringify(message));
                 SocketIO._firstLogin = true;
@@ -63,10 +63,10 @@ var SocketIO = {
         setInterval(function () {
             var message = {
                 data: {
-                    isMaster: 0,
-                    roomId: 60481622,
-                    streamId: 1001277,
-                    userId: 300001
+                    isMaster: userInfo.role,
+                    roomId: masterUserInfo.roomId,
+                    streamId: streamId,
+                    userId: userInfo.userId
                 },
                 messageType: "heartbeat_req"
             };

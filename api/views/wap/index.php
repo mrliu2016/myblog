@@ -14,11 +14,9 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
     var webSocket = '<?= $webSocket ?>';
     var public = '/img/3ttech/dist/';
     var IMG_PATH = '/stylebak';
-    var room_id = <?= $masterUserInfo['roomId'] ?>;
-    var nickName = '<?= $masterUserInfo['nickName'] ?>';
-    var to_uid = <?= $masterUserInfo['userId'] ?>;
-    var ostype = 'ios';
-    var User = 1;
+    var masterUserInfo = JSON.parse('<?= json_encode($masterUserInfo) ?>');
+    var userInfo = JSON.parse('<?= json_encode($userInfo) ?>');
+    var streamId = <?= $streamId['streamId'] ?>;
     var fly = "";
 
     var myPlayer;
@@ -75,8 +73,8 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
             <div class="clearfix">
                 <div class="userinfo">
                     <img src="<?= $masterUserInfo['avatar'] ?>" userid="<?= $masterUserInfo['userId'] ?>">
-                    <span class="ulive">直播Live</span>
-                    <span class="unum"><?= $liveInfo['viewerNum'] ?></span>
+                    <span class="ulive"><?= $masterUserInfo['nickName'] ?></span>
+                    <span class="unum"><?= $masterUserInfo['roomId'] ?></span>
                 </div>
                 <div class="userimg" id="userimg">
                     <ul class="userpic clearfix" id="userpic"></ul>
@@ -109,7 +107,7 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
                 <div class="swiper-pagination"></div>
             </div>
             <div class="chat_gift_send">
-                <div class="balance">余额：<span class="bglance_money">38273</span> 3T币<a
+                <div class="balance">余额：<span class="bglance_money"><?= $userInfo['balance'] ?></span> 3T币<a
                             onclick="Ctrfn.balanceFn();">充值</a></div>
             </div>
         </article>
@@ -203,24 +201,6 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
     </figure>
 </section>
 <!--充值-->
-
-<!--下载-->
-<section id="download_alert" class="download_alert">
-    <figure class="download_con">
-        <figcaption class="download_title">
-            <span><img src="/img/3ttech/dist/images/close3x.png" onclick="Ctrfn.closeDownload();"></span>
-        </figcaption>
-        <div class="download_logo">
-            <img src="/img/3ttech/dist/images/quanxi2x.png"
-                 style="margin-left: 10%;margin-right: 10%;width: 80%;height: 60px;line-height: 60px;">
-        </div>
-        <div class="download_desc"><span>更多主播风采，尽在3T直播</span></div>
-        <div class="download_btn" style="text-align: center;">
-            <a class="download_btn_url" href="javascript:void(0);">点击下载</a>
-        </div>
-    </figure>
-</section>
-<!--下载-->
 
 <!--送礼物-->
 <section id="red_alert" class="red_alert">
@@ -556,7 +536,6 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
 
     //点击播放按钮
     $(document).on("click", "#play", function () {
-        $('.download_alert').show();
         var objbtn = $(this);
         Ctrfn.play(objbtn);
     })
@@ -655,20 +634,7 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
     //     $("#top_box").append(div);
     // }
 
-    $('.download').bind('click', function () {
-        $('.download_alert').show();
-        $('.download').hide();
-    })
 
-    $('.download_btn_url').bind('click', function () {
-        if (ostype == 'ios') {
-            window.location.href = 'https://fir.im/a5d8';
-        } else if (ostype == 'android') {
-            window.location.href = 'https://fir.im/ln5f';
-        } else {
-            window.location.href = ''
-        }
-    });
 
     window.shareData = {};
 </script>
