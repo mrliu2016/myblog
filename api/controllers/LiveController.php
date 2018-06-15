@@ -52,21 +52,22 @@ class LiveController extends BaseController
      */
     public function actionLatest()
     {
-        $params = Yii::$app->request->get();
-        $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
-        $page = intval(!empty($params['page']) ? $params['page'] : 0);
-        $params['isLive'] = 1;
-        $list = Video::queryLatest($params);
-        $totalCount = intval(Video::querySqlInfoNum($params));
-        $pageCount = ceil($totalCount / $params['size']);
-        if (!empty($list)) {
+        try {
+            $params = Yii::$app->request->get();
+            $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+            $page = intval(!empty($params['page']) ? $params['page'] : 0);
+            $params['isLive'] = 1;
+            $list = Video::queryLatest($params);
+            $totalCount = intval(Video::querySqlInfoNum($params));
+            $pageCount = ceil($totalCount / $params['size']);
             $this->jsonReturnSuccess(
                 Constants::CODE_SUCCESS,
                 '',
-                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+                !empty($list) ? compact('totalCount', 'page', 'size', 'pageCount', 'list') : []
             );
+        } catch (\Exception $exception) {
+            $this->jsonReturnError(Constants::CODE_FAILED);
         }
-        $this->jsonReturnError(Constants::CODE_FAILED);
     }
 
     /**
@@ -120,32 +121,33 @@ class LiveController extends BaseController
      */
     public function actionPlayback()
     {
-        $params = Yii::$app->request->get();
-        $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
-        $result = VideoRecord::queryInfo($params);
-        $list = Video::processLiveInfo($result, true);
-        if (!empty($params['type'])) {
-            $params['isLive'] = Constants::CODE_LIVE;
-            $liveList = Video::queryHot($params);
-            if (!empty($liveList) && !empty($list)) {
-                foreach ($liveList as $key => $value) {
-                    array_unshift($list, $value);
+        try {
+            $params = Yii::$app->request->get();
+            $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+            $result = VideoRecord::queryInfo($params);
+            $list = Video::processLiveInfo($result, true);
+            if (!empty($params['type'])) {
+                $params['isLive'] = Constants::CODE_LIVE;
+                $liveList = Video::queryHot($params);
+                if (!empty($liveList) && !empty($list)) {
+                    foreach ($liveList as $key => $value) {
+                        array_unshift($list, $value);
+                    }
+                } else {
+                    $list = !empty($liveList) ? $liveList : $list;
                 }
-            } else {
-                $list = !empty($liveList) ? $liveList : $list;
             }
-        }
-        $totalCount = intval(VideoRecord::queryInfoNum($params));
-        $pageCount = ceil($totalCount / $params['size']);
-        $page = intval(!empty($params['page']) ? $params['page'] : 0);
-        if (!empty($list)) {
+            $totalCount = intval(VideoRecord::queryInfoNum($params));
+            $pageCount = ceil($totalCount / $params['size']);
+            $page = intval(!empty($params['page']) ? $params['page'] : 0);
             $this->jsonReturnSuccess(
                 Constants::CODE_SUCCESS,
                 '',
-                compact('totalCount', 'page', 'size', 'pageCount', 'list')
+                !empty($list) ? compact('totalCount', 'page', 'size', 'pageCount', 'list') : []
             );
+        } catch (\Exception $exception) {
+            $this->jsonReturnError(Constants::CODE_FAILED);
         }
-        $this->jsonReturnError(Constants::CODE_FAILED);
     }
 
     /**
