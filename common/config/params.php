@@ -26,6 +26,10 @@ $params = [
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
             'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=',
+            'webAccessToken' => 'https://api.weixin.qq.com/sns/oauth2/access_token',
+            'webOAuth' => 'https://open.weixin.qq.com/connect/oauth2/authorize',
+            'userInfo' => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'webOAuthUserInfo' => 'https://api.weixin.qq.com/sns/userinfo',
         ],
         'app' => [
             'wxAppId' => 'wx70a3358e75e061f7',
@@ -90,7 +94,11 @@ $params = [
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
-            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
+            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=',
+            'webAccessToken' => 'https://api.weixin.qq.com/sns/oauth2/access_token',
+            'webOAuth' => 'https://open.weixin.qq.com/connect/oauth2/authorize',
+            'userInfo' => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'webOAuthUserInfo' => 'https://api.weixin.qq.com/sns/userinfo',
         ],
         'app' => [
             'wxAppId' => 'wx70a3358e75e061f7',
@@ -155,7 +163,11 @@ $params = [
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
-            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
+            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=',
+            'webAccessToken' => 'https://api.weixin.qq.com/sns/oauth2/access_token',
+            'webOAuth' => 'https://open.weixin.qq.com/connect/oauth2/authorize',
+            'userInfo' => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'webOAuthUserInfo' => 'https://api.weixin.qq.com/sns/userinfo',
         ],
         'app' => [
             'wxAppId' => 'wx70a3358e75e061f7',
@@ -194,7 +206,7 @@ $params = [
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
         'defaultNickName' => '三体',
-        'shareUrl' => 'http://dev.api.customize.3ttech.cn'
+        'shareUrl' => 'http://api.customize.3ttech.cn'
     ],
 
     'online' => [
@@ -220,7 +232,11 @@ $params = [
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
-            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
+            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=',
+            'webAccessToken' => 'https://api.weixin.qq.com/sns/oauth2/access_token',
+            'webOAuth' => 'https://open.weixin.qq.com/connect/oauth2/authorize',
+            'userInfo' => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'webOAuthUserInfo' => 'https://api.weixin.qq.com/sns/userinfo',
         ],
         'app' => [
             'wxAppId' => 'wx70a3358e75e061f7',
@@ -259,7 +275,7 @@ $params = [
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
         'defaultNickName' => '三体',
-        'shareUrl' => 'http://dev.api.customize.3ttech.cn'
+        'shareUrl' => 'http://api.customize.3ttech.cn'
     ],
 
 ];

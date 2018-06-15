@@ -54,6 +54,20 @@ class UploadUtils
     }
 
     /**
+     * 返回图片地址
+     *
+     * @return string
+     */
+    public static function getUploadFileUrlByOne()
+    {
+        foreach ($_FILES as $key => $value) {
+            return str_replace($_SERVER['DOCUMENT_ROOT'],
+                    $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'], $value['savePath']) . $value['name'];
+        }
+        return '';
+    }
+
+    /**
      * 上传路径
      *
      * @return string
