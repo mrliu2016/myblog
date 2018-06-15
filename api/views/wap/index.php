@@ -141,7 +141,7 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
                     <div class="more_list">
                         <a class="more_share" id="more_share">分享</a>
                         <if condition=" $userinfo.islogin eq 'false' ">
-                            <a href="/wap/login?streamId=<?= $streamId['streamId'] ?>" class="more_center"
+                            <a href="/authorize-login/web-oauth?streamId=<?= $streamId['streamId'] ?>" class="more_center"
                                id="more_center">登陆</a>
                             <else/>
                             <a href="/wap/profile?userId=<?= $userInfo['userId'] ?>&streamId=<?= $streamId['streamId'] ?>"
@@ -176,7 +176,7 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
         <img class="weui_dialog_hd" onclick="closedialog();" src="/img/3ttech/dist/images/close3x.png">
         <div class="weui_dialog_bd" id="weui_dialog_content">用微信登陆，与主播亲密互动吧</div>
         <div class="weui_dialog_ft">
-            <a id="closedialog" href="/wap/login?streamId=<?= $streamId['streamId'] ?>"
+            <a id="closedialog" href="/authorize-login/web-oauth?streamId=<?= $streamId['streamId'] ?>"
                class="weui_btn_dialog">确定</a>
         </div>
     </div>

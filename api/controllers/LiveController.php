@@ -87,7 +87,7 @@ class LiveController extends BaseController
             [
                 'streamId' => $result,
                 'pushRtmp' => CdnUtils::getPushUrl($result),
-                'shareUrl' => Yii::$app->params['shareUrl'] . '/wap/index?streamId=' . $result
+                'shareUrl' => Yii::$app->params['domain'] . '/wap/index?streamId=' . $result
             ]
         );
     }
@@ -167,7 +167,7 @@ class LiveController extends BaseController
         if (empty($params['streamId']) || !isset($params['streamId'])) {
             $this->jsonReturnError(Constants::CODE_FAILED, '流id为空');
         }
-        $shareUrl = Yii::$app->params['shareUrl'] . "/wap/index?streamId=" . $params['streamId'];
+        $shareUrl = Yii::$app->params['domain'] . "/wap/index?streamId=" . $params['streamId'];
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'success', ['shareUrl' => $shareUrl]);
     }
 }

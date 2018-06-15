@@ -28,4 +28,10 @@ class AuthorizeLoginController extends BaseController
             $this->jsonReturnError(Constants::CODE_FAILED, '登录失败，请稍后重试!', []);
         }
     }
+
+    public function actionWebOauth()
+    {
+        $params = Yii::$app->request->get();
+        $redirect = urlencode(Yii::$app->request->absoluteUrl);
+    }
 }

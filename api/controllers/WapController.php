@@ -49,7 +49,7 @@ class WapController extends BaseController
                 'level' => 1,
                 'nickName' => __FUNCTION__
             ],
-            'shareUrl' => Yii::$app->params['shareUrl'] . '/wap/index?streamId=' . $result['id']
+            'shareUrl' => Yii::$app->params['domain'] . '/wap/index?streamId=' . $result['id']
         ]);
     }
 

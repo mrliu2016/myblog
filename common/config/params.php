@@ -12,6 +12,7 @@ $params = [
             ],
         ],
         'ucDomain' => "http://dev.usercenter.3ttech.cn",
+        'domain' => 'http://dev.api.customize.3ttech.cn',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -67,8 +68,7 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体',
-        'shareUrl' => 'http://dev.api.customize.3ttech.cn'
+        'defaultNickName' => '三体'
     ],
 
     'dev' => [
@@ -81,6 +81,7 @@ $params = [
             ],
         ],
         'ucDomain' => "http://dev.usercenter.3ttech.cn",
+        'domain' => 'http://dev.api.customize.3ttech.cn',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -136,8 +137,7 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体',
-        'shareUrl' => 'http://dev.api.customize.3ttech.cn'
+        'defaultNickName' => '三体'
     ],
 
     'pre' => [
@@ -150,6 +150,7 @@ $params = [
             ],
         ],
         'ucDomain' => "http://pre.usercenter.3ttech.cn",
+        'domain' => 'http://api.customize.3ttech.cn',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -205,8 +206,7 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体',
-        'shareUrl' => 'http://api.customize.3ttech.cn'
+        'defaultNickName' => '三体'
     ],
 
     'online' => [
@@ -219,6 +219,7 @@ $params = [
             ],
         ],
         'ucDomain' => "http://usercenter.3ttech.cn",
+        'domain' => 'http://api.customize.3ttech.cn',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -274,8 +275,7 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体',
-        'shareUrl' => 'http://api.customize.3ttech.cn'
+        'defaultNickName' => '三体'
     ],
 
 ];
