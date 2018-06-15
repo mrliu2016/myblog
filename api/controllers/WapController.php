@@ -42,12 +42,12 @@ class WapController extends BaseController
             'liveInfo' => $result,
             'streamId' => $params,
             'userInfo' => [
-                'userId' => 300001,
+                'userId' => rand(100000, 999999),
                 'avatar' => Yii::$app->params['defaultAvatar'],
                 'balance' => intval(1000000),
                 'role' => 0,
                 'level' => 1,
-                'nickName' => __FUNCTION__
+                'nickName' => '游客' . rand(100000, 999999)
             ],
             'shareUrl' => Yii::$app->params['domain'] . '/wap/index?streamId=' . $result['id']
         ]);
