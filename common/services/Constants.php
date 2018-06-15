@@ -6,6 +6,7 @@ class Constants
 {
     const CODE_SUCCESS = 0;
     const CODE_FAILED = -1;
+    const CODE_SYSTEM_BUSY = -2; // 系统繁忙
     const CODE_WARNING = -1; //警告
     const CODE_CLOSE = -2; //强制退出
 
