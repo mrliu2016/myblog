@@ -58,7 +58,7 @@ class FollowController extends BaseController
             $this->jsonReturnSuccess(
                 Constants::CODE_SUCCESS,
                 $result['msg'],
-                ($result['code'] == Constants::CODE_SUCCESS) ? $result['data'] : []
+                $result['data']
             );
         } catch (\Exception $exception) {
             $this->jsonReturnError(Constants::CODE_FAILED);

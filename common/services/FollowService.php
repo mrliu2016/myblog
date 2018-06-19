@@ -110,6 +110,7 @@ class FollowService
 //            }
 //        }
 
+        $list = !empty($list) ? $list : [];
         $total_cnt = (int)Follow::followLiveCount($params['userId']);;
         $page_cnt = ceil($total_cnt / $size);
         $data = compact('total_cnt', 'page', 'size', 'page_cnt', 'list');

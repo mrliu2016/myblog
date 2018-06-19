@@ -33,12 +33,13 @@ class LiveController extends BaseController
             $page = intval(!empty($params['page']) ? $params['page'] : 0);
             $params['isLive'] = Constants::CODE_LIVE;
             $list = Video::queryHot($params);
+            $list = !empty($list) ? $list : [];
             $totalCount = intval(Video::querySqlInfoNum($params));
             $pageCount = ceil($totalCount / $params['size']);
             $this->jsonReturnSuccess(
                 Constants::CODE_SUCCESS,
                 '',
-                !empty($list) ? compact('totalCount', 'page', 'size', 'pageCount', 'list') : []
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
             );
         } catch (Exception $exception) {
             $this->jsonReturnError(Constants::CODE_FAILED);
@@ -58,12 +59,13 @@ class LiveController extends BaseController
             $page = intval(!empty($params['page']) ? $params['page'] : 0);
             $params['isLive'] = 1;
             $list = Video::queryLatest($params);
+            $list = !empty($list) ? $list : [];
             $totalCount = intval(Video::querySqlInfoNum($params));
             $pageCount = ceil($totalCount / $params['size']);
             $this->jsonReturnSuccess(
                 Constants::CODE_SUCCESS,
                 '',
-                !empty($list) ? compact('totalCount', 'page', 'size', 'pageCount', 'list') : []
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
             );
         } catch (\Exception $exception) {
             $this->jsonReturnError(Constants::CODE_FAILED);
@@ -137,13 +139,14 @@ class LiveController extends BaseController
                     $list = !empty($liveList) ? $liveList : $list;
                 }
             }
+            $list = !empty($list) ? $list : [];
             $totalCount = intval(VideoRecord::queryInfoNum($params));
             $pageCount = ceil($totalCount / $params['size']);
             $page = intval(!empty($params['page']) ? $params['page'] : 0);
             $this->jsonReturnSuccess(
                 Constants::CODE_SUCCESS,
                 '',
-                !empty($list) ? compact('totalCount', 'page', 'size', 'pageCount', 'list') : []
+                compact('totalCount', 'page', 'size', 'pageCount', 'list')
             );
         } catch (\Exception $exception) {
             $this->jsonReturnError(Constants::CODE_FAILED);
