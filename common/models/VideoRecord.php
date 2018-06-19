@@ -206,7 +206,7 @@ class VideoRecord extends ActiveRecord
             $streamId .= $value['streamId'] . ',';
         }
         if (!empty($streamId)) {
-            $sql = 'select id,imgSrc from ' . Video::tableName() . ' where id in(' . trim($streamId, ',') . ')';
+            $sql = 'select id,imgSrc,`type` from ' . Video::tableName() . ' where id in(' . trim($streamId, ',') . ')';
             $videoInfo = static::queryBySQLCondition($sql);
         }
         foreach ($result as $key => $value) {
