@@ -42,6 +42,7 @@ class VideoRecord extends ActiveRecord
         $model->content = json_encode($params);
         $model->videoSrc = $url;
         $model->duration = static::_secToTime($params['duration']);
+        $model->type = $result['type'];
         $model->created = time();
         $model->created = time();
         $model->save();
@@ -196,7 +197,7 @@ class VideoRecord extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->offset($offset)->select('id,userId,roomId,streamId,startTime,videoSrc,duration,watchTime,created,title')
+        $result = $find->offset($offset)->select('id,userId,roomId,streamId,startTime,videoSrc,duration,watchTime,created,title,type')
             ->limit($params['defaultPageSize'])
             ->orderBy('startTime desc')
             ->asArray()

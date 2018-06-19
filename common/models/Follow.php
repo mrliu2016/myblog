@@ -124,7 +124,7 @@ class Follow extends ActiveRecord
         $offset = ($page - 1) * $size;
 //        $sql = "select a.* from t_follow a,t_user b where a.userIdFollow=b.id and a.userId=" . $userId . " and a.status=1";
         $sql = 'select a.id,a.userId,a.userIdFollow,a.updated,v.roomId as roomId,
-v.id as streamId,v.imgSrc,v.remark as title,v.viewerNum,v.isLive,v.startTime from '
+v.id as streamId,v.imgSrc,v.remark as title,v.viewerNum,v.isLive,v.startTime,v.type from '
             . static::tableName() . ' a,' . User::tableName() . ' b,' . Video::tableName() . ' v'
             . " where a.userIdFollow = b.id and a.userId = " . $userId . " and a.status = 1 and v.userId = a.userIdFollow and v.isLive = 1";
 //            ' and v.userId not in (select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $userId . ' and status = 1' . ')';

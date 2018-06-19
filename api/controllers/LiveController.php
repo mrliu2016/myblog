@@ -80,7 +80,7 @@ class LiveController extends BaseController
         $params = Yii::$app->request->post();
         $result = Video::create($params['userId'], $params['roomId'], $params['title'], $params['imgSrc'],
             !empty($params['longitude']) ? $params['longitude'] : 0.0,
-            !empty($params['latitude']) ? $params['latitude'] : 0.0);
+            !empty($params['latitude']) ? $params['latitude'] : 0.0,isset($params['type'])?$params['type']:1);
         if (!$result) {
             $this->jsonReturnError(Constants::CODE_FAILED, '开播失败');
         }
