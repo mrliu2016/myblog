@@ -23,10 +23,10 @@ $this->title = '鉴黄管理';
                     <br/>
                     <div class="s-gift-search-item">
                         <span>注册时间</span>
-                        <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off">
+                        <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
                         —
                         <input type="text" id="endTime" name="endTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 
