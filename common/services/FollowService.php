@@ -78,6 +78,7 @@ class FollowService
             $item['startTime'] = date('Y.m.d H:i', $value['startTime']);
             $item['viewerNum'] = $value['viewerNum'];
             $item['pullRtmp'] = CdnUtils::getPullUrl($value['streamId']);
+            $item['type'] = $value['type'];
             $list[] = $item;
         }
 //        if (!empty($userId)) {

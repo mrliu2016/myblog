@@ -88,14 +88,14 @@ class Video extends ActiveRecord
             switch ($params['type']) {
                 case 0:
                     $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
-video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum from ' . static::tableName() . ' as video '
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum,video.type as `type` from ' . static::tableName() . ' as video '
                         . ' where video.isLive = 1 and video.userId not in ('
                         . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by viewerNum desc';
                     $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
                     break;
                 case 1:
                     $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
-video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum from ' . static::tableName() . ' as video '
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum,video.type as `type` from ' . static::tableName() . ' as video '
                         . ' where video.isLive = 1 and video.userId = ' . $params['userId'] . ' and video.userId not in ('
                         . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by viewerNum desc';
                     $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
@@ -103,7 +103,7 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
             }
         } else {
             $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
-video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum from ' . static::tableName() . ' as video '
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum,video.type as `type` from ' . static::tableName() . ' as video '
                 . ' where video.isLive = 1 and video.userId not in ('
                 . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by viewerNum desc';
             $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
@@ -267,7 +267,7 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
      * @param float $latitude
      * @return mixed
      */
-    public static function create($userId, $roomId, $remark = '', $imgSrc = '', $longitude = 0.0, $latitude = 0.0)
+    public static function create($userId, $roomId, $remark = '', $imgSrc = '', $longitude = 0.0, $latitude = 0.0,$type)
     {
         $model = new self();
         $model->userId = $userId;
@@ -278,6 +278,7 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
         $model->remark = $remark;
         $model->longitude = $longitude;
         $model->latitude = $latitude;
+        $model->type = $type;
         $model->created = time();
         $model->updated = time();
         $model->save();
