@@ -152,7 +152,7 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
 
         $find = Yii::$app->db;
         $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
-video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum from ' . static::tableName() . ' as video '
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum,video.type from ' . static::tableName() . ' as video '
             . ' where video.isLive = 1 and video.userId not in ('
             . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by startTime desc';
         $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
