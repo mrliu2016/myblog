@@ -118,7 +118,6 @@ class LiveService
             'num' => $num,
             'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算以最小单位透传
             'income' => static::computeUnit(static::masterIncome($userIdTo, $roomId)),
-            'isFire' => $isFire
         ];
         $server->push($frame->fd, json_encode($respondMessage));
         static::sendGiftVirtualCurrency($userId, $userIdTo, $roomId, $price * $num);
