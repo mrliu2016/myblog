@@ -60,7 +60,7 @@ class LiveService
         $startTime = microtime(true);
         $param = $message['data'];
         if (empty($param["roomId"]) || empty($param["userId"]) || empty($param["userIdTo"]) || empty($param["giftId"]) || empty($param["price"])
-            || empty($param["num"]) || empty($param["nickName"]) || !isset($param["level"])
+            || empty($param["num"]) || empty($param["nickName"]) || !isset($param["level"]) || !isset($param["isFire"])
         ) {
             $respondMessage['messageType'] = Constants::MESSAGE_TYPE_GIFT_RES;
             $respondMessage['code'] = Constants::CODE_FAILED;
@@ -80,7 +80,8 @@ class LiveService
         $num = $param["num"];
         $nickName = $param["nickName"];
         $avatar = $param["avatar"];
-        $level = $param["level"];
+        $level  = $param["level"];
+        $isFire = $param["isFire"];
         $balance = $redis->hget(Constants::WS_USER_BALANCE, $userId);
         $balance = $balance - $price * $num;
         if ($balance < 0) {
@@ -116,7 +117,7 @@ class LiveService
             'price' => $price,
             'num' => $num,
             'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算以最小单位透传
-            'income' => static::computeUnit(static::masterIncome($userIdTo, $roomId))
+            'income' => static::computeUnit(static::masterIncome($userIdTo, $roomId)),
         ];
         $server->push($frame->fd, json_encode($respondMessage));
         static::sendGiftVirtualCurrency($userId, $userIdTo, $roomId, $price * $num);
@@ -137,7 +138,8 @@ class LiveService
             'giftImg' => $giftImg,
             'price' => $price,
             'num' => $num,
-            'income' => static::computeUnit(static::masterIncome($userIdTo, $roomId))
+            'income' => static::computeUnit(static::masterIncome($userIdTo, $roomId)),
+            'isFire'=> $isFire
         ];
         $tmpStartTime = microtime(true);
         $roomAll = LiveService::fdListByRoomId($server, $roomId);
