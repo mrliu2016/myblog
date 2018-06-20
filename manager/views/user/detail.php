@@ -1,9 +1,10 @@
 <?php
-$this->title = '用户详情';
+$this->title = '用户管理';
 ?>
 
-<div class="s-userinfo">
+<div class="s-gift-manage">
     <div class="s-userinfo_title">用户详情</div>
+    <a class="s-gift-manage_back" href="/user/index">返回</a>
     <div class="s-userinfo_basic">
         <img class="s-userinfo_headimg" src="<?=$item['avatar']?>" alt="用户头像">
         <div class="s-basic">

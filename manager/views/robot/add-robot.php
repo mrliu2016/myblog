@@ -14,129 +14,131 @@ $this->title = '机器人管理';
     .cover-img img{
         width: 100%;
         height: 100%;
-
     }
 </style>
-<div class="s-robot-form">
-    <!-- <div class="s-robot-form_title">用户详情</div>-->
-    <form action="" method="post" enctype="multipart/form-data" id="robotForm">
-        <div class="s-robot-form_upload">
-            <div class="s-robot-form_selectimg">
-                <div class="s-robot-form_selectimg-icon1"></div>
-                <!--<div class="s-robot-form_selectimg-icon2"></div>-->
-                <img src="" class="s-robot-form_selectimg-icon2" id="selectImg1">
-                <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
+<div class="s-gift-manage">
+    <div class="s-gift-manage_title">新增机器人</div>
+    <a class="s-gift-manage_back" href="/robot/index">返回</a>
+    <div class="s-robot-form">
+        <!-- <div class="s-robot-form_title">用户详情</div>-->
+        <form action="" method="post" enctype="multipart/form-data" id="robotForm">
+            <div class="s-robot-form_upload">
+                <div class="s-robot-form_selectimg">
+                    <div class="s-robot-form_selectimg-icon1"></div>
+                    <!--<div class="s-robot-form_selectimg-icon2"></div>-->
+                    <img src="" class="s-robot-form_selectimg-icon2" id="selectImg1">
+                    <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
+                </div>
+                <img class="s-robot-form_head-img" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像" name="img" id="headImg">
+                <div class="s-robot-form_headimg-close" style="display: none;"></div>
+                <div class="s-robot-form_img-tips">
+                    <p>图片格式：JPG、JPEG、PNG</p>
+                    <p>图片大小：小于一M</p>
+                </div>
             </div>
-            <img class="s-robot-form_head-img" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像" name="img" id="headImg">
-            <div class="s-robot-form_headimg-close" style="display: none;"></div>
-            <div class="s-robot-form_img-tips">
-                <p>图片格式：JPG、JPEG、PNG</p>
-                <p>图片大小：小于一M</p>
-            </div>
-        </div>
-        <div class="s-robot-form-details">
-            <p class="c-form_item">
-                <span class="c-form_item-title">昵称：</span>
-                <input class="c-input c-form_item-input" placeholder="0-10个字符长度" id="nickName" name="nickName" maxlength="10" autocomplete="off"/>
-            </p>
-            <p class="c-form_item">
-                <span class="c-form_item-title">性别：</span>
-                <span class="c-select-wrap">
-                        <select class="c-select c-form_item-input" default="0" id="sex" name="sex">
-                            <option value="1">男</option>
-                            <option value="0">女</option>
-                        </select>
-                    </span>
-            </p>
-            <p class="c-form_item">
-                <span class="c-form_item-title">所在地：</span>
-                <span class="c-select-wrap">
-                        <select class="c-select u-radius--0 s-robot-form_address-select" name="province" default="0" id="province" onchange="if(this.value != '') setCity(this.options[this.selectedIndex].value);">
-                            <option value="未知星球">未知星球</option>
-                             <option value="北京市">北京市</option>
-                             <option value="上海市">上海市</option>
-                             <option value="重庆市">重庆市</option>
-                             <option value="天津市">天津市</option>
-                             <option value="江苏省">江苏省</option>
-                             <option value="浙江省">浙江省</option>
-                             <option value="河北省">河北省</option>
-                             <option value="山西省">山西省</option>
-                             <option value="辽宁省">辽宁省</option>
-                             <option value="吉林省">吉林省</option>
-                             <option value="黑龙江省">黑龙江省</option>
-                             <option value="安徽省">安徽省</option>
-                             <option value="福建省">福建省</option>
-                             <option value="江西省">江西省</option>
-                             <option value="山东省">山东省</option>
-                             <option value="河南省">河南省</option>
-                             <option value="湖北省">湖北省</option>
-                             <option value="湖南省">湖南省</option>
-                             <option value="广东省">广东省</option>
-                             <option value="海南省">海南省</option>
-                             <option value="福建省">福建省</option>
-                             <option value="四川省">四川省</option>
-                             <option value="贵州省">贵州省</option>
-                             <option value="云南省">云南省</option>
-                             <option value="陕西省">陕西省</option>
-                             <option value="甘肃省">甘肃省</option>
-                             <option value="青海省">青海省</option>
-                             <option value="台湾省">台湾省</option>
+            <div class="s-robot-form-details">
+                <p class="c-form_item">
+                    <span class="c-form_item-title">昵称：</span>
+                    <input class="c-input c-form_item-input" placeholder="0-10个字符长度" id="nickName" name="nickName" maxlength="10" autocomplete="off"/>
+                </p>
+                <p class="c-form_item">
+                    <span class="c-form_item-title">性别：</span>
+                    <span class="c-select-wrap">
+                            <select class="c-select c-form_item-input" default="0" id="sex" name="sex">
+                                <option value="1">男</option>
+                                <option value="0">女</option>
+                            </select>
+                        </span>
+                </p>
+                <p class="c-form_item">
+                    <span class="c-form_item-title">所在地：</span>
+                    <span class="c-select-wrap">
+                            <select class="c-select u-radius--0 s-robot-form_address-select" name="province" default="0" id="province" onchange="if(this.value != '') setCity(this.options[this.selectedIndex].value);">
+                                <option value="未知星球">未知星球</option>
+                                 <option value="北京市">北京市</option>
+                                 <option value="上海市">上海市</option>
+                                 <option value="重庆市">重庆市</option>
+                                 <option value="天津市">天津市</option>
+                                 <option value="江苏省">江苏省</option>
+                                 <option value="浙江省">浙江省</option>
+                                 <option value="河北省">河北省</option>
+                                 <option value="山西省">山西省</option>
+                                 <option value="辽宁省">辽宁省</option>
+                                 <option value="吉林省">吉林省</option>
+                                 <option value="黑龙江省">黑龙江省</option>
+                                 <option value="安徽省">安徽省</option>
+                                 <option value="福建省">福建省</option>
+                                 <option value="江西省">江西省</option>
+                                 <option value="山东省">山东省</option>
+                                 <option value="河南省">河南省</option>
+                                 <option value="湖北省">湖北省</option>
+                                 <option value="湖南省">湖南省</option>
+                                 <option value="广东省">广东省</option>
+                                 <option value="海南省">海南省</option>
+                                 <option value="福建省">福建省</option>
+                                 <option value="四川省">四川省</option>
+                                 <option value="贵州省">贵州省</option>
+                                 <option value="云南省">云南省</option>
+                                 <option value="陕西省">陕西省</option>
+                                 <option value="甘肃省">甘肃省</option>
+                                 <option value="青海省">青海省</option>
+                                 <option value="台湾省">台湾省</option>
 
-                        </select>
-                    </span>
-                -
-                <span class="c-select-wrap">
-                        <select class="c-select u-radius--0 s-robot-form_address-select" name="city" default="0" id="city">
-                            <option value="未知星球">未知星球</option>
-                            <option value="北京市">北京市</option>
-                            <option value="邢台市">邢台市</option>
-                        </select>
-                    </span>
-            </p>
-            <p class="c-form_item">
-                <span class="c-form_item-title">关注数：</span>
-                <input class="c-input c-form_item-input" id="followees_cnt" name="followees_cnt" autocomplete="off"/>
-            </p>
-            <p class="c-form_item">
-                <span class="c-form_item-title">粉丝数：</span>
-                <input class="c-input c-form_item-input" id="followers_cnt" name="followers_cnt" autocomplete="off"/>
-            </p>
-            <p class="c-form_item">
-                <span class="c-form_item-title">收到礼物：</span>
-                <span class="s-robot-form_receive-wrap">
-                        <input class="c-input c-form_item-input s-robot-form_receive" id="receivedGift" name="receivedGift" autocomplete="off"/>
-                    </span>
-            </p>
-            <p class="c-form_item">
-                <span class="c-form_item-title">送出礼物：</span>
-                <span class="s-robot-form_give-wrap">
-                        <input class="c-input c-form_item-input s-robot-form_give" id="sendGift" name="sendGift" autocomplete="off"/>
-                    </span>
-            </p>
-            <p class="c-form_item">
-                <span class="c-form_item-title">个性签名：</span>
-                <!--<input class="c-input c-form_item-input s-robot-form_signature" />-->
-                <select id="description" class="c-input c-form_item-input s-robot-form_signature" name="description">
-                    <option>这个人太忙，没有留下签名！</option>
-                    <option>我的名字什么时候是你拒绝别人的理由！</option>
-                    <option>撩是忽冷忽热 追是认真且怂！</option>
-                    <option>我很有趣.是值得你过一辈子的人！</option>
-                    <option>最初不相识，最终不相认！</option>
-                    <option>闭上眼睛，我看到了我的前途......</option>
-                    <option>我有一生时间 半生记你 半生忘你！</option>
-                    <option>我怕我每个眼神都像在表白!</option>
-                    <option>你好吗 好久不见 后来的你 喜欢了谁？</option>
-                    <option>怕鬼就是太幼稚了，我带你去看看人心...</option>
-                </select>
-            </p>
+                            </select>
+                        </span>
+                    -
+                    <span class="c-select-wrap">
+                            <select class="c-select u-radius--0 s-robot-form_address-select" name="city" default="0" id="city">
+                                <option value="未知星球">未知星球</option>
+                                <option value="北京市">北京市</option>
+                                <option value="邢台市">邢台市</option>
+                            </select>
+                        </span>
+                </p>
+                <p class="c-form_item">
+                    <span class="c-form_item-title">关注数：</span>
+                    <input class="c-input c-form_item-input" id="followees_cnt" name="followees_cnt" autocomplete="off"/>
+                </p>
+                <p class="c-form_item">
+                    <span class="c-form_item-title">粉丝数：</span>
+                    <input class="c-input c-form_item-input" id="followers_cnt" name="followers_cnt" autocomplete="off"/>
+                </p>
+                <p class="c-form_item">
+                    <span class="c-form_item-title">收到礼物：</span>
+                    <span class="s-robot-form_receive-wrap">
+                            <input class="c-input c-form_item-input s-robot-form_receive" id="receivedGift" name="receivedGift" autocomplete="off"/>
+                        </span>
+                </p>
+                <p class="c-form_item">
+                    <span class="c-form_item-title">送出礼物：</span>
+                    <span class="s-robot-form_give-wrap">
+                            <input class="c-input c-form_item-input s-robot-form_give" id="sendGift" name="sendGift" autocomplete="off"/>
+                        </span>
+                </p>
+                <p class="c-form_item">
+                    <span class="c-form_item-title">个性签名：</span>
+                    <!--<input class="c-input c-form_item-input s-robot-form_signature" />-->
+                    <select id="description" class="c-input c-form_item-input s-robot-form_signature" name="description">
+                        <option>这个人太忙，没有留下签名！</option>
+                        <option>我的名字什么时候是你拒绝别人的理由！</option>
+                        <option>撩是忽冷忽热 追是认真且怂！</option>
+                        <option>我很有趣.是值得你过一辈子的人！</option>
+                        <option>最初不相识，最终不相认！</option>
+                        <option>闭上眼睛，我看到了我的前途......</option>
+                        <option>我有一生时间 半生记你 半生忘你！</option>
+                        <option>我怕我每个眼神都像在表白!</option>
+                        <option>你好吗 好久不见 后来的你 喜欢了谁？</option>
+                        <option>怕鬼就是太幼稚了，我带你去看看人心...</option>
+                    </select>
+                </p>
+            </div>
+        </form>
+        <div>
+            <button class="c-btn" id="confirm">确定</button>
+            <button class="c-btn">取消</button>
         </div>
-    </form>
-    <div>
-        <button class="c-btn" id="confirm">确定</button>
-        <button class="c-btn">取消</button>
     </div>
 </div>
-
 <!--确认是否删除start-->
 <div id="confirm_frame" style="display: none">
     <div class="c-modal-mask"></div>

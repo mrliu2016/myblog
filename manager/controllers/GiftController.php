@@ -71,7 +71,6 @@ class GiftController extends BaseController
     public function actionCreate()
     {
         if (Yii::$app->request->post()) {
-
             if (!empty($_FILES['imgSrc']['tmp_name'])) {
                 $src = (new OSS())->upload($_FILES['imgSrc']['tmp_name'], $_FILES['imgSrc']['name'], 'gift');
             }
@@ -111,16 +110,26 @@ class GiftController extends BaseController
     public function actionGiftSubmit(){
         if (Yii::$app->request->post()) {
             $params = Yii::$app->request->post();
-            if(Gift::editGift($params)){
-                $this->jsonReturnSuccess(0,'编辑成功.');
-//                Yii::$app->getResponse()->redirect('/gift/template');
+            $src = '';
+            if(!empty($params['uploadType']) && $params['uploadType'] ==1){
+                $src = $params['img'];
             }
             else{
-                $this->jsonReturnError(-1,'编辑失败.');
+                if (!empty($_FILES['imgSrc']['tmp_name'])) {
+                    $src = (new OSS())->upload($_FILES['imgSrc']['tmp_name'], $_FILES['imgSrc']['name'], 'gift');
+                }
+            }
+            $params['imgSrc'] = $src;
+            if(Gift::editGift($params)){
+//                Yii::$app->getResponse()->redirect('/gift/template');
+                Yii::$app->getResponse()->redirect('/gift/index');
+            }
+            else{
+//                $this->jsonReturnError(-1,'编辑失败.');
+                Yii::$app->getResponse()->redirect('/gift/gift-edit');
             }
         }
     }
-
     //连发设置
     public function actionSetting()
     {
