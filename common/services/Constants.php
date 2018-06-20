@@ -158,6 +158,7 @@ class Constants
     const CDN_FACTORY_XYCDN = 'xyCDN';//星域cdn
     const CDN_FACTORY_QING_CLOUD = 'qingCloud'; // 青云
     const CDN_FACTORY_WANG_SU = 'wangSu'; // 网宿
+    const CDN_FACTORY_CSY = 'CSY'; // 创世云
 
     const TTT_TECH_TOKEN = '3ttech_token';
     const VERIFY_CODE = 'verify_code';
@@ -165,6 +166,8 @@ class Constants
     const VERIFY_CODE_REGISTER = 'register'; // 注册
     const VERIFY_CODE_RESET = 'reset'; // 忘记密码
     const VERIFY_CODE_LOGIN = 'login'; // 验证码登录
+    const VERIFY_CODE_LIMIT_FREQUENCY = 5; // 限制次数
+    const VERIFY_CODE_LIMIT_FREQUENCY_EXPIRES = 3600; // 次数有效期限制
 
     /**
      * 服务器节点

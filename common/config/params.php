@@ -62,13 +62,25 @@ $params = [
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
         'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
+        'appName' => 'customize',
+        'pushPullAuthorityKey' => 'customize',
         'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
         'rongCloud' => [
             'appKey' => 'lmxuhwagli7cd',
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体'
+        'defaultNickName' => '三体',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'customize'
+            ]
+        ]
     ],
 
     'dev' => [
@@ -131,13 +143,25 @@ $params = [
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
         'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
+        'appName' => 'customize',
+        'pushPullAuthorityKey' => 'customize',
         'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
         'rongCloud' => [
             'appKey' => 'lmxuhwagli7cd',
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体'
+        'defaultNickName' => '三体',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'customize'
+            ]
+        ]
     ],
 
     'pre' => [
@@ -200,13 +224,25 @@ $params = [
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
         'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
+        'appName' => 'customize',
+        'pushPullAuthorityKey' => 'customize',
         'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
         'rongCloud' => [
             'appKey' => 'lmxuhwagli7cd',
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体'
+        'defaultNickName' => '三体',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'customize'
+            ]
+        ]
     ],
 
     'online' => [
@@ -269,13 +305,25 @@ $params = [
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
         'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
+        'appName' => 'customize',
+        'pushPullAuthorityKey' => 'customize',
         'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
         'rongCloud' => [
             'appKey' => 'lmxuhwagli7cd',
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体'
+        'defaultNickName' => '三体',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'customize'
+            ]
+        ]
     ],
 
 ];
