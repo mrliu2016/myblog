@@ -70,7 +70,17 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体'
+        'defaultNickName' => '三体',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'customize'
+            ]
+        ]
     ],
 
     'dev' => [
@@ -141,7 +151,17 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体'
+        'defaultNickName' => '三体',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'customize'
+            ]
+        ]
     ],
 
     'pre' => [
@@ -212,7 +232,17 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体'
+        'defaultNickName' => '三体',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'customize'
+            ]
+        ]
     ],
 
     'online' => [
@@ -283,7 +313,17 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '三体'
+        'defaultNickName' => '三体',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'customize'
+            ]
+        ]
     ],
 
 ];
