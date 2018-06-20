@@ -10,15 +10,15 @@ $this->title = '鉴黄管理';
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
                         <span>ID</span>
-                        <input class="c-input s-gift-search-input" type="text" name="id">
+                        <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
                         <span>昵称</span>
-                        <input class="c-input s-gift-search-input" type="text" name="nickName">
+                        <input class="c-input s-gift-search-input" type="text" name="nickName" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
                         <span>房间号</span>
-                        <input class="c-input s-gift-search-input" type="text" name="roomId">
+                        <input class="c-input s-gift-search-input" type="text" name="roomId" autocomplete="off">
                     </div>
                     <br/>
                     <div class="s-gift-search-item">
@@ -26,7 +26,7 @@ $this->title = '鉴黄管理';
                         <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
                         —
                         <input type="text" id="endTime" name="endTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 

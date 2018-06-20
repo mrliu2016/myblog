@@ -85,7 +85,7 @@ class Report extends ActiveRecord
     private static function buildParams($find, $params)
     {
         if (isset($params['id']) && !empty($params['id'])) {
-            $find->andWhere('id="' . $params['id'].'"');
+            $find->andWhere('id="' . intval($params['id']).'"');
         }
         if (!empty($params['startTime'])) {
             $find->andWhere(['>=', 'created', strtotime($params['startTime'])]);
@@ -124,20 +124,7 @@ class Report extends ActiveRecord
     //根据被举报用户id查询用户信息
     public static function queryReportInfoByReportedUserId($id){
 
-        $sql = "SELECT * FROM ".static ::tableName()." WHERE `reportedUserId`=".$id;
-
-//        $offset = 0;
-//        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
-//            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
-//        }
-//        $find = static::find();
-////        $find = self::buildParams($find, $params);
-//        $find->andWhere('id=' . $params['id']);
-//        return $find->asArray()
-//            ->offset($offset)
-//            ->limit($params['defaultPageSize'])
-//            ->all();
-
+        $sql = "SELECT * FROM ".static ::tableName()." WHERE `reportedUserId`=".intval($id);
         return static ::queryBySQLCondition($sql);
     }
     //对查询出的举报信息排序

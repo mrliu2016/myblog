@@ -11,11 +11,11 @@ $this->title = '礼物管理';
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
                         <span>ID</span>
-                        <input class="c-input s-gift-search-input" type="text" name="id">
+                        <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
                         <span>礼物名称</span>
-                        <input class="c-input s-gift-search-input" type="text" name="name">
+                        <input class="c-input s-gift-search-input" type="text" name="name" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
                         <span>是否连发</span>
