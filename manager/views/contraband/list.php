@@ -163,7 +163,6 @@ $this->title = '违禁词管理';
         // $(".s-banword-input").val(word);
         $(".s-banword-input").focus();//聚焦
         $(".s-banword-confirm").unbind('click').bind('click',function () {
-
             var word = $(".s-banword-input").val();
             if(word.length >10 || word == "" || word == null || word == undefined){
                 // alert("字段长度要求不能超过10个字符。");

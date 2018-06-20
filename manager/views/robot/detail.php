@@ -1,8 +1,9 @@
 <?php
 $this->title = '机器人管理';
 ?>
-<div class="s-userinfo">
+<div class="s-gift-manage">
     <div class="s-userinfo_title">机器人详情</div>
+    <a class="s-gift-manage_back" href="/robot/index">返回</a>
     <div class="s-userinfo_basic">
         <img class="s-userinfo_headimg" src="<?=$item['avatar']?>" alt="用户头像">
         <div class="s-basic">

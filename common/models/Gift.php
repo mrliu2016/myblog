@@ -86,6 +86,7 @@ class Gift extends ActiveRecord
     public static function editGift($params){
         $model = static::find()->andWhere(['id' => $params['id']])->one();
         $model->name    = $params['name'];
+        $model->imgSrc = $params['imgSrc'];
         $model->price   = $params['price'];
         $model->isFire  = $params['isFire'];
         $model->updated = $_SERVER['REQUEST_TIME'];

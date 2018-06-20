@@ -3,7 +3,7 @@ $this->title="举报管理";
 ?>
 <div class="s-accuse">
     <div class="s-accuse_title">举报管理</div>
-    <a class="s-accuse_back" href="/report/report">返回</a>
+    <a class="s-accuse_back" href="/report/index">返回</a>
     <div class="s-accuse_content">
         <h3 class="s-accuse_type-title">
             <span>举报类型</span>
