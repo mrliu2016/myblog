@@ -212,7 +212,7 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
     {
         if (!empty($params['name'])) $params['name'] = trim($params['name']);
         if (!empty($params['name'])) {
-            $find->andWhere(['like', 'name', $params['name']]);
+            $find->andWhere(['like', 'name', addslashes($params['name'])]);
         }
         if (!empty($params['type']) && $params['type'] == self::TYPE_LIVE) {
             $find->andWhere('videoSrc=""');
@@ -232,7 +232,7 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
         }
 
         if (!empty($params['roomId'])) {
-            $find->andWhere(['like', 'roomId', $params['roomId']]);
+            $find->andWhere(['like', 'roomId', intval($params['roomId'])]);
         }
 
         if (!empty($params['startTime'])) {
@@ -242,7 +242,7 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
             $find->andWhere(['<=', 'endTime', strtotime($params['endTime'])]);
         }
         if (!empty($params['id'])) {
-            $find->andWhere('id="' .$params['id'].'"');
+            $find->andWhere('id="' .intval($params['id']).'"');
         }
         return $find;
     }

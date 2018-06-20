@@ -62,8 +62,14 @@ $this->title = '礼物管理';
             </p>
             <p class="c-form_item">
                 <span class="c-form_item-title">是否连发：</span>
-                <input type="radio" value="1" name="isFire">是
-                <input type="radio" value="0" name="isFire" checked>否
+                <?php if(isset($item['isFire']) && $item['isFire']==1):?>
+                    <input type="radio" value="1" name="isFire" checked>是
+                    <input type="radio" value="0" name="isFire">否
+                <?php else:?>
+                    <input type="radio" value="1" name="isFire">是
+                    <input type="radio" value="0" name="isFire" checked>否
+                <?php endif;?>
+
             </p>
         </div>
     </form>

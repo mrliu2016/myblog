@@ -46,10 +46,10 @@ class Gift extends ActiveRecord
 
         if (!empty($params['name'])) $params['name'] = trim($params['name']);
         if (!empty($params['name'])) {
-            $find->andWhere(['like', 'name', $params['name']]);
+            $find->andWhere(['like', 'name', addslashes($params['name'])]);
         }
         if(!empty($params['id'])){
-            $find->andWhere('id='.$params['id']);
+            $find->andWhere('id='.intval($params['id']));
         }
         if (isset($params['isFire'])) {
             $find->andWhere('isFire='.$params['isFire']);

@@ -49,10 +49,10 @@ class Contraband extends ActiveRecord{
 
         if (!empty($params['word'])) $params['word'] = trim($params['word']);
         if (!empty($params['word'])) {
-            $find->andWhere(['like', 'word', $params['word']]);
+            $find->andWhere(['like', 'word', addslashes($params['word'])]);
         }
         if(!empty($params['id'])){
-            $find->andWhere('id='.$params['id']);
+            $find->andWhere('id='.intval($params['id']));
         }
         if(isset($params['isDelete'])){
             $find->andWhere('isDelete='.$params['isDelete']);
@@ -130,17 +130,11 @@ class Contraband extends ActiveRecord{
 
     //查询出所有的违禁词
     public static function queryAllInfo(){
-//        $params['isDelete'] = 0;
-//        $find = static::find();
-//        $find = self::buildParams($find, $params);
-//        $result = $find->asArray()
-//            ->orderBy('updated asc')
-//            ->all();
+
         $sql = "SELECT word FROM ".static ::tableName() ." WHERE isDelete = 0";
         $result = static ::queryBySQLCondition($sql);
         return $result;
     }
-
     /*
      * @author  lhz
      * @date 2018.6.8

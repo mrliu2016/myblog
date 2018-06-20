@@ -141,7 +141,7 @@ class GiftController extends BaseController
     public function actionSettingSave(){
 
         $params = Yii::$app->request->post();
-        if(empty($params['id']) || empty($params['number']) || $params['meaning']){
+        if(empty($params['id']) || empty($params['number']) || empty($params['meaning'])){
             $this->jsonReturnError(-1,"编辑失败");
         }
         $ids = explode(',',$params['id']);
@@ -158,7 +158,6 @@ class GiftController extends BaseController
             $item['meaning'] = $meaning[$i];
             $data[] = $item;
         }
-
         $result = GiftFire::batchInsertGiftFire($data);
         if($result['code'] == 0){
             $this->jsonReturnSuccess(0,'success');

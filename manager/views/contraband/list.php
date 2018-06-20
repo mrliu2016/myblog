@@ -11,7 +11,7 @@ $this->title = '违禁词管理';
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
                         <span>ID</span>
-                        <input class="c-input s-gift-search-input" type="text" name="id">
+                        <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 
