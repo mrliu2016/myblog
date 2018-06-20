@@ -74,9 +74,11 @@ class CdnUtils
      */
     public static function aliWapPullStream($roomId)
     {
-        $pullUrl = 'http://' . Yii::$app->params['pullDomain'] . '/customize/' . $roomId . '.m3u8?';
+        $appName = Yii::$app->params['appName'];
+        $pushPullAuthorityKey = Yii::$app->params['pushPullAuthorityKey'];
+        $pullUrl = 'http://' . Yii::$app->params['pullDomain'] . '/' . $appName . '/' . $roomId . '.m3u8?';
         $timeSp = time();
-        $signStr = "/customize/" . $roomId . ".m3u8-" . $timeSp . "-0-0-" . Constants::AUTHORITY_KEY;
+        $signStr = "/" . $appName . "/" . $roomId . ".m3u8-" . $timeSp . "-0-0-" . $pushPullAuthorityKey;
         return $pullUrl . "auth_key=" . $timeSp . "-0-0-" . md5($signStr);
     }
 
@@ -89,8 +91,10 @@ class CdnUtils
     public static function aliAppPushRtmpStream($roomId)
     {
         $timeSp = time();
-        $hashAuthority = '/customize/' . $roomId . '-' . $timeSp . '-0-0-' . Constants::AUTHORITY_KEY;
-        $pushUrl = "rtmp://video-center-bj.alivecdn.com/customize/" . $roomId . "?vhost=" . Yii::$app->params['pullDomain'];
+        $appName = Yii::$app->params['appName'];
+        $pushPullAuthorityKey = Yii::$app->params['pushPullAuthorityKey'];
+        $hashAuthority = '/' . $appName . '/' . $roomId . '-' . $timeSp . '-0-0-' . $pushPullAuthorityKey;
+        $pushUrl = "rtmp://video-center-bj.alivecdn.com/" . $appName . "/" . $roomId . "?vhost=" . Yii::$app->params['pullDomain'];
         $pushUrl .= '&auth_key=' . $timeSp . '-0-0-' . md5($hashAuthority);
         return $pushUrl;
     }
@@ -104,8 +108,10 @@ class CdnUtils
     public static function aliAppPullRtmpStream($roomId)
     {
         $timeSp = time();
-        $hashAuthority = '/customize/' . $roomId . '-' . $timeSp . '-0-0-' . Constants::AUTHORITY_KEY;
-        $pullUrl = 'rtmp://' . Yii::$app->params['pullDomain'] . '/customize/' . $roomId . "?";
+        $appName = Yii::$app->params['appName'];
+        $pushPullAuthorityKey = Yii::$app->params['pushPullAuthorityKey'];
+        $hashAuthority = '/' . $appName . '/' . $roomId . '-' . $timeSp . '-0-0-' . $pushPullAuthorityKey;
+        $pullUrl = 'rtmp://' . Yii::$app->params['pullDomain'] . '/' . $appName . '/' . $roomId . "?";
         $pullUrl .= 'auth_key=' . $timeSp . '-0-0-' . md5($hashAuthority);
         return $pullUrl;
     }
