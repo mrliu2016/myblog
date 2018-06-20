@@ -165,6 +165,8 @@ class Constants
     const VERIFY_CODE_REGISTER = 'register'; // 注册
     const VERIFY_CODE_RESET = 'reset'; // 忘记密码
     const VERIFY_CODE_LOGIN = 'login'; // 验证码登录
+    const VERIFY_CODE_LIMIT_FREQUENCY = 5; // 限制次数
+    const VERIFY_CODE_LIMIT_FREQUENCY_EXPIRES = 3600; // 次数有效期限制
 
     /**
      * 服务器节点
