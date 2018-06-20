@@ -32,14 +32,13 @@ $this->title = '礼物管理';
                 <input type="hidden" name="img" value="<?=$item['imgSrc']?>">
                 <img class="s-robot-form_head-img" src="<?=$item['imgSrc']?>" alt="用户头像" id="headImg">
                 <div class="s-robot-form_headimg-close" style="display: block;"></div>
-            <? else:?>
-                <input type="hidden" name="img" value="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png">
-                <img class="s-robot-form_head-img" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像" id="headImg">
+            <?php else:?>
+                <input type="hidden" name="img" value="http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png">
+                <img class="s-robot-form_head-img" src="http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png" alt="用户头像" id="headImg">
                 <div class="s-robot-form_headimg-close" style="display: none;"></div>
-            <? endif;?>
+            <?php endif;?>
 
             <input type="hidden" id="uploadType" value="1" name="uploadType">
-
             <div class="s-robot-form_img-tips">
                 <p>图片格式：JPG、JPEG、PNG</p>
                 <p>图片大小：小于一M</p>

@@ -1,10 +1,8 @@
 <?php
-
 namespace app\manager\controllers;
 
 use app\common\models\Gift;
 use app\common\models\GiftFire;
-use app\common\models\Order;
 use app\common\services\BroadcastService;
 use Yii;
 use yii\data\Pagination;
@@ -20,10 +18,8 @@ class GiftController extends BaseController
             ]
         ];
     }
-
     const PAGE_SIZE = 15;
     public $enableCsrfValidation = false;
-
     private static function pagination($pageNo, $count)
     {
         $pagination = new Pagination([
@@ -67,7 +63,7 @@ class GiftController extends BaseController
             $this->jsonReturnError(-1,'删除失败');
         }
     }
-
+    //新增礼物
     public function actionCreate()
     {
         if (Yii::$app->request->post()) {
@@ -84,7 +80,6 @@ class GiftController extends BaseController
             return $this->render('create');
         }
     }
-
     //礼物编辑
     public function actionGiftEdit(){
         $params = Yii::$app->request->getQueryParams();
@@ -92,20 +87,16 @@ class GiftController extends BaseController
         $item = Gift::queryById($id);
         return $this->render('gift-edit',['item'=>$item]);
     }
-
     //礼物详情
     public function actionDetail(){
         $params = Yii::$app->request->getQueryParams();
         //通过id查询礼物的详情
         $id = $params['id'];
         $result = Gift::queryById($id,false);
-
-//        print_r($result);die;
         return $this->render('detail',[
             'item'=>$result
         ]);
     }
-
     //礼物编辑提交
     public function actionGiftSubmit(){
         if (Yii::$app->request->post()) {
