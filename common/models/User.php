@@ -486,18 +486,18 @@ class User extends ActiveRecord
     private static function buildUserParams($find, $params)
     {
         if (!empty($params['id'])) {
-            $find->andWhere('id="' .$params['id'].'"');
+            $find->andWhere('id="' .addslashes($params['id']).'"');
         }
         if (!empty($params['nickName'])) {
-            $find->andWhere('nickName like "' . trim($params['nickName']) . '%"');
+            $find->andWhere('nickName like "' . trim(addslashes($params['nickName'])) . '%"');
         }
         if (!empty($params['roomId'])) {
 //            $find->andWhere('roomId=' .trim($params['roomId']));
-            $find->andWhere('roomId like "' . trim($params['roomId']) . '%"');
+            $find->andWhere('roomId like "' . trim(addslashes($params['roomId'])) . '%"');
         }
 
         if (!empty($params['mobile'])) {
-            $find->andWhere('mobile like "' . trim($params['mobile']) . '%"');
+            $find->andWhere('mobile like "' . trim(addslashes($params['mobile'])) . '%"');
         }
         if (!empty($params['type'])) {
             $find->andWhere('type=' . trim($params['type']));
@@ -542,7 +542,7 @@ class User extends ActiveRecord
     //通过用户昵称获取用户信息
     public static function queryInfoByNickName($nickName)
     {
-        $sql = "SELECT id,nickName,`status` FROM `" . static::tableName() . "` WHERE `nickName` LIKE '" . trim($nickName) . "%'";
+        $sql = "SELECT id,nickName,`status` FROM `" . static::tableName() . "` WHERE `nickName` LIKE '" . trim(addslashes($nickName)) . "%'";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }

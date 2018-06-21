@@ -195,6 +195,7 @@ class VideoRecord extends ActiveRecord
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
+//        print_r($params);die;
         $find = static::find();
         $find = self::buildParams($find, $params);
         $result = $find->offset($offset)->select('id,userId,roomId,streamId,startTime,videoSrc,duration,watchTime,created,title,type')
@@ -273,7 +274,7 @@ class VideoRecord extends ActiveRecord
     public static function buildParams($find, $params)
     {
         if (!empty($params['id'])) {
-            $find->andWhere(['courseId' => $params['id']]);
+            $find->andWhere(['id' => intval($params['id'])]);
         }
         if (!empty($params['isDeleted'])) {
             $find->andWhere(['isDeleted' => $params['isDeleted']]);

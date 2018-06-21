@@ -39,12 +39,6 @@ class ContrabandController extends BaseController{
 
     //违禁词编辑
     public function actionEditWord(){
-
-//        $id = Yii::$app->request->get('id');
-//        return $this->render('edit-word',[
-//            'id'=>$id
-//        ]);
-//
         if (Yii::$app->request->post()) {
             $params = Yii::$app->request->post();
             if(Contraband::editWord($params)){
