@@ -1,36 +1,39 @@
 <?php
 $this->title = '机器人管理';
 ?>
-<div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <form method="post" action="/robot/batch-add" class="form-horizontal" id="uploadForm"
-                  name="uploadForm" enctype="multipart/form-data">
-                <fieldset>
-                    <div class="form-group">
-                        <div class="col-sm-10">
-                            <div class="col-md-3">
-                                <input type="file" class="form-control" id="selectTemplate" name="name" accept="*.xls">
+<div class="s-gift-manage">
+    <div class="s-userinfo_title">批量新增机器人</div>
+    <a class="s-gift-manage_back" href="/robot/index">返回</a>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <form method="post" action="/robot/batch-add" class="form-horizontal" id="uploadForm"
+                      name="uploadForm" enctype="multipart/form-data">
+                    <fieldset>
+                        <div class="form-group">
+                            <div class="col-sm-10">
+                                <div class="col-md-3">
+                                    <input type="file" class="form-control" id="selectTemplate" name="name" accept="*.xls">
+                                </div>
                             </div>
                         </div>
+
+                    </fieldset>
+                </form>
+
+                <div class="form-group">
+                    <div class="col-sm-10">
+                        <button type="submit" class="c-btn u-radius--circle c-btn-primary" id="upload">提交</button>
                     </div>
-
-                </fieldset>
-            </form>
-
-            <div class="form-group">
-                <div class="col-sm-10">
-                    <button type="submit" class="mb-sm btn btn-primary ripple" id="upload">提交</button>
                 </div>
-            </div>
-            <form action="/robot/download-template" id="downloadForm">
-                <button type="submit" class="mb-sm btn btn-primary ripple" class="download">下载</button>
-            </form>
+                <form action="/robot/download-template" id="downloadForm">
+                    <button type="submit" class="c-btn u-radius--circle c-btn-primary" class="download">下载</button>
+                </form>
 
+            </div>
         </div>
     </div>
 </div>
-
 <!--确认start-->
 <div id="confirm_frame" style="display: none">
     <div class="c-modal-mask"></div>
