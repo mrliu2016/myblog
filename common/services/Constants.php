@@ -9,6 +9,7 @@ class Constants
     const CODE_SYSTEM_BUSY = -2; // 系统繁忙
     const CODE_WARNING = -1; //警告
     const CODE_CLOSE = -2; //强制退出
+    const CODE_VERIFY_CODE_LIMIT_FREQUENCY = -3; // 验证码失败次数，获取验证码按钮置灰不可点击，1小时后可恢复获取验证码功能
 
     const CODE_LIVE_END = 0;
     const CODE_LIVE = 1;
@@ -162,6 +163,7 @@ class Constants
 
     const TTT_TECH_TOKEN = '3ttech_token';
     const VERIFY_CODE = 'verify_code';
+    const VERIFY_CODE_FREQUENCY = 'verify_code_frequency'; // 限制发送频率
     const VERIFY_CODE_EXPIRES = 300; // 有效期5分钟
     const VERIFY_CODE_REGISTER = 'register'; // 注册
     const VERIFY_CODE_RESET = 'reset'; // 忘记密码
