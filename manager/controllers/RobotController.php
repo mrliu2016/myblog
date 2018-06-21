@@ -26,6 +26,7 @@ class RobotController extends BaseController{
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         $params['type'] = 1;
+        $params['isDelete'] = 0;
         $list = User::queryUserInfo($params);
 
         foreach ($list as $key => &$val){
@@ -159,13 +160,14 @@ class RobotController extends BaseController{
                 }
             }
             $result = User::batchInsertRobotInfo($insertList);
-            $this->redirect('/robot/batch-add');
+            if($result['code']==0){
+                Yii::$app->getResponse()->redirect('/robot/index');
+            }
+            else{
+                return $this->render('/robot/batch-add');
+            }
         } else {
-            return $this->render(
-                'batch-add',
-                [
-                ]
-            );
+            return $this->render('batch-add');
         }
     }
     //下载模板

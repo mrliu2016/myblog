@@ -529,6 +529,10 @@ class User extends ActiveRecord
         } else if (isset($params['playType']) && $params['playType'] == 4) {//停用 playTpye = 4
             $find->andWhere('playType=4');
         }
+        //删除
+        if(isset($params['isDelete'])){
+            $find->andWhere('isDelete='.$params['isDelete']);
+        }
         return $find;
     }
 
