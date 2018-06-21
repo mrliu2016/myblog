@@ -40,6 +40,7 @@ class UserController extends BaseController
     {
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
+        $params['isDelete'] = 0;
         $result = User::queryUserInfo($params);
         if(empty($params['id'])){
             unset($params['id']);

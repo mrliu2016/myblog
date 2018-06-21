@@ -119,7 +119,7 @@ $this->title = '机器人管理';
                 <span class="s-banlive-confirm-text">确认删除此机器人？</span>
             </div>
             <div class="c-modal-footer s-banlive-operate">
-                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="del-robot">确认</button>
                 <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
             </div>
         </div>
@@ -151,7 +151,7 @@ $this->title = '机器人管理';
     function deleteRobot(id) {
         $("#confirm_frame").css("display","block");
         //点击确认
-        $(".s-banlive-confirm").unbind("click").bind("click",function () {
+        $("#del-robot").unbind("click").bind("click",function () {
             var params = {};
             params.id = id;
             $.ajax({
