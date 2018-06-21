@@ -5,7 +5,11 @@ $this->title = '机器人管理';
     <div class="s-userinfo_title">机器人详情</div>
     <a class="s-gift-manage_back" href="/robot/index">返回</a>
     <div class="s-userinfo_basic">
-        <img class="s-userinfo_headimg" src="<?=$item['avatar']?>" alt="用户头像">
+        <?php if(!empty($item['avatar'])):?>
+            <img class="s-userinfo_headimg" src="<?=$item['avatar']?>" alt="用户头像">
+        <?php else:?>
+            <img class="s-userinfo_headimg" src="http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png" alt="用户头像">
+        <?php endif;?>
         <div class="s-basic">
             <p class="s-basic_item">
                 <span class="s-basic_item-title">ID：</span>
