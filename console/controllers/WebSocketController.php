@@ -17,10 +17,8 @@ class WebSocketController extends Controller
     //webSocket服务端
     public function actionServer()
     {
-        $this->server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL);
+        $this->server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
         $setConfig = [
-            'ssl_key_file' => '/etc/nginx/cert/dev_api_demo.key',
-            'ssl_cert_file' => '/etc/nginx/cert/dev_api_demo.pem',
             'heartbeat_check_interval' => Constants::WS_HEARTBEAT_CHECK_INTERVAL,
             'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME,
             'max_connection' => Constants::WS_WEB_SOCKET_MAX_CONNECTION, // 最大链接数
