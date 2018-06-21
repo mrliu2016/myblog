@@ -28,13 +28,29 @@ class UserController extends BaseController
         if (strlen($mobile) != 11 || !is_string($mobile) || !ctype_digit($mobile)) {
             self::jsonReturnError(Constants::CODE_FAILED, '手机号错误!');
         }
+        $keyFrequency = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE_FREQUENCY . ':' . Constants::VERIFY_CODE_LOGIN . ':' . $mobile;
         if (!empty($verifyCode)) {
+            $time = time();
             $key = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_LOGIN . ':' . $mobile;
             if (!($redisClient->exists($key))) {
                 self::jsonReturnError(Constants::CODE_FAILED, '手机验证码已失效!');
             }
+            if ($redisClient->exists($keyFrequency)) {
+                $frequencyResult = json_decode($redisClient->get($keyFrequency), true);
+                if ($frequencyResult['failureTimes'] >= Constants::VERIFY_CODE_LIMIT_FREQUENCY) {
+                    static::jsonReturnError(Constants::CODE_VERIFY_CODE_LIMIT_FREQUENCY, '手机验证码错误，操作太频繁，请稍后再试');
+                }
+            }
             $cacheVerifyCode = $redisClient->get($key);
             if (intval($cacheVerifyCode) != intval($verifyCode)) {
+                if ($redisClient->exists($keyFrequency)) {
+                    $frequencyResult = json_decode($redisClient->get($keyFrequency), true);
+                    $frequencyResult['failureTimes'] += 1;
+                    $redisClient->set($keyFrequency, json_encode($frequencyResult));
+                } else {
+                    $redisClient->set($keyFrequency, json_encode(['firstTimes' => $time, 'latestTimes' => $time, 'failureTimes' => 1, 'sendTimes' => 0]));
+                    $redisClient->expire($keyFrequency, Constants::VERIFY_CODE_LIMIT_FREQUENCY_EXPIRES);
+                }
                 self::jsonReturnError(Constants::CODE_FAILED, '手机验证码错误!');
             }
             if (empty(User::queryByPhone($mobile))) {
@@ -56,6 +72,7 @@ class UserController extends BaseController
         $token = Token::generateToken($result['id']);
         $redisClient->set(Constants::TTT_TECH_TOKEN . ':' . $token, json_encode(['userId' => $result['id'], 'token' => $token]));
         $redisClient->expire(Constants::TTT_TECH_TOKEN . ':' . $token, Constants::LOGIN_TOKEN_EXPIRES);
+        $redisClient->del($keyFrequency);
         $this->jsonReturnSuccess(
             Constants::CODE_SUCCESS,
             '登录成功',
@@ -118,10 +135,26 @@ class UserController extends BaseController
             'password' => md5(Yii::$app->request->post('password')),
         );
         $verifyCode = Yii::$app->request->post('verifyCode');
+        $time = time();
         $redisClient = RedisClient::getInstance();
         $key = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE . ':' . Constants::VERIFY_CODE_RESET . ':' . $params['mobile'];
         $cacheVerifyCode = $redisClient->get($key);
+        $keyFrequency = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE_FREQUENCY . ':' . Constants::VERIFY_CODE_RESET . ':' . $params['mobile'];
+        if ($redisClient->exists($keyFrequency)) {
+            $frequencyResult = json_decode($redisClient->get($keyFrequency), true);
+            if ($frequencyResult['failureTimes'] >= Constants::VERIFY_CODE_LIMIT_FREQUENCY) {
+                static::jsonReturnError(Constants::CODE_VERIFY_CODE_LIMIT_FREQUENCY, '手机验证码错误，操作太频繁，请稍后再试');
+            }
+        }
         if (intval($cacheVerifyCode) != intval($verifyCode)) {
+            if ($redisClient->exists($keyFrequency)) {
+                $frequencyResult = json_decode($redisClient->get($keyFrequency), true);
+                $frequencyResult['failureTimes'] += 1;
+                $redisClient->set($keyFrequency, json_encode($frequencyResult));
+            } else {
+                $redisClient->set($keyFrequency, json_encode(['firstTimes' => $time, 'latestTimes' => $time, 'failureTimes' => 1, 'sendTimes' => 0]));
+                $redisClient->expire($keyFrequency, Constants::VERIFY_CODE_LIMIT_FREQUENCY_EXPIRES);
+            }
             self::jsonReturnError(Constants::CODE_FAILED, '手机验证码错误');
         }
         $dat = User::queryByPhone($params['mobile']);
@@ -211,6 +244,7 @@ class UserController extends BaseController
         $password = Yii::$app->request->post('password');
         $verifyCode = Yii::$app->request->post('verifyCode');
         $verifyCode = isset($verifyCode) ? $verifyCode : 0;
+        $time = time();
         if (empty($mobile) || empty($password)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '请输入手机号或密码', []);
         }
@@ -223,7 +257,22 @@ class UserController extends BaseController
             self::jsonReturnError(Constants::CODE_FAILED, '手机验证码已失效!');
         }
         $cacheVerifyCode = $redisClient->get($key);
+        $keyFrequency = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE_FREQUENCY . ':' . Constants::VERIFY_CODE_REGISTER . ':' . $mobile;
+        if ($redisClient->exists($keyFrequency)) {
+            $frequencyResult = json_decode($redisClient->get($keyFrequency), true);
+            if ($frequencyResult['failureTimes'] >= Constants::VERIFY_CODE_LIMIT_FREQUENCY) {
+                static::jsonReturnError(Constants::CODE_VERIFY_CODE_LIMIT_FREQUENCY, '手机验证码错误，操作太频繁，请稍后再试');
+            }
+        }
         if (intval($cacheVerifyCode) != intval($verifyCode)) {
+            if ($redisClient->exists($keyFrequency)) {
+                $frequencyResult = json_decode($redisClient->get($keyFrequency), true);
+                $frequencyResult['failureTimes'] += 1;
+                $redisClient->set($keyFrequency, json_encode($frequencyResult));
+            } else {
+                $redisClient->set($keyFrequency, json_encode(['firstTimes' => $time, 'latestTimes' => $time, 'failureTimes' => 1, 'sendTimes' => 0]));
+                $redisClient->expire($keyFrequency, Constants::VERIFY_CODE_LIMIT_FREQUENCY_EXPIRES);
+            }
             self::jsonReturnError(Constants::CODE_FAILED, '手机验证码错误');
         }
         if (empty(User::queryByPhone($mobile))) {
@@ -247,12 +296,30 @@ class UserController extends BaseController
         if (strlen($mobile) != 11 || !is_string($mobile) || !ctype_digit($mobile)) {
             self::jsonReturnError(Constants::CODE_FAILED, '请输入正确的手机号!');
         }
+        $redis = RedisClient::getInstance();
+        $keyFrequency = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE_FREQUENCY . ':' . $type . ':' . $mobile;
+        $time = time();
+        if ($redis->exists($keyFrequency)) {
+            $frequencyResult = json_decode($redis->get($keyFrequency), true);
+            if (intval($frequencyResult['latestTimes'] - $frequencyResult['firstTimes']) <= Constants::VERIFY_CODE_LIMIT_FREQUENCY_EXPIRES
+                && $frequencyResult['sendTimes'] >= Constants::VERIFY_CODE_LIMIT_FREQUENCY) {
+                $this->jsonReturnError(Constants::CODE_FAILED, '一小时内，允许发送5次');
+            }
+        }
         $result['code'] = Token::code();
         if (SMSHelper::sendCaptcha($result['code'], $mobile)) {
-            $redis = RedisClient::getInstance();
             $key = Constants::PROJECT_NAME . ':' . Constants::VERIFY_CODE . ':' . $type . ':' . $mobile;
             $redis->set($key, $result['code']);
             $redis->expire($key, Constants::VERIFY_CODE_EXPIRES);
+            if ($redis->exists($keyFrequency)) {
+                $frequencyResult = json_decode($redis->get($keyFrequency), true);
+                $frequencyResult['sendTimes'] += 1;
+                $frequencyResult['latestTimes'] = $time;
+                $redis->set($keyFrequency, json_encode($frequencyResult));
+            } else {
+                $redis->set($keyFrequency, json_encode(['firstTimes' => $time, 'latestTimes' => $time, 'failureTimes' => 0, 'sendTimes' => 1]));
+                $redis->expire($key, Constants::VERIFY_CODE_LIMIT_FREQUENCY_EXPIRES);
+            }
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '验证码发送成功', $result);
         } else {
             $this->jsonReturnError(Constants::CODE_FAILED, '验证码发送失败');
