@@ -46,7 +46,7 @@ class Deposit extends ActiveRecord
         } else {
             $model = new Deposit();
             $model->userId = $params['userId'];
-            $model->price = $params['price'] * Constants::CENT;
+            $model->price = $params['price'];
             $model->orderIdAlias = static::orderIdAlias();
             $model->source = $source;
             $model->status = Constants::ORDER_STATUS_PENDING_PAYMENT;
@@ -59,7 +59,7 @@ class Deposit extends ActiveRecord
             'code' => Constants::CODE_SUCCESS,
             'message' => '订单存在!',
             'orderId' => $model->orderIdAlias,
-            'price' => $model->price / Constants::CENT
+            'price' => $model->price
         ];
     }
 

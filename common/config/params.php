@@ -5,13 +5,14 @@ $params = [
     'local' => [
         'redisServer' => [
             'default' => [
-                'host' => '47.94.92.113',
-                'port' => 52301,
+                'host' => '10.66.183.163',
+                'port' => 6379,
                 'database' => 0,
-                'pwd' => 'Lining123',
+                'pwd' => 'Pkq!%#2018%*',
             ],
         ],
         'ucDomain' => "http://dev.usercenter.3ttech.cn",
+        'domain' => 'http://118.25.15.37',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -21,22 +22,26 @@ $params = [
         'weiXin' => [
             'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',
             'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',
-            'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',
+            'notifyUrl' => 'http://118.25.15.37/notify/notify-process',
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
             'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=',
+            'webAccessToken' => 'https://api.weixin.qq.com/sns/oauth2/access_token',
+            'webOAuth' => 'https://open.weixin.qq.com/connect/oauth2/authorize',
+            'userInfo' => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'webOAuthUserInfo' => 'https://api.weixin.qq.com/sns/userinfo',
         ],
         'app' => [
-            'wxAppId' => 'wx70a3358e75e061f7',
-            'wxMchId' => '1440798702',
-            'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',
-            'wxAppSecret' => '32d60c56204a0622f6895574cb240c25'
+            'wxAppId' => '',
+            'wxMchId' => '',
+            'wxPayKey' => '',
+            'wxAppSecret' => ''
         ],
         'jsApi' => [
-            'wxAppId' => 'wxc157967034c8f60b',
-            'wxMchId' => '1487372672',
-            'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
+            'wxAppId' => '',
+            'wxMchId' => '',
+            'wxPayKey' => '',
             'wxAppSecret' => ''
         ],
         'cdn' => [
@@ -46,29 +51,49 @@ $params = [
         ],
         'wsServer' => [
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '118.25.15.37',
+                'domain' => '118.25.15.37'
             ],
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '118.25.15.37',
+                'domain' => '118.25.15.37'
             ]
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
-        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'pullDomain' => 'ali.tianxiang.cdn.3ttech.cn',
+        'appName' => 'tianxiang',
+        'pushPullAuthorityKey' => 'tianxiang',
+        'cdnFactory' => 'CSY',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'rongCloud' => [
+            'appKey' => 'lmxuhwagli7cd',
+            'appSecret' => 'ISg11JHsFd'
+        ],
+        'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
+        'defaultNickName' => '天象互动',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'tianxiang'
+            ]
+        ]
     ],
 
     'dev' => [
         'redisServer' => [
             'default' => [
-                'host' => '47.94.92.113',
-                'port' => 52301,
+                'host' => '10.66.183.163',
+                'port' => 6379,
                 'database' => 0,
-                'pwd' => 'Lining123',
+                'pwd' => 'Pkq!%#2018%*',
             ],
         ],
         'ucDomain' => "http://dev.usercenter.3ttech.cn",
+        'domain' => 'http://118.25.15.37',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -78,22 +103,26 @@ $params = [
         'weiXin' => [
             'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',
             'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',
-            'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',
+            'notifyUrl' => 'http://118.25.15.37/notify/notify-process',
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
-            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
+            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=',
+            'webAccessToken' => 'https://api.weixin.qq.com/sns/oauth2/access_token',
+            'webOAuth' => 'https://open.weixin.qq.com/connect/oauth2/authorize',
+            'userInfo' => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'webOAuthUserInfo' => 'https://api.weixin.qq.com/sns/userinfo',
         ],
         'app' => [
-            'wxAppId' => 'wx70a3358e75e061f7',
-            'wxMchId' => '1440798702',
-            'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',
-            'wxAppSecret' => '32d60c56204a0622f6895574cb240c25'
+            'wxAppId' => '',
+            'wxMchId' => '',
+            'wxPayKey' => '',
+            'wxAppSecret' => ''
         ],
         'jsApi' => [
-            'wxAppId' => 'wxc157967034c8f60b',
-            'wxMchId' => '1487372672',
-            'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
+            'wxAppId' => '',
+            'wxMchId' => '',
+            'wxPayKey' => '',
             'wxAppSecret' => ''
         ],
         'cdn' => [
@@ -103,29 +132,49 @@ $params = [
         ],
         'wsServer' => [
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '118.25.15.37',
+                'domain' => '118.25.15.37'
             ],
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '118.25.15.37',
+                'domain' => '118.25.15.37'
             ]
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
-        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'pullDomain' => 'ali.tianxiang.cdn.3ttech.cn',
+        'appName' => 'tianxiang',
+        'pushPullAuthorityKey' => 'tianxiang',
+        'cdnFactory' => 'CSY',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'rongCloud' => [
+            'appKey' => 'lmxuhwagli7cd',
+            'appSecret' => 'ISg11JHsFd'
+        ],
+        'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
+        'defaultNickName' => '天象互动',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'tianxiang'
+            ]
+        ]
     ],
 
     'pre' => [
         'redisServer' => [
             'default' => [
-                'host' => 'r-2ze622244eb20b94.redis.rds.aliyuncs.com',
+                'host' => '10.66.183.163',
                 'port' => 6379,
                 'database' => 0,
-                'pwd' => 'Lining123',
+                'pwd' => 'Pkq!%#2018%*',
             ],
         ],
         'ucDomain' => "http://pre.usercenter.3ttech.cn",
+        'domain' => 'http://118.25.93.124',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -135,22 +184,26 @@ $params = [
         'weiXin' => [
             'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',
             'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',
-            'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',
+            'notifyUrl' => 'http://118.25.93.124/notify/notify-process',
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
-            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
+            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=',
+            'webAccessToken' => 'https://api.weixin.qq.com/sns/oauth2/access_token',
+            'webOAuth' => 'https://open.weixin.qq.com/connect/oauth2/authorize',
+            'userInfo' => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'webOAuthUserInfo' => 'https://api.weixin.qq.com/sns/userinfo',
         ],
         'app' => [
-            'wxAppId' => 'wx70a3358e75e061f7',
-            'wxMchId' => '1440798702',
-            'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',
-            'wxAppSecret' => '32d60c56204a0622f6895574cb240c25'
+            'wxAppId' => '',
+            'wxMchId' => '',
+            'wxPayKey' => '',
+            'wxAppSecret' => ''
         ],
         'jsApi' => [
-            'wxAppId' => 'wxc157967034c8f60b',
-            'wxMchId' => '1487372672',
-            'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
+            'wxAppId' => '',
+            'wxMchId' => '',
+            'wxPayKey' => '',
             'wxAppSecret' => ''
         ],
         'cdn' => [
@@ -160,29 +213,49 @@ $params = [
         ],
         'wsServer' => [
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '118.25.93.124',
+                'domain' => '118.25.93.124'
             ],
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '118.25.93.124',
+                'domain' => '118.25.93.124'
             ]
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
-        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'pullDomain' => 'ali.tianxiang.cdn.3ttech.cn',
+        'appName' => 'tianxiang',
+        'pushPullAuthorityKey' => 'tianxiang',
+        'cdnFactory' => 'CSY',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'rongCloud' => [
+            'appKey' => 'lmxuhwagli7cd',
+            'appSecret' => 'ISg11JHsFd'
+        ],
+        'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
+        'defaultNickName' => '天象互动',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'tianxiang'
+            ]
+        ]
     ],
 
     'online' => [
         'redisServer' => [
             'default' => [
-                'host' => 'r-2ze622244eb20b94.redis.rds.aliyuncs.com',
+                'host' => '10.66.183.163',
                 'port' => 6379,
                 'database' => 0,
-                'pwd' => 'Lining123',
+                'pwd' => 'Pkq!%#2018%*',
             ],
         ],
         'ucDomain' => "http://usercenter.3ttech.cn",
+        'domain' => 'http://118.25.93.124',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -192,22 +265,26 @@ $params = [
         'weiXin' => [
             'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',
             'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',
-            'notifyUrl' => 'http://dev.api.live.3ttech.cn/notify/notify-process',
+            'notifyUrl' => 'http://118.25.93.124/notify/notify-process',
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
-            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token='
+            'ticket' => 'https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=',
+            'webAccessToken' => 'https://api.weixin.qq.com/sns/oauth2/access_token',
+            'webOAuth' => 'https://open.weixin.qq.com/connect/oauth2/authorize',
+            'userInfo' => 'https://api.weixin.qq.com/cgi-bin/user/info',
+            'webOAuthUserInfo' => 'https://api.weixin.qq.com/sns/userinfo',
         ],
         'app' => [
-            'wxAppId' => 'wx70a3358e75e061f7',
-            'wxMchId' => '1440798702',
-            'wxPayKey' => 'QxKjAppPw1357924QxKjAppPw1357924',
-            'wxAppSecret' => '32d60c56204a0622f6895574cb240c25'
+            'wxAppId' => '',
+            'wxMchId' => '',
+            'wxPayKey' => '',
+            'wxAppSecret' => ''
         ],
         'jsApi' => [
-            'wxAppId' => 'wxc157967034c8f60b',
-            'wxMchId' => '1487372672',
-            'wxPayKey' => '49411f78bf21870f989aa1ace1cc0d0e',
+            'wxAppId' => '',
+            'wxMchId' => '',
+            'wxPayKey' => '',
             'wxAppSecret' => ''
         ],
         'cdn' => [
@@ -215,19 +292,38 @@ $params = [
             'pull' => 'zbj-pull.3ttech.cn',
             'push' => 'zbj-push.3ttech.cn',
         ],
-        'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
         'wsServer' => [
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '118.25.93.124',
+                'domain' => '118.25.93.124'
             ],
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '118.25.93.124',
+                'domain' => '118.25.93.124'
             ]
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
-        'cdnFactory' => 'aLiYun'  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
+        'pullDomain' => 'ali.tianxiang.cdn.3ttech.cn',
+        'appName' => 'tianxiang',
+        'pushPullAuthorityKey' => 'tianxiang',
+        'cdnFactory' => 'CSY',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN
+        'rongCloud' => [
+            'appKey' => 'lmxuhwagli7cd',
+            'appSecret' => 'ISg11JHsFd'
+        ],
+        'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
+        'defaultNickName' => '天象互动',
+        'pullStream' => [
+            'CSY' => [
+                'domain' => 'push.huju-tech.com',
+                'pushDomain' => 'rtmp://push.huju-tech.com',
+                'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
+                'pullM3u8Domain' => ' http://pull.huju-tech.com',
+                'pullFlvDomain' => ' http://pull.huju-tech.com',
+                'appName' => 'tianxiang'
+            ]
+        ]
     ],
 
 ];

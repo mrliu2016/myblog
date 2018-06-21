@@ -1,90 +1,95 @@
 <?php
 use yii\widgets\LinkPager;
-
-$this->title = '鉴黄';
+$this->title = '鉴黄管理';
 ?>
 
 <div class="container-fluid">
-    <div class="card">
-        <div class="card-body">
-            <form method="get" action="/live/yellow" class="form-horizontal" id="searchForm"
-                  name="searchForm">
-                <fieldset style="height: 20px">
-                    <div class="form-group">
-                        <div class="col-sm-10">
-                            <button type="button" class="mb-sm btn btn-primary ripple" id="searchBtn"
-                                    name="searchBtn">查询
-                            </button>
-                            <div class="col-md-2">
-                                <input type="hidden" name="type" value="3"/>
-                                <input type="text" placeholder="用户id" style="width: 120px" id="content" name="userId"
-                                       class="form-control datepicker-pop"
-                                    <?php if (!empty($params['userId'])): ?>
-                                        value="<?= $params['userId'] ?>"
-                                    <?php endif; ?>>
-                            </div>
-                        </div>
-                </fieldset>
+    <div class="s-gift">
+        <div class="s-gift-search">
+            <form method="get" action="/live/yellow" id="searchForm" name="searchForm">
+                <div class="s-gift-search-content">
+                    <div class="s-gift-search-item">
+                        <span>ID</span>
+                        <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <span>昵称</span>
+                        <input class="c-input s-gift-search-input" type="text" name="nickName" autocomplete="off">
+                    </div>
+                    <div class="s-gift-search-item">
+                        <span>房间号</span>
+                        <input class="c-input s-gift-search-input" type="text" name="roomId" autocomplete="off">
+                    </div>
+                    <br/>
+                    <div class="s-gift-search-item">
+                        <span>注册时间</span>
+                        <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
+                        —
+                        <input type="text" id="endTime" name="endTime"
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
+                    </div>
+                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
+
+                </div>
             </form>
         </div>
-    </div>
-    <div class="card">
-        <div class="table-responsive">
-            <table class="table table-hover">
-                <thead>
+        <!--<div class="s-gitf-operate">
+            <button class="c-btn u-radius--circle c-btn-primary">新增</button>
+            <a class="c-a s-gift-setting">设置连击</a>
+        </div>-->
+        <div class="s-gift-table-wrap">
+        <table class="c-table s-gift-table">
+            <thead class="c-table-thead s-gift-thead">
+            <tr>
+                <th>序号</th>
+                <th>ID</th>
+                <th>昵称</th>
+                <th>房间号</th>
+                <th>开始时间</th>
+                <th>结束时间</th>
+                <th>截图</th>
+            </tr>
+            </thead>
+            <tbody class="c-table-tbody s-gift-tbody">
+            <?php foreach ($itemList as $key => $item): ?>
                 <tr>
-                    <th class="col-md-1">id</th>
-                    <th class="col-md-1">用户</th>
-                    <th class="col-md-1">时间</th>
-                    <th class="col-md-1">图片</th>
-                    <th class="col-md-1">图片信息</th>
-                    <th class="col-md-1">直播状态</th>
+                    <td>
+                        <?= $key+1 ?>
+                    </td>
+                    <td>
+                        <?= $item['id'] ?>
+                    </td>
+                    <td>
+                        <?= $item['nickName'] ?>
+                    </td>
+                    <td>
+                        <?= $item['roomId'] ?>
+                    </td>
+                    <td>
+                        <?= date('Y-m-d H:i:s',$item['startTime'])?>
+                    </td>
+                    <td>
+                        <?= date('Y-m-d H:i:s',$item['endTime'])?>
+                    </td>
+                    <td>
+                        <!-- <img src="<?/*= $item['yellowurl'] */?>" width="150" height="85"></a>-->
+                        <a href="/live/yellow-check?id=<?=$item['id']?>">查看</a>
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                <?php foreach ($itemList as $item): ?>
-                    <tr>
-                        <td>
-                            <?= $item['id'] ?>
-                        </td>
-                        <td>
-                            <?= $item['userId'] ?>
-                        </td>
-                        <td>
-                            开始: <?= date('Y-m-d H:i:s', $item['startTime']) ?> <br/>
-                            结束:<?= date('Y-m-d H:i:s', $item['endTime']) ?>
-                        </td>
-                        <td>
-                            <img src="<?= $item['yellowurl'] ?>" width="150" height="85"></a>
-                        </td>
-                        <td>
-                            标签:性感<br/>
-                            场景:色情<br/>
-                            率:<?= $item['information']['Rate'] ?><br/>
-                            建议:审查
-                        </td>
-                        <td>
-                            <?php if ($item['isLive'] == 1) {
-                                echo "直播";
-                            } else if ($item['isLive'] == 0) {
-                                echo "结束";
-                            } ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
-                </tbody>
-            </table>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
         </div>
+        <p class="s-gift-count">共 <?= $count ?> 条记录</p>
     </div>
-    <nav class="text-center">
+    <nav class="text-center" style="margin-left:30%">
         <table>
             <tr>
-                <td> <?= LinkPager::widget(['pagination' => $pagination]) ?></td>
+                <td class="page-space"> <?= $page ?></td>
                 <td>共<?= $count ?> 条</td>
             </tr>
         </table>
     </nav>
-
 </div>
 
 
@@ -121,55 +126,14 @@ $this->title = '鉴黄';
                     area: ['1000px', '550px'], //宽高
                     content: html
                 });
-
-                var client_array = data;
-                var client_js = eval('(' + client_array + ')');
-                // 初始化图表标签
-                var myChart = echarts.init(document.getElementById('main_1'));
-                options = {
-                    /* title : {
-                     text: '丢包率',
-                     x:'center'
-                     },*/
-                    tooltip: {
-                        trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-                    },
-                    legend: {
-                        orient: 'vertical',
-                        left: 'left',
-                        data: ['0~5%', '5%~10%', '10%~20%', '>20%', '成功']
-                    },
-                    series: [
-                        {
-                            name: '丢包率',
-                            type: 'pie',
-                            radius: '55%',
-                            center: ['50%', '60%'],
-                            data: [
-                                {value: client_js['a'], name: '0~5%'},
-                                {value: client_js['b'], name: '5%~10%'},
-                                {value: client_js['c'], name: '10%~20%'},
-                                {value: client_js['d'], name: '>20%'},
-                                {value: client_js['e'], name: '成功'}
-                            ],
-                            itemStyle: {
-                                normal: {
-                                    label: {
-                                        show: true,
-                                        formatter: '{b} : {c} ({d}%)'
-                                    },
-                                    labelLine: {show: true}
-                                }
-                            }
-                        }
-                    ]
-                };
-                myChart.setOption(options);
             },
             error: function (XMLHttpRequest, textStatus, errorThrown) {
                 alert('get issue');
             }
         });
+    }
+    
+    function show(url) {
+        alert(url);
     }
 </script>

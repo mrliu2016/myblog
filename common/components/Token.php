@@ -41,7 +41,12 @@ class Token
         return $random_str;
     }
 
-    //随机生成验证码
+    /**
+     *
+     * 随机生成验证码
+     *
+     * @return string
+     */
     public static function code()
     {
         $length = 6;

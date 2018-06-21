@@ -38,7 +38,7 @@ class WeiXinPay
         $unifiedOrder->setBody(!empty($body) ? $body : 'GOODS BODY');
         $unifiedOrder->setAttach(!empty($attach) ? $attach : 'ATTACH');
         $unifiedOrder->setOutTradeNo($orderId);
-        $unifiedOrder->setTotalFee($totalFee * Constants::CENT);
+        $unifiedOrder->setTotalFee($totalFee);
         $unifiedOrder->setNotifyUrl($weiXinConfig['notifyUrl']);
         $unifiedOrder->setTradeType("JSAPI");
         $unifiedOrder->setOpenId($openId);
@@ -82,7 +82,7 @@ class WeiXinPay
         $unifiedOrder->setTimeStart(date("YmdHms"));
         $unifiedOrder->setTimeExpire(date("YmdHms", strtotime("+2 hours")));
         $unifiedOrder->setTradeType("APP");
-        $unifiedOrder->setTotalFee($totalFee * Constants::CENT);
+        $unifiedOrder->setTotalFee($totalFee);
         $unifiedOrder->setOutTradeNo($orderId);
         $unifiedOrder->setAttach(!empty($attach) ? $attach : 'ATTACH');
 //        $unifiedOrder->setOpenId($openId);
