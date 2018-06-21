@@ -135,7 +135,7 @@ $this->title = '机器人管理';
         </form>
         <div>
             <button class="c-btn" id="confirm">确定</button>
-            <button class="c-btn">取消</button>
+            <button class="c-btn" id="cancel">取消</button>
         </div>
     </div>
 </div>
@@ -163,29 +163,23 @@ $this->title = '机器人管理';
         });
     }
     $("#confirm").click(function(){
-
         var fileEl = $('#profileButton1');
         if (typeof(fileEl[0].files[0])=='undefined'){
             fileEl[0].focus();
-            alert("请选择头像");
+            tip("请选择头像");
             event.preventDefault();
             return;
         }
         var nickName = $("#nickName").val();
-        var sex = $("#sex").val();
-        var province = $("#province").val();
-        var city = $("#city").val();
         var followees_cnt = $("#followees_cnt").val();
         var followers_cnt = $("#followers_cnt").val();
         var receivedGift = $("#receivedGift").val();
         var sendGift = $("#sendGift").val();
-        var description = $("#description").val();
 
         if(nickName == undefined || nickName == '' || nickName == null || nickName.length >10){
             tip("请输入正确用户昵称！");
             return false;
         }
-
         if(!isNaN(Number(followees_cnt))){
             tip("关注数只能是纯数字");
             return false;
@@ -202,45 +196,15 @@ $this->title = '机器人管理';
             tip("送出礼物只能是纯数字");
             return false;
         }
-
-        // if(parseFloat(price).toString() == "NaN"){
-        //     alert('请输入正确的礼物价格.');
-        //     return false;
-        // }
-        // var params  = {};
-        // params.nickName  = nickName;
-        // params.sex  = sex;
-        // params.province = province;
-        // params.city = city;
-        // params.followees_cnt = followees_cnt;
-        // params.followers_cnt = followers_cnt;
-        // params.receivedGift = receivedGift;
-        // params.sendGift = sendGift;
-        // params.description = description;
-
-        // $.ajax({
-        //     url: "/robot/add-submit",
-        //     type: "post",
-        //     data: params,
-        //     dataType: "json",
-        //     success: function (data) {
-        //         if(data != undefined && data.code == 0){
-        //             window.location.href='/robot/list';
-        //         }
-        //         else{
-        //             alert('编辑失败！');
-        //         }
-        //     }
-        // });
-
         $("#robotForm").attr("action","/robot/add-robot");
         $("#robotForm").submit();
-
     });
-    $(".cancel").click(function () {
-        $("#name").val("");
-        $("#price").val("");
-        $("input[name=fire]:eq(1)").attr("checked",'checked');
+    $("#cancel").unbind('click').bind('click',function () {
+        $("#nickName").val("");
+        $("#followees_cnt").val("");
+        $("#followers_cnt").val("");
+        $("#receivedGift").val("");
+        $("#sendGift").val("");
     });
 
     function getPath(obj, fileQuery, transImg) {
@@ -258,16 +222,13 @@ $this->title = '机器人管理';
                     imgArr = imgSrc.split('.');
                     strSrc = imgArr[imgArr.length - 1].toLowerCase();
                     obj.setAttribute("src", e.target.result);
-
                 };
                 reader.readAsDataURL(file);
-
             } else {
                 $(".showintro").click();
             }
         }
     }
-
     function changepic() {
         var file_img = document.getElementById("headImg");
         $(".s-robot-form_headimg-close").css('display','block');
@@ -279,7 +240,7 @@ $this->title = '机器人管理';
         $("#profileButton1").outerHTML = $("#profileButton1").outerHTML;
         $("#headImg").attr('src','http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png');
         $(".s-robot-form_headimg-close").css("display","none")
-    })
+    });
 
 </script>
 
@@ -375,7 +336,6 @@ $this->title = '机器人管理';
             {txt:'临汾市', val:'临汾市'}, {txt:'运城市', val:'运城市'},
             {txt:'吕梁市', val:'吕梁市'},
         ];
-
     cityArr['辽宁省'] =
         [
             {txt:'沈阳市', val:'沈阳市'},{txt:'大连市', val:'大连市'},
@@ -386,7 +346,6 @@ $this->title = '机器人管理';
             {txt:'盘锦市', val:'盘锦市'},{txt:'铁岭市', val:'铁岭市'},
             {txt:'朝阳市', val:'朝阳市'},{txt:'葫芦岛市', val:'葫芦岛市'},
         ];
-
     cityArr['吉林省'] =
         [
             {txt:'长春市', val:'长春市'},{txt:'吉林市', val:'吉林市'},
@@ -405,7 +364,6 @@ $this->title = '机器人管理';
             {txt:'绥化市', val:'绥化市'}, {txt:'大兴安岭地区', val:'大兴安岭地区'},
 
         ];
-
     cityArr['安徽省'] =
         [
             {txt:'合肥市', val:'合肥市'},{txt:'芜湖市', val:'芜湖市'},
@@ -418,7 +376,6 @@ $this->title = '机器人管理';
             {txt:'巢湖市', val:'巢湖市'}, {txt:'池州市', val:'池州市'},
             {txt:'亳州市', val:'亳州市'}
         ];
-
     cityArr['福建省'] =
         [
             {txt:'福州市', val:'福州市'},{txt:'泉州市', val:'泉州市'},
@@ -426,8 +383,6 @@ $this->title = '机器人管理';
             {txt:'三明市', val:'三明市'},{txt:'龙岩市', val:'龙岩市'},
             {txt:'莆田市', val:'莆田市'}, {txt:'宁德市', val:'宁德市'},
         ];
-
-
     cityArr['江西省'] =
         [
             {txt:'南昌市', val:'南昌市'},{txt:'赣州市', val:'赣州市'},
@@ -437,8 +392,6 @@ $this->title = '机器人管理';
             {txt:'九江市', val:'九江市'},{txt:'上饶市', val:'上饶市'},
             {txt:'鹰潭市', val:'鹰潭市'}
         ];
-
-
     cityArr['山东省'] =
         [
             {txt:'枣庄市', val:'枣庄市'},{txt:'济南市', val:'济南市'},
@@ -451,7 +404,6 @@ $this->title = '机器人管理';
             {txt:'聊城市', val:'聊城市'},{txt:'日照市', val:'日照市'},
             {txt:'潍坊市', val:'潍坊市'}
         ];
-
     cityArr['河南省'] =
         [
             {txt:'郑州市', val:'郑州市'},{txt:'开封市', val:'开封市'},
@@ -461,8 +413,6 @@ $this->title = '机器人管理';
             {txt:'濮阳市', val:'濮阳市'},{txt:'许昌市', val:'许昌市'},
             {txt:'漯河市', val:'漯河市'}
         ];
-
-
     cityArr['湖北省'] =
         [
             {txt:'武汉市', val:'武汉市'},{txt:'黄石市', val:'黄石市'},
@@ -484,7 +434,6 @@ $this->title = '机器人管理';
             {txt:'娄底市', val:'娄底市'},{txt:'郴州市', val:'郴州市'},
             {txt:'怀化市', val:'怀化市'},
         ];
-
     cityArr['广东省'] =
         [
             {txt:'广州市', val:'广州市'},{txt:'韶关市', val:'韶关市'},
@@ -507,7 +456,6 @@ $this->title = '机器人管理';
             {txt:'琼海市', val:'琼海市'},{txt:'儋州市', val:'儋州市'},
             {txt:'万宁市', val:'万宁市'}
         ];
-
     cityArr['四川省'] =
         [
             {txt:'成都市', val:'成都市'},{txt:'自贡市', val:'自贡市'},
@@ -519,7 +467,6 @@ $this->title = '机器人管理';
             {txt:'广安市', val:'广安市'},{txt:'达州市', val:'达州市'},{txt:'雅安市', val:'雅安市'},
             {txt:'巴中市', val:'巴中市'},{txt:'资阳市', val:'资阳市'}
         ];
-
     cityArr['贵州省'] =
         [
             {txt:'贵阳市', val:'贵阳市'},{txt:'遵义市', val:'遵义市'},
@@ -559,7 +506,6 @@ $this->title = '机器人管理';
             {txt:'定西市', val:'定西市'},{txt:'陇南市', val:'陇南市'},
             {txt:'平凉市', val:'平凉市'},{txt:'庆阳市', val:'庆阳市'},
         ];
-
     cityArr['青海省'] =
         [
             {txt:'西宁市', val:'西宁市'},{txt:'海东市', val:'海东市'},
