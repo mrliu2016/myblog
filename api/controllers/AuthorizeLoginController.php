@@ -9,19 +9,29 @@ use Yii;
 
 class AuthorizeLoginController extends BaseController
 {
+    /**
+     * 授权登录
+     */
     public function actionAuthorizeLogin()
     {
         $params = Yii::$app->request->post();
         $result = User::authorizeLogin($params);
         if ($result) {
-            RedisClient::getInstance()->set(
-                $result['token'],
-                json_encode(['userid' => $result['userId'], 'token' => $result['token']])
+            $redisClient = RedisClient::getInstance();
+            $redisClient->set(
+                Constants::TTT_TECH_TOKEN . ':' . $result['token'],
+                json_encode(['userId' => $result['userId'], 'token' => $result['token']])
             );
-            RedisClient::getInstance()->expire($result['token'], Constants::LOGIN_TOKEN_EXPIRES);
+            $redisClient->expire(Constants::TTT_TECH_TOKEN . ':' . $result['token'], Constants::LOGIN_TOKEN_EXPIRES);
             $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '登录成功!', $result);
         } else {
-            $this->jsonReturnError(Constants::CODE_FAILED, '登录失败!', []);
+            $this->jsonReturnError(Constants::CODE_FAILED, '登录失败，请稍后重试!', []);
         }
+    }
+
+    public function actionWebOauth()
+    {
+        $params = Yii::$app->request->get();
+        $redirect = urlencode(Yii::$app->request->absoluteUrl);
     }
 }

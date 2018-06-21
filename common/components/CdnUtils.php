@@ -3,6 +3,7 @@
 namespace app\common\components;
 
 use app\common\services\Constants;
+use Yii;
 
 class CdnUtils
 {
@@ -73,9 +74,11 @@ class CdnUtils
      */
     public static function aliWapPullStream($roomId)
     {
-        $pullUrl = 'http://ali.push.cdn.3ttechlive.3ttech.cn/3ttechlive/' . $roomId . '.m3u8?';
+        $appName = Yii::$app->params['appName'];
+        $pushPullAuthorityKey = Yii::$app->params['pushPullAuthorityKey'];
+        $pullUrl = 'http://' . Yii::$app->params['pullDomain'] . '/' . $appName . '/' . $roomId . '.m3u8?';
         $timeSp = time();
-        $signStr = "/3ttechlive/" . $roomId . ".m3u8-" . $timeSp . "-0-0-" . Constants::AUTHORITY_KEY;
+        $signStr = "/" . $appName . "/" . $roomId . ".m3u8-" . $timeSp . "-0-0-" . $pushPullAuthorityKey;
         return $pullUrl . "auth_key=" . $timeSp . "-0-0-" . md5($signStr);
     }
 
@@ -88,8 +91,10 @@ class CdnUtils
     public static function aliAppPushRtmpStream($roomId)
     {
         $timeSp = time();
-        $hashAuthority = '/3ttechlive/' . $roomId . '-' . $timeSp . '-0-0-' . Constants::AUTHORITY_KEY;
-        $pushUrl = "rtmp://video-center-bj.alivecdn.com/3ttechlive/" . $roomId . "?vhost=ali.push.cdn.3ttechlive.3ttech.cn";
+        $appName = Yii::$app->params['appName'];
+        $pushPullAuthorityKey = Yii::$app->params['pushPullAuthorityKey'];
+        $hashAuthority = '/' . $appName . '/' . $roomId . '-' . $timeSp . '-0-0-' . $pushPullAuthorityKey;
+        $pushUrl = "rtmp://video-center-bj.alivecdn.com/" . $appName . "/" . $roomId . "?vhost=" . Yii::$app->params['pullDomain'];
         $pushUrl .= '&auth_key=' . $timeSp . '-0-0-' . md5($hashAuthority);
         return $pushUrl;
     }
@@ -103,8 +108,10 @@ class CdnUtils
     public static function aliAppPullRtmpStream($roomId)
     {
         $timeSp = time();
-        $hashAuthority = '/3ttechlive/' . $roomId . '-' . $timeSp . '-0-0-' . Constants::AUTHORITY_KEY;
-        $pullUrl = "rtmp://ali.push.cdn.3ttechlive.3ttech.cn/3ttechlive/" . $roomId . "?";
+        $appName = Yii::$app->params['appName'];
+        $pushPullAuthorityKey = Yii::$app->params['pushPullAuthorityKey'];
+        $hashAuthority = '/' . $appName . '/' . $roomId . '-' . $timeSp . '-0-0-' . $pushPullAuthorityKey;
+        $pullUrl = 'rtmp://' . Yii::$app->params['pullDomain'] . '/' . $appName . '/' . $roomId . "?";
         $pullUrl .= 'auth_key=' . $timeSp . '-0-0-' . md5($hashAuthority);
         return $pullUrl;
     }
@@ -198,6 +205,27 @@ class CdnUtils
         return "rtmp://pull2.3ttech.cn/sdk/" . $streamId . ".m3u8";
     }
 
+    //创世云cdn推流
+    public static function csyPushUrl($streamId)
+    {
+        $cdnConfig = Yii::$app->params['pullStream'];
+        return $cdnConfig['CSY']['pushDomain'] . '/' . $cdnConfig['CSY']['appName'] . '/' . $streamId;
+    }
+
+    //创世云cdn拉流Rtmp
+    public static function csyPullUrl($streamId)
+    {
+        $cdnConfig = Yii::$app->params['pullStream'];
+        return $cdnConfig['CSY']['pullRtmpDomain'] . '/' . $cdnConfig['CSY']['appName'] . '/' . $streamId;
+    }
+
+    //创世云cdn拉流m3u8
+    public static function csyWapPullUrl($streamId)
+    {
+        $cdnConfig = Yii::$app->params['pullStream'];
+        return $cdnConfig['CSY']['pullM3u8Domain'] . '/' . $cdnConfig['CSY']['appName'] . '/' . $streamId . ".m3u8";
+    }
+
 
     //获取拉流地址
     public static function getPullUrl($streamId, $rtmp = true)
@@ -240,6 +268,13 @@ class CdnUtils
                     $pullUrl = self::wangSuPullM3u8Stream($streamId);
                 }
                 break;
+            case Constants::CDN_FACTORY_CSY:
+                if ($rtmp) {
+                    $pullUrl = self::csyPullUrl($streamId);
+                } else {
+                    $pullUrl = self::csyWapPullUrl($streamId);
+                }
+                break;
             default:
         }
         return $pullUrl;
@@ -265,6 +300,9 @@ class CdnUtils
                 break;
             case Constants::CDN_FACTORY_WANG_SU:
                 $pushUrl = self::wangSuPushRtmpStream($streamId);
+                break;
+            case Constants::CDN_FACTORY_CSY:
+                $pushUrl = self::csyPushUrl($streamId);
                 break;
             default:
         }

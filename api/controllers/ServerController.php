@@ -8,12 +8,13 @@ use Yii;
 
 class ServerController extends BaseController
 {
-    public function actionLocation(){
+    public function actionLocation()
+    {
         $params = Yii::$app->request->get();
-        $result = LiveService::serverInfo($params);
-        if ($result['code'] == Constants::CODE_FAILED) {
-            $this->jsonReturnError(Constants::CODE_FAILED, $result['msg'], []);
-        }
-        $this->jsonReturnSuccess(Constants::CODE_SUCCESS, $result['msg'], $result['data']);
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '获取成功',
+            LiveService::serverInfo($params)
+        );
     }
 }
