@@ -2,31 +2,30 @@
 
 $dev = [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=10.66.179.137;dbname=tianxiang_2_0_live',
-    'username' => 'root',
-    'password' => 'Pkq!%#2018%$',
+    'dsn' => 'mysql:host=drds7e7z8arsc9y0public.drds.aliyuncs.com;dbname=live_dev_new',
+    'username' => 'live_dev_new',
+    'password' => 'MyNewPass4',
     'emulatePrepare' => true,
     'charset' => 'utf8',
 ];
 
 $online = [
     'class' => 'yii\db\Connection',
-    'dsn' => 'mysql:host=10.66.179.137;dbname=tianxiang_2_0',
-    'username' => 'root',
-    'password' => 'Pkq!%#2018%$',
+    'dsn' => 'mysql:host=drds7e7z8arsc9y0public.drds.aliyuncs.com;dbname=live',
+    'username' => 'live',
+    'password' => 'MyNewPass4',
     'emulatePrepare' => false,
     'charset' => 'utf8',
     'slaveConfig' => [
-        'username' => 'root',
-        'password' => 'Pkq!%#2018%$',
+        'username' => 'live',
+        'password' => 'MyNewPass4',
     ],
     'slaves' => [
         [
-            'dsn' => 'mysql:host=10.66.179.137;dbname=tianxiang_2_0',
+            'dsn' => 'mysql:host=drds7e7z8arsc9y0public.drds.aliyuncs.com;dbname=live',
             'charset' => 'utf8',
         ],
     ],
 ];
-
 
 return YII_ENV_PRE || YII_ENV_ONLINE ? $online : $dev;
