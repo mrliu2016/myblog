@@ -20,7 +20,6 @@ $this->title = '鉴黄管理';
                         <span>房间号</span>
                         <input class="c-input s-gift-search-input" type="text" name="roomId" autocomplete="off">
                     </div>
-                    <br/>
                     <div class="s-gift-search-item">
                         <span>注册时间</span>
                         <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off" style="width: 100px;">

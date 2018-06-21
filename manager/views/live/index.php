@@ -10,17 +10,16 @@ $this->title = '直播管理';
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
                         <span>ID</span>
-                        <input class="c-input s-gift-search-input" type="text" name="id" placeholder="用户ID" autocomplete="off">
+                        <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
                         <span>昵称</span>
-                        <input class="c-input s-gift-search-input" type="text" name="nickName" placeholder="昵称" autocomplete="off">
+                        <input class="c-input s-gift-search-input" type="text" name="nickName"  autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
                         <span>房间号</span>
-                        <input class="c-input s-gift-search-input" type="text" name="roomId" placeholder="房间号" autocomplete="off">
+                        <input class="c-input s-gift-search-input" type="text" name="roomId" autocomplete="off">
                     </div>
-                    <br/>
                     <div class="s-gift-search-item">
                         <span>注册时间</span>
                         <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
