@@ -24,12 +24,12 @@ class Payment
         switch ($payType) {
             case Constants::WEI_XIN_APP_TRADE:
                 $weiXinConfig = Yii::$app->params['app'];
-                $result = WeiXinPay::weiXinAppPay($user['openId'], $orderInfo['orderId'], $orderInfo['price'], $weiXinConfig['wxAppId'],
+                $result = WeiXinPay::weiXinAppPay($user['openId'], $orderInfo['orderId'], $orderInfo['price'] / Constants::CENT, $weiXinConfig['wxAppId'],
                     $weiXinConfig['wxMchId'], $weiXinConfig['wxPayKey'], $taskResult['name'], $taskResult['name'], $taskResult['name']);
                 break;
             case Constants::WEI_XIN_JS_TRADE:
                 $weiXinConfig = Yii::$app->params['jsApi'];
-                $result = WeiXinPay::weiXinJsPay($user['openId'], $orderInfo['orderId'], $orderInfo['price'], $weiXinConfig['wxAppId'],
+                $result = WeiXinPay::weiXinJsPay($user['openId'], $orderInfo['orderId'], $orderInfo['price'] / Constants::CENT, $weiXinConfig['wxAppId'],
                     $weiXinConfig['wxMchId'], $weiXinConfig['wxPayKey'], $taskResult['name'], $taskResult['name'], $taskResult['name']);
                 break;
         }

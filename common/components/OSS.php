@@ -108,4 +108,24 @@ class OSS extends Component
         $ext = isset($info['extension']) ? ("." . $info['extension']) : "";
         return $dir . date("/Y/m/d/H/is", time()) . '_' . rand(1000, 9999) . $ext;
     }
+
+    /**
+     *
+     * 使用阿里云oss上传文件
+     * @param string $filePath 文件在本地的绝对路径
+     * @param string $fileName 保存到阿里云oss的文件名
+     * @param $dir
+     * @param $bucket
+     * @return string
+     * @throws \app\common\extensions\OSS\Core\OssException
+     */
+    public function uploadExtend($filePath, $fileName, $dir, $bucket)
+    {
+        $object = self::filePath($fileName, $dir);
+        $res = '';
+        if (self::$oss->uploadFile($bucket, $object, $filePath)) {  //调用uploadFile方法把服务器文件上传到阿里云oss
+            $res = "http://" . $bucket . "." . Yii::$app->params['oss']['endPoint'] . "/" . $object;
+        }
+        return $res;
+    }
 }

@@ -50,11 +50,12 @@ class Video extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->select("id,userId,startTime,endTime,identifyYellow,isLive")->asArray()
+        $result = $find->select("id,userId,roomId,startTime,endTime,identifyYellow,isLive")->asArray()
             ->orderBy('created desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])
             ->all();
+
         foreach ($result as $k => $value) {
             $yellow = json_decode($value['identifyYellow'], true);
             $result[$k]['yellowurl'] = "http://" . $yellow['OssBucket'] . "." . $yellow['OssEndpoint'] . "/" . $yellow['OssObject'];
@@ -79,47 +80,122 @@ class Video extends ActiveRecord
     public static function queryHot($params)
     {
         $offset = 0;
-        $userId = '';
-        $userInfo = [];
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
-        $find = static::find();
-        $find = self::buildParams($find, $params);
-        $result = $find->select('id,userId,startTime,imgSrc,remark as title,isLive,viewerNum')
-            ->asArray()
-            ->orderBy('viewerNum desc')
-            ->offset($offset)
-            ->limit($params['defaultPageSize'])
-            ->all();
+        $find = Yii::$app->db;
+        if (isset($params['type'])) {
+            switch ($params['type']) {
+                case 0:
+                    $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum,video.type as `type` from ' . static::tableName() . ' as video '
+                        . ' where video.isLive = 1 and video.userId not in ('
+                        . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by viewerNum desc';
+                    $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
+                    break;
+                case 1:
+                    $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum,video.type as `type` from ' . static::tableName() . ' as video '
+                        . ' where video.isLive = 1 and video.userId = ' . $params['userId'] . ' and video.userId not in ('
+                        . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by viewerNum desc';
+                    $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
+                    break;
+            }
+        } else {
+            $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum,video.type as `type` from ' . static::tableName() . ' as video '
+                . ' where video.isLive = 1 and video.userId not in ('
+                . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by viewerNum desc';
+            $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
+        }
+        $result = $find->createCommand($sql)->queryAll();
+        return static::processLiveInfo($result);
+    }
+
+    /**
+     * 计算记录总数
+     *
+     * @param $params
+     * @return int
+     * @throws \yii\db\Exception
+     */
+    public static function querySqlInfoNum($params)
+    {
+        $find = Yii::$app->db;
+        $sql = 'select video.id as id from ' . static::tableName() . ' as video '
+            . ' where video.isLive = 1 and video.userId not in ('
+            . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ')';
+        return count($find->createCommand($sql)->queryAll());
+    }
+
+    /**
+     * 最新
+     *
+     * @param $params
+     * @return mixed
+     * @throws \yii\db\Exception
+     */
+    public static function queryLatest($params)
+    {
+        $offset = 0;
+        if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
+            $offset = ($params['page'] - 1) * $params['defaultPageSize'];
+        }
+//        $find = static::find();
+//        $find = self::buildParams($find, $params);
+//        $result = $find->select('id,userId,roomId,startTime,imgSrc,remark as title,isLive,viewerNum')
+//            ->asArray()
+//            ->orderBy('startTime desc')
+//            ->offset($offset)
+//            ->limit($params['defaultPageSize'])
+//            ->all();
+
+        $find = Yii::$app->db;
+        $sql = 'select video.id as id,video.userId as userId,video.roomId as roomId,video.startTime as startTime,
+video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewerNum as viewerNum,video.type from ' . static::tableName() . ' as video '
+            . ' where video.isLive = 1 and video.userId not in ('
+            . 'select userId from ' . Blacklist::tableName() . ' where blacklistUserId = ' . $params['userId'] . ' and status = 1' . ') order by startTime desc';
+        $sql .= ' limit ' . $offset . ',' . $params['defaultPageSize'];
+        $result = $find->createCommand($sql)->queryAll();
+        return static::processLiveInfo($result);
+    }
+
+    /**
+     * @param $result
+     * @param bool $isPlayback
+     * @return mixed
+     * @throws \yii\db\Exception
+     */
+    public static function processLiveInfo($result, $isPlayback = false)
+    {
+        $userId = '';
+        $userInfo = [];
         foreach ($result as $key => $value) {
             $userId .= $value['userId'] . ',';
         }
         if (!empty($userId)) {
-            $sql = 'select id,avatar,nickName,level,description from '
+            $sql = 'select id,avatar,nickName,level,description,roomId from '
                 . User::tableName() . ' where id in(' . trim($userId, ',') . ')';
             $userInfo = static::queryBySQLCondition($sql);
         }
         foreach ($result as $key => $value) {
-            $result[$key]['pullRtmp'] = CdnUtils::getPullUrl($value['id']);
+            $result[$key]['pullRtmp'] = CdnUtils::getPullUrl($isPlayback ? $value['roomId'] : $value['id']);
             $result[$key]['startTime'] = date('Y.m.d H:i', $value['startTime']);
             $flag = true;
             foreach ($userInfo as $userKey => $userValue) {
                 if ($value['userId'] == $userValue['id']) {
-                    $result[$key]['avatar'] = $userValue['avatar'];
+                    $result[$key]['avatar'] = !empty($userValue['avatar']) ? $userValue['avatar'] : Yii::$app->params['defaultAvatar'];
                     $result[$key]['nickName'] = $userValue['nickName'];
                     $result[$key]['level'] = intval($userValue['level']);
                     $result[$key]['description'] = $userValue['description'];
-                    $result[$key]['roomId'] = $result[$key]['id'];
                     $flag = false;
                 }
             }
             if ($flag) {
-                $result[$key]['avatar'] = '';
+                $result[$key]['avatar'] = Yii::$app->params['defaultAvatar'];
                 $result[$key]['nickName'] = '';
                 $result[$key]['level'] = 0;
                 $result[$key]['description'] = '';
-                $result[$key]['roomId'] = '0';
             }
         }
         return $result;
@@ -136,7 +212,7 @@ class Video extends ActiveRecord
     {
         if (!empty($params['name'])) $params['name'] = trim($params['name']);
         if (!empty($params['name'])) {
-            $find->andWhere(['like', 'name', $params['name']]);
+            $find->andWhere(['like', 'name', addslashes($params['name'])]);
         }
         if (!empty($params['type']) && $params['type'] == self::TYPE_LIVE) {
             $find->andWhere('videoSrc=""');
@@ -154,28 +230,55 @@ class Video extends ActiveRecord
         if (isset($params['isLive'])) {
             $find->andWhere(['isLive' => $params['isLive']]);
         }
+
+        if (!empty($params['roomId'])) {
+            $find->andWhere(['like', 'roomId', intval($params['roomId'])]);
+        }
+
+        if (!empty($params['startTime'])) {
+            $find->andWhere(['>=', 'startTime', strtotime($params['startTime'])]);
+        }
+        if (!empty($params['endTime'])) {
+            $find->andWhere(['<=', 'endTime', strtotime($params['endTime'])]);
+        }
+        if (!empty($params['id'])) {
+            $find->andWhere('id="' .intval($params['id']).'"');
+        }
         return $find;
     }
 
     public static function findLastRecord($userId, $roomId)
     {
         return static::find()
-            ->where(['userId' => $userId, 'id' => $roomId])
+            ->where(['userId' => $userId, 'roomId' => $roomId])
 //            ->andWhere(['>', 'endTime', time() - 60])
             ->orderBy('endTime desc')
             ->one();
     }
 
-    //直播开始
-    public static function create($userId, $roomId, $remark = '', $imgSrc = '')
+    /**
+     * 开始直播
+     *
+     * @param $userId
+     * @param $roomId
+     * @param string $remark
+     * @param string $imgSrc
+     * @param float $longitude
+     * @param float $latitude
+     * @return mixed
+     */
+    public static function create($userId, $roomId, $remark = '', $imgSrc = '', $longitude = 0.0, $latitude = 0.0,$type)
     {
         $model = new self();
         $model->userId = $userId;
-//        $model->roomId = $roomId;
+        $model->roomId = $roomId;
         $model->startTime = time();
         $model->endTime = time();
         $model->imgSrc = $imgSrc;
         $model->remark = $remark;
+        $model->longitude = $longitude;
+        $model->latitude = $latitude;
+        $model->type = $type;
         $model->created = time();
         $model->updated = time();
         $model->save();
@@ -214,7 +317,7 @@ class Video extends ActiveRecord
         $result = $find->select('id,userId,roomId,isLive,updated')->orderBy('startTime desc')->all();
         $time = time();
         foreach ($result as $key => $value) {
-            if (($time - $value->updated) > 20) {
+            if (($time - $value->updated) > 10) {
                 $value->isLive = 0;
                 $value->save();
             }
@@ -229,10 +332,8 @@ class Video extends ActiveRecord
      */
     public static function terminationLive($liveId, $userId)
     {
-        ll($liveId,__FUNCTION__.'.log');
         $sql = 'update ' . static::tableName()
             . ' set isLive = 0,endTime=' . time() . ',updated=' . time() . ' where id = ' . $liveId;
-        ll($sql,__FUNCTION__.'.log');
         return static::updateBySqlCondition($sql);
     }
 
@@ -325,4 +426,31 @@ class Video extends ActiveRecord
         $model->identifyYellow = json_encode($params);
         return $model->save();
     }
+
+    //通过userId查询直播记录
+    public static function queryInfoByUserId($userId)
+    {
+        $sql = "SELECT * FROM " . static::tableName() . " WHERE userId={$userId}";
+        $result = static::queryBySQLCondition($sql);
+        return $result;
+    }
+
+    public static function JianYellowById($id)
+    {
+        $find = static::find();
+        $find->andWhere('id=' . $id);
+        $result = $find->select("id,userId,roomId,startTime,endTime,identifyYellow,isLive")->asArray()
+            ->one();
+        $yellow = json_decode($result['identifyYellow'], true);
+        $result['yellowurl'] = "http://" . $yellow['OssBucket'] . "." . $yellow['OssEndpoint'] . "/" . $yellow['OssObject'];
+        $result['information'] = array(
+            'Label' => $yellow['Result'][0]['Result'][0]['Label'],
+            'Rate' => $yellow['Result'][0]['Result'][0]['Rate'],
+            'Scene' => $yellow['Result'][0]['Result'][0]['Scene'],
+            'Suggestion' => $yellow['Result'][0]['Result'][0]['Suggestion']
+        );
+        unset($result['identifyYellow']);
+        return $result;
+    }
+
 }

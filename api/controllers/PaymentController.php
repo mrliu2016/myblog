@@ -29,7 +29,7 @@ class PaymentController extends BaseController
     public function actionWeiXinAppPay()
     {
         $params = Yii::$app->request->post();
-        $params['price'] = 0.01;
+        $params['price'] = 1 ;
         $params['userId'] = 100002;
         $result = Payment::weiXinPay($params,Constants::WEI_XIN_APP_TRADE);
         if ($result['code'] == Constants::CODE_FAILED) {

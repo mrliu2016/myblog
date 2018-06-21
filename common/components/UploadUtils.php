@@ -2,6 +2,8 @@
 
 namespace app\common\components;
 
+use Yii;
+
 class UploadUtils
 {
 
@@ -19,7 +21,7 @@ class UploadUtils
         //设置上传文件大小
         $upload->maxSize = 3145728;
         //设置上传文件类型
-        $upload->exts = \Yii::$app->params['imageExt'];
+        $upload->exts = Yii::$app->params['imageExt'];
         //设置附件上传目录
         $upload->savePath = isset($param['savePath']) ? $param['savePath'] : static::savePath(); // 设置附件上传（子）目录
         $upload->autoSub = false; //是否生成日期文件夹
@@ -51,6 +53,20 @@ class UploadUtils
                 $_FILES[$key]['savePath'] = static::savePath();
             }
         }
+    }
+
+    /**
+     * 返回图片地址
+     *
+     * @return string
+     */
+    public static function getUploadFileUrlByOne()
+    {
+        foreach ($_FILES as $key => $value) {
+            return str_replace($_SERVER['DOCUMENT_ROOT'],
+                    $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'], $value['savePath']) . $value['name'];
+        }
+        return '';
     }
 
     /**
