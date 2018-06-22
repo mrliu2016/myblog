@@ -1074,7 +1074,7 @@ class LiveService
                     $server->push($fd, $respondMessage);
                 }
                 if (YII_DEBUG) {
-                    ll(var_export(array_merge($mergeRespondMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
+//                    ll(var_export(array_merge($mergeRespondMessage, array("fd" => $fd)), true), 'webSocketMessage.log');
                 }
             } catch (\Exception $ex) {
                 ll(var_export(array_merge(['codeMessage' => $ex->getMessage()], array("fd" => $fd)), true), 'webSocketMessage.log');
@@ -1130,7 +1130,7 @@ class LiveService
     public static function webSocketLog($message, $fileName, $isRecord = false)
     {
         if ($isRecord) {
-            ll($message, $fileName);
+//            ll($message, $fileName);
         }
     }
 
