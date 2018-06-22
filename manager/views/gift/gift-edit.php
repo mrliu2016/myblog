@@ -156,7 +156,7 @@ $this->title = '礼物管理';
 
     $(".s-robot-form_headimg-close").unbind('click').bind("click",function(){
         $("#profileButton1").outerHTML = $("#profileButton1").outerHTML;
-        $("#headImg").attr('src','http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png');
+        $("#headImg").attr('src','http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png');
         $(".s-robot-form_headimg-close").css("display","none");
         $("#uploadType").val(1);
     });

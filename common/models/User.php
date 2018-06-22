@@ -630,10 +630,10 @@ class User extends ActiveRecord
     //编辑机器人
     public static function editRobot($params)
     {
-
         $model = static::find()->andWhere(['id' => $params['id']])->one();
         $model->nickName = trim($params['nickName']);
         $model->sex = intval($params['sex']);
+        $model->avatar = $params['avatar'];
         $model->description = trim($params['description']);
         $model->roomId = static::generateId();
         $model->province = trim($params['province']);

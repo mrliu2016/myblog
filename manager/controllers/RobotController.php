@@ -89,10 +89,16 @@ class RobotController extends BaseController{
 
         if(Yii::$app->request->post()){//编辑保存
             $params = Yii::$app->request->post();
-            if (!empty($_FILES['imgSrc']['tmp_name'])) {
-                $src = (new OSS())->upload($_FILES['imgSrc']['tmp_name'], $_FILES['imgSrc']['name'], 'gift');
+            $src = '';
+            if(!empty($params['uploadType']) && $params['uploadType'] ==1){
+                $src = $params['img'];
             }
-            $params['imgSrc'] = $src;
+            else{
+                if (!empty($_FILES['imgSrc']['tmp_name'])) {
+                    $src = (new OSS())->upload($_FILES['imgSrc']['tmp_name'], $_FILES['imgSrc']['name'], 'gift');
+                }
+            }
+            $params['avatar'] = $src;
             if(User::editRobot($params)){
 //                Yii::$app->getResponse()->redirect('/robot/list');
                 Yii::$app->getResponse()->redirect('/robot/index');
