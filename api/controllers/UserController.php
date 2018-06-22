@@ -388,7 +388,7 @@ class UserController extends BaseController
     //判断该用户是否已认证
     public function actionCheckAuth()
     {
-        $params = Yii::$app->request->post();
+        $params = Yii::$app->request->get();
         if (empty($params['userId'])) {
             $this->jsonReturnError(Constants::CODE_FAILED, '参数错误', []);
         }
