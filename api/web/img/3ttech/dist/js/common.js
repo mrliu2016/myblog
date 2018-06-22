@@ -20,6 +20,8 @@ var chattool = $(".chat-tool"),
     download = $(".download"),
     totalnumber = $("#total_number");
 var disturl = public;
+
+
 var Ctrfn = {
     wxPay: function () {
         var re = /^[1-9]+[0-9]*]*$/;
@@ -38,7 +40,7 @@ var Ctrfn = {
         }
         $.post(
             'weixinpay',
-            {uid: User.id, num: money},
+            {uid: userInfo.userId, num: money},
             function (data) {
                 if (parseInt(data.error_code) == 0) {
                     WeixinJSBridge.invoke(
@@ -109,39 +111,32 @@ var Ctrfn = {
         $("#message").focus();
         $(document).one("click", function () {
             $(".chat_input").hide();
-            $(".chat_barrage ").removeClass("animte");
+            $(".chat_barrage").removeClass("animte");
             fly = ""
             chattool.show();
         });
         e.stopPropagation();
     },
-//    //点击发送信息设置
-    onmessage: function (url) {
+   //点击发送信息设置
+    onmessage: function () {
         if ($("#message").val() == "") {
             Txbb.Pop('toast', '消息不能为空...', 'center');
             return;
         }
-        if (User) {
-            this.flymsgfn(url);
+        if (userInfo) {
+            this.flymsgfn();
         } else {
             $("#weui_dialog_alert").show();
         }
     },
-    flymsgfn: function (url) {
-        if (fly == "FlyMsg") {
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: {"token": User.token, "roomid": room_id, "content": $("#message").val()},
-                dataType: 'json',
-                success: function (data) {
-                    $(".bglance_money").text(Number($(".bglance_money").text()) - 100);
-                }
-            });
-        } else {
-            SocketIO._chatMessage($("#message").val());
+    flymsgfn: function () {
+
+        var fly = 0;
+        if($(".chat_barrage").hasClass('animte')){
+            fly = 1;
         }
-        $("#message").val("").focus();
+         SocketIO._chatMessage($("#message").val(),fly);
+         $("#message").val("").focus();
     },
     init_screen: function () {
         var _top = 0;
@@ -223,42 +218,27 @@ var Ctrfn = {
             Txbb.Pop('toast', '请选择礼物...');
             return;
         }
-        this.giftsuccess(url, money, giftid, red_val);
+        this.giftsuccess(giftid,giftmoney,giftname,giftimg, count);
         giftid = '';
     },
-    giftsuccess: function (url, money, giftid, red_val) {
+    giftsuccess: function (giftId,giftmoney,giftname,giftimg,count) {
         //成功发送红包
-        var html = '';
-        var sred_val = rednumber.val();
-        var red_number = sred_val * giftmoney;
-        $.ajax({
-            type: "POST",
-            url: url,
-            dataType: 'json',
-            data: {
-                gift_id: giftid,
-                count: red_val,
-                to_uid: to_uid,
-                token: User.token
-            },
-            success: function (data) {
-                bglancemoney.text(money - red_number + '.00');
-                $(".total_money span").text(money - red_number + '.00');
-                $(".swiper-slide > div").attr("data-tag", "1");
-                rednumber.val('1');
-                $(".sel").remove();
-                $(".red_alert").hide();
-                $(".chat_gift").hide();
-                chattool.show();
-                Txbb.Pop('toast', '礼物发送成功');
+        var params = {};
+        params.giftId = giftId;
+        params.price = giftmoney;
+        params.num = count;
+        params.giftName = giftname;
+        params.giftImg = giftimg;
+        params.giftLevel = 1;
+        params.isFire = 0;
 
-            }
-        })
+        SocketIO._sendGift(params);
+        $("#red_alert").css("display","none");
+        $(".sel").remove();
     },
     gifthert: function () {
         var images = [], id = 0, confirm = true, num = 20, max = 2, loopNum = 0, speed = 30, timer = null;
         timer = setInterval(loop, speed);
-
         function loop() {
             if (images.length <= num && confirm) {
                 var image = new Image(100, 60, ++id);
@@ -276,7 +256,6 @@ var Ctrfn = {
                 var image = images[i];
                 if (image.opacity < 0) {
                     $("#" + image.id).remove();
-                    // console.log(images[i].id);
                     images.shift();
                 }
                 image.frameskip();
@@ -515,8 +494,9 @@ var Ctrfn = {
     },
     giftTool: function () {
         userinfocon.hide();
-        $(".chat_gift").css({"opacity": "1", "z-index": "11", "display": "block"});
+        $(".chat_gift").css({"opacity": "1", "z-index": "11", "display": "block"}); //充值
         chattool.hide();
+
         $(".section1,.section2").click(function (e) {
             var target = $(e.target);
             //点击其他地方隐藏礼物列表
@@ -527,8 +507,8 @@ var Ctrfn = {
                 $(".sel").remove();
                 giftid = '';
             }
-
         });
+
     },
     //关闭充值弹框
     closeCzhi: function () {
@@ -561,7 +541,7 @@ var Ctrfn = {
             dataType: 'json',
             data: {"user_id": user_id},
             success: function (data) {
-                console.log(1, data);
+                // console.log(1, data);
                 var info = {
                     wealth: data.data['sum_coin'],
                     list: data.data['list']
@@ -574,7 +554,6 @@ var Ctrfn = {
     },
     userpicBtn: function (objbtn, url) {
         var user_id = objbtn.attr("user_id");
-        console.log(user_id);
         if (userinfocon.is(":hidden")) {
             $.ajax({
                 url: url,
