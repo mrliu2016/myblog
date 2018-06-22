@@ -80,7 +80,7 @@ class LiveService
         $num = $param["num"];
         $nickName = $param["nickName"];
         $avatar = $param["avatar"];
-        $level  = $param["level"];
+        $level = $param["level"];
         $isFire = $param["isFire"];
         $balance = $redis->hget(Constants::WS_USER_BALANCE, $userId);
         $balance = $balance - $price * $num;
@@ -139,7 +139,7 @@ class LiveService
             'price' => $price,
             'num' => $num,
             'income' => static::computeUnit(static::masterIncome($userIdTo, $roomId)),
-            'isFire'=> $isFire
+            'isFire' => $isFire
         ];
         $tmpStartTime = microtime(true);
         $roomAll = LiveService::fdListByRoomId($server, $roomId);
@@ -932,6 +932,18 @@ class LiveService
         } else {
             static::leave($fd, $roomId);
         }
+        if (static::isLMUser($server, null, ['userId' => $userId, 'roomId' => $roomId, 'role' => $roleId])) {
+            $masterUserInfo = static::getMasterUserinfo($roomId);
+            $responseMessage = [
+                'data' => [
+                    'adminUserId' => $masterUserInfo['userId'],
+                    'userId' => $userId,
+                    'roomId' => $roomId,
+                    'role' => $roleId
+                ]
+            ];
+            static::forwardingCloseCallLMPushMaster($server, null, $responseMessage, Constants::MESSAGE_TYPE_CLOSE_CALL_RES);
+        }
     }
 
     /**
@@ -1019,6 +1031,25 @@ class LiveService
             ];
             $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
+    }
+
+    /**
+     * 是否连麦用户
+     *
+     * @param $server
+     * @param $frame
+     * @param $params
+     * @return bool
+     */
+    private static function isLMUser($server, $frame, $params)
+    {
+        $wsIp = self::getWsIp($params['roomId']);
+        $redis = RedisClient::getInstance();
+        $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $params['roomId'];
+        if ($redis->hexists($key, $params['userId'])) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -1368,5 +1399,27 @@ class LiveService
             }
         }
         return !empty($result) ? $result : '00:00';
+    }
+
+    /**
+     * 获取主播信息
+     *
+     * @param $roomId
+     * @return array|mixed
+     */
+    private static function getMasterUserinfo($roomId)
+    {
+        $item = [];
+        $redis = RedisClient::getInstance();
+        $wsIp = static::getWsIp($roomId);
+        $key = Constants::WS_ROOM_USER . $wsIp . '_' . $roomId;
+        $userInfo = $redis->hGetAll($key);
+        foreach ($userInfo as $key => $value) {
+            $item = json_decode($value, true);
+            if ($item['role'] == Constants::WS_ROLE_MASTER) {
+                return $item;
+            }
+        }
+        return $item;
     }
 }
