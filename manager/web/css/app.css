@@ -4129,11 +4129,11 @@ body {
   padding: 70px 0 20px;
   -webkit-overflow-scrolling: touch;
 }
-@media only screen and (min-width: 992px) {
-  .main-container {
+
+.main-container {
     margin-left: 240px;
-  }
 }
+
 .main-container > section {
   min-height: calc(100% - 60px);
 }
