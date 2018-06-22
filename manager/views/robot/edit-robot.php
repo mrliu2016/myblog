@@ -26,7 +26,18 @@ $this->title = '机器人管理';
                 <img src="" class="s-robot-form_selectimg-icon2" id="selectImg1">
                 <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
             </div>
-            <img class="s-robot-form_headimg" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像">
+
+            <?php if(!empty($item['imgSrc'])):?>
+                <input type="hidden" name="img" value="<?=$item['imgSrc']?>">
+                <img class="s-robot-form_head-img" src="<?=$item['imgSrc']?>" alt="用户头像" id="headImg">
+                <div class="s-robot-form_headimg-close" style="display: block;"></div>
+            <?php else:?>
+                <input type="hidden" name="img" value="http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png">
+                <img class="s-robot-form_head-img" src="http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png" alt="用户头像" id="headImg">
+                <div class="s-robot-form_headimg-close" style="display: none;"></div>
+            <?php endif;?>
+            <input type="hidden" id="uploadType" value="1" name="uploadType">
+            <!--<img class="s-robot-form_headimg" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像">-->
             <div class="s-robot-form_img-tips">
                 <p>图片格式：JPG、JPEG、PNG</p>
                 <p>图片大小：小于一M</p>
@@ -40,7 +51,7 @@ $this->title = '机器人管理';
             </p>
             <p class="c-form_item">
                 <span class="c-form_item-title">昵称：</span>
-                <input class="c-input c-form_item-input" placeholder="0-10个字符长度" id="nickName" name="nickName"/>
+                <input class="c-input c-form_item-input" placeholder="0-10个字符长度" id="nickName" name="nickName" autocomplete="off"/>
             </p>
             <p class="c-form_item">
                 <span class="c-form_item-title">性别：</span>
@@ -71,22 +82,22 @@ $this->title = '机器人管理';
             </p>
             <p class="c-form_item">
                 <span class="c-form_item-title">关注数：</span>
-                <input class="c-input c-form_item-input" id="followees_cnt" name="followees_cnt"/>
+                <input class="c-input c-form_item-input" id="followees_cnt" name="followees_cnt"  autocomplete="off"/>
             </p>
             <p class="c-form_item">
                 <span class="c-form_item-title">粉丝数：</span>
-                <input class="c-input c-form_item-input" id="followers_cnt" name="followers_cnt"/>
+                <input class="c-input c-form_item-input" id="followers_cnt" name="followers_cnt"  autocomplete="off"/>
             </p>
             <p class="c-form_item">
                 <span class="c-form_item-title">收到礼物：</span>
                 <span class="s-robot-form_receive-wrap">
-                        <input class="c-input c-form_item-input s-robot-form_receive" id="receivedGift" name="receivedGift"/>
+                        <input class="c-input c-form_item-input s-robot-form_receive" id="receivedGift" name="receivedGift"  autocomplete="off"/>
                     </span>
             </p>
             <p class="c-form_item">
                 <span class="c-form_item-title">送出礼物：</span>
                 <span class="s-robot-form_give-wrap">
-                        <input class="c-input c-form_item-input s-robot-form_give" id="sendGift" name="sendGift"/>
+                        <input class="c-input c-form_item-input s-robot-form_give" id="sendGift" name="sendGift"  autocomplete="off"/>
                     </span>
             </p>
             <p class="c-form_item">
@@ -113,68 +124,37 @@ $this->title = '机器人管理';
     </div>
 </div>
 
+<!--提示框-->
+<div id="tip_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text"></span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $("#confirm").click(function(){
-
         var fileEl = $('#profileButton1');
         if (typeof(fileEl[0].files[0])=='undefined'){
             fileEl[0].focus();
-            alert("请选择头像");
+            tip("请选择头像")
             event.preventDefault();
-            return;
+            return false;
         }
-
-        var id = $("#id").val();
         var nickName = $("#nickName").val();
-        var sex = $("#sex").val();
-        var province = $("#province").val();
-        var city = $("#city").val();
-        var followees_cnt = $("#followees_cnt").val();
-        var followers_cnt = $("#followers_cnt").val();
-        var receivedGift = $("#receivedGift").val();
-        var sendGift = $("#sendGift").val();
-        var description = $("#description").val();
-
-        // if(name == undefined || name == '' || name == null || name.length >5){
-        //     alert('请输入正确的礼物名称.');
-        //     return false;
-        // }
-        // if(parseFloat(price).toString() == "NaN"){
-        //     alert('请输入正确的礼物价格.');
-        //     return false;
-        // }
-
-        var params  = {};
-        params.id = id;
-        params.nickName  = nickName;
-        params.sex  = sex;
-        params.province = province;
-        params.city = city;
-        params.followees_cnt = followees_cnt;
-        params.followers_cnt = followers_cnt;
-        params.receivedGift = receivedGift;
-        params.sendGift = sendGift;
-        params.description = description;
-
-        // $.ajax({
-        //     url: "/robot/edit-robot",
-        //     type: "post",
-        //     data: params,
-        //     dataType: "json",
-        //     success: function (data) {
-        //         if(data != undefined && data.code == 0){
-        //             window.location.href='/robot/list';
-        //         }
-        //         else{
-        //             alert('编辑失败！');
-        //         }
-        //     }
-        // });
-
+        if(nickName=="" || nickName.length>10){
+            tip("请输入0-10个字符长度的昵称！");
+            return false;
+        }
         $("#robotForm").attr("action","/robot/edit-robot");
         $("#robotForm").submit();
-
-
     });
     $(".cancel").click(function () {
         $("#name").val("");
@@ -200,7 +180,7 @@ $this->title = '机器人管理';
 
                 };
                 reader.readAsDataURL(file);
-
+                $("#uploadType").val(2);
             } else {
                 $(".showintro").click();
             }
@@ -218,18 +198,25 @@ $this->title = '机器人管理';
 
     $(".s-robot-form_headimg-close").unbind('click').bind("click",function(){
         $("#profileButton1").outerHTML = $("#profileButton1").outerHTML;
-        $("#headImg").attr('src','http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png');
-        $(".s-robot-form_headimg-close").css("display","none")
+        $("#headImg").attr('src','http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png');
+        $(".s-robot-form_headimg-close").css("display","none");
+        $("#uploadType").val(1);
     })
 
     $(".delete-img").on("click",function(){
         $("#profileButton1").outerHTML = $("#profileButton1").outerHTML;
         // $("#selectImg1").attr('src','/img/course/coverimg.png');
         $("#headImg").attr('src','/img/course/coverimg.png');
-
-        $(".delete-img").css("display","none")
-
-    })
+        $(".delete-img").css("display","none");
+    });
+    //提示框
+    function tip(message){
+        $("#tip_frame").css("display","block");
+        $(".s-banlive-confirm-text").text(message);
+        $(".s-banlive-confirm").unbind('click').bind('click',function () {
+            $("#tip_frame").css("display","none");
+        });
+    }
 </script>
 
 
