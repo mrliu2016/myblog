@@ -27,6 +27,7 @@ class WapController extends BaseController
         }
         $webSocket = LiveService::serverInfo(['roomId' => $params['streamId']]);
         return $this->render('index', [
+            'masterUserId' => $masterUserInfo['userId'],
             'masterUserInfo' => [
                 'userId' => $masterUserInfo['userId'],
                 'balance' => intval($masterUserInfo['balance']),

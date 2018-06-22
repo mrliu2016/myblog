@@ -14,9 +14,11 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
     var webSocket = '<?= $webSocket ?>';
     var public = '/img/3ttech/dist/';
     var IMG_PATH = '/stylebak';
+    var masterUserId = JSON.parse('<?= json_encode($masterUserId) ?>');
     var masterUserInfo = JSON.parse('<?= json_encode($masterUserInfo) ?>');
     var userInfo = JSON.parse('<?= json_encode($userInfo) ?>');
     var streamId = <?= $streamId['streamId'] ?>;
+    var room_id =masterUserInfo.roomId;
     var fly = "";
 
     var myPlayer;
@@ -61,7 +63,7 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
             </div>
             <!--<div class="jw-preview jw-reset" style="background-image: url('{$user['head_url']}')"></div>-->
             <div class="jw-preview jw-reset"
-                 style="background: url(/img/3ttech/dist/images/live_background.png);background-size: 100% 100%;"></div>
+                 style="background: url('/img/3ttech/dist/images/live_background.png');background-size: 100% 100%;"></div>
         </div>
         <script type="text/javascript">
             $("#videoHLS").height(h);
@@ -295,8 +297,8 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
     <article class="swiper-slide">
         (*each giftlist as value key*)
         (*if key>=(k)*8&&key<=(k+1)*8-1 *)
-        <div data-id="(*value.id*)" data-giftname="(*value.giftname*)">
-            <img src="(*value.gifticon*)" data-money="(*value.needcoin*)">
+        <div data-id="(*value.id*)" data-giftname="(*value.name*)" class="gift-icon">
+            <img src="(*value.imgSrc*)" data-money="(*value.price*)">
             <p>(*value.needcoin*)</p>
         </div>
         (*/if*)
@@ -451,7 +453,6 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
     $("#more-btn").click(function (e) {
         Ctrfn.moreBtn();
     })
-
     //弹幕
     $(".chat_barrage span").click(function () {
         if ($(this).parent().hasClass("animte")) {
@@ -462,11 +463,11 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
             $("#message").val("").focus();
             fly = "FlyMsg"
         }
-    })
+    });
+    //发送弹幕消息
     $("#chat").click(function () {
-        var url = '__ROOT__/OpenAPI/v1/Gift/sendBarrage'
-        Ctrfn.onmessage(url);
-    })
+        Ctrfn.onmessage();
+    });
     var focusstatus = 0;
     $(document).on("click", ".user_followed", function () {
         if ($.trim($(this).text()) == '已关注') {
@@ -526,9 +527,12 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
 
     //点击礼物tool
     $("#gift-btn").click(function () {
-        1 ? Ctrfn.giftTool() : $("#weui_dialog_alert").show();
-    })
 
+        // 1 ? Ctrfn.giftTool() : $("#weui_dialog_alert").show();
+        // $("#giftlist").show();
+        1 ? Ctrfn.giftTool() : $("#weui_dialog_alert").show();
+
+    })
     //阻止事件冒泡
     $(".chat_input").click(function (e) {
         e.stopPropagation();
@@ -546,11 +550,24 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
     //        Ctrfn.charmval(objbtn,url);
     //    })
 
-    //点击发送禮物
-    $(".red_btn").click(function () {
-        var url = '__ROOT__/OpenAPI/V1/Gift/send';
+    //点击礼物
+    // $(document).on("click", ".swiper-slide > div", function (e) {
+    //     // alert(1)
+    //     var objbtn = $(this);
+    //     Ctrfn.giftBtn(objbtn);
+    // });
+
+    $(document).on("click",".gift-icon",function(e){
+        var objbtn = $(this);
+        Ctrfn.giftBtn(objbtn);
+    });
+
+    //点击发送礼物
+    $(".red_btn").unbind('click').bind('click',function () {
+        // var url = '__ROOT__/OpenAPI/V1/Gift/send';
+        var url = "ws://127.0.0.1:9502";
         Ctrfn.sendBtn(url);
-    })
+    });
 
     //点击关注
     //    $(document).on("click",".user_followed",function(){
@@ -569,11 +586,7 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
         $('#weui_dialog_alert').css('display', 'none');
     }
 
-    //点击礼物
-    $(document).on("click", ".swiper-slide > div", function (e) {
-        var objbtn = $(this);
-        Ctrfn.giftBtn(objbtn);
-    })
+
 
     //红包个数发生改变时
     var red_val = '';
@@ -583,6 +596,50 @@ $this->title = $masterUserInfo['nickName'] . '的直播间';
     })
 
     //加载礼物tool
+    $(function(){
+        var url = "http://lhz.api.live.3ttech.cn/gift/list?userId="+masterUserInfo.userId+"&page=1&size=20";
+        // console.log(params);
+
+        $.ajax({
+            url:url,
+            type: 'get',
+            // data:params,
+            dataType: 'json',
+            success: function(data) {
+                // console.log(data);
+                if(data.code == 0){
+                    var json=eval(data);
+                    // console.log(json.data.length)
+                    var pagenum=Math.ceil(json.data.length/8);
+                    // console.log(pagenum);
+                    var num=[];
+                    for(var i=1;i<pagenum;i++){
+                        num[i]=i;
+                    }
+                    // console.log(num);
+                    var gift = {
+                        giftlist: json.data,
+                        pagenum:num,
+                    };
+                    // console.log(gift);
+                    var html = template('giftlist', gift);
+                    // console.log(html);
+                    document.getElementById('swiper-wrapper').innerHTML = html;
+
+                    //礼物列表切换
+                    var swiper = new Swiper('.swiper-container', {
+                        pagination: '.swiper-pagination',
+                        paginationClickable: true,
+                        observer: true,
+                        observeParents: true
+                    });
+                }
+
+            }
+        });
+    });
+    //加载礼物end
+
 
     //滑动清屏
     var viewport = document.getElementById("touchbox");

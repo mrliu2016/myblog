@@ -73,19 +73,6 @@ var SocketIO = {
             SocketIO._wbSocket.send(JSON.stringify(message));
         }, 10000);
     },
-
-    _chatMessage: function (msg) {
-        var data = {};
-        data._method_ = "SendPubMsg";
-        data._type_ = "flyMsg";
-        data.fly = fly;
-        data.levelid = User.level;
-        data.content = msg;
-        data.client_name = User.nickname;
-        SocketIO._sendMsg(JSON.stringify(data));
-        console.log(data.levelid);
-    },
-
     _sendMsg: function (msgBuf) {
         if (msgBuf != null && msgBuf != 'undefined') {
             SocketIO._wbSocket.send(msgBuf);
@@ -93,16 +80,13 @@ var SocketIO = {
             console.log('发送消息为空!');
         }
     },
-
     /**
      * 响应 webSocket 消息
-     *
      * @param response
      * @private
      */
     _msgReceive: function (response) {
-        var message = JSON.parse(response.data);
-        console.log(message);
+        var message = JSON.parse(response.data);;
         switch (message.messageType) {
             case MESSAGE_TYPE_JOIN_RES:
                 break;
@@ -116,17 +100,56 @@ var SocketIO = {
                 break;
             case MESSAGE_TYPE_GAG_RES:
                 break;
-            case MESSAGE_TYPE_BARRAGE_RES:
+            case MESSAGE_TYPE_BARRAGE_RES://弹幕
+                console.log(message);
                 break;
-            case MESSAGE_TYPE_GIFT_RES:
+            case MESSAGE_TYPE_GIFT_RES://礼物
+                console.log(message);
                 break;
             case MESSAGE_TYPE_GIFT_NOTIFY_RES:
                 break;
             case MESSAGE_TYPE_HEARTBEAT_RES:
                 break;
         }
+    },//发送礼物
+    _sendGift:function (params) {
+        var message = {
+            data: {
+                roomId: masterUserInfo.roomId,
+                userId: userInfo.userId,
+                userIdTo: masterUserInfo.userId,
+                giftId:params.giftId,
+                price:params.price,
+                num:params.num,
+                nickName: userInfo.nickName,
+                avatar:userInfo.avatar,
+                level: userInfo.level,
+                message:"发送礼物",
+                giftName:params.giftName,
+                giftImg:params.giftImg,
+                giftGif:'',
+                giftLevel:params.giftLevel,
+                isFire:params.isFire,
+            },
+            messageType: MESSAGE_TYPE_GIFT_REQ
+        };
+        SocketIO._wbSocket.send(JSON.stringify(message));
 
-    }
+    },
+    _chatMessage: function (msg,fly) {//弹幕
+        var message = {
+            data: {
+                roomId : masterUserInfo.roomId,
+                userId : userInfo.userId,
+                nickName : userInfo.nickName,
+                avatar : userInfo.avatar,
+                message : msg,
+                fly : fly,
+            },
+            messageType: MESSAGE_TYPE_BARRAGE_REQ
+        };
+        SocketIO._sendMsg(JSON.stringify(message));
+    },
 }
 
 //消息逻辑处理
@@ -208,16 +231,13 @@ var _chat = {
             }
         }
     },
-
     _func_ping: function (data) {
         console.log(data);
 
         var msg = {};
         msg._method_ = "pong";
-
         SocketIO._sendMsg(JSON.stringify(msg));
     },
-
     _func_logout: function (data) {
         console.log(data);
     },
@@ -246,7 +266,6 @@ var _chat = {
         $("#chat_hall").scrollTop($("#upchat_hall").scrollTop(scrojh));
     }
 }
-
 
 function sysmsg(msg) {
     $("#chat_hall").append("<p><font color='greenyellow'>" + msg + "<br /></font></p>");
