@@ -1,6 +1,5 @@
 <?php
 $this->context->layout = false;
-$this->title = '首页';
 ?>
 <!DOCTYPE html>
 <html>
@@ -8,11 +7,14 @@ $this->title = '首页';
     <title>首页</title>
     <link rel="stylesheet" href="/css/index.css?aaa=1314">
 </head>
-
 <body style="margin: 0; padding: 0; height: 100%; width: 100%">
 <div class="live-login">
     <div class="live-login-left">
-        <img class="live-logo" src="/img/live/zhibobanlogo2.png" alt="Logo" >
+        <?php if($_SERVER['HTTP_HOST']=='3tlive.3ttech.cn'):?>
+            <img class="live-logo" src="/img/live/logo.png" alt="Logo" >
+        <?php else: ?>
+            <img class="live-logo" src="/img/live/zhibobanlogo2.png" alt="Logo" >
+        <?php endif;?>
         <div class="live-login-left-content">
             <h1 class="live-login-title">直播后台</h1>
             <h3 class="live-download-title">下载专区</h3>
