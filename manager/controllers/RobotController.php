@@ -6,20 +6,10 @@ use app\common\models\Order;
 use app\common\models\User;
 use app\common\services\BroadcastService;
 use Yii;
-use yii\data\Pagination;
 
 class RobotController extends BaseController{
 
     const PAGE_SIZE = 10;
-    private static function pagination($pageNo, $count)
-    {
-        $pagination = new Pagination([
-            'defaultPageSize' => self::PAGE_SIZE,
-            'totalCount' => $count,
-        ]);
-        $pagination->setPage($pageNo);
-        return $pagination;
-    }
 
     public function actionIndex(){
         $params = Yii::$app->request->getQueryParams();
@@ -51,7 +41,6 @@ class RobotController extends BaseController{
         $count  = User::queryUserInfoNum($params);
         return $this->render('index', [
             'itemList' => $list,
-           /* 'pagination' => self::pagination($pageNo, $count),*/
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
             'page'=>BroadcastService::pageBanner('/robot/index',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
@@ -117,7 +106,6 @@ class RobotController extends BaseController{
         $id = Yii::$app->request->post('id');
         $id = User::deleteRobot($id);
         if ($id) {
-//            Yii::$app->getResponse()->redirect('/robot/index');
             $this->jsonReturnSuccess(0,'删除机器人成功.');
         }
         else{
@@ -133,7 +121,6 @@ class RobotController extends BaseController{
             }
             $params['imgSrc'] = $src;
             if(User::addRobotInfo($params)){
-//                Yii::$app->getResponse()->redirect('/robot/list');
                 Yii::$app->getResponse()->redirect('/robot/index');
             }
         }
