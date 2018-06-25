@@ -34,5 +34,5 @@ return [
         ],
     ],
     'params' => $params,
-    'defaultRoute' => 'index',
+    'defaultRoute' => 'index',//默认控制器
 ];
