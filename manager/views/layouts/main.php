@@ -39,7 +39,7 @@ $logoShow = !empty(strpos($_SERVER['HTTP_HOST'],'3tlive.3ttech.cn'))? true:false
             <?php if($logoShow): ?>
                 <h2 class="header-title">3T live 直播版  后台管理系统</h2>
             <?php else:?>
-                <h2 class="header-title"></h2>
+                <h2 class="header-title">后台管理系统</h2>
             <?php endif;?>
         </nav>
     </header>
@@ -49,7 +49,7 @@ $logoShow = !empty(strpos($_SERVER['HTTP_HOST'],'3tlive.3ttech.cn'))? true:false
                 <?php if($logoShow):?>
                     <img src="/img/live/zhibobanlogo.png" alt="Logo">
                 <?php else:?>
-                    <img src="" alt="">
+                    <img src="/img/live/zhibobanlogo2.png" alt="Logo">
                 <?php endif;?>
             </a>
         </div>
