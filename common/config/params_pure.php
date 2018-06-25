@@ -176,7 +176,7 @@ $params = [
             ],
         ],
         'ucDomain' => "http://pre.usercenter.3ttech.cn",
-        'domain' => 'http://api.customize.3ttech.cn',
+        'domain' => 'http://api.live.3ttech.cn',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -186,7 +186,7 @@ $params = [
         'weiXin' => [
             'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',
             'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',
-            'notifyUrl' => 'http://api.customize.3ttech.cn/notify/notify-process',
+            'notifyUrl' => 'http://api.live.3ttech.cn/notify/notify-process',
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
@@ -225,9 +225,9 @@ $params = [
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
-        'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
-        'appName' => 'customize',
-        'pushPullAuthorityKey' => 'customize',
+        'pullDomain' => 'ali.live.cdn.3ttech.cn',
+        'appName' => 'pure',
+        'pushPullAuthorityKey' => '3tlivepure',
         'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN，创世云CSY
         'rongCloud' => [
             'appKey' => 'lmxuhwagli7cd',
@@ -242,7 +242,7 @@ $params = [
                 'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
                 'pullM3u8Domain' => ' http://pull.huju-tech.com',
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
-                'appName' => 'customize'
+                'appName' => 'pure'
             ]
         ]
     ],
@@ -257,7 +257,7 @@ $params = [
             ],
         ],
         'ucDomain' => "http://usercenter.3ttech.cn",
-        'domain' => 'http://api.customize.3ttech.cn',
+        'domain' => 'http://api.live.3ttech.cn',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -267,7 +267,7 @@ $params = [
         'weiXin' => [
             'unifiedOrder' => 'https://api.mch.weixin.qq.com/pay/unifiedorder',
             'orderQuery' => 'https://api.mch.weixin.qq.com/pay/orderquery',
-            'notifyUrl' => 'http://api.customize.3ttech.cn/notify/notify-process',
+            'notifyUrl' => 'http://api.live.3ttech.cn/notify/notify-process',
             'transfers' => 'https://api.mch.weixin.qq.com/mmpaymkttransfers/promotion/transfers',
             'template' => 'https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=',
             'accessToken' => 'https://api.weixin.qq.com/cgi-bin/token',
@@ -296,19 +296,19 @@ $params = [
         ],
         'wsServer' => [
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '47.94.217.161',
+                'domain' => '47.94.217.161'
             ],
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '47.94.217.161',
+                'domain' => '47.94.217.161'
             ]
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
-        'pullDomain' => 'ali.3tlive.customize.cdn.3ttech.cn',
-        'appName' => 'customize',
-        'pushPullAuthorityKey' => 'customize',
+        'pullDomain' => 'ali.live.cdn.3ttech.cn',
+        'appName' => 'pure',
+        'pushPullAuthorityKey' => '3tlivepure',
         'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN，创世云CSY
         'rongCloud' => [
             'appKey' => 'lmxuhwagli7cd',
@@ -323,7 +323,7 @@ $params = [
                 'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
                 'pullM3u8Domain' => ' http://pull.huju-tech.com',
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
-                'appName' => 'customize'
+                'appName' => 'pure'
             ]
         ]
     ],
