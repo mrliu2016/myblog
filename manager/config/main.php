@@ -2,7 +2,7 @@
 
 $params = array();
 //判断是否是纯净版
-if(strpos($_SERVER['HTTP_HOST'],'3tlive.3ttech.cn')){
+if($_SERVER['HTTP_HOST']=='3tlive.3ttech.cn'){
     $params = array_merge(
         require(__DIR__ . '/../../common/config/params.php'),
         require(__DIR__ . '/params.php')
@@ -10,7 +10,7 @@ if(strpos($_SERVER['HTTP_HOST'],'3tlive.3ttech.cn')){
 }
 else{
     $params = array_merge(
-        require(__DIR__ . '/../../common/config/params_pure.php'),
+        require(__DIR__ . '/../../common/config/paramsPure.php'),
         require(__DIR__ . '/params.php')
     );
 }
