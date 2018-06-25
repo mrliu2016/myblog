@@ -3,7 +3,7 @@
 /* @var $content string */
 use app\manager\models\Menu;
 $menus = (new Menu())->getMenu();
-$logoShow = !empty(strpos($_SERVER['HTTP_HOST'],'3tlive.3ttech.cn'))? true:false;
+$logoShow = ($_SERVER['HTTP_HOST']!=='3tlive.3ttech.cn')? false:true;
 ?>
 <!DOCTYPE html>
 <html lang="en">
