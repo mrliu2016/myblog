@@ -257,17 +257,27 @@ $this->title = '用户管理';
                 </tbody>
             </table>
         </div>
-        <p class="s-gift-count">共 <?= $count ?> 条记录</p>
+        <div>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <?= $count ?> 条记录</p>
+            <nav class="text-center" style="margin-left:30%">
+                <table>
+                    <tr>
+                        <td class="page-space"> <?= $page ?></td>
+                        <td>共<?= $count ?> 条</td>
+                    </tr>
+                </table>
+            </nav>
+        </div>
 
     </div>
-    <nav class="text-center" style="margin-left:30%">
+    <!--<nav class="text-center" style="margin-left:30%">
         <table>
             <tr>
-                <td class="page-space"> <?= $page ?></td>
-                <td>共<?= $count ?> 条</td>
+                <td class="page-space"> <?/*= $page */?></td>
+                <td>共<?/*= $count */?> 条</td>
             </tr>
         </table>
-    </nav>
+    </nav>-->
 </div>
 
 <!--禁播弹框start-->
@@ -326,24 +336,6 @@ $this->title = '用户管理';
     $("#cleanBtn").click(function () {
         $(this).closest('form').find("input[type=text]").val("")
     });
-
-    // $('.show-notes').change(function () {
-    //     // var appId = $(this).val();
-    //     var that = this;
-    //     if ($(this).is(':checked')) {
-    //         $(that).parent().removeClass("switch-list-def");
-    //         $(that).parent().addClass("switch-list-on");
-    //         $(that).prev().html("启用");
-    //         // $(".s-banlive").css("display","block");
-    //     }
-    //     else {
-    //         //禁播
-    //         // $(".s-banlive").css("display","block");
-    //         $(that).prev().html("停用");
-    //         $(that).parent().removeClass("switch-list-on");
-    //         $(that).parent().addClass("switch-list-def");
-    //     }
-    // });
 
     //关闭禁播
     $(".s-banlive-close").unbind('click').bind('click',function () {

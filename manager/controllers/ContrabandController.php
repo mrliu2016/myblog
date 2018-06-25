@@ -4,21 +4,10 @@ namespace app\manager\controllers;
 use app\common\models\Contraband;
 use app\common\services\BroadcastService;
 use Yii;
-use yii\data\Pagination;
 
 class ContrabandController extends BaseController{
 
     const PAGE_SIZE = 10;
-    private static function pagination($pageNo, $count)
-    {
-        $pagination = new Pagination([
-            'defaultPageSize' => self::PAGE_SIZE,
-            'totalCount' => $count,
-        ]);
-        $pagination->setPage($pageNo);
-        return $pagination;
-    }
-
     //违禁词管理
     public function actionList(){
 
@@ -30,7 +19,7 @@ class ContrabandController extends BaseController{
 
         return $this->render('list', [
             'itemList' => $list,
-            'pagination' => self::pagination($pageNo, $count),
+//            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
             'page'=>BroadcastService::pageBanner('/contraband/list',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
@@ -61,9 +50,7 @@ class ContrabandController extends BaseController{
             $this->jsonReturnError(-1,'删除失败.');
         }
     }
-
-
-
+    //违禁词编辑
     public function actionWordSubmit(){
         if (Yii::$app->request->post()) {
             $params = Yii::$app->request->post();
@@ -110,7 +97,6 @@ class ContrabandController extends BaseController{
         else{
             return $this->render('batch-word');
         }
-
     }
     //新增保存
     public function actionAddSave(){
@@ -137,7 +123,6 @@ class ContrabandController extends BaseController{
         echo $str;
         exit();
     }
-
     //刷新redis
     public function actionRefresh(){
         $result = Contraband::refreshRedis();

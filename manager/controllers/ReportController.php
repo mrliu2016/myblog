@@ -7,7 +7,6 @@ use app\common\models\ReportOptions;
 use app\common\models\User;
 use app\common\services\BroadcastService;
 use Yii;
-use yii\data\Pagination;
 
 //举报管理
 class ReportController extends BaseController
@@ -24,16 +23,6 @@ class ReportController extends BaseController
     const PAGE_SIZE = 10;
     public $enableCsrfValidation = false;
 
-    private static function pagination($pageNo, $count)
-    {
-        $pagination = new Pagination([
-            'defaultPageSize' => self::PAGE_SIZE,
-            'totalCount' => $count,
-        ]);
-        $pagination->setPage($pageNo);
-        return $pagination;
-    }
-
     //举报管理
     public function actionIndex(){
 
@@ -44,7 +33,6 @@ class ReportController extends BaseController
         $listArr = array();
         if(!empty($params['nickName'])){
             $result = User::queryInfoByNickName($params['nickName']);//查询出昵称的用户id
-//            print_r($result);die;
             unset($params['nickName']);
             foreach ($result as $k => $v){
 //                $params['reportedUserId'] = $v['id'];
@@ -78,8 +66,8 @@ class ReportController extends BaseController
 //        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
             'itemList' => $list,
-            'pagination' => self::pagination($pageNo, $count),
-//            'params' => Yii::$app->request->getQueryParams(),
+//            'pagination' => self::pagination($pageNo, $count),
+            'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
             'page'=>BroadcastService::pageBanner('/report/index',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
         ]);
@@ -87,8 +75,6 @@ class ReportController extends BaseController
 
     //设置举报类型
     public function actionSetType(){
-
-        $result = array();
         //查询到数据
         $result = ReportOptions::selectReportType();
         $editFlag = 0;

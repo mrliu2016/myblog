@@ -4,8 +4,6 @@ namespace app\manager\controllers;
 
 use app\common\components\AHelper;
 use app\common\extensions\RongCloud\RongCloud;
-use app\common\models\KeyWord;
-use app\common\models\Message;
 use app\common\models\User;
 use Yii;
 use yii\data\Pagination;
@@ -34,26 +32,9 @@ class MessageController extends BaseController
         return $pagination;
     }
 
-
+    //消息推送首页
     public function actionIndex()
     {
-//        if (Yii::$app->request->isPost) {
-//            if (!empty($_POST['userId'])) {
-//                Message::send($_POST['type'], $_POST['userId'], $_POST['message']);
-//            }
-//        }
-//        $params = Yii::$app->request->getQueryParams();
-//        $params['defaultPageSize'] = self::PAGE_SIZE;;
-//        $result = Message::queryInfo($params);
-//        $count = Message::queryInfoNum($params);
-//        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
-//        return $this->render('index', [
-//            'itemList' => $result,
-//            'pagination' => self::pagination($pageNo, $count),
-//            'params' => Yii::$app->request->getQueryParams(),
-//            'count' => $count
-//        ]);
-
         $user = User::queryAllUserId();
         $userStr = '';
         foreach ($user as $val){
@@ -65,20 +46,6 @@ class MessageController extends BaseController
             ]);
     }
 
-    public function actionKey()
-    {
-        $params = Yii::$app->request->getQueryParams();
-        $params['defaultPageSize'] = self::PAGE_SIZE;;
-        $result = KeyWord::queryInfo($params);
-        $count = KeyWord::queryInfoNum($params);
-        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
-        return $this->render('key', [
-            'itemList' => $result,
-            'pagination' => self::pagination($pageNo, $count),
-            'params' => Yii::$app->request->getQueryParams(),
-            'count' => $count
-        ]);
-    }
 
     //消息推送
     public function actionMessage(){
@@ -86,11 +53,6 @@ class MessageController extends BaseController
         $params = Yii::$app->request->post();
 
         $data = $params['data'];
-
-//        foreach ($data as $key => $val){
-//
-//        }
-
         $roomId = $params['roomId'];
         $url = Yii::$app->params['shareUrl'].'/server/location?roomId='.$roomId;//http://dev.api.customize.3ttech.cn/server/location
         $result = AHelper::curl_get($url);
@@ -111,30 +73,12 @@ class MessageController extends BaseController
             $this->jsonReturnError(-1);
         }
     }
-
-
     //选择用户测试
-    public function actionSelectPage(){
-
-//        $params = Yii::$app->request->getQueryParams();
-//        $params['defaultPageSize'] = self::PAGE_SIZE;
-//        $result = User::queryMessageUserInfo($params);
-//        $count = User::queryUserInfoNum($params);
+//    public function actionSelectPage(){
 //
-//        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+//        return $this->render('select-page');
 //
-//        return $this->render('select-page', [
-//            'itemList' => $result,
-//            'pagination' => self::pagination($pageNo, $count),
-//            'params' => Yii::$app->request->getQueryParams(),
-//            'pageNo'=>$pageNo,
-//            'count' => $count
-//        ]);
-
-        return $this->render('select-page');
-
-    }
-
+//    }
     //分页
     public function actionPage(){
 
