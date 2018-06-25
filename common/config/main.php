@@ -1,6 +1,14 @@
 <?php
 
-$db = require(__DIR__ . '/db.php');
+$db = array();
+//判断是否是纯净版
+if(strpos($_SERVER['HTTP_HOST'],'3tlive.3ttech.cn')){
+    $db = require(__DIR__ . '/db.php');
+}
+else{
+    $db = require(__DIR__ . '/db_pure.php.php');
+}
+//$db = require(__DIR__ . '/db.php');
 
 return [
     'vendorPath' => dirname(dirname(__DIR__)) . '/vendor',
