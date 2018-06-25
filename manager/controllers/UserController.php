@@ -10,7 +10,6 @@ use app\common\models\Video;
 use app\common\services\BroadcastService;
 use app\common\services\Constants;
 use Yii;
-use yii\data\Pagination;
 
 class UserController extends BaseController
 {
@@ -25,16 +24,6 @@ class UserController extends BaseController
 
     const PAGE_SIZE = 10;
     public $enableCsrfValidation = false;
-
-    private static function pagination($pageNo, $count)
-    {
-        $pagination = new Pagination([
-            'defaultPageSize' => self::PAGE_SIZE,
-            'totalCount' => $count,
-        ]);
-        $pagination->setPage($pageNo);
-        return $pagination;
-    }
 
     public function actionIndex()
     {
@@ -79,7 +68,6 @@ class UserController extends BaseController
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
             'itemList' => $result,
-            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
             'isAuth'=> empty($params['isAuth'])?0:$params['isAuth'],
@@ -162,7 +150,7 @@ class UserController extends BaseController
         if(User::operateNoplay($params)){
             //直播
             $liveResult = Video::isLive($params['userId']);
-//            if(!empty($liveResult)){//是直播
+            if(!empty($liveResult)){//是直播
                 $roomId = $params['roomId'];
                 //推送信息
                 $data = array(
@@ -181,10 +169,8 @@ class UserController extends BaseController
                 $port = $roomServer['port'];
                 $url = 'http://'.$host.':'.$port;
                 $result = AHelper::curlPost($url,json_encode($data));
-//            }
-//            else{//发送系统消息
-//
-//            }
+            }
+
             $this->jsonReturnSuccess(0);
         }
         else{

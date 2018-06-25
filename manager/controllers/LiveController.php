@@ -10,7 +10,6 @@ use app\common\models\VideoRecord;
 use app\common\services\BroadcastService;
 use app\common\services\Constants;
 use Yii;
-use yii\data\Pagination;
 
 class LiveController extends BaseController
 {
@@ -25,16 +24,6 @@ class LiveController extends BaseController
 
     const PAGE_SIZE = 10;
     public $enableCsrfValidation = false;
-
-    private static function pagination($pageNo, $count)
-    {
-        $pagination = new Pagination([
-            'defaultPageSize' => self::PAGE_SIZE,
-            'totalCount' => $count,
-        ]);
-        $pagination->setPage($pageNo);
-        return $pagination;
-    }
 
     /**
      * 直播管理  直播查看   昵称查询最好去掉
@@ -111,13 +100,10 @@ class LiveController extends BaseController
             }
             $count = VideoRecord::queryInfoNum($params);
         }
-//        print_r($params);die;
         unset($params['defaultPageSize']);
-
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('live-record', [
             'itemList' => $list,
-//            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
             'page' => BroadcastService::pageBanner('/live/live-record',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
@@ -153,7 +139,6 @@ class LiveController extends BaseController
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('yellow',[
             'itemList' => $list,
-//            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
             'page'=>BroadcastService::pageBanner('/live/yellow',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
@@ -173,14 +158,13 @@ class LiveController extends BaseController
             'yellowurl' => $result['yellowurl'],
             'information' => $result['information'],
         ]);
-
     }
 
-     public function actionList()
-    {
-        $this->layout = '@app/views/layouts/wenlian.php';
-        return $this->render('list');
-    }
+//     public function actionList()
+//    {
+//        $this->layout = '@app/views/layouts/wenlian.php';
+//        return $this->render('list');
+//    }
 
 
     //查看  获取视频的地址
@@ -192,7 +176,6 @@ class LiveController extends BaseController
         return $this->render('check',[
             'videoSrc'=>$videoSrc
         ]);
-
     }
 
     //查看回访

@@ -1,5 +1,4 @@
 <?php
-use yii\widgets\LinkPager;
 $this->title = '鉴黄管理';
 ?>
 
@@ -79,16 +78,20 @@ $this->title = '鉴黄管理';
             </tbody>
         </table>
         </div>
-        <p class="s-gift-count">共 <?= $count ?> 条记录</p>
+
+        <div>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <?= $count ?> 条记录</p>
+            <nav class="text-center" style="margin-left:30%">
+                <table>
+                    <tr>
+                        <td class="page-space"> <?= $page ?></td>
+                        <td>共<?= $count ?> 条</td>
+                    </tr>
+                </table>
+            </nav>
+        </div>
     </div>
-    <nav class="text-center" style="margin-left:30%">
-        <table>
-            <tr>
-                <td class="page-space"> <?= $page ?></td>
-                <td>共<?= $count ?> 条</td>
-            </tr>
-        </table>
-    </nav>
+
 </div>
 
 
