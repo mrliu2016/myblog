@@ -79,7 +79,6 @@ $this->title = '机器人管理';
             });
         }
 
-        // $("#uploadForm").submit();
     });
     //导出EXCEL
     $("#download").click(function () {

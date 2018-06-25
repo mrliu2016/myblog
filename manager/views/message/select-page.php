@@ -1,5 +1,4 @@
 <?php
-use yii\widgets\LinkPager;
 $this->title = '选择用户';
 ?>
 <style>

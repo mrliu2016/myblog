@@ -1,5 +1,4 @@
 <?php
-use yii\widgets\LinkPager;
 $this->title = '举报管理';
 ?>
 <div class="container-fluid">

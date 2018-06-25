@@ -109,14 +109,6 @@ $this->title = '机器人管理';
             </nav>
         </div>
     </div>
-    <!--<nav class="text-center" style="margin-left:30%">
-        <table>
-            <tr>
-                <td class="page-space"> <?/*= $page */?></td>
-                <td>共<?/*= $count */?> 条</td>
-            </tr>
-        </table>
-    </nav>-->
 </div>
 
 <!--确认是否删除start-->

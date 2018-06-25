@@ -270,14 +270,6 @@ $this->title = '用户管理';
         </div>
 
     </div>
-    <!--<nav class="text-center" style="margin-left:30%">
-        <table>
-            <tr>
-                <td class="page-space"> <?/*= $page */?></td>
-                <td>共<?/*= $count */?> 条</td>
-            </tr>
-        </table>
-    </nav>-->
 </div>
 
 <!--禁播弹框start-->
