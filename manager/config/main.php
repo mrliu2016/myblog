@@ -1,19 +1,24 @@
 <?php
 
-$params = array();
-//判断是否是纯净版
-if($_SERVER['HTTP_HOST']=='3tlive.3ttech.cn'){
-    $params = array_merge(
-        require(__DIR__ . '/../../common/config/params.php'),
-        require(__DIR__ . '/params.php')
-    );
-}
-else{
-    $params = array_merge(
-        require(__DIR__ . '/../../common/config/paramsPure.php'),
-        require(__DIR__ . '/params.php')
-    );
-}
+//$params = array();
+////判断是否是纯净版
+//if($_SERVER['HTTP_HOST']=='3tlive.3ttech.cn'){
+//    $params = array_merge(
+//        require(__DIR__ . '/../../common/config/params.php'),
+//        require(__DIR__ . '/params.php')
+//    );
+//}
+//else{
+//    $params = array_merge(
+//        require(__DIR__ . '/../../common/config/paramsPure.php'),
+//        require(__DIR__ . '/params.php')
+//    );
+//}
+
+$params = array_merge(
+    require(__DIR__ . '/../../common/config/params.php'),
+    require(__DIR__ . '/params.php')
+);
 
 return [
     'id' => 'app-staff',
