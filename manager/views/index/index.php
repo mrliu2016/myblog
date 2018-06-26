@@ -10,7 +10,7 @@ $this->context->layout = false;
 <body style="margin: 0; padding: 0; height: 100%; width: 100%">
 <div class="live-login">
     <div class="live-login-left">
-        <?php if($_SERVER['HTTP_HOST']!='3tlive.3ttech.cn'):?>
+        <?php if($_SERVER['HTTP_HOST']=='3tlive.3ttech.cn'):?>
             <img class="live-logo" src="/img/live/logo.png" alt="Logo" >
         <?php else: ?>
             <img class="live-logo" src="/img/live/zhibobanlogo2.png" alt="Logo" >
