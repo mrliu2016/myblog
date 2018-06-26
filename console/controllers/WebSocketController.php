@@ -3,9 +3,6 @@
 namespace app\console\controllers;
 
 use app\common\components\RedisClient;
-use app\common\models\Gift;
-use app\common\models\Order;
-use app\common\models\User;
 use app\common\services\Constants;
 use app\common\services\LiveService;
 use yii\console\Controller;
@@ -17,6 +14,7 @@ class WebSocketController extends Controller
     //webSocket服务端
     public function actionServer()
     {
+//        $this->server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
         $this->server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL);
         $setConfig = [
             'ssl_key_file' => '/etc/nginx/cert/dev_api_demo.key',
@@ -31,21 +29,17 @@ class WebSocketController extends Controller
         $this->server->set($setConfig);
         //添加一个监听端口，继续支持ws方式进行连接
         $this->server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
-
+        //必须在onWorkerStart回调中创建redis/mysql连接
+        $this->server->on('workerstart', function ($server, $id) {
+            $redis = new RedisClient('default');
+            $server->redis = $redis;
+        });
         $this->server->on('open', function ($server, $req) {
-            if (YII_DEBUG) {
-                LiveService::openConnection($req->fd);
-            }
+            LiveService::openConnection($server, $req->fd);
         });
         $this->server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
-                if (YII_DEBUG) {
-                    LiveService::webSocketLog(
-                        "{$frame->fd} message:" . $frame->data,
-                        'webSocketMessage.log',
-                        true
-                    );
-                }
+                LiveService::webSocketLog("{$frame->fd} message:" . $frame->data, 'webSocketMessage.log', true);
                 $message = json_decode($frame->data, true);
                 switch ($message['messageType']) {
                     case Constants::MESSAGE_TYPE_BARRAGE_REQ://弹幕
@@ -98,7 +92,7 @@ class WebSocketController extends Controller
 
         $this->server->on('request', function (\swoole_http_request $request, \swoole_http_response $response) {
             $message = strtolower($request->server['request_method']) == 'get' ? $request->get : $request->post;
-            ll($message, 'webSocketMessage.log');
+            LiveService::webSocketLog($message, 'webSocketMessage.log', true);
             switch ($message['messageType']) {
                 case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_REQ: // 禁播24小时
                     LiveService::prohibitLiveOneDay($this->server, $request, $response, $message);
@@ -117,7 +111,7 @@ class WebSocketController extends Controller
             }
         });
         $this->server->on('close', function ($server, $fd) {
-            ll("{$fd} connection close", 'webSocketMessage.log');
+            LiveService::webSocketLog("{$fd} connection close", 'webSocketMessage.log', true);
             LiveService::fdClose($server, $fd);
         });
         $this->server->start();

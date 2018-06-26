@@ -23,7 +23,7 @@ class RedisClient
         return self::$instances[$name];
     }
 
-    private function __construct($name)
+    public function __construct($name)
     {
         $config = Yii::$app->params['redisServer'][$name];
         $this->redis = new Redis();
