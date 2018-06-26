@@ -32,17 +32,17 @@ class WebSocketController extends Controller
         $this->server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
         //必须在onWorkerStart回调中创建redis/mysql连接
         $this->server->on('workerstart', function ($server, $id) {
-//            $redis = new RedisClient('default');
+            $redis = new RedisClient('default');
 
-            $config = \Yii::$app->params['redisServer']['default'];
-            $redis = new \Redis();
-            $redis->connect($config['host'], $config['port']);
-            if (!empty($config['pwd'])) {
-                $redis->auth($config['pwd']);
-                $redis->select($config['database']);
-            } else {
-                $redis->select($config['database']);
-            }
+//            $config = \Yii::$app->params['redisServer']['default'];
+//            $redis = new \Redis();
+//            $redis->connect($config['host'], $config['port']);
+//            if (!empty($config['pwd'])) {
+//                $redis->auth($config['pwd']);
+//                $redis->select($config['database']);
+//            } else {
+//                $redis->select($config['database']);
+//            }
             
             $server->redis = $redis;
         });
