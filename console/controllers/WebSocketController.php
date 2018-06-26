@@ -36,7 +36,7 @@ class WebSocketController extends Controller
 
             $config = \Yii::$app->params['redisServer']['default'];
             $redis = new \Redis();
-            $redis->connect($config['host'], $config['port']);
+            $redis->pconnect($config['host'], $config['port']);
             if (!empty($config['pwd'])) {
                 $redis->auth($config['pwd']);
                 $redis->select($config['database']);
