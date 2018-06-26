@@ -38,7 +38,7 @@ class LiveService
             ];
             //广播房间全体成员
             $roomAll = LiveService::fdListByRoomId($server, $param["roomId"]);
-//            static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
+            static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
         } catch (\Exception $exception) {
             static::webSocketLog($exception->getMessage(), __FUNCTION__ . '.log', true);
         }
@@ -107,7 +107,7 @@ class LiveService
             'balance' => !empty($balance) ? $balance : 0, // 去掉分，webSocket不涉及业务，交易类结算以最小单位透传
             'income' => static::computeUnit(static::masterIncome($server, $userIdTo, $roomId)),
         ];
-//        $server->push($frame->fd, json_encode($respondMessage));
+        $server->push($frame->fd, json_encode($respondMessage));
         static::sendGiftVirtualCurrency($server, $userId, $userIdTo, $roomId, $price * $num);
         unset($respondMessage);
         //广播房间全体成员
@@ -130,7 +130,7 @@ class LiveService
             'isFire' => $isFire
         ];
         $roomAll = LiveService::fdListByRoomId($server, $roomId);
-//        static::broadcast($server, $roomAll, $respondMessage, $roomId);
+        static::broadcast($server, $roomAll, $respondMessage, $roomId);
     }
 
     /**
@@ -237,7 +237,7 @@ class LiveService
                 'balance' => $params['balance']
             ],
         ];
-//        $server->push($frame->fd, json_encode($resMessage));
+        $server->push($frame->fd, json_encode($resMessage));
 
         $messageAll = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_NOTIFY_RES,
@@ -255,7 +255,7 @@ class LiveService
             ]
         ];
         $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-//        static::broadcast($server, $fdList, $messageAll, $params['roomId']);
+        static::broadcast($server, $fdList, $messageAll, $params['roomId']);
     }
 
     //获取webSocket服务ip
