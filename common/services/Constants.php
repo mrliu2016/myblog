@@ -140,7 +140,7 @@ class Constants
     const ORDER_STATUS_APPROVAL_THROUGH = 'THROUGH'; // 审核通过
     const ORDER_STATUS_APPROVAL_REFUSE = 'REFUSE'; // 审核不通过
     const EARTH_RADIUS = 6371; //地球半径，平均半径为6371km
-    const NUM_WS_ROOM_USER = 100;//每个房间最多保存100个用户的信息
+    const NUM_WS_ROOM_USER = 10000;//每个房间最多保存100个用户的信息
     const WS_NOTICE = '文明用语';
     const WS_MESSAGE_TYPE_WARNING = 0;  //ws 警告
     const WS_MESSAGE_TYPE_CLOSE = 1;  //ws 强制关闭
