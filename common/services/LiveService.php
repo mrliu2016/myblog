@@ -412,10 +412,10 @@ class LiveService
 
             //处理用户离开房间数据
             $messageAll['data']['income'] = static::isManager($server, $params['roomId'], $isExceptionExit ? $fd : $frame->fd) ? static::masterCurrentIncome($server, $params['roomId'], $params['userId']) : '0';
-            $messageAll['data']['duration'] = static::isManager($server, $params['roomId'], $isExceptionExit ? $fd : $frame->fd) ? static::computeDuration($server,$params['roomId'], $params['userId']) : '00:00';
+            $messageAll['data']['duration'] = static::isManager($server, $params['roomId'], $isExceptionExit ? $fd : $frame->fd) ? static::computeDuration($server, $params['roomId'], $params['userId']) : '00:00';
             self::leave($server, $isExceptionExit ? $fd : $frame->fd, $params['roomId']);
             self::clearLMList($server, $params);
-            $userList = LiveService::getUserInfoListByRoomId($params['roomId'], 'virtualCurrency', true);
+            $userList = LiveService::getUserInfoListByRoomId($server, $params['roomId'], 'virtualCurrency', true);
             $messageAll['data']['userList'] = array_values($userList);
             $messageAll['data']['count'] = static::computeUnit(count($userList) <= Constants::NUM_WS_ROOM_USER ? count($userList) : LiveService::roomMemberNum($server, $params['roomId']));
             static::broadcast($server, $fdList, $messageAll, $params['roomId']);
