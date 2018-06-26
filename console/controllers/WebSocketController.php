@@ -41,51 +41,53 @@ class WebSocketController extends Controller
             if (!empty($frame->data)) {
                 LiveService::webSocketLog("{$frame->fd} message:" . $frame->data, 'webSocketMessage.log', true);
                 $message = json_decode($frame->data, true);
-                switch ($message['messageType']) {
-                    case Constants::MESSAGE_TYPE_BARRAGE_REQ://弹幕
-                        LiveService::barrageRequest($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_GIFT_REQ://送礼物
-                        LiveService::giftRequest($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_HEARTBEAT_REQ://心跳
-                        LiveService::heartbeatRequest($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_JOIN_REQ: // 进入房间 含机器人
-                        LiveService::joinRoomAndAI($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_QUIT_REQ: // 离开房间
-                        LiveService::quitRoom($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_LM_REQ: // 连麦请求
-                        LiveService::requestLM($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_LM_RES: // 连麦相应
-                        LiveService::responseLM($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_LM_LIST_REQ: // 连麦请求列表
-                        LiveService::requestLMList($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_LM_AGREE_OR_REFUSE_REQ: // 连麦同意、拒绝请求
-                        LiveService::responseLMList($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_GAG_REQ: // 禁言
-                        LiveService::gag($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_KICK_REQ: // 踢人
-                        LiveService::kickUser($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_CLOSE_CALL_REQ: // 主播断开连麦
-                        LiveService::closeCall($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_CLOSE_CALL_SECONDARY_REQ: // 副播断开连麦
-                        LiveService::secondaryCloseCall($server, $frame, $message);
-                        break;
-                    case Constants::MESSAGE_TYPE_BLACKLIST_REQ: // 黑名单
-                        LiveService::blacklist($server, $frame, $message);
-                        break;
-                    default:
-                        $this->server->push($frame->fd, json_encode(["message not match", $frame->fd]));
+                if (isset($message['messageType'])) {
+                    switch ($message['messageType']) {
+                        case Constants::MESSAGE_TYPE_BARRAGE_REQ://弹幕
+                            LiveService::barrageRequest($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_GIFT_REQ://送礼物
+                            LiveService::giftRequest($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_HEARTBEAT_REQ://心跳
+                            LiveService::heartbeatRequest($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_JOIN_REQ: // 进入房间 含机器人
+                            LiveService::joinRoomAndAI($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_QUIT_REQ: // 离开房间
+                            LiveService::quitRoom($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_LM_REQ: // 连麦请求
+                            LiveService::requestLM($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_LM_RES: // 连麦相应
+                            LiveService::responseLM($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_LM_LIST_REQ: // 连麦请求列表
+                            LiveService::requestLMList($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_LM_AGREE_OR_REFUSE_REQ: // 连麦同意、拒绝请求
+                            LiveService::responseLMList($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_GAG_REQ: // 禁言
+                            LiveService::gag($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_KICK_REQ: // 踢人
+                            LiveService::kickUser($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_CLOSE_CALL_REQ: // 主播断开连麦
+                            LiveService::closeCall($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_CLOSE_CALL_SECONDARY_REQ: // 副播断开连麦
+                            LiveService::secondaryCloseCall($server, $frame, $message);
+                            break;
+                        case Constants::MESSAGE_TYPE_BLACKLIST_REQ: // 黑名单
+                            LiveService::blacklist($server, $frame, $message);
+                            break;
+                        default:
+                            $this->server->push($frame->fd, json_encode(["message not match", $frame->fd]));
+                    }
                 }
             }
         });
