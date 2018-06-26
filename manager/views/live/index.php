@@ -1,7 +1,6 @@
 <?php
 $this->title = '直播管理';
 ?>
-
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
@@ -102,14 +101,6 @@ $this->title = '直播管理';
         </div>
     </div>
 
-    <!--<nav class="text-center" style="margin-left:30%">
-        <table>
-            <tr>
-                <td class="page-space"> <?/*= $page */?></td>
-                <td>共<?/*= $count */?> 条</td>
-            </tr>
-        </table>
-    </nav>-->
 </div>
 
 <!--禁播弹框start-->
@@ -122,7 +113,7 @@ $this->title = '直播管理';
                 <button class="c-btn s-banlive-btn" data-val="1">禁播24h</button>
                 <button class="c-btn s-banlive-btn c-btn-primary" data-val="2">禁播30天</button>
                 <button class="c-btn s-banlive-btn" data-val="3">永久禁播</button>
-                <button class="c-btn s-banlive-btn" data-val="4">解封账号</button>
+                <button class="c-btn s-banlive-btn" data-val="4">封禁账号</button>
             </div>
             <div class="c-modal-footer s-banlive-operate">
                 <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>

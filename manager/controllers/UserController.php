@@ -25,6 +25,12 @@ class UserController extends BaseController
     const PAGE_SIZE = 10;
     public $enableCsrfValidation = false;
 
+    //登录
+    public function actionLogin(){
+
+        return $this->render('login');
+    }
+
     public function actionIndex()
     {
         $params = Yii::$app->request->getQueryParams();
