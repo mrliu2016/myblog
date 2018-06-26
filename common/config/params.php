@@ -12,6 +12,7 @@ $params = [
             ],
         ],
         'ucDomain' => "http://dev.usercenter.3ttech.cn",
+        'liveDomain'=> 'http://dev.customize.3ttech.cn',
         'domain' => 'http://dev.api.customize.3ttech.cn',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
@@ -176,6 +177,7 @@ $params = [
         ],
         'ucDomain' => "http://pre.usercenter.3ttech.cn",
         'domain' => 'http://api.3tlive.3ttech.cn',
+        'liveDomain'=> 'http://3tlive.3ttech.cn',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
