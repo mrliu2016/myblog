@@ -19,8 +19,9 @@ $this->title = '用户登录';
                 <td><input type="text" style="width:100px;"></td>
             </tr>
             <tr>
-                <td colspan="2">
-                    <button>提交</button><button>取消</button>
+                <td></td>
+                <td>
+                    <button>登录</button>
                 </td>
             </tr>
         </table>
