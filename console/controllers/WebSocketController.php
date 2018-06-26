@@ -24,6 +24,7 @@ class WebSocketController extends Controller
 //            'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME,
             'max_connection' => Constants::WS_WEB_SOCKET_MAX_CONNECTION, // 最大链接数
             'worker_num' => Constants::WS_WORKER_NUM, // worker 数
+            'task_worker_num' => Constants::WS_WORKER_NUM,
             'socket_buffer_size' => intval(Constants::WS_SOCKET_BUFFER_SIZE), // M 必须为数字 用于设置客户端连接最大允许占用内存数量
 //            'buffer_output_size' => intval(Constants::WS_BUFFER_OUTPUT_SIZE )// 用于设置单次最大发送长度 M
         ];
@@ -33,17 +34,6 @@ class WebSocketController extends Controller
         //必须在onWorkerStart回调中创建redis/mysql连接
         $this->server->on('workerstart', function ($server, $id) {
             $redis = new RedisClient('default');
-
-//            $config = \Yii::$app->params['redisServer']['default'];
-//            $redis = new \Redis();
-//            $redis->connect($config['host'], $config['port']);
-//            if (!empty($config['pwd'])) {
-//                $redis->auth($config['pwd']);
-//                $redis->select($config['database']);
-//            } else {
-//                $redis->select($config['database']);
-//            }
-            
             $server->redis = $redis;
         });
         $this->server->on('open', function ($server, $req) {
@@ -124,6 +114,20 @@ class WebSocketController extends Controller
                     break;
             }
         });
+
+        // 处理异步任务
+        $this->server->on('task', function ($server, $task_id, $from_id, $message) {
+            LiveService::asyncBroadcast($server, $task_id, $from_id, $message);
+//            echo "New AsyncTask[id=$task_id]" . PHP_EOL;
+//            //返回任务执行的结果
+//            $server->finish("$data -> OK");
+        });
+
+        // 处理异步任务的结果
+        $this->server->on('finish', function ($server, $task_id, $message) {
+            echo "AsyncTask[$task_id] Finish: $message" . PHP_EOL;
+        });
+
         $this->server->on('close', function ($server, $fd) {
             LiveService::webSocketLog("{$fd} connection close", 'webSocketMessage.log', true);
             LiveService::fdClose($server, $fd);
