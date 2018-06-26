@@ -2,7 +2,7 @@
 $this->title = '礼物管理';
 ?>
 <div class="s-gift-manage">
-    <div class="s-userinfo_title">用户详情</div>
+    <div class="s-userinfo_title">礼物详情</div>
     <a class="s-accuse_back" href="/gift/index">返回</a>
     <div class="s-userinfo_basic">
         <img class="s-userinfo_headimg" src="<?=$item['imgSrc']?>" alt="用户头像">
