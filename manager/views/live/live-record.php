@@ -70,7 +70,7 @@ $this->title = '直播记录';
                         </td>
                         <td>
                             <!--<a href="/live/play-back?id=<?/*=$item['id']*/?>">查看回访</a>-->
-                            <a href="#" onclick="playBack('<?=$item['videoSrc']?>')">查看回访</a>
+                            <a href="#" onclick="playBack('<?=$item['videoSrc']?>')">查看回放</a>
 
                         </td>
                     </tr>

@@ -282,7 +282,7 @@ $this->title = '用户管理';
                 <button class="c-btn s-banlive-btn" data-val="1">禁播24h</button>
                 <button class="c-btn s-banlive-btn c-btn-primary" data-val="2">禁播30天</button>
                 <button class="c-btn s-banlive-btn" data-val="3">永久禁播</button>
-                <button class="c-btn s-banlive-btn" data-val="4">解封账号</button>
+                <button class="c-btn s-banlive-btn" data-val="4">封禁账号</button>
             </div>
             <div class="c-modal-footer s-banlive-operate">
                 <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="noplay-comfirm">确认</button>
