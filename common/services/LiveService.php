@@ -372,12 +372,15 @@ class LiveService
     }
 
     //房间成员数量
-    public static function roomMemberNum($server, $roomId)
+    public static function roomMemberNum($server = null, $roomId = null)
     {
         $wsIp = self::getWsIp($roomId);
         $keyWSRoomFD = Constants::WS_ROOM_FD . $wsIp . '_' . $roomId;
-//        $num = RedisClient::getInstance()->hLen($keyWSRoomFD);
-        $num = $server->redis->hLen($keyWSRoomFD);
+        if (empty($server)) {
+            $num = RedisClient::getInstance()->hLen($keyWSRoomFD);
+        } else {
+            $num = $server->redis->hLen($keyWSRoomFD);
+        }
         return intval($num);
     }
 

@@ -38,7 +38,7 @@ class MonitorLiveController extends Controller
                     $wsIp = LiveService::getWsIp($item['roomId']);
                     $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $item['roomId'];
                     $viewerNum = $redis->hLen($keyWSRoomUser);
-                    $viewerNum = ($viewerNum <= Constants::NUM_WS_ROOM_USER) ? $viewerNum : LiveService::roomMemberNum($item['roomId']);
+                    $viewerNum = ($viewerNum <= Constants::NUM_WS_ROOM_USER) ? $viewerNum : LiveService::roomMemberNum(null, $item['roomId']);
                     if ($viewerNum > $video->viewerNum) {
                         $video->viewerNum = $viewerNum;
                     }
