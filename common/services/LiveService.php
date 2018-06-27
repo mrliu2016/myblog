@@ -184,8 +184,6 @@ class LiveService
             $server->redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
                 base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId, 'streamId' => $param['streamId']])));
             $server->redis->expire(Constants::QUEUE_WS_HEARTBEAT, Constants::DEFAULT_EXPIRES);
-
-            $server->push($frame->fd, json_encode(['userId' => $userId, 'roomId' => $roomId, 'streamId' => $param['streamId']]));
         }
         static::latestHeartbeat($server, $frame->fd, $userId, $roomId, $param['isMaster']);
     }
