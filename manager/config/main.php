@@ -37,7 +37,14 @@ return [
             'rules' => [
             ],
         ],
+        'session'=>[//设置session
+            'timeout'=> 604800,//失效时间
+//            'autoStart'=> false,
+//            'sessionname'=> '3ttech',
+//            'cookieMode'=>'only',
+//            'savePath'=>'/path/to/new/directory',
+        ],
     ],
     'params' => $params,
-    'defaultRoute' => 'index',//默认控制器
+    'defaultRoute' => 'index/login',//默认控制器
 ];

@@ -54,8 +54,8 @@ body {
     border-radius: 10px;
     background: #FFFFFF;
     box-shadow: 0 4px 13px 10px rgba(0,0,0,0.03);
-    -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
-    transition: all .3s cubic-bezier(.645, .045, .355, 1);
+    -webkit-transition: box-shadow .3s;
+    transition: box-shadow .3s;
 }
 .live-download-item:hover {
     box-shadow: 0 4px 13px 10px rgba(0,0,0,0.1)
@@ -89,6 +89,7 @@ body {
     margin: 22px auto 10px;
     border: 1px solid #19C2AD;
     border-radius: 100px;
+    background: #FFFFFF;
     text-decoration: unset;
     outline: none;
     -ms-touch-action: manipulation;
@@ -98,8 +99,8 @@ body {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
-    transition: all .3s cubic-bezier(.645, .045, .355, 1);
+    -webkit-transition: color .3s;
+    transition: color .3s;
 }
 .live-download-item_btn:hover {
     color: #FFFFFF;
@@ -113,6 +114,8 @@ body {
     color: #19C2AD;
     text-align: center;
     text-decoration: unset;
+    -webkit-transition: color .3s;
+    transition: color .3s;
 }
 .live-download-item_a:hover {
     color: #19c2adcf;
@@ -132,19 +135,66 @@ body {
     left: 0;
     right: 0;
     width: 375px;
-    height: 300px;
+    height: 480px;
     margin: auto;
+}
+.live-login-form{
+    width: 100%;
+    height: 366px;
+    padding: 50px 55px;
+    box-sizing: border-box;
     box-shadow: 0 4px 13px 10px rgba(0,0,0,0.03);
     border-radius: 6px;
-    overflow: hidden;
 }
-.live-login-inBtn{
+.live-login-form-title{
+    font-family: PingFangSC-Semibold;
+    margin: 0 auto 25px;
+    font-size:22px;
+    color: #1AC3AE;
+    text-align:center;
+}
+.live-login-input:-webkit-autofill {
+    background-color: #FFFFFF !important;
+    box-shadow: inset 0 0 0 1000px white;
+}
+.live-login-input{
+    width:100%;
+    height:45px;
+    margin-bottom: 23px;
+    background: #FFFFFF;
+    border: 1px solid #DADADA;
+    border-radius: 6px;
+    text-indent:12px;
+    font-size:16px;
+    -webkit-appearance: none;
+}
+.live-login-input:-moz-placeholder,
+.live-login-input:-moz-placeholder,
+.live-login-input:-ms-input-placeholder,
+.live-login-input:-ms-input-placeholder {
+    color: #B8B8B8;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    color: #B8B8B8;
+}
+.live-login-input:focus,
+.live-login-input:hover {
+    border-color: #979797;
+    border-right-width: 1px!important;
+}
+.live-login-input:focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(25, 194, 174, .2);
+}
+.live-login-subBtn{
     display: block;
     font-size:18px;
     color:#FFF;
-    width:290px;
+    width:100%;
     height:45px;
-    margin: 55px auto 66px;
+    margin-top: 25px;
     border: 0;
     border-radius: 6px;
     position:relative;
@@ -159,31 +209,27 @@ body {
     -ms-user-select: none;
     user-select: none;
     outline: none;
-    -webkit-transition: all .3s cubic-bezier(.645, .045, .355, 1);
-    transition: all .3s cubic-bezier(.645, .045, .355, 1);
 }
-.live-login-inBtn:hover{
+.live-login-subBtn:hover{
     background-image: linear-gradient(123deg, rgba(0,237,168,0.60) 0%, rgba(26, 194, 173, 0.80) 72%);
 }
 
 .live-contact {
     font-size: 0px;
-    margin: 0 40px;
     color: #1AC2AD;
+    margin-top: 30px;
     letter-spacing: 0;
 }
 .live-contact-title {
     width: 100%;
     color: #19C2AD;
     font-size: 14px;
-    margin: 0;
+    margin-bottom: 10px;
 }
 .live-contact-item {
     font-size: 12px;
     color: #8A8A8A;
     display: inline-block;
-    width: 42%;
-}
-.live-contact-item:nth-child(2n - 1) {
-    width: 58%;
+    width: 48%;
+    margin: 0 0 10px;
 }
