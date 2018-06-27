@@ -37,9 +37,9 @@ $logoShow = ($_SERVER['HTTP_HOST']!=='3tlive.3ttech.cn')? false:true;
     <header class="header-container">
         <nav>
             <?php if($logoShow): ?>
-                <h2 class="header-title">3T live 直播版  后台管理系统</h2>
+                <h2 class="header-title">3T live 直播版  后台管理系统<a style="margin-left: 10px;" class="logout">注销</a></h2>
             <?php else:?>
-                <h2 class="header-title">后台管理系统</h2>
+                <h2 class="header-title">后台管理系统<a style="margin-left: 10px;" class="logout">注销</a></h2>
             <?php endif;?>
         </nav>
     </header>
@@ -315,5 +315,33 @@ $logoShow = ($_SERVER['HTTP_HOST']!=='3tlive.3ttech.cn')? false:true;
         </div>
     </div>
 </div>
+<!--提示框Start-->
+<div id="logout_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text2">你确定要注销该用户吗？</span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="logout-confirm">确认</button>
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="logout-close">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--提示框end-->
 </body>
+<script type="text/javascript">
+    $(".logout").unbind("click").bind("click",function () {
+        $("#logout_frame").css("display","block");
+        $("#logout-confirm").unbind("click").bind("click",function(){
+            $("#logout_frame").css("display","none");
+            window.location.href = "/index/logout";
+        });
+        $("#logout-close").unbind("click").bind("click",function(){
+            $("#logout_frame").css("display","none");
+        });
+    });
+</script>
 </html>
