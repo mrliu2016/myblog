@@ -42,6 +42,7 @@ $this->title = '直播管理';
                 <th>房间号</th>
                 <th>主播昵称</th>
                 <th>观众数</th>
+                <th>实时人数</th>
                 <th>开始时间</th>
                 <th>状态</th>
                 <th>操作</th>
@@ -63,6 +64,9 @@ $this->title = '直播管理';
                     </td>
                     <td>
                         <?= $item['viewerNum']?>
+                    </td>
+                    <td>
+                        <?= $item['num']?>
                     </td>
                     <td>
                         <?= date('Y-m-d H:i', $item['created']) ?> <br />
