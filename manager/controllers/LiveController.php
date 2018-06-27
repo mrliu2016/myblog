@@ -35,6 +35,7 @@ class LiveController extends BaseController
     public function actionIndex()
     {
         $params = Yii::$app->request->getQueryParams();
+        $ip = Yii::$app->params['wsServer'][Constants::CODE_SUCCESS]['ip'];
         $redis = RedisClient::getInstance();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $params['isLive'] = 1;
@@ -50,11 +51,13 @@ class LiveController extends BaseController
                     $elem['nickName'] = $v['nickName'];
                     $elem['status']   = $v['status'];
                     $elem['liveUrl'] = CdnUtils::getPullUrl($elem['id']);
+                    $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $elem['roomId'];
+                    $num = $redis->hGetAll($keyWSRoomFD);
+                    $elem['num'] = !empty($num) ? count($num) : Constants::CODE_SUCCESS;
                 }
             }
         }
         else{
-            $ip = Yii::$app->params['wsServer'][Constants::CODE_SUCCESS]['ip'];
             $list = Video::queryInfo($params);
             foreach ($list as &$val){
                 $userInfo = User::queryById($val['userId']);

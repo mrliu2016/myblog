@@ -24,7 +24,7 @@ class StatisticsService
         foreach ($result as $key => $value) {
             $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $value['roomId'];
             $num = $redis->hGetAll($keyWSRoomFD);
-            $result[$key]['num'] = !empty($num) ? $num : Constants::CODE_SUCCESS;
+            $result[$key]['num'] = !empty($num) ? count($num) : Constants::CODE_SUCCESS;
         }
         return $result;
     }
