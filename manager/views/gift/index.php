@@ -44,7 +44,7 @@ $this->title = '礼物管理';
                 <th>序号</th>
                 <th>ID</th>
                 <th>礼物名称</th>
-                <th>加个/豆</th>
+                <th>草莓币</th>
                 <th>是否可以连发</th>
                 <th>注册时间</th>
             </tr>
@@ -62,7 +62,7 @@ $this->title = '礼物管理';
                         <a href="/gift/detail?id=<?=$item['id']?>"><?= $item['name'] ?></a>
                     </td>
                     <td>
-                        <?= $item['price'] ?>
+                        <?= ceil($item['price'] /100) ?>
                     </td>
                     <td>
                         <?= (!empty($item['isFire']) && $item['isFire'] == 1)?'是':'否'?>
