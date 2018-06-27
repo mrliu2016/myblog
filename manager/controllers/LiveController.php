@@ -4,6 +4,7 @@ namespace app\manager\controllers;
 
 use app\common\components\AHelper;
 use app\common\components\CdnUtils;
+use app\common\components\RedisClient;
 use app\common\models\User;
 use app\common\models\Video;
 use app\common\models\VideoRecord;
@@ -34,6 +35,7 @@ class LiveController extends BaseController
     public function actionIndex()
     {
         $params = Yii::$app->request->getQueryParams();
+        $redis = RedisClient::getInstance();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $params['isLive'] = 1;
         $list = array();
@@ -52,15 +54,18 @@ class LiveController extends BaseController
             }
         }
         else{
+            $ip = Yii::$app->params['wsServer'][Constants::CODE_SUCCESS]['ip'];
             $list = Video::queryInfo($params);
             foreach ($list as &$val){
                 $userInfo = User::queryById($val['userId']);
                 $val['nickName'] = $userInfo['nickName'];
                 $val['status']   = $userInfo['status'];
                 $val['liveUrl'] = CdnUtils::aliAppPullRtmpStream($val['id']);
+                $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $val['roomId'];
+                $num = $redis->hGetAll($keyWSRoomFD);
+                $val['num'] = !empty($num) ? count($num) : Constants::CODE_SUCCESS;
             }
         }
-
         $count = Video::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [

@@ -20,7 +20,7 @@ class StatisticsService
     public static function processLiveRoom($result)
     {
         $redis = RedisClient::getInstance();
-        $ip = Yii::$app->params['wsServer']['ip'];
+        $ip = Yii::$app->params['wsServer'][Constants::CODE_SUCCESS]['ip'];
         foreach ($result as $key => $value) {
             $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $value['roomId'];
             $num = $redis->hGetAll($keyWSRoomFD);
