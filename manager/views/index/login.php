@@ -25,7 +25,11 @@ $this->context->layout = false;
             <ul class="live-download-list">
                 <li class="live-download-item">
                     <div class="live-download-item_icon icon-ios"></div>
-                    <img class="live-download-item_qrCode" src="img1.png" alt="qrcode">
+                    <?php if($_SERVER['HTTP_HOST']=='3tlive.3ttech.cn'):?>
+                        <img class="live-download-item_qrCode" src="/img/live/qrcode-ios.png" alt="qrcode">
+                    <?php else: ?>
+                        <img class="live-download-item_qrCode" src="/img/live/qrcode-ios.png" alt="qrcode">
+                    <?php endif;?>
                     <a class="live-download-btn-wrap" href="" download>
                         <button class="live-download-item_btn">
                             iOS
@@ -35,7 +39,11 @@ $this->context->layout = false;
                 </li>
                 <li class="live-download-item">
                     <div class="live-download-item_icon icon-android"></div>
-                    <img class="live-download-item_qrCode" src="img1.png" alt="qrcode">
+                    <?php if($_SERVER['HTTP_HOST']=='3tlive.3ttech.cn'):?>
+                        <img class="live-download-item_qrCode" src="/img/live/qrcode-andriod.png" alt="qrcode">
+                    <?php else: ?>
+                        <img class="live-download-item_qrCode" src="/img/live/qrcode-andriod.png" alt="qrcode">
+                    <?php endif;?>
                     <a class="live-download-btn-wrap" href="" download>
                         <button class="live-download-item_btn">
                             Android
