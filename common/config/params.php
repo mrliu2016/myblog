@@ -81,6 +81,10 @@ $params = [
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
                 'appName' => 'customize'
             ]
+        ],
+        'webSocketSSL' => [
+            'key' => '/etc/nginx/cert/dev_api_demo.key',
+            'pem' => '/etc/nginx/cert/dev_api_demo.pem',
         ]
     ],
 
@@ -94,7 +98,7 @@ $params = [
             ],
         ],
         'ucDomain' => "http://dev.usercenter.3ttech.cn",
-        'liveDomain'=> 'http://dev.customize.3ttech.cn',
+        'liveDomain' => 'http://dev.customize.3ttech.cn',
         'domain' => 'http://dev.api.customize.3ttech.cn',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
@@ -163,6 +167,10 @@ $params = [
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
                 'appName' => 'customize'
             ]
+        ],
+        'webSocketSSL' => [
+            'key' => '/etc/nginx/cert/dev_api_demo.key',
+            'pem' => '/etc/nginx/cert/dev_api_demo.pem',
         ]
     ],
 
@@ -216,12 +224,12 @@ $params = [
         ],
         'wsServer' => [
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '47.94.9.121',
+                'domain' => '3tshow.3ttech.cn'
             ],
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '47.94.9.121',
+                'domain' => '3tshow.3ttech.cn'
             ]
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
@@ -245,6 +253,10 @@ $params = [
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
                 'appName' => 'customize'
             ]
+        ],
+        'webSocketSSL' => [
+            'key' => '/etc/nginx/cert/3tshow.3ttech.cn.key',
+            'pem' => '/etc/nginx/cert/3tshow.3ttech.cn.pem',
         ]
     ],
 
@@ -259,7 +271,7 @@ $params = [
         ],
         'ucDomain' => "http://usercenter.3ttech.cn",
         'domain' => 'http://api.3tlive.3ttech.cn',
-        'liveDomain'=> 'http://3tlive.3ttech.cn',
+        'liveDomain' => 'http://3tlive.3ttech.cn',
         'oss' => [
             'accessKeyId' => 'LTAIIYGRmx5qmxkk',
             'accessKeySecret' => 'AfV0Hy6uII76bc0lEiMCJYgTKDHbN1',
@@ -298,12 +310,12 @@ $params = [
         ],
         'wsServer' => [
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '47.94.9.121',
+                'domain' => '3tshow.3ttech.cn'
             ],
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '47.94.9.121',
+                'domain' => '3tshow.3ttech.cn'
             ]
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
@@ -327,6 +339,10 @@ $params = [
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
                 'appName' => 'customize'
             ]
+        ],
+        'webSocketSSL' => [
+            'key' => '/etc/nginx/cert/3tshow.3ttech.cn.key',
+            'pem' => '/etc/nginx/cert/3tshow.3ttech.cn.pem',
         ]
     ],
 

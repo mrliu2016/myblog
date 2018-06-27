@@ -88,7 +88,7 @@ class Constants
     const WS_DEFAULT_EXPIRE = 3600;
     const WS_WEB_SOCKET_MAX_CONNECTION = 100000;
     const WS_WORKER_NUM = 6;
-    const WS_SOCKET_BUFFER_SIZE = 512 * 1024 * 1024;
+    const WS_SOCKET_BUFFER_SIZE = 128 * 1024 * 1024;
     const WS_BUFFER_OUTPUT_SIZE = 2;
 
     // 队列
