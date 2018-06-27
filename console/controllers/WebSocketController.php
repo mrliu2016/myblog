@@ -41,7 +41,6 @@ class WebSocketController extends Controller
         });
         $this->server->on('message', function ($server, $frame) {
             if (!empty($frame->data)) {
-                ll("{$frame->fd} message:" . $frame->data, 'webSocketMessage.log');
                 LiveService::webSocketLog("{$frame->fd} message:" . $frame->data, 'webSocketMessage.log', true);
                 $message = json_decode($frame->data, true);
                 if (isset($message['messageType'])) {
