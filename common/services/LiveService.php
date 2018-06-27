@@ -237,8 +237,9 @@ class LiveService
                 'balance' => $params['balance']
             ],
         ];
-        $taskId = $server->task($resMessage);
-//        $server->push($frame->fd, json_encode($resMessage));
+        ll($resMessage, 'webSocketMessage.log');
+//        $taskId = $server->task($resMessage);
+        $server->push($frame->fd, json_encode($resMessage));
 
         $messageAll = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_NOTIFY_RES,
@@ -255,9 +256,10 @@ class LiveService
                 'income' => static::computeUnit(static::masterIncome($server, $params['masterUserId'], $params['roomId']))
             ]
         ];
-        $taskId = $server->task($messageAll);
-//        $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-//        static::broadcast($server, $fdList, $messageAll, $params['roomId']);
+        ll($messageAll, 'webSocketMessage.log');
+//        $taskId = $server->task($messageAll);
+        $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
+        static::broadcast($server, $fdList, $messageAll, $params['roomId']);
     }
 
     //获取webSocket服务ip
@@ -672,6 +674,7 @@ class LiveService
                     'count' => count($lmUserList)
                 ]
             ];
+            ll($responseMessage, 'webSocketMessage.log');
             $server->push(intval($adminUserInfo['fd']), json_encode($responseMessage));
         }
     }
@@ -760,6 +763,7 @@ class LiveService
                         'type' => intval($messageInfo['type']) // 2：同意,3：拒绝
                     ]
                 ];
+                ll($responseMessage, 'webSocketMessage.log');
                 $server->push(intval($userInfo['fd']), json_encode($responseMessage));
             } else {//离线
                 $server->redis->hdel($key, $messageInfo['userId']);//将用户信息从列表中删除
@@ -772,6 +776,7 @@ class LiveService
                         'type' => Constants::LM_USER_OFFLINE, // 6:离线 5:在线
                     ]
                 ];
+                ll($responseMessage, 'webSocketMessage.log');
                 $server->push(intval($masterUserInfo['fd']), json_encode($responseMessage));
             }
         }
