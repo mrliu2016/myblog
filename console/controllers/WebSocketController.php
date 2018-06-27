@@ -117,7 +117,16 @@ class WebSocketController extends Controller
 
         // 处理异步任务
         $this->server->on('task', function ($server, $task_id, $from_id, $message) {
-            LiveService::asyncBroadcast($server, $task_id, $from_id, $message);
+            if (isset($message['messageType'])) {
+                switch ($message['messageType']) {
+                    case Constants::MESSAGE_TYPE_JOIN_RES:
+                        LiveService::asyncBroadcastToCurrentFD($server, $task_id, $from_id, $message);
+                        break;
+                    default:
+                        LiveService::asyncBroadcast($server, $task_id, $from_id, $message);
+                        break;
+                }
+            }
         });
 
         // 处理异步任务的结果

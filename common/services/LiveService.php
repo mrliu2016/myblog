@@ -224,6 +224,7 @@ class LiveService
             'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
             'code' => Constants::CODE_SUCCESS,
             'message' => Constants::WS_NOTICE,
+            'fd' => $frame->fd,
             'data' => [
                 'roomId' => $params['roomId'],
                 'userId' => $params["masterUserId"],
@@ -236,7 +237,8 @@ class LiveService
                 'balance' => $params['balance']
             ],
         ];
-        $server->push($frame->fd, json_encode($resMessage));
+        $taskId = $server->task($resMessage);
+//        $server->push($frame->fd, json_encode($resMessage));
 
         $messageAll = [
             'messageType' => Constants::MESSAGE_TYPE_JOIN_NOTIFY_RES,
@@ -253,8 +255,9 @@ class LiveService
                 'income' => static::computeUnit(static::masterIncome($server, $params['masterUserId'], $params['roomId']))
             ]
         ];
-        $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-        static::broadcast($server, $fdList, $messageAll, $params['roomId']);
+        $taskId = $server->task($messageAll);
+//        $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
+//        static::broadcast($server, $fdList, $messageAll, $params['roomId']);
     }
 
     //获取webSocket服务ip
@@ -1401,5 +1404,20 @@ class LiveService
     {
         $roomAll = LiveService::fdListByRoomId($server, $message['data']['roomId']);
         static::broadcast($server, $roomAll, $message, $message['data']['roomId']);
+    }
+
+    /**
+     * 向指定用户推送消息
+     *
+     * @param $server
+     * @param $task_id
+     * @param $from_id
+     * @param $message
+     */
+    public static function asyncBroadcastToCurrentFD($server, $task_id, $from_id, $message)
+    {
+        if ($server->exist(intval($message['fd']))) {
+            $server->push(intval($message['fd']), json_encode($message));
+        }
     }
 }
