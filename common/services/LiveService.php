@@ -37,9 +37,6 @@ class LiveService
                 ]
             ];
             $taskId = $server->task($respondMessage);
-            //广播房间全体成员
-//            $roomAll = LiveService::fdListByRoomId($server, $param["roomId"]);
-//            static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
         } catch (\Exception $exception) {
             static::webSocketLog($exception->getMessage(), __FUNCTION__ . '.log', true);
         }
@@ -130,8 +127,7 @@ class LiveService
             'income' => static::computeUnit(static::masterIncome($server, $userIdTo, $roomId)),
             'isFire' => $isFire
         ];
-        $roomAll = LiveService::fdListByRoomId($server, $roomId);
-        static::broadcast($server, $roomAll, $respondMessage, $roomId);
+        $taskId = $server->task($respondMessage);
     }
 
     /**
@@ -224,6 +220,7 @@ class LiveService
             'messageType' => Constants::MESSAGE_TYPE_JOIN_RES,
             'code' => Constants::CODE_SUCCESS,
             'message' => Constants::WS_NOTICE,
+            'fd' => $frame->fd,
             'data' => [
                 'roomId' => $params['roomId'],
                 'userId' => $params["masterUserId"],
@@ -236,6 +233,7 @@ class LiveService
                 'balance' => $params['balance']
             ],
         ];
+//        $taskId = $server->task($resMessage);
         $server->push($frame->fd, json_encode($resMessage));
 
         $messageAll = [
@@ -253,8 +251,7 @@ class LiveService
                 'income' => static::computeUnit(static::masterIncome($server, $params['masterUserId'], $params['roomId']))
             ]
         ];
-        $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-        static::broadcast($server, $fdList, $messageAll, $params['roomId']);
+        $taskId = $server->task($messageAll);
     }
 
     //获取webSocket服务ip
@@ -508,8 +505,7 @@ class LiveService
         ];
 //        //广播房间全体成员
         if ($isBroadcast) {
-            $roomAll = LiveService::fdListByRoomId($server, $message['data']['roomId']);
-            static::broadcast($server, $roomAll, $respondMessage, $message['data']["roomId"]);
+            $taskId = $server->task($respondMessage);
         } else {
             $server->push(intval($fd), json_encode($respondMessage));
         }
@@ -525,19 +521,15 @@ class LiveService
      */
     public static function kickUser($server, $frame, $message)
     {
-        $startTime = microtime(true);
         $params = $message['data'];
         $ip = self::getWsIp($params['roomId']);
         // 判断adminUserId是否有权限踢人
 //        $keyWSRoomFD = Constants::WS_ROOM_FD . $ip . '_' . $params['roomId'];
 //        $adminUserId = $redis->hget($keyWSRoomFD, $frame->fd);
         if (self::isManager($server, $params['roomId'], $frame->fd)) {
-            static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::isManager】运行时长：');
-
             $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $params['roomId'];
             $user = $server->redis->hget($keyWSRoomUser, $params['userId']);
             if (!empty($user)) {
-//                $user = json_decode($user, true);
                 $messageAll = [
                     'messageType' => Constants::MESSAGE_TYPE_KICK_RES,
                     'code' => Constants::CODE_SUCCESS,
@@ -548,14 +540,7 @@ class LiveService
                         'expiry' => $params['expiry'],
                     ],
                 ];
-
-                $tmp = microtime(true);
-                $fdList = LiveService::fdListByRoomId($server, $params['roomId']);
-                static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::fdListByRoomId】运行时长：');
-
-                $tmp = microtime(true);
-                static::broadcast($server, $fdList, $messageAll, $params['roomId']);
-                static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::broadcast】运行时长：');
+                $taskId = $server->task($messageAll);
             } else {
                 $respondMessage['messageType'] = Constants::MESSAGE_TYPE_KICK_RES;
                 $respondMessage['code'] = Constants::CODE_FAILED;
@@ -563,11 +548,8 @@ class LiveService
                 $respondMessage['data'] = [];
                 $server->push($frame->fd, json_encode($respondMessage));
             }
-            $tmp = microtime(true);
             self::clearLMList($server, $params);
-            static::runtimeConsumeTime($tmp, microtime(true), '【LiveService::clearLMList】运行时长：');
         }
-        static::runtimeConsumeTime($startTime, microtime(true), '【LiveService::kickUser】运行时长：');
     }
 
     /*
@@ -1401,5 +1383,20 @@ class LiveService
     {
         $roomAll = LiveService::fdListByRoomId($server, $message['data']['roomId']);
         static::broadcast($server, $roomAll, $message, $message['data']['roomId']);
+    }
+
+    /**
+     * 向指定用户推送消息
+     *
+     * @param $server
+     * @param $task_id
+     * @param $from_id
+     * @param $message
+     */
+    public static function asyncBroadcastToCurrentFD($server, $task_id, $from_id, $message)
+    {
+        if ($server->exist(intval($message['fd']))) {
+            $server->push(intval($message['fd']), json_encode($message));
+        }
     }
 }
