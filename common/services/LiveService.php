@@ -36,7 +36,7 @@ class LiveService
                     'fly' => isset($param["fly"]) ? (int)$param["fly"] : 1 // 1 弹幕 0 普通
                 ]
             ];
-            $server->task(json_encode($respondMessage));
+            $taskId = $server->task($respondMessage);
             //广播房间全体成员
 //            $roomAll = LiveService::fdListByRoomId($server, $param["roomId"]);
 //            static::broadcast($server, $roomAll, $respondMessage, $param["roomId"]);
@@ -1029,7 +1029,6 @@ class LiveService
     private static function broadcast($server, $fdList, $respondMessage, $roomId)
     {
         if (empty($fdList)) return false;
-        $mergeRespondMessage = $respondMessage;
         $respondMessage = json_encode($respondMessage);
         foreach ($fdList as $fd) {
             try {
@@ -1399,20 +1398,7 @@ class LiveService
      */
     public static function asyncBroadcast($server, $task_id, $from_id, $message)
     {
-//        $respondMessage = [
-//            'messageType' => Constants::MESSAGE_TYPE_BARRAGE_RES,
-//            'code' => Constants::CODE_SUCCESS,
-//            'message' => strtr($param["message"], $keyWords),
-//            'data' => [
-//                'roomId' => $param["roomId"],
-//                'userId' => $param["userId"],
-//                'nickName' => $param["nickName"],
-//                'avatar' => $param["avatar"],
-//                'fly' => isset($param["fly"]) ? (int)$param["fly"] : 1 // 1 弹幕 0 普通
-//            ]
-//        ];
-        $tmpMessage = json_decode($message, true);
-        $roomAll = LiveService::fdListByRoomId($server, $tmpMessage['data']['roomId']);
-        static::broadcast($server, $roomAll, $message, $tmpMessage['data']['roomId']);
+        $roomAll = LiveService::fdListByRoomId($server, $message['data']['roomId']);
+        static::broadcast($server, $roomAll, $message, $message['data']['roomId']);
     }
 }

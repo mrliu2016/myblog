@@ -82,6 +82,10 @@ $params = [
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
                 'appName' => 'customize'
             ]
+        ],
+        'webSocketSSL' => [
+            'key' => '/etc/nginx/cert/dev_api_demo.key',
+            'pem' => '/etc/nginx/cert/dev_api_demo.pem',
         ]
     ],
 
@@ -163,6 +167,10 @@ $params = [
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
                 'appName' => 'customize'
             ]
+        ],
+        'webSocketSSL' => [
+            'key' => '/etc/nginx/cert/dev_api_demo.key',
+            'pem' => '/etc/nginx/cert/dev_api_demo.pem',
         ]
     ],
 
@@ -215,12 +223,12 @@ $params = [
         ],
         'wsServer' => [
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '47.94.9.121',
+                'domain' => '3tshow.3ttech.cn'
             ],
             [
-                'ip' => '47.94.92.113',
-                'domain' => 'dev.api.demo.3ttech.cn'
+                'ip' => '47.94.9.121',
+                'domain' => '3tshow.3ttech.cn'
             ]
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
@@ -244,6 +252,10 @@ $params = [
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
                 'appName' => 'pure'
             ]
+        ],
+        'webSocketSSL' => [
+            'key' => '/etc/nginx/cert/3tshow.3ttech.cn.key',
+            'pem' => '/etc/nginx/cert/3tshow.3ttech.cn.pem',
         ]
     ],
 
@@ -296,12 +308,12 @@ $params = [
         ],
         'wsServer' => [
             [
-                'ip' => '47.94.217.161',
-                'domain' => '47.94.217.161'
+                'ip' => '47.94.9.121',
+                'domain' => '3tshow.3ttech.cn'
             ],
             [
-                'ip' => '47.94.217.161',
-                'domain' => '47.94.217.161'
+                'ip' => '47.94.9.121',
+                'domain' => '3tshow.3ttech.cn'
             ]
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
@@ -325,6 +337,10 @@ $params = [
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
                 'appName' => 'pure'
             ]
+        ],
+        'webSocketSSL' => [
+            'key' => '/etc/nginx/cert/3tshow.3ttech.cn.key',
+            'pem' => '/etc/nginx/cert/3tshow.3ttech.cn.pem',
         ]
     ],
 

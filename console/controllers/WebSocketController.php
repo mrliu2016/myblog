@@ -18,10 +18,10 @@ class WebSocketController extends Controller
 //        $this->server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
         $this->server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL);
         $setConfig = [
-            'ssl_key_file' => '/etc/nginx/cert/dev_api_demo.key',
-            'ssl_cert_file' => '/etc/nginx/cert/dev_api_demo.pem',
-//            'heartbeat_check_interval' => Constants::WS_HEARTBEAT_CHECK_INTERVAL,
-//            'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME,
+            'ssl_key_file' => Yii::$app->params['webSocketSSL']['key'],
+            'ssl_cert_file' => Yii::$app->params['webSocketSSL']['pem'],
+            'heartbeat_check_interval' => Constants::WS_HEARTBEAT_CHECK_INTERVAL,
+            'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME,
             'max_connection' => Constants::WS_WEB_SOCKET_MAX_CONNECTION, // 最大链接数
             'worker_num' => Constants::WS_WORKER_NUM, // worker 数
             'task_worker_num' => Constants::WS_WORKER_NUM,
@@ -118,9 +118,6 @@ class WebSocketController extends Controller
         // 处理异步任务
         $this->server->on('task', function ($server, $task_id, $from_id, $message) {
             LiveService::asyncBroadcast($server, $task_id, $from_id, $message);
-//            echo "New AsyncTask[id=$task_id]" . PHP_EOL;
-//            //返回任务执行的结果
-//            $server->finish("$data -> OK");
         });
 
         // 处理异步任务的结果
