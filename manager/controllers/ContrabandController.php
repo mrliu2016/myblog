@@ -14,12 +14,12 @@ class ContrabandController extends BaseController{
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        $params['isDelete'] = 0;
         $list = Contraband::queryInfo($params);
         $count  = Contraband::queryInfoNum($params);
 
         return $this->render('list', [
             'itemList' => $list,
-//            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
             'page'=>BroadcastService::pageBanner('/contraband/list',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')

@@ -195,7 +195,6 @@ class VideoRecord extends ActiveRecord
         if (!empty($params['page']) && !empty($params['defaultPageSize'])) {
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
-//        print_r($params);die;
         $find = static::find();
         $find = self::buildParams($find, $params);
         $result = $find->offset($offset)->select('id,userId,roomId,streamId,startTime,videoSrc,duration,watchTime,created,title,type')
@@ -282,11 +281,15 @@ class VideoRecord extends ActiveRecord
         if (isset($params['userId'])) {
             $find->andWhere(['userId' => $params['userId']]);
         }
-        if (isset($params['queryStartTime'])) {
-            $find->andWhere('startTime >= ' . $params['queryStartTime']);
+        if (!empty($params['startTime'])) {
+            $find->andWhere('startTime >= ' . strtotime($params['startTime']));
         }
-        if (isset($params['queryEndTime'])) {
-            $find->andWhere('startTime < ' . $params['queryEndTime']);
+        if (!empty($params['endTime'])) {
+            $find->andWhere('startTime <= ' . strtotime($params['endTime']));
+        }
+
+        if (!empty($params['roomId'])) {
+            $find->andWhere(['roomId' => $params['roomId']]);
         }
         return $find;
     }

@@ -26,6 +26,7 @@ class User extends ActiveRecord
                 ->select('id as userId,userName,avatar,nickName,sex,birth,mobile,expenditure,
                 balance,level,description,isValid,idCard,realName,roomId,income,province,city,region,profession,followers_cnt,followees_cnt,created,playType,playTime,status')
                 ->where(['id' => $id])
+                ->orderBy('created desc')
                 ->asArray()
                 ->one();
         }
@@ -476,6 +477,7 @@ class User extends ActiveRecord
         $find = static::find();
         $find = self::buildUserParams($find, $params);
         $result = $find->asArray()
+            ->orderBy('created desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])
             ->all();
@@ -546,7 +548,7 @@ class User extends ActiveRecord
     //通过用户昵称获取用户信息
     public static function queryInfoByNickName($nickName)
     {
-        $sql = "SELECT id,nickName,`status` FROM `" . static::tableName() . "` WHERE `nickName` LIKE '" . trim(addslashes($nickName)) . "%'";
+        $sql = "SELECT id,nickName,`status` FROM `" . static::tableName() . "` WHERE `nickName` LIKE '" . trim(addslashes($nickName)) . "%' ORDER BY created DESC";
         $result = Yii::$app->db->createCommand($sql)->queryAll();
         return $result;
     }
