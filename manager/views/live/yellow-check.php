@@ -1,8 +1,6 @@
 <?php
 $this->title = '鉴黄管理';
 ?>
-<body>
-<!-- Create the editor container -->
 <div class="s-accuse-manage">
     <div class="s-accuse-manage_title">
         <span>鉴黄管理</span>
@@ -11,7 +9,12 @@ $this->title = '鉴黄管理';
     <div class="s-accuse-manage_content">
         <ul class="s-am_list">
             <li class="s-am_item">
-                <div class="s-am_item-img"><img src="<?=$yellowurl?>"/></div>
+                <div class="s-am_item-img">
+                    <?php if(!empty($yellowurl)):?>
+                        <img src="<?=$yellowurl?>"/></div>
+                    <?php else:?>
+                        <img src=""/></div>
+                    <? endif;?>
                 <div class="s-am_item-info">
 						<span class="s-am_item-tag">
 							<span>标签：</span>
