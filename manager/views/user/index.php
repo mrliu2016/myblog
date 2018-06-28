@@ -162,6 +162,7 @@ $this->title = '用户管理';
                     <th>被举报次数</th>
                     <th>注册时间</th>
                     <th>状态</th>
+                    <th>充值</th>
                     <th>操作</th>
                 </tr>
                 </tr>
@@ -235,6 +236,7 @@ $this->title = '用户管理';
                                 <span class="s-basic_item-value">停用</span>
                             <?php endif;?>
                         </td>
+                        <td><a href="#" onclick="recharge(<?=$item['id']?>)">充值</a></td>
                         <td>
                             <?php if(empty($item['playType']) || $item['playType'] == 0):?>
                                 <div class="switch-mod switch-mod-open switch-hover"><span>启用</span>
@@ -310,6 +312,25 @@ $this->title = '用户管理';
     </div>
 </div>
 <!--恢复状态提示框start-->
+
+<!--编辑弹框-->
+<div id="edit_frame" style="display: none;">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banword" >
+        <div class="c-modal">
+            <div class="c-modal-close s-banword-close">关闭</div>
+            <div class="c-modal_header">充值</div>
+            <div class="s-banword-content">
+                <input class="c-input s-banword-input" type="text" placeholder="0到10个字符长度" maxlength="10">
+            </div>
+            <div class="c-modal-footer s-banword-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banword-confirm">确认</button>
+                <button class="c-btn c-btn--large s-banword-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--编辑弹框end-->
 
 <script type="text/javascript">
 
@@ -411,5 +432,11 @@ $this->title = '用户管理';
                 }
             });
         });
+    }
+    
+    //充值
+    function recharge(userId) {
+        $("#edit_frame").css("display","block");
+
     }
 </script>
