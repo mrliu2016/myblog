@@ -568,6 +568,8 @@ class User extends ActiveRecord
         $model->followers_cnt = intval($params['followers_cnt']);
         $model->followees_cnt = intval($params['followees_cnt']);
         $model->save();
+        Order::insertRobotGift($model->id, $params['receivedGift'], true);
+        Order::insertRobotGift($model->id, $params['sendGift'], false);
         static ::refreshRedis();//更新机器人缓存
         //在礼物表中插入数据
         return $model->id;

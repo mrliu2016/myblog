@@ -37,9 +37,9 @@ $logoShow = ($_SERVER['HTTP_HOST']!=='3tlive.3ttech.cn')? false:true;
     <header class="header-container">
         <nav>
             <?php if($logoShow): ?>
-                <h2 class="header-title">3T live 直播版  后台管理系统<a style="margin-left: 10px;" class="logout">注销</a></h2>
+                <h2 class="header-title">3T live 直播版  后台管理系统<a style="margin-left: 30px;" class="logout">退出</a></h2>
             <?php else:?>
-                <h2 class="header-title">后台管理系统<a style="margin-left: 10px;" class="logout">注销</a></h2>
+                <h2 class="header-title">后台管理系统<a style="margin-left: 30px;" class="logout">退出</a></h2>
             <?php endif;?>
         </nav>
     </header>
@@ -334,14 +334,15 @@ $logoShow = ($_SERVER['HTTP_HOST']!=='3tlive.3ttech.cn')? false:true;
 </body>
 <script type="text/javascript">
     $(".logout").unbind("click").bind("click",function () {
-        $("#logout_frame").css("display","block");
-        $("#logout-confirm").unbind("click").bind("click",function(){
-            $("#logout_frame").css("display","none");
-            window.location.href = "/index/logout";
-        });
-        $("#logout-close").unbind("click").bind("click",function(){
-            $("#logout_frame").css("display","none");
-        });
+        window.location.href = "/index/logout";
+        // $("#logout_frame").css("display","block");
+        // $("#logout-confirm").unbind("click").bind("click",function(){
+        //     $("#logout_frame").css("display","none");
+        //     window.location.href = "/index/logout";
+        // });
+        // $("#logout-close").unbind("click").bind("click",function(){
+        //     $("#logout_frame").css("display","none");
+        // });
     });
 </script>
 </html>
