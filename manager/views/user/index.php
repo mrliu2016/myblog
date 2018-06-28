@@ -321,7 +321,7 @@ $this->title = '用户管理';
             <div class="c-modal-close s-banword-close recharge-close">关闭</div>
             <div class="c-modal_header">充值</div>
             <div class="s-banword-content">
-                <input class="c-input s-banword-input" type="text" placeholder="请输入整数充值金额" maxlength="10" id="user-balance">
+                <input class="c-input s-banword-input" type="number" placeholder="请输入正整数充值金额" maxlength="10" id="user-balance">
             </div>
             <div class="c-modal-footer s-banword-operate">
                 <button class="c-btn c-btn-primary c-btn--large s-banword-confirm recharge-confirm">确认</button>
@@ -451,8 +451,8 @@ $this->title = '用户管理';
         $("#edit_frame").css("display","block");
         $(".recharge-confirm").unbind("click").bind("click",function () {
             var balance = $("#user-balance").val();
-            if(balance == '' || balance == undefined || balance == null){
-                // tip("请输入充值金额！");
+
+            if(balance == '' || balance == undefined || balance == null || balance <= 0){
                 return false;
             }
             $("#edit_frame").css("display","none");
@@ -488,6 +488,7 @@ $this->title = '用户管理';
         $("#tip_frame").css("display","block");
         $(".s-banlive-confirm-text-tip").text(message);
         $("#tip-confirm").unbind("click").bind("click",function () {
+            $(".s-banlive-confirm-text-tip").text("");
             $("#tip_frame").css("display","none");
         });
     }
