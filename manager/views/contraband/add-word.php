@@ -6,7 +6,7 @@ $this->title = '新增违禁词';
     <div class="s-robot-form-details">
         <p class="c-form_item">
             <span class="c-form_item-title">违禁词：</span>
-            <input class="c-input c-form_item-input" placeholder="0-10个字符长度" id="word"/>
+            <input class="c-input c-form_item-input" placeholder="0-10个字符长度" id="word" autocomplete="off"/>
         </p>
     </div>
     <div>
