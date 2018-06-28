@@ -25,7 +25,6 @@ class GiftController extends BaseController
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $params['isDelete'] = 0;
-
         if(isset($params['isFire']) && $params['isFire'] == ''){
             unset($params['isFire']);
         }
@@ -34,7 +33,6 @@ class GiftController extends BaseController
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
             'itemList' => $result,
-//            'pagination' => self::pagination($pageNo, $count),
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
             'page'=>BroadcastService::pageBanner('/gift/index',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
@@ -46,7 +44,6 @@ class GiftController extends BaseController
         $id = Yii::$app->request->post('id');
         $id = Gift::deleteGift($id);
         if ($id) {
-//            Yii::$app->getResponse()->redirect('/gift/index');
             $this->jsonReturnSuccess(0,'删除成功.');
         }
         else{
@@ -75,7 +72,6 @@ class GiftController extends BaseController
         $params = Yii::$app->request->getQueryParams();
         $id = $params['id'];
         $item = Gift::queryById($id);
-//        print_r($item);die;
         return $this->render('gift-edit',['item'=>$item]);
     }
     //礼物详情
