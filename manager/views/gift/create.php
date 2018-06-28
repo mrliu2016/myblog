@@ -38,13 +38,13 @@ $this->title = '礼物管理';
             <div class="s-robot-form-details">
                 <p class="c-form_item">
                     <span class="c-form_item-title">礼物名称：</span>
-                    <input class="c-input c-form_item-input" placeholder="0-10个字符长度" name="name" id="name" maxlength="10"/>
+                    <input class="c-input c-form_item-input" placeholder="0-10个字符长度" name="name" id="name" maxlength="10" autocomplete="off"/>
                 </p>
                 <p class="c-form_item">
                     <span class="c-form_item-title">价格：</span>
                     <span class="s-robot-form_give-wrap">
-                            <input class="c-input c-form_item-input s-robot-form_give" name="price" id="price"/>
-                        </span>
+                        <input class="c-input c-form_item-input s-robot-form_give" name="price" id="price" autocomplete="off"/>
+                    </span>
                 </p>
                 <p class="c-form_item">
                     <span class="c-form_item-title">是否连发：</span>
