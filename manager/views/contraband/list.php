@@ -161,7 +161,7 @@ $this->title = '违禁词管理';
     function editWord(id,word) {
 
         $("#edit_frame").css("display","block");
-        // $(".s-banword-input").val(word);
+        $(".s-banword-input").val(word);
         $(".s-banword-input").focus();//聚焦
         $(".s-banword-confirm").unbind('click').bind('click',function () {
             var word = $(".s-banword-input").val();

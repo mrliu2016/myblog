@@ -10,7 +10,6 @@ use Yii;
 class RobotController extends BaseController{
 
     const PAGE_SIZE = 10;
-
     public function actionIndex(){
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
@@ -96,8 +95,16 @@ class RobotController extends BaseController{
         else{
             $params = Yii::$app->request->get();
             $id = $params['id'];
+            $item = User::queryById($id);
+
+            $sendGift =  Order::queryReceiveGiftByUserId($id,true);//送出
+            $item['sendGift'] = empty($sendGift)?0:$sendGift['totalPrice'];
+
+            $receivedGift = Order::queryReceiveGiftByUserId($id,false);//收到
+            $item['receivedGift'] = empty($receivedGift)?0:$receivedGift['totalPrice'];
+
             return $this->render('edit-robot',[
-                'id'=>$id
+                'item'=>$item
             ]);
         }
     }
