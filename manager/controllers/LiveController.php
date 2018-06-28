@@ -78,7 +78,6 @@ class LiveController extends BaseController
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $params['isLive'] = 2;
         $list = array();
-
         //通过昵称查询
         if(!empty($params['nickName'])){
             $result = User::queryInfoByNickName($params['nickName']);//查询出昵称的用户id
@@ -134,7 +133,6 @@ class LiveController extends BaseController
                 $val['nickName'] = $userInfo['nickName'];
             }
         }
-//        $result = Video::JianYellow($params);
         $count = Video::queryInfoNum($params);
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('yellow',[
