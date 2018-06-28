@@ -239,14 +239,14 @@ $this->title = '用户管理';
                         <td><a href="#" onclick="recharge(<?=$item['id']?>)">充值</a></td>
                         <td>
                             <?php if(empty($item['playType']) || $item['playType'] == 0):?>
-                                <div class="switch-mod switch-mod-open switch-hover"><span>启用</span>
+                                <div class="switch-mod switch-mod-open switch-hover" style="margin-left:0px"><span>启用</span>
                                     <input class="show-notes input-switch " type="checkbox" name="show-notes"
                                            checked="checked"
                                            value="<?= $item["id"]. ",".$item["roomId"]?>" onclick="noplay(<?= $item['id']?>,<?=$item['roomId']?>)">
                                     <label for="show-notes" class="lable-switch-mod-open" ></label>
                                 </div>
                             <?php elseif($item['playType'] == 1 || $item['playType'] == 2 || $item['playType'] == 3 || $item['playType'] == 4):?>
-                                <div class="switch-mod switch-mod-open switch-hover"><span>停用</span>
+                                <div class="switch-mod switch-mod-open switch-hover" style="margin-left:0px"><span>停用</span>
                                     <input class="show-notes input-switch" type="checkbox" name="show-notes"
                                            checked="checked"
                                            value="<?= $item["id"]. ",".$item["roomId"]?>" onclick="recovery(<?= $item['id']?>,<?=$item['roomId']?>)">
@@ -321,7 +321,7 @@ $this->title = '用户管理';
             <div class="c-modal-close s-banword-close recharge-close">关闭</div>
             <div class="c-modal_header">充值</div>
             <div class="s-banword-content">
-                <input class="c-input s-banword-input" type="text" placeholder="0到10个字符长度" maxlength="10" id="user-balance">
+                <input class="c-input s-banword-input" type="text" placeholder="请输入整数充值金额" maxlength="10" id="user-balance">
             </div>
             <div class="c-modal-footer s-banword-operate">
                 <button class="c-btn c-btn-primary c-btn--large s-banword-confirm recharge-confirm">确认</button>
