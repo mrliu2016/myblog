@@ -188,9 +188,6 @@ $this->title = '违禁词管理';
                         alert("编辑失败");
                     }
                     window.location.reload();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('get issue');
                 }
             });
         });

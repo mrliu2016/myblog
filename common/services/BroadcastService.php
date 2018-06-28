@@ -8,12 +8,9 @@ class BroadcastService{
         $total_pages   = ceil($total/$pagesize);//总页数
         $pageBanner = '';
         if($page>1){
-            /*$pageBanner.= "<a class='c-btn s-gift-page' href='javascript:".$method."(".($page-1).")'>首页</a>";*/
-//            $pageBanner.= "<a class='c-btn s-gift-page s-gift-prepage' href='javascript:".$method."(".($page-1).")'>.</a>";
             $pageBanner .= '<a class="c-btn s-gift-page s-gift-prepage" href="'.$url.'?page='.($page-1).'">.</a>';
         }
         else{
-//            $pageBanner.= "<a disabled class='c-btn s-gift-page s-gift-prepage' href='javascript:".$method."(".($page-1).")'>.</a>";
             $pageBanner .= '<a disabled class="c-btn s-gift-page s-gift-prepage" href="#">.</a>';
         }
         //计算偏移量
@@ -24,9 +21,7 @@ class BroadcastService{
 
         if($total_pages>$showPage){
             if($page>$pageoffset+1){
-//                $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$start.")'>".$start."</a>";
                 $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$start.'">'.$start.'</a>';
-                //$pageBanner.="<a href='javascript:".$method."(".$start.")'>".$start."</span>";
                 $pageBanner.="<a>...</a>";
             }
             if($page>$pageoffset){
@@ -43,11 +38,9 @@ class BroadcastService{
         }
         for($i=$start;$i<=$end-1;$i++){
             if($page==$i){
-//                $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$i.")'  class='".$act."'><span>".$i."</span></a>";
                 $pageBanner .= '<a class="c-btn s-gift-page '.$act.'" href="'.$url.'?page='.$i.'">'.$i.'</a>';
             }
             else{
-//                $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$i.")'>".$i."</a>";
                 $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$i.'">'.$i.'</a>';
             }
         }
@@ -60,8 +53,7 @@ class BroadcastService{
             $pageBanner .= '<a class="c-btn s-gift-page s-gift-nextpage" href="'.$url.'?page='.($page+1).'">.</a>';
         }
         if($page==$total_pages){
-//            $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$total_pages.")' class='".$act."'><span>".$total_pages."</span></a>";
-            $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$total_pages.'">'.$total_pages.'</a>';
+            $pageBanner .= '<a class="c-btn s-gift-page '.$act.'" href="'.$url.'?page='.$total_pages.'">'.$total_pages.'</a>';
         }
         return $pageBanner;
     }

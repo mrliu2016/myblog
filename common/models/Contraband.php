@@ -32,7 +32,7 @@ class Contraband extends ActiveRecord{
         $find = static::find();
         $find = self::buildParams($find, $params);
         $result = $find->asArray()
-            ->orderBy('updated asc')
+            ->orderBy('updated desc')
             ->offset($offset)->limit($params['defaultPageSize'])->all();
         return $result;
     }
