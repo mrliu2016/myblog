@@ -107,7 +107,7 @@ class User extends ActiveRecord
         $model->userName = $mobile;
 //        $model->nickName = substr($mobile, 0, 3) . "****" . substr($mobile, 7, 4);
         $model->nickName = Yii::$app->params['defaultNickName'] . date('mdHis', time());
-        $model->balance = 10000000;//注册默认10000000
+        $model->balance = 100000;//注册默认10000000
         $model->roomId = static::generateId();
         $model->created = time();
         $model->updated = time();

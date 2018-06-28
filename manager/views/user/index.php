@@ -324,7 +324,7 @@ $this->title = '用户管理';
                 <input class="c-input s-banword-input" type="text" placeholder="0到10个字符长度" maxlength="10">
             </div>
             <div class="c-modal-footer s-banword-operate">
-                <button class="c-btn c-btn-primary c-btn--large s-banword-confirm">确认</button>
+                <button class="c-btn c-btn-primary c-btn--large s-banword-confirm recharge-confirm">确认</button>
                 <button class="c-btn c-btn--large s-banword-cancel">取消</button>
             </div>
         </div>
