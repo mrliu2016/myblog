@@ -48,7 +48,7 @@ $base_path = rtrim(dirname($_SERVER['SCRIPT_NAME']), "/");
 /**
  * Generate references to required stylesheets & javascript.
  *
- * If the calling script (such as index.php) resides in
+ * If the calling script (such as login.php) resides in
  * a different location that than 'xhprof_html' directory the
  * caller must provide the URL path to 'xhprof_html' directory
  * so that the correct location of the style sheets/javascript

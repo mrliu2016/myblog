@@ -25,12 +25,6 @@ class UserController extends BaseController
     const PAGE_SIZE = 10;
     public $enableCsrfValidation = false;
 
-    //登录
-    public function actionLogin(){
-
-        return $this->render('login');
-    }
-
     public function actionIndex()
     {
         $params = Yii::$app->request->getQueryParams();
@@ -104,7 +98,7 @@ class UserController extends BaseController
         $id = intval($params['id']);
         $user = User::queryById($id);
         $user['isAuth'] = 0;
-        if(!empty($user['realName']) && !empty($user['isCard'])){
+        if(!empty($user['realName']) && !empty($user['idCard'])){
             $user['isAuth'] = 1;
         }
         //送出礼物

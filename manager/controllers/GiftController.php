@@ -75,6 +75,7 @@ class GiftController extends BaseController
         $params = Yii::$app->request->getQueryParams();
         $id = $params['id'];
         $item = Gift::queryById($id);
+//        print_r($item);die;
         return $this->render('gift-edit',['item'=>$item]);
     }
     //礼物详情
