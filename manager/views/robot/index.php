@@ -156,6 +156,7 @@ $this->title = '机器人管理';
         $("#del-robot").unbind("click").bind("click",function () {
             var params = {};
             params.id = id;
+            $("#confirm_frame").css("display","none");
             $.ajax({
                 url: "/robot/delete-robot",
                 type: "post",
@@ -170,9 +171,6 @@ $this->title = '机器人管理';
                         tip("删除失败");
                     }
                     // window.location.reload();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('get issue');
                 }
             });
         });
@@ -197,9 +195,6 @@ $this->title = '机器人管理';
                 else{
                     tip("更新失败");
                 }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('get issue');
             }
         });
     });
@@ -207,7 +202,6 @@ $this->title = '机器人管理';
     function tip($message) {
         $("#tip_frame").css("display","block");
         $(".s-banlive-confirm-text2").text($message);
-
         $("#close-tip").unbind("click").bind("click",function(){
             $("#tip_frame").css("display","none");
         });
