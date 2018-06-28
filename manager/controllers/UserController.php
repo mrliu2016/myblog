@@ -182,8 +182,17 @@ class UserController extends BaseController
     public function actionRecovery(){
         $params = Yii::$app->request->post();
         $params['type'] = 0;
-
         if(User::operateRecovery($params)){
+            $this->jsonReturnSuccess(0);
+        }
+        else{
+            $this->jsonReturnError(-1);
+        }
+    }
+    //充值
+    public function actionRecharge(){
+        $params = Yii::$app->request->post();
+        if(User::operateRecharge($params)){
             $this->jsonReturnSuccess(0);
         }
         else{

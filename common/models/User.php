@@ -709,5 +709,13 @@ class User extends ActiveRecord
         }
         return ['code' => -1];
     }
+    //充值
+    public static function operateRecharge($params){
+        $model = static::find()->andWhere(['id' => $params['userId']])->one();
+        $model->balance = $model->balance + intval($params['balance']);
+        $model->updated = $_SERVER['REQUEST_TIME'];
+        $model->save();
+        return $model->id;
+    }
 }
 

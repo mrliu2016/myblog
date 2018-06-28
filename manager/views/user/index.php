@@ -239,14 +239,14 @@ $this->title = '用户管理';
                         <td><a href="#" onclick="recharge(<?=$item['id']?>)">充值</a></td>
                         <td>
                             <?php if(empty($item['playType']) || $item['playType'] == 0):?>
-                                <div class="switch-mod switch-mod-open switch-hover"><span>启用</span>
+                                <div class="switch-mod switch-mod-open switch-hover" style="margin-left:0px"><span>启用</span>
                                     <input class="show-notes input-switch " type="checkbox" name="show-notes"
                                            checked="checked"
                                            value="<?= $item["id"]. ",".$item["roomId"]?>" onclick="noplay(<?= $item['id']?>,<?=$item['roomId']?>)">
                                     <label for="show-notes" class="lable-switch-mod-open" ></label>
                                 </div>
                             <?php elseif($item['playType'] == 1 || $item['playType'] == 2 || $item['playType'] == 3 || $item['playType'] == 4):?>
-                                <div class="switch-mod switch-mod-open switch-hover"><span>停用</span>
+                                <div class="switch-mod switch-mod-open switch-hover" style="margin-left:0px"><span>停用</span>
                                     <input class="show-notes input-switch" type="checkbox" name="show-notes"
                                            checked="checked"
                                            value="<?= $item["id"]. ",".$item["roomId"]?>" onclick="recovery(<?= $item['id']?>,<?=$item['roomId']?>)">
@@ -318,19 +318,34 @@ $this->title = '用户管理';
     <div class="c-modal-mask"></div>
     <div class="c-modal-wrap s-banword" >
         <div class="c-modal">
-            <div class="c-modal-close s-banword-close">关闭</div>
+            <div class="c-modal-close s-banword-close recharge-close">关闭</div>
             <div class="c-modal_header">充值</div>
             <div class="s-banword-content">
-                <input class="c-input s-banword-input" type="text" placeholder="0到10个字符长度" maxlength="10">
+                <input class="c-input s-banword-input" type="number" placeholder="请输入正整数充值金额" maxlength="10" id="user-balance">
             </div>
             <div class="c-modal-footer s-banword-operate">
                 <button class="c-btn c-btn-primary c-btn--large s-banword-confirm recharge-confirm">确认</button>
-                <button class="c-btn c-btn--large s-banword-cancel">取消</button>
+                <button class="c-btn c-btn--large s-banword-cancel recharge-cancel">取消</button>
             </div>
         </div>
     </div>
 </div>
 <!--编辑弹框end-->
+
+<!--提示框start-->
+<div style="display: none;" id="tip_frame">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text-tip">确认恢复用户正常状态？</span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="tip-confirm">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
 
@@ -375,8 +390,6 @@ $this->title = '用户管理';
     function noplay(userId,roomId) {
         $("#forbid_frame").css("display","block");
         $("#noplay-comfirm").unbind('click').bind('click',function () {
-
-
             var type = 0;
             $(".s-banlive-btn").each(function () {
                 if($(this).hasClass("c-btn-primary")){
@@ -401,7 +414,7 @@ $this->title = '用户管理';
                     window.location.reload();
                 }
                 else{
-                    alert('禁播失败');
+                    tip("禁播失败");
                 }
             });
         });
@@ -424,11 +437,10 @@ $this->title = '用户管理';
                 // timeout: 1000
             }).done(function (data) {
                 if(data.code == 0){
-                    // alert("恢复成功");
                     window.location.reload();
                 }
                 else{
-                    alert("恢复失败");
+                    tip("恢复失败");
                 }
             });
         });
@@ -437,6 +449,47 @@ $this->title = '用户管理';
     //充值
     function recharge(userId) {
         $("#edit_frame").css("display","block");
+        $(".recharge-confirm").unbind("click").bind("click",function () {
+            var balance = $("#user-balance").val();
 
+            if(balance == '' || balance == undefined || balance == null || balance <= 0){
+                return false;
+            }
+            $("#edit_frame").css("display","none");
+            var params = {};
+            params.userId = userId;
+            params.balance = balance;
+            $.ajax({
+                type: 'post',
+                url: '/user/recharge',
+                data: params,
+                dataType: 'json',
+                success:function (data) {
+                    if(data.code == 0){
+                        window.location.reload();
+                    }
+                    else{
+                        tip("充值失败！");
+                    }
+                }
+            });
+        });
+        //取消
+        $(".recharge-cancel").unbind("click").bind("click",function () {
+            $("#edit_frame").css("display","none");
+        });
+        //关闭
+        $(".recharge-close").unbind("click").bind("click",function () {
+            $("#edit_frame").css("display","none");
+        });
+    }
+    //提示框
+    function tip(message) {
+        $("#tip_frame").css("display","block");
+        $(".s-banlive-confirm-text-tip").text(message);
+        $("#tip-confirm").unbind("click").bind("click",function () {
+            $(".s-banlive-confirm-text-tip").text("");
+            $("#tip_frame").css("display","none");
+        });
     }
 </script>

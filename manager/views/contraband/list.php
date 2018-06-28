@@ -115,10 +115,10 @@ $this->title = '违禁词管理';
     <div class="c-modal-wrap s-banlive">
         <div class="c-modal">
             <div class="s-banlive-content">
-                <span class="s-banlive-confirm-text">确认删除此机器人？</span>
+                <span class="s-banlive-confirm-text-tip">确认删除此机器人？</span>
             </div>
             <div class="c-modal-footer s-banlive-operate">
-                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm" id="tip-confirm">确认</button>
             </div>
         </div>
     </div>
@@ -128,11 +128,9 @@ $this->title = '违禁词管理';
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
-
     $(".s-banword-cancel").unbind('click').bind('click',function () {
         $("#edit_frame").css("display","none");
     });
-
     $(".s-banword-close").unbind('click').bind('click',function(){
         $("#edit_frame").css("display","none");
     });
@@ -145,14 +143,11 @@ $this->title = '违禁词管理';
             dataType: "json",
             success: function (data) {
                 if(data.code == 0){
-                    alert("更新成功！");
+                    tip("更新成功！");
                 }
                 else{
-                    alert("更新失败");
+                    tip("更新失败");
                 }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('get issue');
             }
         });
     });
@@ -166,10 +161,8 @@ $this->title = '违禁词管理';
         $(".s-banword-confirm").unbind('click').bind('click',function () {
             var word = $(".s-banword-input").val();
             if(word.length >10 || word == "" || word == null || word == undefined){
-                // alert("字段长度要求不能超过10个字符。");
                 return false;
             }
-
             var params = {};
             params.id = id;
             params.word = word;
@@ -185,9 +178,9 @@ $this->title = '违禁词管理';
                         window.location.reload();
                     }
                     else{
-                        alert("编辑失败");
+                        tip("编辑失败");
                     }
-                    window.location.reload();
+                    // window.location.reload();
                 }
             });
         });
@@ -200,6 +193,7 @@ $this->title = '违禁词管理';
         $(".s-banlive-confirm").unbind("click").bind("click",function () {
             var params = {};
             params.id = id;
+            $("#confirm_frame").css("display","none");
             $.ajax({
                 url: "/contraband/delete-word",
                 type: "post",
@@ -211,12 +205,9 @@ $this->title = '违禁词管理';
                         window.location.reload();
                     }
                     else{
-                        alert("删除失败");
+                        tip("删除失败");
                     }
                     // window.location.reload();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('get issue');
                 }
             });
         });
@@ -225,6 +216,14 @@ $this->title = '违禁词管理';
         });
         $(".s-banlive-cancel").unbind('click').bind('click',function () {
             $("#confirm_frame").css("display","none");
+        });
+    }
+
+    function tip(message) {
+        $("#tip_frame").css("display","block");
+        $(".s-banlive-confirm-text-tip").text(message);
+        $("#tip-confirm").unbind("click").bind("click",function () {
+            $("#tip_frame").css("display","none");
         });
     }
 </script>
