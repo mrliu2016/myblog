@@ -14,6 +14,7 @@ class ContrabandController extends BaseController{
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        $params['isDelete'] = 0;
         $list = Contraband::queryInfo($params);
         $count  = Contraband::queryInfoNum($params);
 
