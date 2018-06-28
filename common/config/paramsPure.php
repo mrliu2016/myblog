@@ -72,7 +72,7 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '草莓',
+        'defaultNickName' => '用户',
         'pullStream' => [
             'CSY' => [
                 'domain' => 'push.huju-tech.com',
@@ -157,7 +157,7 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '草莓',
+        'defaultNickName' => '用户',
         'pullStream' => [
             'CSY' => [
                 'domain' => 'push.huju-tech.com',
@@ -242,7 +242,7 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '草莓',
+        'defaultNickName' => '用户',
         'pullStream' => [
             'CSY' => [
                 'domain' => 'push.huju-tech.com',
@@ -327,7 +327,7 @@ $params = [
             'appSecret' => 'ISg11JHsFd'
         ],
         'defaultAvatar' => 'http://3tlive.oss-cn-beijing.aliyuncs.com/publishlive/900019/IMG_20180516_115240.png',
-        'defaultNickName' => '草莓',
+        'defaultNickName' => '用户',
         'pullStream' => [
             'CSY' => [
                 'domain' => 'push.huju-tech.com',
