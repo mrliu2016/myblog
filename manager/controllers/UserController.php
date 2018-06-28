@@ -98,7 +98,7 @@ class UserController extends BaseController
         $id = intval($params['id']);
         $user = User::queryById($id);
         $user['isAuth'] = 0;
-        if(!empty($user['realName']) && !empty($user['isCard'])){
+        if(!empty($user['realName']) && !empty($user['idCard'])){
             $user['isAuth'] = 1;
         }
         //送出礼物
