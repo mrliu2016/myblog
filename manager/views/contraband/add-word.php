@@ -1,8 +1,8 @@
 <?php
-$this->title = '新增违禁词';
+$this->title = '违禁词管理';
 ?>
 <div class="s-robot-form">
-    <div class="s-robot-form_title">用户详情<span style="float: right;"><a href="/contraband/list">返回</a></span></div>
+    <div class="s-robot-form_title">新增违禁词<span style="float: right;"><a href="/contraband/list">返回</a></span></div>
     <div class="s-robot-form-details">
         <p class="c-form_item">
             <span class="c-form_item-title">违禁词：</span>
