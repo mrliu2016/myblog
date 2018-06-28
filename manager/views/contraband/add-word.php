@@ -14,11 +14,26 @@ $this->title = '违禁词管理';
         <button class="c-btn" id="cancel">取消</button>
     </div>
 </div>
+
+<!--提示语start-->
+<div id="tip_frame" style="display: none">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banlive">
+        <div class="c-modal">
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text"></span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script>
 $("#confirm").click(function(){
     var word = $("#word").val();
     if(word == undefined || word == '' || word == null || word.length >10){
-        alert('请输入正确的违禁词');
+        tip('请输入正确的违禁词');
         return false;
     }
     var params  = {};
@@ -33,7 +48,7 @@ $("#confirm").click(function(){
                     window.location.href='/contraband/list';
                 }
                 else{
-                    alert('新增失败！');
+                    tip("新增违禁词失败！");
                 }
             }
         });
@@ -41,4 +56,11 @@ $("#confirm").click(function(){
     $("#cancel").click(function () {
         $("#word").val("");
     });
+    function tip(message) {
+        $("#tip_frame").css("display","block");
+        $(".s-banlive-confirm-text").text(message);
+        $(".s-banlive-confirm").unbind("click").bind("click",function () {
+            $("#tip_frame").css("display","none");
+        });
+    }
 </script>
