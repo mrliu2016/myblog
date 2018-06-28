@@ -43,6 +43,7 @@ class Report extends ActiveRecord
         $find = static::find();
         $find = self::buildParams($find, $params);
         return $find->asArray()
+            ->orderBy('created desc')
             ->offset($offset)
             ->limit($params['defaultPageSize'])
             ->all();
@@ -124,7 +125,7 @@ class Report extends ActiveRecord
     //根据被举报用户id查询用户信息
     public static function queryReportInfoByReportedUserId($id){
 
-        $sql = "SELECT * FROM ".static ::tableName()." WHERE `reportedUserId`=".intval($id);
+        $sql = "SELECT * FROM ".static ::tableName()." WHERE `reportedUserId`=".intval($id)." ORDER BY created DESC";
         return static ::queryBySQLCondition($sql);
     }
     //对查询出的举报信息排序
