@@ -37,6 +37,7 @@ class WebSocketController extends Controller
             $server->redis = $redis;
         });
         $this->server->on('open', function ($server, $req) {
+            ll($server->getClientInfo($req->fd), 'webSocketMessage.log');
             LiveService::openConnection($server, $req->fd);
         });
         $this->server->on('message', function ($server, $frame) {
