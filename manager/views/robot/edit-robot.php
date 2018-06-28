@@ -57,10 +57,10 @@ $this->title = '机器人管理';
                 <span class="c-select-wrap">
                     <select class="c-select c-form_item-input" default="0" id="sex" name="sex">
                         <?php if(isset($item['sex']) && $item['sex'] == 1):?>
-                            <option value="1">男</option>
+                            <option value="1" checked>男</option>
                             <option value="0">女</option>
                         <?php else:?>
-                            <option value="0">女</option>
+                            <option value="0" checked>女</option>
                             <option value="1">男</option>
                         <?php endif;?>
                     </select>
