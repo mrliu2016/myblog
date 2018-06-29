@@ -28,7 +28,7 @@ $this->context->layout = false;
                     <?php if($_SERVER['HTTP_HOST']=='3tlive.3ttech.cn'):?>
                         <img class="live-download-item_qrCode" src="/img/live/qrcode-ios.png" alt="qrcode">
                     <?php else: ?>
-                        <img class="live-download-item_qrCode" src="/img/live/qrcode-ios.png" alt="qrcode">
+                        <img class="live-download-item_qrCode" src="/img/live/pure-ios.png" alt="qrcode">
                     <?php endif;?>
                     <a class="live-download-btn-wrap" href="" download>
                         <button class="live-download-item_btn">
@@ -43,7 +43,7 @@ $this->context->layout = false;
                     <?php if($_SERVER['HTTP_HOST']=='3tlive.3ttech.cn'):?>
                         <img class="live-download-item_qrCode" src="/img/live/qrcode-andriod.png" alt="qrcode">
                     <?php else: ?>
-                        <img class="live-download-item_qrCode" src="/img/live/qrcode-andriod.png" alt="qrcode">
+                        <img class="live-download-item_qrCode" src="/img/live/pure-andriod.png" alt="qrcode">
                     <?php endif;?>
                     <a class="live-download-btn-wrap" href="" download>
                         <button class="live-download-item_btn">
