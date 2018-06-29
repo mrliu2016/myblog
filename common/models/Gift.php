@@ -75,7 +75,7 @@ class Gift extends ActiveRecord
         $model = new self();
         $model->name = $params['name'];
         $model->imgSrc = $params['imgSrc'];
-        $model->price = $params['price'] * 100;
+        $model->price = $params['price'];
         $model->isFire = $params['fire'];
         $model->created = time();
         $model->updated = time();

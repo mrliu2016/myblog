@@ -35,7 +35,8 @@ $this->context->layout = false;
                             iOS
                         </button>
                     </a>
-                    <a class="live-download-item_a" href="https://abc" download>使用手册下载&gt;</a>
+                   <!-- <a class="live-download-item_a" href="https://abc" download>使用手册下载&gt;</a>-->
+                    <a class="live-download-item_a" href="http://3ttech.cn/res/tpl/default/file/CMZBYD.pdf" download>使用手册下载&gt;</a>
                 </li>
                 <li class="live-download-item">
                     <div class="live-download-item_icon icon-android"></div>
@@ -49,7 +50,8 @@ $this->context->layout = false;
                             Android
                         </button>
                     </a>
-                    <a class="live-download-item_a" href="https://abc" download>使用手册下载&gt;</a>
+                    <!--<a class="live-download-item_a" href="https://abc" download>使用手册下载&gt;</a>-->
+                    <a class="live-download-item_a" href="http://3ttech.cn/res/tpl/default/file/CMZBYD.pdf" download>使用手册下载&gt;</a>
                 </li>
             </ul>
         </div>
