@@ -46,6 +46,23 @@ class MonitorLiveController extends Controller
                     Video::updateEndTime($video);
                 }
             }
+
+            while ($item = $redis->rpop(Constants::QUEUE_WS_HEARTBEAT_EX)) {
+                $item = json_decode(base64_decode($item), true);
+                $video = Video::queryById($item['streamId'], true);
+                if (!empty($video)) {
+                    //更新观众人数
+                    $wsIp = LiveService::getWsIp($item['roomId']);
+                    $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $item['roomId'];
+                    $viewerNum = $redis->hLen($keyWSRoomUser);
+                    $viewerNum = ($viewerNum <= Constants::NUM_WS_ROOM_USER) ? $viewerNum : LiveService::roomMemberNum(null, $item['roomId']);
+                    if ($viewerNum > $video->viewerNum) {
+                        $video->viewerNum = $viewerNum;
+                    }
+                    //更新直播结束时间
+                    Video::updateEndTime($video);
+                }
+            }
         } catch (\Exception $ex) {
             ll($ex->getMessage(), __FUNCTION__ . '.log');
         }
