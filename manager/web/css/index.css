@@ -94,7 +94,7 @@ body {
     outline: none;
     -ms-touch-action: manipulation;
     touch-action: manipulation;
-    cursor: pointer;
+    /*cursor: pointer;*/
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
@@ -102,11 +102,11 @@ body {
     -webkit-transition: color .3s;
     transition: color .3s;
 }
-.live-download-item_btn:hover {
+/*.live-download-item_btn:hover {
     color: #FFFFFF;
     border: 0;
     background-image: linear-gradient(133deg, rgba(0,237,168,0.80) 0%, #1AC2AD 100%);
-}
+}*/
 .live-download-item_a {
     display: block;
     margin: auto;

@@ -30,7 +30,7 @@ $this->context->layout = false;
                     <?php else: ?>
                         <img class="live-download-item_qrCode" src="/img/live/pure-ios.png" alt="qrcode">
                     <?php endif;?>
-                    <a class="live-download-btn-wrap" href="" download>
+                    <a class="live-download-btn-wrap" href="#">
                         <button class="live-download-item_btn">
                             iOS
                         </button>
@@ -45,7 +45,7 @@ $this->context->layout = false;
                     <?php else: ?>
                         <img class="live-download-item_qrCode" src="/img/live/pure-andriod.png" alt="qrcode">
                     <?php endif;?>
-                    <a class="live-download-btn-wrap" href="" download>
+                    <a class="live-download-btn-wrap" href="#">
                         <button class="live-download-item_btn">
                             Android
                         </button>
