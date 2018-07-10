@@ -1,8 +1,10 @@
 <?php
 namespace app\manager\controllers;
 
+use app\common\components\RedisClient;
 use app\common\models\Contraband;
 use app\common\services\BroadcastService;
+use app\common\services\Constants;
 use Yii;
 
 class ContrabandController extends BaseController{
@@ -133,4 +135,5 @@ class ContrabandController extends BaseController{
             $this->jsonReturnError(-1);
         }
     }
+
 }
