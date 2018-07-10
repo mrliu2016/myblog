@@ -151,7 +151,7 @@ class Contraband extends ActiveRecord{
             $keyWords = array_filter($word);
             $keyWords = array_unique($keyWords);
             $redis->set(Constants::WS_BANNED_WORD,base64_encode(json_encode($keyWords)));
-            $redis->expire(Constants::WS_BANNED_WORD,-1);
+//            $redis->expire(Constants::WS_BANNED_WORD,-1);
             return ['code' => 0];
         }
         return ['code' => -1];

@@ -2,7 +2,6 @@
 
 namespace app\manager\controllers;
 
-
 use app\manager\models\unified\UnifiedLoginFilter;
 use Yii;
 use yii\web\Controller;
