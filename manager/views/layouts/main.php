@@ -13,11 +13,10 @@ $logoShow = ($_SERVER['HTTP_HOST']!=='3tlive.3ttech.cn')? false:true;
     <meta name="description" content="Bootstrap Admin Template">
     <meta name="keywords" content="app, responsive, jquery, bootstrap, dashboard, admin">
     <title><?= $this->title ?></title>
-    <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/vendor/bootstrap/dist/css/bootstrap.css">
     <link rel="stylesheet" href="/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker3.css">
     <link rel="stylesheet" href="/vendor/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css">
     <link rel="stylesheet" href="/vendor/clockpicker/dist/bootstrap-clockpicker.css">
-    <link rel="stylesheet" href="/vendor/mjolnic-bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css">
     <link rel="stylesheet" href="/css/app.css?aa2222a=233">
     <link rel="stylesheet" href="/css/app-common.css?aa2222a=233">
     <link rel="stylesheet" href="/css/main.css">
