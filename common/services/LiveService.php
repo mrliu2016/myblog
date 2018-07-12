@@ -1264,6 +1264,35 @@ class LiveService
     }
 
     /**
+     * 音视频连麦用户列表
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    public static function audioVideoCallUserList($server, $frame, $message)
+    {
+        $wsIp = self::getWsIp($message['data']['roomId']);
+        $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $message['data']['roomId'];
+        if ($server->redis->exists($key)) {
+            $userList = $server->redis->hGetAll($key);
+            foreach ($userList as $key => $value) {
+                $userList[$key] = json_decode($value, true);
+            }
+            $responseMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_AUDIO_VIDEO_CALL_USER_LIST_RES,
+                'fd' => $frame->fd,
+                'data' => [
+                    'userId' => $message['data']['userId'],
+                    'roomId' => $message['data']['roomId'],
+                    'userList' => !empty($userList) ? array_values($userList) : []
+                ],
+            ];
+            $server->task($responseMessage);
+        }
+    }
+
+    /**
      * 将数字转换对应的单位
      *
      * @param $number

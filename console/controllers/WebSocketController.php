@@ -86,6 +86,9 @@ class WebSocketController extends Controller
                         case Constants::MESSAGE_TYPE_BLACKLIST_REQ: // 黑名单
                             LiveService::blacklist($server, $frame, $message);
                             break;
+                        case Constants::MESSAGE_TYPE_AUDIO_VIDEO_CALL_USER_LIST_REQ: // 音视频连麦用户列表
+                            LiveService::audioVideoCallUserList($server, $frame, $message);
+                            break;
                         default:
                             $this->server->push($frame->fd, json_encode(["message not match", $frame->fd]));
                     }
@@ -120,6 +123,7 @@ class WebSocketController extends Controller
                 switch ($message['messageType']) {
                     case Constants::MESSAGE_TYPE_JOIN_RES:
                     case Constants::MESSAGE_TYPE_LM_LIST_RES:
+                    case Constants::MESSAGE_TYPE_AUDIO_VIDEO_CALL_USER_LIST_RES:
                         LiveService::asyncBroadcastToCurrentFD($server, $task_id, $from_id, $message);
                         break;
                     default:

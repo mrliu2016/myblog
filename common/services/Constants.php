@@ -46,7 +46,8 @@ class Constants
     const MESSAGE_TYPE_LM_LIST_RES = 'lm_list_res'; // 连麦响应
     const MESSAGE_TYPE_LM_AGREE_OR_REFUSE_REQ = 'lm_agree_or_refuse_req'; // 连麦同意、拒绝请求
     const MESSAGE_TYPE_LM_AGREE_OR_REFUSE_RES = 'lm_agree_or_refuse_res'; // 连麦同意、拒绝响应
-    const MESSAGE_TYPE_LM_USER_LIST_RES = 'lm_user_list_res'; // 连麦响应
+    const MESSAGE_TYPE_AUDIO_VIDEO_CALL_USER_LIST_REQ = 'audio_video_call_list_req'; // 音视频连麦用户列表
+    const MESSAGE_TYPE_AUDIO_VIDEO_CALL_USER_LIST_RES = 'audio_video_call_list_res';
     const MESSAGE_TYPE_CLOSE_CALL_REQ = 'close_call_req'; // 断开连麦
     const MESSAGE_TYPE_CLOSE_CALL_RES = 'close_call_res';
     const MESSAGE_TYPE_CLOSE_CALL_SECONDARY_REQ = 'close_call_secondary_req'; // 副播断开连麦
