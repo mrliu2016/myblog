@@ -732,6 +732,8 @@ class LiveService
                         'userId' => $messageInfo['userId'],
                         'roomId' => $messageInfo['roomId'],
                         'type' => intval($messageInfo['type']), // 2：同意,3：拒绝
+                        'nickName' => $userInfo['nickName'],
+                        'avatar' => $userInfo['avatar'],
                         'lmType' => $userInfo['lmType'] // video:视频，audio:音频
                     ]
                 ];
@@ -746,6 +748,8 @@ class LiveService
                         'userId' => $userInfo['userId'],
                         'roomId' => $userInfo['roomId'],
                         'type' => Constants::LM_USER_OFFLINE, // 6:离线
+                        'nickName' => $userInfo['nickName'],
+                        'avatar' => $userInfo['avatar'],
                         'lmType' => $userInfo['lmType'] // video:视频，audio:音频
                     ]
                 ];
