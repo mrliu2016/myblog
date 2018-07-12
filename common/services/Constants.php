@@ -87,9 +87,9 @@ class Constants
     const WS_CONNECTION = self::PROJECT_NAME . 'WSConnection';
     const WS_DEFAULT_EXPIRE = 3600;
     const WS_WEB_SOCKET_MAX_CONNECTION = 100000;
-    const WS_WORKER_NUM = 8;
+    const WS_WORKER_NUM = 20;
     const WS_SOCKET_BUFFER_SIZE = 128 * 1024 * 1024;
-    const WS_BUFFER_OUTPUT_SIZE = 2;
+    const WS_BUFFER_OUTPUT_SIZE = 128;
 
     // 队列
     const QUEUE_WS_HEARTBEAT = self::PROJECT_NAME . 'WS_Heartbeat_Live';
@@ -186,6 +186,9 @@ class Constants
     const LM_TYPE_CLOSE = 4; // 断开连麦
     const LM_USER_ONLINE = 5;//连麦用户在线
     const LM_USER_OFFLINE = 6;//连麦用户离线
+
+    const LM_TYPE_AUDIO = 'audio'; // 音频
+    const LM_TYPE_VIDEO = 'video'; // 视频
 
     /**
      * 角色

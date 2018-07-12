@@ -15,7 +15,6 @@ class WebSocketController extends Controller
     //webSocket服务端
     public function actionServer()
     {
-//        $this->server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP);
         $this->server = new \swoole_websocket_server(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_SSL, SWOOLE_PROCESS, SWOOLE_SOCK_TCP | SWOOLE_SSL);
         $setConfig = [
             'ssl_key_file' => Yii::$app->params['webSocketSSL']['key'],
@@ -26,7 +25,7 @@ class WebSocketController extends Controller
             'worker_num' => Constants::WS_WORKER_NUM, // worker 数
             'task_worker_num' => Constants::WS_WORKER_NUM,
             'socket_buffer_size' => intval(Constants::WS_SOCKET_BUFFER_SIZE), // M 必须为数字 用于设置客户端连接最大允许占用内存数量
-//            'buffer_output_size' => intval(Constants::WS_BUFFER_OUTPUT_SIZE )// 用于设置单次最大发送长度 M
+            'buffer_output_size' => intval(Constants::WS_BUFFER_OUTPUT_SIZE)// 用于设置单次最大发送长度 M
         ];
         $this->server->set($setConfig);
         //添加一个监听端口，继续支持ws方式进行连接
@@ -120,6 +119,7 @@ class WebSocketController extends Controller
             if (isset($message['messageType'])) {
                 switch ($message['messageType']) {
                     case Constants::MESSAGE_TYPE_JOIN_RES:
+                    case Constants::MESSAGE_TYPE_LM_LIST_RES:
                         LiveService::asyncBroadcastToCurrentFD($server, $task_id, $from_id, $message);
                         break;
                     default:
