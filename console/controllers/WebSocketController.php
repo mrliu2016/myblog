@@ -23,7 +23,7 @@ class WebSocketController extends Controller
             'heartbeat_idle_time' => Constants::WS_HEARTBEAT_IDLE_TIME,
             'max_connection' => Constants::WS_WEB_SOCKET_MAX_CONNECTION, // 最大链接数
             'worker_num' => Constants::WS_WORKER_NUM, // worker 数
-            'task_worker_num' => Constants::WS_WORKER_NUM,
+            'task_worker_num' => Constants::WS_TASK_WORKER_NUM,
             'socket_buffer_size' => intval(Constants::WS_SOCKET_BUFFER_SIZE), // M 必须为数字 用于设置客户端连接最大允许占用内存数量
             'buffer_output_size' => intval(Constants::WS_BUFFER_OUTPUT_SIZE)// 用于设置单次最大发送长度 M
         ];
