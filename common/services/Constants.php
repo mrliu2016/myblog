@@ -64,6 +64,8 @@ class Constants
     const MESSAGE_TYPE_BLACKLIST_RES = 'blacklist_res';
     const MESSAGE_TYPE_GAG_REQ = 'gag_req'; // 禁言
     const MESSAGE_TYPE_GAG_RES = 'gag_res';
+    const MESSAGE_TYPE_MUTE_REQ = 'mute_req'; // 静音
+    const MESSAGE_TYPE_MUTE_RES = 'mute_res';
 
     const WS_ROOM_LOCATION = self::PROJECT_NAME . 'WSRoomLocation_';
     const WS_ROOM_FD = self::PROJECT_NAME . 'WSRoomFD_';
@@ -188,6 +190,8 @@ class Constants
     const LM_TYPE_CLOSE = 4; // 断开连麦
     const LM_USER_ONLINE = 5;//连麦用户在线
     const LM_USER_OFFLINE = 6;//连麦用户离线
+    const LM_OPEN_MUTE = 'open'; // 开启静音
+    const LM_CLOSE_MUTE = 'close'; // 关闭静音
 
     const LM_TYPE_AUDIO = 'audio'; // 音频
     const LM_TYPE_VIDEO = 'video'; // 视频

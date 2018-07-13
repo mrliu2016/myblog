@@ -89,6 +89,9 @@ class WebSocketController extends Controller
                         case Constants::MESSAGE_TYPE_AUDIO_VIDEO_CALL_USER_LIST_REQ: // 音视频连麦用户列表
                             LiveService::audioVideoCallUserList($server, $frame, $message);
                             break;
+                        case Constants::MESSAGE_TYPE_MUTE_REQ:
+                            LiveService::mute($server, $frame, $message);
+                            break;
                         default:
                             $this->server->push($frame->fd, json_encode(["message not match", $frame->fd]));
                     }

@@ -4,6 +4,7 @@ namespace app\common\services;
 
 use app\common\components\IPUtils;
 use app\common\components\RedisClient;
+use app\common\extensions\OSS\Result\BodyResult;
 use Yii;
 
 class LiveService
@@ -634,7 +635,8 @@ class LiveService
                 'roomId' => $messageInfo['roomId'],
                 'fd' => intval($frame->fd),
                 'type' => Constants::LM_APPLY,
-                'lmType' => $messageInfo['lmType'] // video:视频，audio:音频
+                'lmType' => $messageInfo['lmType'], // video:视频，audio:音频
+                'mute' => Constants::LM_CLOSE_MUTE
             ];
             $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
             $server->redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUser));
@@ -651,7 +653,8 @@ class LiveService
                     'roomId' => $messageInfo['roomId'],
                     'type' => Constants::LM_APPLY,
                     'count' => count($lmUserList),
-                    'lmType' => $messageInfo['lmType'] // video:视频，audio:音频
+                    'lmType' => $messageInfo['lmType'], // video:视频，audio:音频
+                    'mute' => Constants::LM_CLOSE_MUTE
                 ]
             ];
             $server->task($responseMessage);
@@ -734,7 +737,8 @@ class LiveService
                         'type' => intval($messageInfo['type']), // 2：同意,3：拒绝
                         'nickName' => $userInfo['nickName'],
                         'avatar' => $userInfo['avatar'],
-                        'lmType' => $userInfo['lmType'] // video:视频，audio:音频
+                        'lmType' => $userInfo['lmType'], // video:视频，audio:音频
+                        'mute' => $userInfo['mute']
                     ]
                 ];
                 $server->task($responseMessage);
@@ -750,7 +754,8 @@ class LiveService
                         'type' => Constants::LM_USER_OFFLINE, // 6:离线
                         'nickName' => $userInfo['nickName'],
                         'avatar' => $userInfo['avatar'],
-                        'lmType' => $userInfo['lmType'] // video:视频，audio:音频
+                        'lmType' => $userInfo['lmType'], // video:视频，audio:音频
+                        'mute' => $userInfo['mute']
                     ]
                 ];
                 $server->task($responseMessage);
@@ -1275,9 +1280,15 @@ class LiveService
         $wsIp = self::getWsIp($message['data']['roomId']);
         $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $message['data']['roomId'];
         if ($server->redis->exists($key)) {
-            $userList = $server->redis->hGetAll($key);
-            foreach ($userList as $key => $value) {
-                $userList[$key] = json_decode($value, true);
+            $userList = [];
+            $lmList = $server->redis->hGetAll($key);
+            foreach ($lmList as $key => $value) {
+                $item = json_decode($value, true);
+                switch ($item['type']) {
+                    case Constants::LM_TYPE_AGREE:
+                        $userList[$key] = $item;
+                        break;
+                }
             }
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_AUDIO_VIDEO_CALL_USER_LIST_RES,
@@ -1289,6 +1300,30 @@ class LiveService
                 ],
             ];
             $server->task($responseMessage);
+        }
+    }
+
+    /**
+     * 静音
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    public static function mute($server, $frame, $message)
+    {
+        $wsIp = self::getWsIp($message['data']['roomId']);
+        $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $message['data']['roomId'];
+        if ($server->redis->hexists($key, $message['data']['userId'])) {
+            $lmUser = json_decode($server->redis->hget($key, $message['data']['userId']), true);
+            $lmUser['mute'] = $message['data']['mute'];
+            $responseMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_MUTE_RES,
+                'data' => $lmUser,
+            ];
+            $server->task($responseMessage);
+
+            $server->redis->hset($key, json_encode($lmUser));
         }
     }
 
