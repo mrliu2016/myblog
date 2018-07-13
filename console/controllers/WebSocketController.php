@@ -25,7 +25,7 @@ class WebSocketController extends Controller
             'worker_num' => Constants::WS_WORKER_NUM, // worker 数
             'task_worker_num' => Constants::WS_TASK_WORKER_NUM,
             'socket_buffer_size' => intval(Constants::WS_SOCKET_BUFFER_SIZE), // M 必须为数字 用于设置客户端连接最大允许占用内存数量
-            'buffer_output_size' => intval(Constants::WS_BUFFER_OUTPUT_SIZE)// 用于设置单次最大发送长度 M
+//            'buffer_output_size' => intval(Constants::WS_BUFFER_OUTPUT_SIZE)// 用于设置单次最大发送长度 M
         ];
         $this->server->set($setConfig);
         //添加一个监听端口，继续支持ws方式进行连接
