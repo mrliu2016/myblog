@@ -46,7 +46,8 @@ class Constants
     const MESSAGE_TYPE_LM_LIST_RES = 'lm_list_res'; // 连麦响应
     const MESSAGE_TYPE_LM_AGREE_OR_REFUSE_REQ = 'lm_agree_or_refuse_req'; // 连麦同意、拒绝请求
     const MESSAGE_TYPE_LM_AGREE_OR_REFUSE_RES = 'lm_agree_or_refuse_res'; // 连麦同意、拒绝响应
-    const MESSAGE_TYPE_LM_USER_LIST_RES = 'lm_user_list_res'; // 连麦响应
+    const MESSAGE_TYPE_AUDIO_VIDEO_CALL_USER_LIST_REQ = 'audio_video_call_list_req'; // 音视频连麦用户列表
+    const MESSAGE_TYPE_AUDIO_VIDEO_CALL_USER_LIST_RES = 'audio_video_call_list_res';
     const MESSAGE_TYPE_CLOSE_CALL_REQ = 'close_call_req'; // 断开连麦
     const MESSAGE_TYPE_CLOSE_CALL_RES = 'close_call_res';
     const MESSAGE_TYPE_CLOSE_CALL_SECONDARY_REQ = 'close_call_secondary_req'; // 副播断开连麦
@@ -88,8 +89,9 @@ class Constants
     const WS_DEFAULT_EXPIRE = 3600;
     const WS_WEB_SOCKET_MAX_CONNECTION = 100000;
     const WS_WORKER_NUM = 8;
+    const WS_TASK_WORKER_NUM = 8;
     const WS_SOCKET_BUFFER_SIZE = 128 * 1024 * 1024;
-    const WS_BUFFER_OUTPUT_SIZE = 2;
+    const WS_BUFFER_OUTPUT_SIZE = 128;
 
     // 队列
     const QUEUE_WS_HEARTBEAT = self::PROJECT_NAME . 'WS_Heartbeat_Live';
@@ -186,6 +188,9 @@ class Constants
     const LM_TYPE_CLOSE = 4; // 断开连麦
     const LM_USER_ONLINE = 5;//连麦用户在线
     const LM_USER_OFFLINE = 6;//连麦用户离线
+
+    const LM_TYPE_AUDIO = 'audio'; // 音频
+    const LM_TYPE_VIDEO = 'video'; // 视频
 
     /**
      * 角色

@@ -633,7 +633,8 @@ class LiveService
                 'avatar' => $messageInfo['avatar'],
                 'roomId' => $messageInfo['roomId'],
                 'fd' => intval($frame->fd),
-                'type' => Constants::LM_APPLY
+                'type' => Constants::LM_APPLY,
+                'lmType' => $messageInfo['lmType'] // video:视频，audio:音频
             ];
             $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
             $server->redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUser));
@@ -642,16 +643,19 @@ class LiveService
             $lmUserList = LiveService::getUserLMListByRoomId($server, $messageInfo['roomId']);
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_LM_LIST_RES,
+                'fd' => intval($adminUserInfo['fd']),
                 'data' => [
-                    'roomId' => $messageInfo['roomId'],
                     'userId' => $messageInfo['userId'],
                     'nickName' => $messageInfo['nickName'],
                     'avatar' => $messageInfo['avatar'],
+                    'roomId' => $messageInfo['roomId'],
                     'type' => Constants::LM_APPLY,
-                    'count' => count($lmUserList)
+                    'count' => count($lmUserList),
+                    'lmType' => $messageInfo['lmType'] // video:视频，audio:音频
                 ]
             ];
-            $server->push(intval($adminUserInfo['fd']), json_encode($responseMessage));
+            $server->task($responseMessage);
+//            $server->push(intval($adminUserInfo['fd']), json_encode($responseMessage));
         }
     }
 
@@ -718,28 +722,23 @@ class LiveService
             $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
             $userInfo = json_decode($server->redis->hget($key, $messageInfo['userId']), true);
 
-            if ($server->connection_info($userInfo['fd'])) {//在线
-                switch ($messageInfo['type']) {
-                    case Constants::LM_TYPE_AGREE:
-                        $userInfo['type'] = intval($messageInfo['type']);
-                        $server->redis->hset($key, $messageInfo['userId'], json_encode($userInfo));
-                        break;
-                    case Constants::LM_TYPE_REFUSE:
-                        $server->redis->hdel($key, $messageInfo['userId']);
-                        break;
-                    default:
-                        break;
-                }
+            if ($server->exist($userInfo['fd'])) {//在线
+                $userInfo['type'] = intval($messageInfo['type']);
+                $server->redis->hset($key, $messageInfo['userId'], json_encode($userInfo));
                 $responseMessage = [
                     'messageType' => Constants::MESSAGE_TYPE_LM_AGREE_OR_REFUSE_RES,
                     'data' => [
                         'adminUserId' => $messageInfo['adminUserId'],
                         'userId' => $messageInfo['userId'],
                         'roomId' => $messageInfo['roomId'],
-                        'type' => intval($messageInfo['type']) // 2：同意,3：拒绝
+                        'type' => intval($messageInfo['type']), // 2：同意,3：拒绝
+                        'nickName' => $userInfo['nickName'],
+                        'avatar' => $userInfo['avatar'],
+                        'lmType' => $userInfo['lmType'] // video:视频，audio:音频
                     ]
                 ];
-                $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+                $server->task($responseMessage);
+//                $server->push(intval($userInfo['fd']), json_encode($responseMessage));
             } else {//离线
                 $server->redis->hdel($key, $messageInfo['userId']);//将用户信息从列表中删除
                 $responseMessage = [
@@ -748,10 +747,14 @@ class LiveService
                         'adminUserId' => $messageInfo['adminUserId'],
                         'userId' => $userInfo['userId'],
                         'roomId' => $userInfo['roomId'],
-                        'type' => Constants::LM_USER_OFFLINE, // 6:离线 5:在线
+                        'type' => Constants::LM_USER_OFFLINE, // 6:离线
+                        'nickName' => $userInfo['nickName'],
+                        'avatar' => $userInfo['avatar'],
+                        'lmType' => $userInfo['lmType'] // video:视频，audio:音频
                     ]
                 ];
-                $server->push(intval($masterUserInfo['fd']), json_encode($responseMessage));
+                $server->task($responseMessage);
+//                $server->push(intval($masterUserInfo['fd']), json_encode($responseMessage));
             }
         }
     }
@@ -921,7 +924,7 @@ class LiveService
     public static function secondaryCloseCall($server, $frame, $message)
     {
         static::forwardingCloseCallLM($server, $frame, $message, Constants::MESSAGE_TYPE_CLOSE_CALL_RES);
-        static::forwardingCloseCallLMPushMaster($server, $frame, $message, Constants::MESSAGE_TYPE_CLOSE_CALL_RES);
+//        static::forwardingCloseCallLMPushMaster($server, $frame, $message, Constants::MESSAGE_TYPE_CLOSE_CALL_RES);
 
     }
 
@@ -946,10 +949,12 @@ class LiveService
                     'adminUserId' => $messageInfo['adminUserId'],
                     'roomId' => $messageInfo['roomId'],
                     'userId' => $messageInfo['userId'],
-                    'type' => Constants::LM_TYPE_CLOSE // 4：断开连麦
+                    'type' => Constants::LM_TYPE_CLOSE, // 4：断开连麦
+                    'lmType' => $userInfo['lmType']
                 ]
             ];
-            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+            $server->task($responseMessage);
+//            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
             $server->redis->hdel($key, $messageInfo['userId']);
         }
     }
@@ -1259,6 +1264,35 @@ class LiveService
     }
 
     /**
+     * 音视频连麦用户列表
+     *
+     * @param $server
+     * @param $frame
+     * @param $message
+     */
+    public static function audioVideoCallUserList($server, $frame, $message)
+    {
+        $wsIp = self::getWsIp($message['data']['roomId']);
+        $key = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $message['data']['roomId'];
+        if ($server->redis->exists($key)) {
+            $userList = $server->redis->hGetAll($key);
+            foreach ($userList as $key => $value) {
+                $userList[$key] = json_decode($value, true);
+            }
+            $responseMessage = [
+                'messageType' => Constants::MESSAGE_TYPE_AUDIO_VIDEO_CALL_USER_LIST_RES,
+                'fd' => $frame->fd,
+                'data' => [
+                    'userId' => $message['data']['userId'],
+                    'roomId' => $message['data']['roomId'],
+                    'userList' => !empty($userList) ? array_values($userList) : []
+                ],
+            ];
+            $server->task($responseMessage);
+        }
+    }
+
+    /**
      * 将数字转换对应的单位
      *
      * @param $number
@@ -1396,6 +1430,7 @@ class LiveService
     public static function asyncBroadcastToCurrentFD($server, $task_id, $from_id, $message)
     {
         if ($server->exist(intval($message['fd']))) {
+            unset($message['fd']);
             $server->push(intval($message['fd']), json_encode($message));
         }
     }
