@@ -1430,7 +1430,6 @@ class LiveService
     public static function asyncBroadcastToCurrentFD($server, $task_id, $from_id, $message)
     {
         if ($server->exist(intval($message['fd']))) {
-            unset($message['fd']);
             $server->push(intval($message['fd']), json_encode($message));
         }
     }
