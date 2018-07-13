@@ -22,7 +22,7 @@ class Constants
     const DEFAULT_EXPIRES = 86400;
 
     const WEB_SOCKET_IP = '0.0.0.0';
-    const WEB_SOCKET_PORT = '9550';
+    const WEB_SOCKET_PORT = '9650';
     const WEB_SOCKET_PORT_SSL = '9651';
     const MESSAGE_TYPE_BARRAGE_REQ = 'barrage_req';
     const MESSAGE_TYPE_BARRAGE_RES = 'barrage_res';
