@@ -800,9 +800,11 @@ class LiveService
     public static function clearLMList($server, $params)
     {
         $wsIp = self::getWsIp($params['roomId']);
-        $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . '_' . $params['roomId'];
-        if (isset($params['isMaster'])) {
-            $server->redis->expire($keyWSRoomUserLMList, 0);
+        $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $params['roomId'];
+        if ($params['isMaster'] == Constants::WS_ROLE_MASTER) {
+            if ($server->redis->exists($keyWSRoomUserLMList)) {
+                $server->redis->del($keyWSRoomUserLMList);
+            }
         } else {
             $server->redis->hdel($keyWSRoomUserLMList, $params['userId']);
         }
@@ -1328,7 +1330,7 @@ class LiveService
             ];
             $server->task($responseMessage);
 
-            $server->redis->hset($key, json_encode($lmUser));
+            $server->redis->hset($key, $message['data']['userId'], json_encode($lmUser));
         }
     }
 
