@@ -636,7 +636,8 @@ class LiveService
                 'fd' => intval($frame->fd),
                 'type' => Constants::LM_APPLY,
                 'lmType' => $messageInfo['lmType'], // video:视频，audio:音频
-                'mute' => Constants::LM_CLOSE_MUTE
+                'mute' => Constants::LM_CLOSE_MUTE,
+                'isMaster' => Constants::WS_ROLE_AUDIENCE
             ];
             $keyWSRoomUserLMList = Constants::WS_ROOM_USER_LM_LIST . $wsIp . ':' . $messageInfo['roomId'];
             $server->redis->hset($keyWSRoomUserLMList, $messageInfo['userId'], json_encode($lmUser));
@@ -654,7 +655,8 @@ class LiveService
                     'type' => Constants::LM_APPLY,
                     'count' => count($lmUserList),
                     'lmType' => $messageInfo['lmType'], // video:视频，audio:音频
-                    'mute' => Constants::LM_CLOSE_MUTE
+                    'mute' => Constants::LM_CLOSE_MUTE,
+                    'isMaster' => Constants::WS_ROLE_AUDIENCE
                 ]
             ];
             $server->task($responseMessage);
@@ -1317,6 +1319,7 @@ class LiveService
         if ($server->redis->hexists($key, $message['data']['userId'])) {
             $lmUser = json_decode($server->redis->hget($key, $message['data']['userId']), true);
             $lmUser['mute'] = $message['data']['mute'];
+            $lmUser['isMaster'] = $message['data']['isMaster'];
             $responseMessage = [
                 'messageType' => Constants::MESSAGE_TYPE_MUTE_RES,
                 'data' => $lmUser,
