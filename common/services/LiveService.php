@@ -1326,7 +1326,7 @@ class LiveService
             ];
             $server->task($responseMessage);
 
-            $server->redis->hset($key, json_encode($lmUser));
+            $server->redis->hset($key, $message['data']['userId'], json_encode($lmUser));
         }
     }
 
