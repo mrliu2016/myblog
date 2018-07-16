@@ -86,7 +86,13 @@ class Report extends ActiveRecord
     private static function buildParams($find, $params)
     {
         if (isset($params['id']) && !empty($params['id'])) {
-            $find->andWhere('id="' . intval($params['id']).'"');
+            $find->andWhere('id=' . intval($params['id']));
+//            $find->andWhere('id=' . $params['id']);
+        }
+        if (isset($params['reportedUserId']) && !empty($params['reportedUserId'])) {
+//            echo 111;die;
+            $find->andWhere('reportedUserId=' . intval($params['reportedUserId']));
+//            $find->andWhere('id=' . $params['id']);
         }
         if (!empty($params['startTime'])) {
             $find->andWhere(['>=', 'created', strtotime($params['startTime'])]);

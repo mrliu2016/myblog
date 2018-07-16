@@ -9,7 +9,7 @@ $this->title = '举报管理';
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
                         <span>被举报人ID</span>
-                        <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
+                        <input class="c-input s-gift-search-input" type="text" name="reportedUserId" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
                         <span>被举报人昵称</span>
@@ -17,10 +17,11 @@ $this->title = '举报管理';
                     </div>
 
                     <div class="s-gift-search-item" style="margin-left:11px">
-                        <span>注册时间</span>
-                        <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
+                        <span>时间范围</span>
+                        <input type="text" id="startTime" name="startTime" value="<?=$params['startTime']?>"
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off" >
                         —
-                        <input type="text" id="endTime" name="endTime"
+                        <input type="text" id="endTime" name="endTime" value="<?=$params['endTime']?>"
                                class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
