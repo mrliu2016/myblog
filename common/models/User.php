@@ -682,7 +682,7 @@ class User extends ActiveRecord
             $offset = ($params['page'] - 1) * $params['defaultPageSize'];
         }
         $find = static::find();
-        $find = self::buildParams($find, $params);
+        $find = self::buildUserParams($find, $params);
         return $find->select('id,nickName,roomId,mobile')
             ->asArray()
             ->offset($offset)
