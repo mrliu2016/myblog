@@ -92,9 +92,6 @@ class ContrabandController extends BaseController{
             if($result['code'] == 0){//成功
                 $this->redirect('/contraband/list');
             }
-//            else{
-//                $this->redirect('/contraband/list');
-//            }
         }
         else{
             return $this->render('batch-word');
