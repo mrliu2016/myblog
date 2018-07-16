@@ -9,7 +9,7 @@ $this->title = '举报管理';
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
                         <span>被举报人ID</span>
-                        <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
+                        <input class="c-input s-gift-search-input" type="text" name="reportedUserId" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
                         <span>被举报人昵称</span>

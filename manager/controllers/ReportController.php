@@ -29,19 +29,15 @@ class ReportController extends BaseController
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
 
-        if(empty($params['startTime']) && empty($params['endTime'])){
+        if(empty($params['startTime']) && empty($params['endTime']) && empty($params['nickName']) && empty($params['reportedUserId'])){
             $params['startTime'] = date('Y-m-d',$_SERVER['REQUEST_TIME']);
             $params['endTime']   = date('Y-m-d H:i:s',$_SERVER['REQUEST_TIME']);
         }
-        else if(!empty($params['startTime']) && !empty($params['endTime'])){
-            if(strtotime($params['startTime']) > strtotime($params['endTime'])){
-                $params['startTime'] = date('Y-m-d',$_SERVER['REQUEST_TIME']);
-                $params['endTime']   = date('Y-m-d H:i:s',$_SERVER['REQUEST_TIME']);
-            }
-            else if(strtotime($params['endTime']) >= strtotime(date('Y-m-d',$_SERVER['REQUEST_TIME']))){
-                $params['endTime']   = date('Y-m-d H:i:s',$_SERVER['REQUEST_TIME']);
-            }
+        else if(!empty($params['nickName']) || !empty($params['reportedUserId'])){
+            $params['startTime'] = '';
+            $params['endTime']   = '';
         }
+
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         $listArr = array();
         if(!empty($params['nickName'])){
@@ -79,7 +75,6 @@ class ReportController extends BaseController
 //        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         return $this->render('index', [
             'itemList' => $list,
-//            'pagination' => self::pagination($pageNo, $count),
             'params' => $params,
             'count' => $count,
             'page'=>BroadcastService::pageBanner('/report/index',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
