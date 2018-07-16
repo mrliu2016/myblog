@@ -704,7 +704,7 @@ class User extends ActiveRecord
         if(!empty($data)){
             $redis = RedisClient::getInstance();
             $redis->set(Constants::WS_ROBOT,base64_encode(json_encode($data)));
-            $redis->expire(Constants::WS_ROBOT,-1);
+//            $redis->expire(Constants::WS_ROBOT,-1);
             return ['code' => 0];
         }
         return ['code' => -1];
