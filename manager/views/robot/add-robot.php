@@ -162,6 +162,15 @@ $this->title = '机器人管理';
             $("#confirm_frame").css("display","none");
         });
     }
+    //验证字符串是否是数字
+    function checkNumber(theObj) {
+        var reg = /^[1-9]+.?[0-9]*$/;
+        if (reg.test(theObj)) {
+            return true;
+        }
+        return false;
+    }
+
     $("#confirm").click(function(){
         var fileEl = $('#profileButton1');
         if (typeof(fileEl[0].files[0])=='undefined'){
@@ -175,25 +184,25 @@ $this->title = '机器人管理';
         var followers_cnt = $("#followers_cnt").val();
         var receivedGift = $("#receivedGift").val();
         var sendGift = $("#sendGift").val();
-
+        
         if(nickName == undefined || nickName == '' || nickName == null || nickName.length >10){
             tip("请输入正确用户昵称！");
             return false;
         }
-        if(!isNaN(Number(followees_cnt))){
-            tip("关注数只能是纯数字");
+        if(!checkNumber(followees_cnt)){
+            tip("请输入正确的关注数");
             return false;
         }
-        if(!isNaN(Number(followers_cnt))){
-            tip("粉丝数只能是纯数字");
+        if(!checkNumber(followers_cnt)){
+            tip("请输入正确的粉丝数");
             return false;
         }
-        if(!isNaN(Number(receivedGift))){
-            tip("收到礼物只能是纯数字");
+        if(!checkNumber(receivedGift)){
+            tip("请输入正确的收到礼物");
             return false;
         }
-        if(!isNaN(Number(sendGift))){
-            tip("送出礼物只能是纯数字");
+        if(!checkNumber(sendGift)){
+            tip("请输入正确的送出礼物");
             return false;
         }
         $("#robotForm").attr("action","/robot/add-robot");
