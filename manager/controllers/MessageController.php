@@ -192,7 +192,7 @@ class MessageController extends BaseController
         $rongCloud = new RongCloud($config['appKey'], $config['appSecret']);
         $message = $rongCloud->message();
         //添加一个100
-        $fromUserId = 'admin';
+        $fromUserId = '系统消息';
 //        $toUserId=  array('800010','800042');
         $toUserId=  $toUserIds;
         $objectName = 'RC:TxtMsg';
