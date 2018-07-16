@@ -56,7 +56,7 @@ $this->title = '礼物管理';
             <p class="c-form_item">
                 <span class="c-form_item-title">价格：</span>
                 <span class="s-robot-form_give-wrap">
-                        <input class="c-input c-form_item-input s-robot-form_give" name="price" id="price" value="<?=$item['price']/100?>" autocomplete="off"/>
+                        <input class="c-input c-form_item-input s-robot-form_give" name="price" id="price" value="<?=$item['price']?>" autocomplete="off"/>
                     </span>
             </p>
             <p class="c-form_item">

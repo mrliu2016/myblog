@@ -219,6 +219,7 @@ $this->title = '消息推送';
         params.nickName = nickName;
         params.roomId = roomId;
         params.mobile = mobile;
+        params.page = 1;
 
         $.ajax({
             url: "/message/search",
@@ -245,7 +246,14 @@ $this->title = '消息推送';
                     });
                     $("#tbody").html(tbody);
                     $(".count").text(data.data.count);
-                    $("#pageBanner").html('');
+                    var pageBanner = data.data.pageBanner;
+                    if(pageBanner != undefined || pageBanner == null){
+                        $("#pageBanner").html(pageBanner);
+                    }
+                    else {
+                        $("#pageBanner").html('');
+                    }
+
                 }
                 else if(data.code == -1){
                     tip("消息推送失败");
@@ -256,6 +264,69 @@ $this->title = '消息推送';
             },
         });
     });
+
+    //选择查询
+    function queryPaging(val) {
+        var id = $("#id").val();
+        var nickName = $("#nickName").val();
+        var roomId = $("#roomId").val();
+        var mobile = $("#mobile").val();
+
+        if(id == '' && nickName == '' && roomId == '' && mobile == ''){
+            handPaging(1);
+            return false;
+        }
+        var params = {};
+        params.id = id;
+        params.nickName = nickName;
+        params.roomId = roomId;
+        params.mobile = mobile;
+        params.page = val;
+
+        $.ajax({
+            url: "/message/search",
+            type: "post",
+            data: params,
+            // cache: false,
+            dataType: "json",
+            success: function (data) {
+
+                if(data.code == 0){
+                    var list = data.data.list;
+                    var pageNo = 1;
+                    var tbody = '';
+                    $.each(list,function (k,v) {
+                        // console.log(k);
+                        tbody += '<tr>';
+                        tbody += '<td><input type="checkbox" class="s-message-push-m_select page'+pageNo+'_'+k+'" onclick="checkboxOnclick('+pageNo+','+k+','+v.id+','+v.roomId+',\''+v.nickName+'\')"/></td>';
+                        tbody += '<td>'+(k+1)+'</td>';
+                        tbody += '<td>'+v.id+'</td>';
+                        tbody += '<td>'+v.nickName+'</td>';
+                        tbody += '<td>'+v.roomId+'</td>';
+                        tbody += '<td>'+v.mobile+'</td>';
+                        tbody += '</tr>';
+                    });
+                    $("#tbody").html(tbody);
+                    $(".count").text(data.data.count);
+                    var pageBanner = data.data.pageBanner;
+                    if(pageBanner != undefined || pageBanner == null){
+                        $("#pageBanner").html(pageBanner);
+                    }
+                    else {
+                        $("#pageBanner").html('');
+                    }
+
+                }
+                else if(data.code == -1){
+                    tip("消息推送失败");
+                }
+                else if(data.code == -2){
+                    tip("选择的用户多余100人,推送失败！");
+                }
+            },
+        });
+    }
+    
     // handPaging(1);
     //分页
     function handPaging(val) {

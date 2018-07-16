@@ -5,6 +5,7 @@ namespace app\manager\controllers;
 use app\common\components\AHelper;
 use app\common\extensions\RongCloud\RongCloud;
 use app\common\models\User;
+use app\common\services\BroadcastService;
 use Yii;
 use yii\data\Pagination;
 
@@ -73,12 +74,6 @@ class MessageController extends BaseController
             $this->jsonReturnError(-1);
         }
     }
-    //选择用户测试
-//    public function actionSelectPage(){
-//
-//        return $this->render('select-page');
-//
-//    }
     //分页
     public function actionPage(){
 
@@ -87,86 +82,28 @@ class MessageController extends BaseController
         $page = $params['page'];
         $list = User::queryMessageUserInfo($params);
         $count = User::queryUserInfoNum($params);
-//        print_r($count);die;
-        $pageBanner = $this->pageBanner($page,$count,10,5,'handPaging','select');
+
+        $pageBanner = BroadcastService::messagePageBanner($page,$count,10,5,'handPaging','s-gift-page-hover');
         $data = array();
         $data['pageBanner'] = $pageBanner;
         $data['list'] = $list;
         $data['pageNo'] = $page;
         $data['count'] = $count;
         $this->jsonReturnSuccess(0,$data);
-
     }
-
-    public function pageBanner($page,$total,$pagesize = 10,$showPage = 5,$method,$act){
-
-        $total_pages   = ceil($total/$pagesize);//总页数
-        $pageBanner = '';
-        if($page>1){
-            /*$pageBanner.= "<a class='c-btn s-gift-page' href='javascript:".$method."(".($page-1).")'>首页</a>";*/
-            $pageBanner.= "<a class='c-btn s-gift-page s-gift-prepage' href='javascript:".$method."(".($page-1).")'>.</a>";
-        }
-        else{
-            $pageBanner.= "<a disabled class='c-btn s-gift-page s-gift-prepage' href='javascript:".$method."(".($page-1).")'>.</a>";
-        }
-        //计算偏移量
-        $pageoffset=($showPage-1)/2;
-        //初始化数据
-        $start=1;
-        $end=$total_pages;
-
-        if($total_pages>$showPage){
-            if($page>$pageoffset+1){
-                $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$start.")'>".$start."</a>";
-                //$pageBanner.="<a href='javascript:".$method."(".$start.")'>".$start."</span>";
-                $pageBanner.="<a>...</a>";
-            }
-            if($page>$pageoffset){
-                $start=$page-$pageoffset;
-                $end=$total_pages>$page+$pageoffset?$page+$pageoffset:$total_pages;
-            }
-            else {
-                $start=1;
-                $end=$total_pages>$showPage?$showPage:$total_pages;
-            }
-            if($page+$pageoffset>$total_pages){
-                $start=$start-($page+$pageoffset-$end);
-            }
-        }
-        for($i=$start;$i<=$end-1;$i++){
-            if($page==$i){
-                $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$i.")'  class='".$act."'><span>".$i."</span></a>";
-            }
-            else{
-                $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$i.")'>".$i."</a>";
-            }
-        }
-        //尾部省略
-        if($total_pages>$showPage&& $total_pages>$page+$pageoffset){
-            $pageBanner.="<a>...</a>";
-        }
-        if($page<$total_pages){
-            $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$total_pages.")'>".$total_pages."</a>";
-            $pageBanner.="<a class='c-btn s-gift-page s-gift-nextpage' href='javascript:".$method."(".($page+1).")'>.</a>";
-            /*$pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$total_pages.")'>尾页</a>";*/
-
-        }
-        if($page==$total_pages){
-            $pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$total_pages.")' class='".$act."'><span>".$total_pages."</span></a>";
-        }
-        return $pageBanner;
-    }
-
     //查询
     public function actionSearch(){
 
         $params = Yii::$app->request->post();
-        $params['defaultPageSize'] = 20;
+        $params['defaultPageSize'] = self::PAGE_SIZE;
+        $page = $params['page'];
         $list = User::queryMessageUserInfo($params);
-
         $count = User::queryUserInfoNum($params);
+        $pageBanner = BroadcastService::messagePageBanner($page,$count,10,5,'queryPaging','s-gift-page-hover');
         $data = array();
+        $data['pageBanner'] = $pageBanner;
         $data['list'] = $list;
+        $data['pageNo'] = $page;
 //        $data['pageNo'] = $page;
         $data['count'] = $count;
         $this->jsonReturnSuccess(0,$data);

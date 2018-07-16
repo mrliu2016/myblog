@@ -289,8 +289,7 @@ class LiveService
                 $itemList[$orderKey] = $tmpItem;
             }
         }
-//        $redis = RedisClient::getInstance();
-//        $robotInfo = $redis->get(Constants::WS_ROBOT);
+//        $robotInfo = $server->redis->get(Constants::WS_ROBOT);
 //        $itemList = array_merge($itemList,$robotInfo);
         if ($isSort) {
             krsort($itemList);

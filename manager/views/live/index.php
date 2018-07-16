@@ -19,7 +19,7 @@ $this->title = '直播管理';
                         <input class="c-input s-gift-search-input" type="text" name="roomId" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
-                        <span>注册时间</span>
+                        <span>开始时间</span>
                         <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
                         —
                         <input type="text" id="endTime" name="endTime"
