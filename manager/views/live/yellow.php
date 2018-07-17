@@ -1,7 +1,6 @@
 <?php
 $this->title = '鉴黄管理';
 ?>
-
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
@@ -20,11 +19,12 @@ $this->title = '鉴黄管理';
                         <input class="c-input s-gift-search-input" type="text" name="roomId" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
-                        <span>注册时间</span>
-                        <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
+                        <span>时间范围</span>
+                        <input type="text" id="startTime" name="startTime"
+                                class="c-input s-gift-search-input form-control datepicker-pop" style="width: 135px;" autocomplete="off" >
                         —
                         <input type="text" id="endTime" name="endTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 135px;" autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 
@@ -64,10 +64,10 @@ $this->title = '鉴黄管理';
                         <?= $item['roomId'] ?>
                     </td>
                     <td>
-                        <?= date('Y-m-d H:i:s',$item['startTime'])?>
+                        <?= date('Y-m-d H:i',$item['startTime'])?>
                     </td>
                     <td>
-                        <?= date('Y-m-d H:i:s',$item['endTime'])?>
+                        <?= date('Y-m-d H:i',$item['endTime'])?>
                     </td>
                     <td>
                         <!-- <img src="<?/*= $item['yellowurl'] */?>" width="150" height="85"></a>-->
@@ -78,7 +78,6 @@ $this->title = '鉴黄管理';
             </tbody>
         </table>
         </div>
-
         <div>
             <p class="s-gift-count" style="padding-top: 10px;">共 <?= $count ?> 条记录</p>
             <nav class="text-center" style="margin-left:30%">
@@ -94,22 +93,19 @@ $this->title = '鉴黄管理';
 
 </div>
 
-
 <script type="text/javascript">
-
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
     $("#cleanBtn").click(function () {
         $(this).closest('form').find("input[type=text]").val("")
     });
-
     $(".datepicker-pop").datetimepicker({
         todayHighlight: true,
         todayBtn: true,
         autoclose: true,
-        minView: 3,
-        format: 'yyyy-mm-dd',
+        minView: 0,
+        format: 'yyyy-mm-dd hh:ii',
         language: 'zh-CN'
     });
 

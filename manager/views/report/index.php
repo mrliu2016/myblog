@@ -18,11 +18,11 @@ $this->title = '举报管理';
 
                     <div class="s-gift-search-item" style="margin-left:11px">
                         <span>时间范围</span>
-                        <input type="text" id="startTime" name="startTime" value="<?=$params['startTime']?>"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off" >
+                        <input type="text" id="startTime" name="startTime" value="<?=date('Y-m-d H:i',strtotime($params['startTime']))?>"
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 135px;" autocomplete="off" >
                         —
-                        <input type="text" id="endTime" name="endTime" value="<?=$params['endTime']?>"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
+                        <input type="text" id="endTime" name="endTime" value="<?=date('Y-m-d H:i',strtotime($params['endTime']))?>"
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 135px;" autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 
@@ -100,8 +100,8 @@ $this->title = '举报管理';
         todayHighlight: true,
         todayBtn: true,
         autoclose: true,
-        minView: 3,
-        format: 'yyyy-mm-dd',
+        minView: 0,
+        format: 'yyyy-mm-dd hh:ii',
         language: 'zh-CN'
     });
 
