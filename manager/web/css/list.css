@@ -1054,3 +1054,8 @@ input.s-message-select-checked{
     border-color: #1AC2AD
 }
 
+.s-page-title{
+    font-size: 16px;
+    color: #364557;
+    font-weight: bold;
+}

@@ -82,6 +82,7 @@ $this->title = '用户管理';
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
+            <p class="s-gift-search-title s-page-title">用户管理</p>
             <form method="get" action="/user/index" id="searchForm" name="searchForm">
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">

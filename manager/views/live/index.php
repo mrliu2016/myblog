@@ -4,6 +4,7 @@ $this->title = '直播管理';
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
+            <p class="s-gift-search-title s-page-title">直播管理</p>
             <form method="get" action="/live/index" id="searchForm" name="searchForm">
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
@@ -21,19 +22,15 @@ $this->title = '直播管理';
                     <div class="s-gift-search-item">
                         <span>开始时间</span>
                         <input type="text" id="startTime" name="startTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 135px;" autocomplete="off">
                         —
                         <input type="text" id="endTime" name="endTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 135px;" autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
                 </div>
             </form>
         </div>
-       <!-- <div class="s-gitf-operate">
-            <button class="c-btn u-radius--circle c-btn-primary">新增</button>
-            <a class="c-a s-gift-setting">设置连击</a>
-        </div>-->
         <div class="s-gift-table-wrap">
         <table class="c-table s-gift-table">
             <thead class="c-table-thead s-gift-thead">
@@ -105,9 +102,7 @@ $this->title = '直播管理';
             </nav>
         </div>
     </div>
-
 </div>
-
 <!--禁播弹框start-->
 <div style="display: none;" id="forbid_frame">
     <div class="c-modal-mask"></div>
@@ -128,7 +123,6 @@ $this->title = '直播管理';
     </div>
 </div>
 <!--禁播弹框end-->
-
 <!--视频弹框start-->
 <div id="video_modal" class="c-modal s-video-m" style="display: none;">
     <div id="video_drag" style="position: relative">
@@ -137,8 +131,6 @@ $this->title = '直播管理';
     </div>
 </div>
 <!--视频弹框end-->
-
-
 <script src="//qzonestyle.gtimg.cn/open/qcloud/video/live/h5/live_connect.js" charset="utf-8"></script>
 <script type="text/javascript">
     $("#searchBtn").click(function () {
@@ -149,11 +141,10 @@ $this->title = '直播管理';
         todayHighlight: true,
         todayBtn: true,
         autoclose: true,
-        minView: 3,
-        format: 'yyyy-mm-dd',
+        minView: 0,
+        format: 'yyyy-mm-dd hh:ii',
         language: 'zh-CN'
     });
-    
     //视频查看
     function watchVideo(liveUrl) {
         $("#video_modal").css("display","block");
@@ -164,24 +155,11 @@ $this->title = '直播管理';
             "width" : 480,
             "height" : 320
         });
-
         $(".s-video-m_close").unbind("click").bind("click",function () {
             $("#video_modal").css("display","none");
         });
 
     }
-
-
-    // (function () {
-    //     var player = new qcVideo.Player("id_video_container", {
-    //         // "channel_id": "16093104850682282611",
-    //         // "app_id": "1251783441",
-    //         "live_url":"rtmp://ali.3tlive.customize.cdn.3ttech.cn/customize/0?auth_key=1528873569-0-0-02213b3409d805126e7d471d5f648745",
-    //         "width" : 480,
-    //         "height" : 320
-    //     });
-    // })();
-
     //关闭
     $(".s-banlive-close").click(function () {
         $("#forbid_frame").css("display","none");

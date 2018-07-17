@@ -4,7 +4,7 @@ $this->title = '直播记录';
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
-            <!--<p class="s-gift-search-title">礼物管理</p>-->
+            <p class="s-gift-search-title s-page-title">直播记录</p>
             <form method="get" action="/live/live-record" id="searchForm" name="searchForm">
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">

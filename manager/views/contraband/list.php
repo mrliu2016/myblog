@@ -4,7 +4,7 @@ $this->title = '违禁词管理';
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
-            <p class="s-gift-search-title" style="font-size: 16px;color: #364557;">违禁词管理</p>
+            <p class="s-gift-search-title s-page-title">违禁词管理</p>
             <form method="get" action="/contraband/list" id="searchForm" name="searchForm">
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
