@@ -282,12 +282,11 @@ class VideoRecord extends ActiveRecord
             $find->andWhere(['userId' => $params['userId']]);
         }
         if (!empty($params['startTime'])) {
-            $find->andWhere('startTime >= ' . strtotime($params['startTime']));
+            $find->andWhere('startTime >= ' . intval(strtotime($params['startTime'])));
         }
         if (!empty($params['endTime'])) {
-            $find->andWhere('startTime <= ' . strtotime($params['endTime']));
+            $find->andWhere('startTime <= ' . intval(strtotime($params['endTime'])));
         }
-
         if (!empty($params['roomId'])) {
             $find->andWhere(['roomId' => $params['roomId']]);
         }

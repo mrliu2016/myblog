@@ -236,10 +236,10 @@ video.imgSrc as imgSrc,video.remark as title,video.isLive as isLive,video.viewer
         }
 
         if (!empty($params['startTime'])) {
-            $find->andWhere(['>=', 'startTime', strtotime($params['startTime'])]);
+            $find->andWhere(['>=', 'startTime', intval(strtotime($params['startTime']))]);
         }
         if (!empty($params['endTime'])) {
-            $find->andWhere(['<=', 'endTime', strtotime($params['endTime'])]);
+            $find->andWhere(['<=', 'endTime', intval(strtotime($params['endTime']))]);
         }
         if (!empty($params['id'])) {
             $find->andWhere('id="' .intval($params['id']).'"');
