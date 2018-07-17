@@ -5,21 +5,17 @@ $this->title = '用户管理';
     .switch-hover {
         color: #464646
     }
-
     .switch-list-def span {
         color: #ccc;
     }
-
     .switch-list-on span {
         color: #448AFF;
     }
-
     .switch-mod {
         display: inline-block;
         position: relative;
         margin-left: 25px;
     }
-
     .input-switch {
         opacity: 0;
         position: absolute;
@@ -141,11 +137,11 @@ $this->title = '用户管理';
                     <div class="s-gift-search-item">
                         <span>注册时间</span>
                         <input class="c-input s-gift-search-input form-control datepicker-pop" type="text"
-                               id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
+                               id="startTime" name="startTime" autocomplete="off" style="width: 135px;">
                         —
                         <input type="text" id="endTime" name="endTime"
                                class="c-input s-gift-search-input form-control datepicker-pop" autocomplete="off"
-                               style="width: 100px;">
+                               style="width: 135px;">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn">查询</button>
 
@@ -373,8 +369,8 @@ $this->title = '用户管理';
         todayHighlight: true,
         todayBtn: true,
         autoclose: true,
-        minView: 3,
-        format: 'yyyy-mm-dd',
+        minView: 0,
+        format: 'yyyy-mm-dd hh:ii',
         language: 'zh-CN'
     });
 
