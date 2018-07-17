@@ -507,10 +507,10 @@ class User extends ActiveRecord
 
         //注册时间
         if (!empty($params['startTime'])) {
-            $find->andWhere(['>=', 'created', intval(strtotime($params['startTime']))]);
+            $find->andWhere(['>=', 'created', strtotime($params['startTime'])]);
         }
         if (!empty($params['endTime'])) {
-            $find->andWhere(['<=', 'created', intval(strtotime($params['endTime']))]);
+            $find->andWhere(['<=', 'created', strtotime($params['endTime'])]);
         }
         if (!empty($params['isAuth'])) {
             if ($params['isAuth'] == 1) {

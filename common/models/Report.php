@@ -62,7 +62,6 @@ class Report extends ActiveRecord
 
     /**
      * 举报
-     *
      * @param $params
      * @return bool
      */
@@ -92,10 +91,10 @@ class Report extends ActiveRecord
             $find->andWhere('reportedUserId=' . intval($params['reportedUserId']));
         }
         if (!empty($params['startTime'])) {
-            $find->andWhere(['>=', 'created', intval(strtotime($params['startTime']))]);
+            $find->andWhere(['>=', 'created', strtotime($params['startTime'])]);
         }
         if (!empty($params['endTime'])) {
-            $find->andWhere(['<=', 'created', intval(strtotime($params['endTime']))]);
+            $find->andWhere(['<=', 'created', strtotime($params['endTime'])]);
         }
         return $find;
     }
@@ -125,12 +124,15 @@ class Report extends ActiveRecord
         $command = $connection->createCommand($sql);
         return $command->queryAll();
     }
-    //根据被举报用户id查询用户信息
-    public static function queryReportInfoByReportedUserId($id){
 
-        $sql = "SELECT * FROM ".static ::tableName()." WHERE `reportedUserId`=".intval($id)." ORDER BY created DESC";
-        return static ::queryBySQLCondition($sql);
+    //根据被举报用户id查询用户信息
+    public static function queryReportInfoByReportedUserId($id)
+    {
+
+        $sql = "SELECT * FROM " . static::tableName() . " WHERE `reportedUserId`=" . intval($id) . " ORDER BY created DESC";
+        return static::queryBySQLCondition($sql);
     }
+
     //对查询出的举报信息排序
     public static function reportSort($list)
     {

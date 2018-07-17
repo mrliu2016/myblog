@@ -38,6 +38,12 @@ class LiveController extends BaseController
         $ip = Yii::$app->params['wsServer'][Constants::CODE_SUCCESS]['ip'];
         $redis = RedisClient::getInstance();
         $params['defaultPageSize'] = self::PAGE_SIZE;
+        if(!empty($params['startTime']) && strtotime($params['startTime']) <= strtotime('1970-1-1')){
+            $params['startTime'] = '1970-1-1';
+        }
+        if(!empty($params['endTime']) && strtotime($params['endTime']) <= strtotime('1970-1-1')){
+            $params['endTime'] = '1970-1-1';
+        }
         if(!empty($params['endTime'])){
             $params['endTime'] = date('Y-m-d',strtotime($params['endTime']) + 86400);
         }
@@ -87,6 +93,12 @@ class LiveController extends BaseController
     public function actionLiveRecord(){
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
+        if(!empty($params['startTime']) && strtotime($params['startTime']) <= strtotime('1970-1-1')){
+            $params['startTime'] = '1970-1-1';
+        }
+        if(!empty($params['endTime']) && strtotime($params['endTime']) <= strtotime('1970-1-1')){
+            $params['endTime'] = '1970-1-1';
+        }
         if(!empty($params['endTime'])){
             $params['endTime'] = date('Y-m-d',strtotime($params['endTime']) + 86400);
         }
@@ -126,6 +138,16 @@ class LiveController extends BaseController
     public function actionYellow(){
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
+        if(!empty($params['startTime']) && strtotime($params['startTime']) <= strtotime('1970-1-1')){
+            $params['startTime'] = '1970-1-1';
+        }
+        if(!empty($params['endTime']) && strtotime($params['endTime']) <= strtotime('1970-1-1')){
+            $params['endTime'] = '1970-1-1';
+        }
+        if (!empty($params['endTime'])) {
+            $params['endTime'] = date('Y-m-d', strtotime($params['endTime']) + 86400);
+        }
+
         $params['type'] = 3;
         $list = array();
         //通过昵称查询
@@ -171,13 +193,6 @@ class LiveController extends BaseController
             'information' => $result['information'],
         ]);
     }
-
-//     public function actionList()
-//    {
-//        $this->layout = '@app/views/layouts/wenlian.php';
-//        return $this->render('list');
-//    }
-
 
     //查看  获取视频的地址
     public function actionCheck(){
