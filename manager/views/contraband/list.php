@@ -1,7 +1,6 @@
 <?php
 $this->title = '违禁词管理';
 ?>
-
 <div class="container-fluid">
     <div class="s-gift">
         <div class="s-gift-search">
@@ -9,11 +8,10 @@ $this->title = '违禁词管理';
             <form method="get" action="/contraband/list" id="searchForm" name="searchForm">
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
-                        <span>ID</span>
-                        <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
+                        <span>违禁词</span>
+                        <input class="c-input s-gift-search-input" type="text" name="word" autocomplete="off">
                     </div>
-                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
-
+                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn" style="float: none;margin-left: 20px;">查询</button>
                 </div>
             </form>
         </div>
