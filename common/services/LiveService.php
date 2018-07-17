@@ -290,8 +290,6 @@ class LiveService
                 $itemList[$orderKey] = $tmpItem;
             }
         }
-//        $robotInfo = $server->redis->get(Constants::WS_ROBOT);
-//        $itemList = array_merge($itemList,$robotInfo);
         if ($isSort) {
             krsort($itemList);
         }
@@ -465,6 +463,11 @@ class LiveService
             $messageAll['data']['userList'] = array_values($userList);
             $messageAll['data']['count'] = static::computeUnit(count($userList) <= Constants::NUM_WS_ROOM_USER ? count($userList) : LiveService::roomMemberNum($server, $params['roomId']));
             static::broadcast($server, $fdList, $messageAll, $params['roomId']);
+            // 主播退出直播，清除房间内观众
+            if ($params['isMaster'] == Constants::WS_ROLE_MASTER) {
+                $keyWSRoomUser = Constants::WS_ROOM_USER . static::getWsIp($params['roomId']) . '_' . $params['roomId'];
+                $server->redis->del($keyWSRoomUser);
+            }
         }
     }
 
