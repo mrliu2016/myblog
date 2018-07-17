@@ -71,6 +71,7 @@ class ReportOptions extends ActiveRecord
         if (isset($params['id'])) {
             $find->andWhere('id=' . $params['id']);
         }
+        $find->andWhere('isDelete=0');
         return $find;
     }
 
