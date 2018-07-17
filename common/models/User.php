@@ -69,11 +69,10 @@ class User extends ActiveRecord
         $userInfo['isBlacklist'] = intval(Blacklist::isPullBlacklist($observerUserId, $userId));
         $userInfo['expenditure'] = strval($userInfo['expenditure']);
         $redis = RedisClient::getInstance();
-        $balance = $redis->hexists(Constants::WS_USER_BALANCE,$userInfo['userId']);
-        if($balance){
-            $userInfo['balance'] = $redis->hget(Constants::WS_USER_BALANCE,$userInfo['userId']);
-        }
-        else{
+        $balance = $redis->hexists(Constants::WS_USER_BALANCE, $userInfo['userId']);
+        if ($balance) {
+            $userInfo['balance'] = $redis->hget(Constants::WS_USER_BALANCE, $userInfo['userId']);
+        } else {
             $userInfo['balance'] = !empty($userInfo['balance']) ? $userInfo['balance'] : 0;;
         }
         return $userInfo;
@@ -489,7 +488,7 @@ class User extends ActiveRecord
     private static function buildUserParams($find, $params)
     {
         if (!empty($params['id'])) {
-            $find->andWhere('id="' .addslashes($params['id']).'"');
+            $find->andWhere('id="' . addslashes($params['id']) . '"');
         }
         if (!empty($params['nickName'])) {
             $find->andWhere('nickName like "' . trim(addslashes($params['nickName'])) . '%"');
@@ -533,8 +532,8 @@ class User extends ActiveRecord
             $find->andWhere('playType=4');
         }
         //删除
-        if(isset($params['isDelete'])){
-            $find->andWhere('isDelete='.$params['isDelete']);
+        if (isset($params['isDelete'])) {
+            $find->andWhere('isDelete=' . $params['isDelete']);
         }
         return $find;
     }
@@ -573,7 +572,7 @@ class User extends ActiveRecord
         $model->save();
         Order::insertRobotGift($model->id, $params['receivedGift'], true);
         Order::insertRobotGift($model->id, $params['sendGift'], false);
-        static ::refreshRedis();//更新机器人缓存
+        static::refreshRedis();//更新机器人缓存
         //在礼物表中插入数据
         return $model->id;
     }
@@ -615,7 +614,7 @@ class User extends ActiveRecord
                 Order::insertRobotGift($userId, $val[8], false);
             }
 
-            static ::refreshRedis();//更新缓存
+            static::refreshRedis();//更新缓存
             return ['code' => 0];
         }
         return ['code' => -1];
@@ -628,7 +627,7 @@ class User extends ActiveRecord
         $model->isDelete = 1;
         $model->updated = $_SERVER['REQUEST_TIME'];
         $model->save();
-        static ::refreshRedis();//更新缓存
+        static::refreshRedis();//更新缓存
         return $model->id;
     }
 
@@ -658,7 +657,7 @@ class User extends ActiveRecord
         $model->playType = intval($params['type']);
         $model->playTime = $_SERVER['REQUEST_TIME'];
         $model->updated = $_SERVER['REQUEST_TIME'];
-        $model->status  = 1;
+        $model->status = 1;
         $model->save();
         return $model->id;
     }
@@ -689,28 +688,39 @@ class User extends ActiveRecord
             ->limit($params['defaultPageSize'])
             ->all();
     }
+
     //查询所有用户的id
-    public static function queryAllUserId(){
+    public static function queryAllUserId()
+    {
         $find = static::find();
 //        $find = self::buildParams($find, $params);
         return $find->select('id')
             ->asArray()
             ->all();
     }
+
     //刷新机器人Redis
-    public static function refreshRedis(){
-        $sql = "SELECT id,applicationId,balance,income,expenditure,avatar,nickName,sex,profession,description,roomId,province,city,`level`,followers_cnt,followees_cnt,is_attention FROM ".static ::tableName()." WHERE type=1 AND isDelete = 0 ORDER BY created desc";
-        $data = static ::queryBySQLCondition($sql);
-        if(!empty($data)){
+    public static function refreshRedis()
+    {
+        $sql = "SELECT id,applicationId,balance,income,expenditure,avatar,nickName,sex,profession,description,roomId,province,city,`level`,followers_cnt,followees_cnt,is_attention FROM " . static::tableName() . " WHERE type=1 AND isDelete = 0 ORDER BY created desc";
+        $data = static::queryBySQLCondition($sql);
+        foreach ($data as $key => $value) {
+            if (empty($value['avatar'])) {
+                $data[$key]['avatar'] = Yii::$app->params['defaultAvatar'];
+            }
+        }
+        if (!empty($data)) {
             $redis = RedisClient::getInstance();
-            $redis->set(Constants::WS_ROBOT,base64_encode(json_encode($data)));
+            $redis->set(Constants::WS_ROBOT, base64_encode(json_encode($data)));
 //            $redis->expire(Constants::WS_ROBOT,-1);
             return ['code' => 0];
         }
         return ['code' => -1];
     }
+
     //充值
-    public static function operateRecharge($params){
+    public static function operateRecharge($params)
+    {
         $model = static::find()->andWhere(['id' => $params['userId']])->one();
         $model->balance = $model->balance + intval($params['balance']);
         $model->updated = $_SERVER['REQUEST_TIME'];
