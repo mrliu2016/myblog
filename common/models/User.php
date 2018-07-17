@@ -704,6 +704,11 @@ class User extends ActiveRecord
     {
         $sql = "SELECT id,applicationId,balance,income,expenditure,avatar,nickName,sex,profession,description,roomId,province,city,`level`,followers_cnt,followees_cnt,is_attention FROM " . static::tableName() . " WHERE type=1 AND isDelete = 0 ORDER BY created desc";
         $data = static::queryBySQLCondition($sql);
+        foreach ($data as $key => $value) {
+            if (empty($value['avatar'])) {
+                $data[$key]['avatar'] = Yii::$app->params['defaultAvatar'];
+            }
+        }
         if (!empty($data)) {
             $redis = RedisClient::getInstance();
             $redis->set(Constants::WS_ROBOT, base64_encode(json_encode($data)));

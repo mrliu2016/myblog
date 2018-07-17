@@ -94,6 +94,7 @@ class Constants
     const WS_TASK_WORKER_NUM = 8;
     const WS_SOCKET_BUFFER_SIZE = 128 * 1024 * 1024;
     const WS_BUFFER_OUTPUT_SIZE = 128;
+    const WS_ROBOT_COUNT = 30; // 机器人默认数量
 
     // 队列
     const QUEUE_WS_HEARTBEAT = self::PROJECT_NAME . 'WS_Heartbeat_Live';

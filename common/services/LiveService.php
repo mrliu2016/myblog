@@ -214,6 +214,7 @@ class LiveService
         //用户进入房间
         static::join($server, $frame->fd, $params["userId"], $params["roomId"], $params["role"],
             $params["avatar"], $params["nickName"], $params["level"], $params['balance'], isset($params['income']) ? $params['income'] : 0);
+        static::joinAi($server, $params['roomId'], $params['role']);
         $userList = array_values(LiveService::getUserInfoListByRoomId($server, $params['roomId'], 'virtualCurrency', true));
         $roomMemberNum = static::computeUnit(count($userList) <= Constants::NUM_WS_ROOM_USER ? count($userList) : LiveService::roomMemberNum($server, $params['roomId']));
 
@@ -341,6 +342,49 @@ class LiveService
                 $server->redis->expire($key, Constants::DEFAULT_EXPIRES);
                 break;
         }
+    }
+
+    /**
+     * 加入机器人
+     *
+     * 主播进入房间加入机器人
+     *
+     * @param $server
+     * @param $roomId
+     * @param $role
+     */
+    private static function joinAi($server, $roomId, $role)
+    {
+        if ($role == Constants::WS_ROLE_MASTER) {
+            if ($server->redis->exists(Constants::WS_ROBOT)) {
+                $ip = static::getWsIp($roomId);
+                $robot = Base64JsonConvert::base64ToJsonDecode($server->redis->get(Constants::WS_ROBOT));
+                if (count($robot) >= Constants::WS_ROBOT_COUNT) {
+                    shuffle($robot);
+                    $robot = array_slice($robot, 0, Constants::WS_ROBOT_COUNT);
+                }
+                foreach ($robot as $key => $value) {
+                    static::showRoomUserList($server, $ip, $roomId, $value['id'],
+                        $value['nickName'], $value['avatar'], $value['level'], Constants::WS_ROLE_AUDIENCE);
+                }
+            }
+        }
+    }
+
+    private static function showRoomUserList($server, $ip, $roomId, $userId, $nickName, $avatar, $level, $role, $fd = 0)
+    {
+        $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
+        $keyWSRoomUserTimeout = 48 * 60 * 60;
+        $userInfo['userId'] = $userId;
+        $userInfo['nickName'] = $nickName;
+        $userInfo['avatar'] = $avatar;
+        $userInfo['level'] = $level;
+        $userInfo['fd'] = $fd;
+        $userInfo['role'] = $role;
+        $userInfo['virtualCurrency'] = intval($server->redis->hget(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId));
+        $userInfo['startTime'] = time();
+        $server->redis->hset($keyWSRoomUser, $userId, json_encode($userInfo));
+        $server->redis->expire($keyWSRoomUser, $keyWSRoomUserTimeout);
     }
 
     /**
