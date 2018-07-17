@@ -11,7 +11,9 @@ $this->title = '违禁词管理';
                         <span>违禁词</span>
                         <input class="c-input s-gift-search-input" type="text" name="word" autocomplete="off">
                     </div>
-                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn" style="float: none;margin-left: 20px;">查询</button>
+                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn"
+                            style="float: none;margin-left: 20px;">查询
+                    </button>
                 </div>
             </form>
         </div>
@@ -21,42 +23,44 @@ $this->title = '违禁词管理';
             <button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>
         </div>
         <div class="s-gift-table-wrap">
-        <table class="c-table s-gift-table">
-            <thead class="c-table-thead s-gift-thead">
-            <tr>
-                <th>序号</th>
-                <th>ID</th>
-                <th>违禁词</th>
-                <th>更新时间</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody class="c-table-tbody s-gift-tbody">
-            <?php foreach ($itemList as $key => $item): ?>
+            <table class="c-table s-gift-table">
+                <thead class="c-table-thead s-gift-thead">
                 <tr>
-                    <td>
-                        <?= $key+1 ?>
-                    </td>
-                    <td>
-                        <?= $item['id'] ?>
-                    </td>
-                    <td>
-                        <?= $item['word'] ?>
-                    </td>
-                    <td>
-                        <?= date('Y-m-d H:i:s',$item['updated']) ?>
-                    </td>
-                    <td>
-                        <a href="#" class="s-page-font-color" onclick="editWord(<?= $item['id'] ?>,'<?= $item['word'] ?>')">编辑</a>
-                        <a href="#" class="s-page-font-color" onclick="deleteWord(<?= $item['id'] ?>)">删除</a>
-                    </td>
+                    <th>序号</th>
+                    <th>ID</th>
+                    <th>违禁词</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
                 </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="c-table-tbody s-gift-tbody">
+                <?php foreach ($itemList as $key => $item): ?>
+                    <tr>
+                        <td>
+                            <?= $key + 1 ?>
+                        </td>
+                        <td>
+                            <?= $item['id'] ?>
+                        </td>
+                        <td>
+                            <?= $item['word'] ?>
+                        </td>
+                        <td>
+                            <?= date('Y-m-d H:i:s', $item['updated']) ?>
+                        </td>
+                        <td>
+                            <a href="#" class="s-page-font-color"
+                               onclick="editWord(<?= $item['id'] ?>,'<?= $item['word'] ?>')">编辑</a>
+                            <a href="#" class="s-page-font-color" onclick="deleteWord(<?= $item['id'] ?>)">删除</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span>
+                条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>
@@ -72,7 +76,7 @@ $this->title = '违禁词管理';
 <!--编辑弹框-->
 <div id="edit_frame" style="display: none;">
     <div class="c-modal-mask"></div>
-    <div class="c-modal-wrap s-banword" >
+    <div class="c-modal-wrap s-banword">
         <div class="c-modal">
             <div class="c-modal-close s-banword-close">关闭</div>
             <div class="c-modal_header">编辑违禁词</div>
@@ -91,17 +95,17 @@ $this->title = '违禁词管理';
 <div id="confirm_frame" style="display: none">
     <div class="c-modal-mask"></div>
     <div class="c-modal-wrap s-banlive">
-    <div class="c-modal">
-        <div class="c-modal-close s-banlive-close">关闭</div>
-        <div class="s-banlive-content">
-            <span class="s-banlive-confirm-text">确认是否删除？</span>
-        </div>
-        <div class="c-modal-footer s-banlive-operate">
-            <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
-            <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
+        <div class="c-modal">
+            <div class="c-modal-close s-banlive-close">关闭</div>
+            <div class="s-banlive-content">
+                <span class="s-banlive-confirm-text">确认是否删除？</span>
+            </div>
+            <div class="c-modal-footer s-banlive-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
+                <button class="c-btn c-btn--large s-banlive-cancel">取消</button>
+            </div>
         </div>
     </div>
-</div>
 </div>
 <!--确认是否删除start-->
 <!--确认是否删除start-->
@@ -123,24 +127,24 @@ $this->title = '违禁词管理';
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
-    $(".s-banword-cancel").unbind('click').bind('click',function () {
-        $("#edit_frame").css("display","none");
+    $(".s-banword-cancel").unbind('click').bind('click', function () {
+        $("#edit_frame").css("display", "none");
     });
-    $(".s-banword-close").unbind('click').bind('click',function(){
-        $("#edit_frame").css("display","none");
+    $(".s-banword-close").unbind('click').bind('click', function () {
+        $("#edit_frame").css("display", "none");
     });
     //刷新redis
-    $("#refresh").unbind('click').bind('click',function () {
+    $("#refresh").unbind('click').bind('click', function () {
         $.ajax({
             url: "/contraband/refresh",
             type: "get",
             // cache: false,
             dataType: "json",
             success: function (data) {
-                if(data.code == 0){
+                if (data.code == 0) {
                     tip("更新成功！");
                 }
-                else{
+                else {
                     tip("更新失败");
                 }
             }
@@ -148,31 +152,31 @@ $this->title = '违禁词管理';
     });
 
     //添加一个编辑方法
-    function editWord(id,word) {
+    function editWord(id, word) {
 
-        $("#edit_frame").css("display","block");
+        $("#edit_frame").css("display", "block");
         $(".s-banword-input").val(word);
         $(".s-banword-input").focus();//聚焦
-        $(".s-banword-confirm").unbind('click').bind('click',function () {
+        $(".s-banword-confirm").unbind('click').bind('click', function () {
             var word = $(".s-banword-input").val();
-            if(word.length >10 || word == "" || word == null || word == undefined){
+            if (word.length > 10 || word == "" || word == null || word == undefined) {
                 return false;
             }
             var params = {};
             params.id = id;
             params.word = word;
-            $("#edit_frame").css("display","none");
+            $("#edit_frame").css("display", "none");
             $.ajax({
                 url: "/contraband/edit-word",
                 type: "post",
-                data:params,
+                data: params,
                 // cache: false,
                 dataType: "json",
                 success: function (data) {
-                    if(data.code == 0){
+                    if (data.code == 0) {
                         window.location.reload();
                     }
-                    else{
+                    else {
                         tip("编辑失败");
                     }
                     // window.location.reload();
@@ -183,42 +187,42 @@ $this->title = '违禁词管理';
 
     //删除违禁词
     function deleteWord(id) {
-        $("#confirm_frame").css("display","block");
+        $("#confirm_frame").css("display", "block");
         //点击确认
-        $(".s-banlive-confirm").unbind("click").bind("click",function () {
+        $(".s-banlive-confirm").unbind("click").bind("click", function () {
             var params = {};
             params.id = id;
-            $("#confirm_frame").css("display","none");
+            $("#confirm_frame").css("display", "none");
             $.ajax({
                 url: "/contraband/delete-word",
                 type: "post",
-                data:params,
+                data: params,
                 // cache: false,
                 dataType: "json",
                 success: function (data) {
-                    if(data.code == 0){
+                    if (data.code == 0) {
                         window.location.reload();
                     }
-                    else{
+                    else {
                         tip("删除失败");
                     }
                     // window.location.reload();
                 }
             });
         });
-        $(".s-banlive-close").unbind('click').bind('click',function () {
-            $("#confirm_frame").css("display","none");
+        $(".s-banlive-close").unbind('click').bind('click', function () {
+            $("#confirm_frame").css("display", "none");
         });
-        $(".s-banlive-cancel").unbind('click').bind('click',function () {
-            $("#confirm_frame").css("display","none");
+        $(".s-banlive-cancel").unbind('click').bind('click', function () {
+            $("#confirm_frame").css("display", "none");
         });
     }
 
     function tip(message) {
-        $("#tip_frame").css("display","block");
+        $("#tip_frame").css("display", "block");
         $(".s-banlive-confirm-text-tip").text(message);
-        $("#tip-confirm").unbind("click").bind("click",function () {
-            $("#tip_frame").css("display","none");
+        $("#tip-confirm").unbind("click").bind("click", function () {
+            $("#tip_frame").css("display", "none");
         });
     }
 </script>

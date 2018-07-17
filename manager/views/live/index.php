@@ -13,7 +13,7 @@ $this->title = '直播管理';
                     </div>
                     <div class="s-gift-search-item">
                         <span>昵称</span>
-                        <input class="c-input s-gift-search-input" type="text" name="nickName"  autocomplete="off">
+                        <input class="c-input s-gift-search-input" type="text" name="nickName" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item">
                         <span>房间号</span>
@@ -22,75 +22,79 @@ $this->title = '直播管理';
                     <div class="s-gift-search-item">
                         <span>开始时间</span>
                         <input type="text" id="startTime" name="startTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;"
+                               autocomplete="off">
                         —
                         <input type="text" id="endTime" name="endTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;"
+                               autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
                 </div>
             </form>
         </div>
         <div class="s-gift-table-wrap" style="margin-top:40px;">
-        <table class="c-table s-gift-table">
-            <thead class="c-table-thead s-gift-thead">
-            <tr>
-                <th>序号</th>
-                <th>ID</th>
-                <th>房间号</th>
-                <th>主播昵称</th>
-                <th>观众数</th>
-                <th>实时人数</th>
-                <th>开始时间</th>
-                <th>状态</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody class="c-table-tbody s-gift-tbody">
-            <?php foreach ($itemList as $key=>$item): ?>
+            <table class="c-table s-gift-table">
+                <thead class="c-table-thead s-gift-thead">
                 <tr>
-                    <td><?=$key+1?></td>
-                    <td>
-                        <?= $item['id'] ?>
-                    </td>
-                    <td>
-                        <?= $item['roomId'] ?>
-                    </td>
-                    <td>
-                        <?= $item['nickName'] ?>
-                    </td>
-                    <td>
-                        <?= $item['viewerNum']?>
-                    </td>
-                    <td>
-                        <?= $item['num']?>
-                    </td>
-                    <td>
-                        <?= date('Y-m-d H:i', $item['created']) ?> <br />
-                    </td>
-                    <td>
-                        <?php if($item['isLive'] == 1){
-                            echo "直播中";
-                        } else if($item['isLive'] == 0){
-                            echo "结束";
-                        } ?>
-                    </td>
-                    <td>
-                       <!--<a href="/live/check?id=<?/*=$item['id']*/?>">查看</a>-->
-                       <a href="#" class="s-page-font-color" onclick="watchVideo('<?=$item['liveUrl'] ?>')">查看</a>
-                        <?php if(empty($item['status']) || $item['status'] == 0): ?>
-                            <a href="#" class="s-page-font-color" onclick="noplay(<?=$item['userId']?>,<?=$item['roomId']?>,<?=$item['isLive']?>)">禁播</a>
-                        <?php elseif ($item['status'] == 1):?>
-                            <a disabled class="c-btn s-gift-page" href="#" style="text-decoration: none;">禁播</a>
-                        <?php endif; ?>
-                    </td>
+                    <th>序号</th>
+                    <th>ID</th>
+                    <th>房间号</th>
+                    <th>主播昵称</th>
+                    <th>观众数</th>
+                    <th>实时人数</th>
+                    <th>开始时间</th>
+                    <th>状态</th>
+                    <th>操作</th>
                 </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="c-table-tbody s-gift-tbody">
+                <?php foreach ($itemList as $key => $item): ?>
+                    <tr>
+                        <td><?= $key + 1 ?></td>
+                        <td>
+                            <?= $item['id'] ?>
+                        </td>
+                        <td>
+                            <?= $item['roomId'] ?>
+                        </td>
+                        <td>
+                            <?= $item['nickName'] ?>
+                        </td>
+                        <td>
+                            <?= $item['viewerNum'] ?>
+                        </td>
+                        <td>
+                            <?= $item['num'] ?>
+                        </td>
+                        <td>
+                            <?= date('Y-m-d H:i', $item['created']) ?> <br/>
+                        </td>
+                        <td>
+                            <?php if ($item['isLive'] == 1) {
+                                echo "直播中";
+                            } else if ($item['isLive'] == 0) {
+                                echo "结束";
+                            } ?>
+                        </td>
+                        <td>
+                            <!--<a href="/live/check?id=<? /*=$item['id']*/ ?>">查看</a>-->
+                            <a href="#" class="s-page-font-color" onclick="watchVideo('<?= $item['liveUrl'] ?>')">查看</a>
+                            <?php if (empty($item['status']) || $item['status'] == 0): ?>
+                                <a href="#" class="s-page-font-color"
+                                   onclick="noplay(<?= $item['userId'] ?>,<?= $item['roomId'] ?>,<?= $item['isLive'] ?>)">禁播</a>
+                            <?php elseif ($item['status'] == 1): ?>
+                                <a disabled class="c-btn s-gift-page" href="#" style="text-decoration: none;">禁播</a>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span>
+                条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>
@@ -105,7 +109,7 @@ $this->title = '直播管理';
 <!--禁播弹框start-->
 <div style="display: none;" id="forbid_frame">
     <div class="c-modal-mask"></div>
-    <div class="c-modal-wrap s-banlive" >
+    <div class="c-modal-wrap s-banlive">
         <div class="c-modal">
             <div class="c-modal-close s-banlive-close">关闭</div>
             <div class="s-banlive-content">
@@ -144,27 +148,29 @@ $this->title = '直播管理';
         format: 'yyyy-mm-dd',
         language: 'zh-CN'
     });
+
     //视频查看
     function watchVideo(liveUrl) {
-        $("#video_modal").css("display","block");
+        $("#video_modal").css("display", "block");
         var player = new qcVideo.Player("id_video_container", {
             // "channel_id": "16093104850682282611",
             // "app_id": "1251783441",
-            "live_url":liveUrl,
-            "width" : 480,
-            "height" : 320
+            "live_url": liveUrl,
+            "width": 480,
+            "height": 320
         });
-        $(".s-video-m_close").unbind("click").bind("click",function () {
-            $("#video_modal").css("display","none");
+        $(".s-video-m_close").unbind("click").bind("click", function () {
+            $("#video_modal").css("display", "none");
         });
     }
+
     //关闭
     $(".s-banlive-close").click(function () {
-        $("#forbid_frame").css("display","none");
+        $("#forbid_frame").css("display", "none");
     });
     //取消
     $(".s-banlive-cancel").click(function () {
-        $("#forbid_frame").css("display","none");
+        $("#forbid_frame").css("display", "none");
     });
     //封禁类型
     $(".s-banlive-btn").click(function () {
@@ -194,6 +200,7 @@ $this->title = '直播管理';
             }
         });
     }
+
     //查看
     function check(id) {
         var params = {};
@@ -211,13 +218,14 @@ $this->title = '直播管理';
             }
         });
     }
+
     //禁播
-    function noplay(userId,roomId,isLive) {
-        $("#forbid_frame").css("display","block");
-        $(".s-banlive-confirm").unbind('click').bind('click',function () {
+    function noplay(userId, roomId, isLive) {
+        $("#forbid_frame").css("display", "block");
+        $(".s-banlive-confirm").unbind('click').bind('click', function () {
             var type = 0;
             $(".s-banlive-btn").each(function () {
-                if($(this).hasClass("c-btn-primary")){
+                if ($(this).hasClass("c-btn-primary")) {
                     // console.log($(this).attr("data-val"));
                     type = $(this).attr("data-val")
                 }
@@ -228,7 +236,7 @@ $this->title = '直播管理';
             params.isLive = isLive;
             params.type = type;
 
-            $("#forbid_frame").css("display","none");
+            $("#forbid_frame").css("display", "none");
             $.ajax({
                 url: '/live/noplay',
                 type: 'post',
@@ -236,11 +244,11 @@ $this->title = '直播管理';
                 dataType: 'json',
                 // timeout: 1000
             }).done(function (data) {
-                if(data.code == 0){
+                if (data.code == 0) {
                     // alert('禁播成功');
                     window.location.reload();
                 }
-                else{
+                else {
                     alert('禁播失败');
                 }
             });
@@ -257,7 +265,7 @@ $this->title = '直播管理';
             flag: false
         };
         var platformElement = platform || document;
-        var getCss = function(o, key) {
+        var getCss = function (o, key) {
             return o.currentStyle ? o.currentStyle[key] : document.defaultView.getComputedStyle(o, false)[key];
         };
         if (getCss(target, 'left') !== 'auto') {
@@ -266,11 +274,11 @@ $this->title = '直播管理';
         if (getCss(target, 'top') !== 'auto') {
             params.top = getCss(target, 'top');
         }
-        bar.onmousedown = function(event) {
+        bar.onmousedown = function (event) {
             params.flag = true;
             if (!event) {
                 event = window.event;
-                bar.onselectstart = function() {
+                bar.onselectstart = function () {
                     return false;
                 };
             }
@@ -278,7 +286,7 @@ $this->title = '直播管理';
             params.currentX = e.clientX;
             params.currentY = e.clientY;
         };
-        bar.onmouseup = function() {
+        bar.onmouseup = function () {
             params.flag = false;
             if (getCss(target, 'left') !== 'auto') {
                 params.left = getCss(target, 'left');
@@ -287,7 +295,7 @@ $this->title = '直播管理';
                 params.top = getCss(target, 'top');
             }
         };
-        platformElement.onmousemove = function(event) {
+        platformElement.onmousemove = function (event) {
             var e = event ? event : window.event;
             if (params.flag) {
                 var nowX = e.clientX,
@@ -308,6 +316,7 @@ $this->title = '直播管理';
             }
         };
     }
+
     var modal = document.getElementById('video_drag');
     dragRegist(modal, modal);
 </script>

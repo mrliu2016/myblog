@@ -21,35 +21,35 @@ $this->title = '直播记录';
                     </div>
                     <div class="s-gift-search-item">
                         <span>开始时间</span>
-                        <input class="c-input s-gift-search-input form-control datepicker-pop" type="text" id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
+                        <input class="c-input s-gift-search-input form-control datepicker-pop" type="text"
+                               id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
                         —
                         <input type="text" id="endTime" name="endTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;"
+                               autocomplete="off">
                     </div>
-                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn"  id="searchBtn">查询</button>
+                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
                 </div>
             </form>
         </div>
         <div class="s-gift-table-wrap" style="margin-top:40px;">
-        <table class="c-table s-gift-table">
-            <thead class="c-table-thead s-gift-thead">
-            <tr>
-            <tr>
-                <th>序号</th>
-                <th>ID</th>
-                <th>房间号</th>
-                <th>主播昵称</th>
-                <th>观众数</th>
-                <th>开始时间</th>
-                <th>结束时间</th>
-                <th>操作</th>
-            </tr>
-            </tr>
-            </thead>
-            <tbody class="c-table-tbody s-gift-tbody">
-                <?php foreach ($itemList as $key=>$item): ?>
+            <table class="c-table s-gift-table">
+                <thead class="c-table-thead s-gift-thead">
+                <tr>
+                    <th>序号</th>
+                    <th>ID</th>
+                    <th>房间号</th>
+                    <th>主播昵称</th>
+                    <th>观众数</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody class="c-table-tbody s-gift-tbody">
+                <?php foreach ($itemList as $key => $item): ?>
                     <tr>
-                        <td><?=$key+1?></td>
+                        <td><?= $key + 1 ?></td>
                         <td>
                             <?= $item['id'] ?>
                         </td>
@@ -60,7 +60,7 @@ $this->title = '直播记录';
                             <?= $item['nickName'] ?>
                         </td>
                         <td>
-                            <?= $item['watchTime']?>
+                            <?= $item['watchTime'] ?>
                         </td>
                         <td>
                             <?= date('Y-m-d H:i', $item['startTime']) ?>
@@ -69,18 +69,17 @@ $this->title = '直播记录';
                             <?= date('Y-m-d H:i', $item['created']) ?>
                         </td>
                         <td>
-                            <!--<a href="/live/play-back?id=<?/*=$item['id']*/?>">查看回访</a>-->
-                            <a href="#" style="color: #1AC2AD;" onclick="playBack('<?=$item['videoSrc']?>')">查看回放</a>
-
+                            <a href="#" style="color: #1AC2AD;" onclick="playBack('<?= $item['videoSrc'] ?>')">查看回放</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
-            </tbody>
-        </table>
+                </tbody>
+            </table>
         </div>
 
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <span style="color:#1AC2AD;"><?= $count ?></span> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span style="color:#1AC2AD;"><?= $count ?></span> 条记录
+            </p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>
@@ -97,7 +96,7 @@ $this->title = '直播记录';
 <div id="video_modal" class="c-modal s-video-m" style="display: none;">
     <div id="video_drag" style="position: relative">
         <div class="c-modal-close s-video-m_close"></div>
-        <video class="s-video-m_video" src=""  controls="controls"></video>
+        <video class="s-video-m_video" src="" controls="controls"></video>
     </div>
 </div>
 <!--视频弹框end-->
@@ -114,14 +113,15 @@ $this->title = '直播记录';
         format: 'yyyy-mm-dd',
         language: 'zh-CN'
     });
+
     //回访视频弹窗
     function playBack(videoSrc) {
-        $(".s-video-m_video").attr("src",videoSrc);
-        $("#video_modal").css("display","block");
-        $(".s-video-m_close").unbind("click").bind("click",function () {
-            $("#video_modal").css("display","none");
+        $(".s-video-m_video").attr("src", videoSrc);
+        $("#video_modal").css("display", "block");
+        $(".s-video-m_close").unbind("click").bind("click", function () {
+            $("#video_modal").css("display", "none");
         });
-        $("#video_drag").css({"top":"0px","left":"0px"});
+        $("#video_drag").css({"top": "0px", "left": "0px"});
     }
 </script>
 <script>
@@ -134,7 +134,7 @@ $this->title = '直播记录';
             flag: false
         };
         var platformElement = platform || document;
-        var getCss = function(o, key) {
+        var getCss = function (o, key) {
             return o.currentStyle ? o.currentStyle[key] : document.defaultView.getComputedStyle(o, false)[key];
         };
         if (getCss(target, 'left') !== 'auto') {
@@ -143,11 +143,11 @@ $this->title = '直播记录';
         if (getCss(target, 'top') !== 'auto') {
             params.top = getCss(target, 'top');
         }
-        bar.onmousedown = function(event) {
+        bar.onmousedown = function (event) {
             params.flag = true;
             if (!event) {
                 event = window.event;
-                bar.onselectstart = function() {
+                bar.onselectstart = function () {
                     return false;
                 };
             }
@@ -155,7 +155,7 @@ $this->title = '直播记录';
             params.currentX = e.clientX;
             params.currentY = e.clientY;
         };
-        bar.onmouseup = function() {
+        bar.onmouseup = function () {
             params.flag = false;
             if (getCss(target, 'left') !== 'auto') {
                 params.left = getCss(target, 'left');
@@ -164,7 +164,7 @@ $this->title = '直播记录';
                 params.top = getCss(target, 'top');
             }
         };
-        platformElement.onmousemove = function(event) {
+        platformElement.onmousemove = function (event) {
             var e = event ? event : window.event;
             if (params.flag) {
                 var nowX = e.clientX,

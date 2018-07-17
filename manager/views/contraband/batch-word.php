@@ -35,7 +35,7 @@ $this->title = '上传文件';
     <div class="c-modal-mask"></div>
     <div class="c-modal-wrap s-banlive">
         <div class="c-modal">
-           <!-- <div class="c-modal-close s-banlive-close">关闭</div>-->
+            <!-- <div class="c-modal-close s-banlive-close">关闭</div>-->
             <div class="s-banlive-content">
                 <span class="s-banlive-confirm-text"></span>
             </div>
@@ -52,27 +52,27 @@ $this->title = '上传文件';
     $("#upload").click(function (event) {
         //判断是否有文件
         var fileEl = $('#File1');
-        if (typeof(fileEl[0].files[0])=='undefined'){
+        if (typeof(fileEl[0].files[0]) == 'undefined') {
             fileEl[0].focus();
-            $("#confirm_frame").css("display","block");
+            $("#confirm_frame").css("display", "block");
             $(".s-banlive-confirm-text").text("请选择一个正确的模板文件!");
-            $(".s-banlive-confirm").unbind("click").bind("click",function () {
-                $("#confirm_frame").css("display","none");
+            $(".s-banlive-confirm").unbind("click").bind("click", function () {
+                $("#confirm_frame").css("display", "none");
             });
             event.preventDefault();
             return;
         }
 
         var filePath = $('#File1').val().toLowerCase().split(".");
-        var fileType =  filePath[filePath.length - 1];
-        if(fileType == "xls"){
+        var fileType = filePath[filePath.length - 1];
+        if (fileType == "xls") {
             $("#searchForm").submit();
         }
-        else{
-            $("#confirm_frame").css("display","block");
+        else {
+            $("#confirm_frame").css("display", "block");
             $(".s-banlive-confirm-text").text("请选择.xls格式的文件!");
-            $(".s-banlive-confirm").unbind("click").bind("click",function () {
-                $("#confirm_frame").css("display","none");
+            $(".s-banlive-confirm").unbind("click").bind("click", function () {
+                $("#confirm_frame").css("display", "none");
             });
         }
     });

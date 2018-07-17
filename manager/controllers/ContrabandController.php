@@ -1,4 +1,5 @@
 <?php
+
 namespace app\manager\controllers;
 
 use app\common\components\RedisClient;
@@ -7,72 +8,78 @@ use app\common\services\BroadcastService;
 use app\common\services\Constants;
 use Yii;
 
-class ContrabandController extends BaseController{
+class ContrabandController extends BaseController
+{
 
     const PAGE_SIZE = 10;
+
     //违禁词管理
-    public function actionList(){
+    public function actionList()
+    {
 
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
         $params['isDelete'] = 0;
         $list = Contraband::queryInfo($params);
-        $count  = Contraband::queryInfoNum($params);
+        $count = Contraband::queryInfoNum($params);
 
         return $this->render('list', [
             'itemList' => $list,
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
-            'page'=>BroadcastService::pageBanner('/contraband/list',$pageNo+1,$count,self::PAGE_SIZE,5,'s-gift-page-hover')
+            'page' => BroadcastService::pageBanner('/contraband/list', $pageNo + 1, $count, self::PAGE_SIZE, 5, 's-gift-page-hover')
         ]);
     }
 
     //违禁词编辑
-    public function actionEditWord(){
+    public function actionEditWord()
+    {
         if (Yii::$app->request->post()) {
             $params = Yii::$app->request->post();
-            if(Contraband::editWord($params)){
-                $this->jsonReturnSuccess(0,'编辑成功.');
-            }
-            else{
-                $this->jsonReturnError(-1,'编辑失败.');
+            if (Contraband::editWord($params)) {
+                $this->jsonReturnSuccess(0, '编辑成功.');
+            } else {
+                $this->jsonReturnError(-1, '编辑失败.');
             }
         }
     }
+
     //违禁词删除
-    public function actionDeleteWord(){
+    public function actionDeleteWord()
+    {
         $id = Yii::$app->request->post('id');
         $id = Contraband::deleteWord($id);
         if ($id) {
 //            Yii::$app->getResponse()->redirect('/contraband/list');
-            $this->jsonReturnSuccess(0,'删除成功.');
-        }
-        else{
-            $this->jsonReturnError(-1,'删除失败.');
+            $this->jsonReturnSuccess(0, '删除成功.');
+        } else {
+            $this->jsonReturnError(-1, '删除失败.');
         }
     }
+
     //违禁词编辑
-    public function actionWordSubmit(){
+    public function actionWordSubmit()
+    {
         if (Yii::$app->request->post()) {
             $params = Yii::$app->request->post();
-            if(Contraband::editWord($params)){
-                $this->jsonReturnSuccess(0,'编辑成功.');
-            }
-            else{
-                $this->jsonReturnError(-1,'编辑失败.');
+            if (Contraband::editWord($params)) {
+                $this->jsonReturnSuccess(0, '编辑成功.');
+            } else {
+                $this->jsonReturnError(-1, '编辑失败.');
             }
         }
     }
-    //新增
-    public function actionAddWord(){
 
+    //新增
+    public function actionAddWord()
+    {
         return $this->render('add-word');
     }
 
     //导入Excel
-    public function actionBatchWord(){
-
+    public function actionBatchWord()
+    {
         if (Yii::$app->request->isPost) {
 
             $filename = $_FILES['name']['tmp_name'];
@@ -83,36 +90,38 @@ class ContrabandController extends BaseController{
             $highestRow = $sheet->getHighestRow(); // 取得总行数
 //            $highestColumm = $sheet->getHighestColumn(); // 取得总列数
             /** 循环读取每个单元格的数据 */
-            for ($row = 2; $row <= $highestRow; $row++){//行数是以第1行开始
+            for ($row = 2; $row <= $highestRow; $row++) {//行数是以第1行开始
                 for ($column = 'A'; $column <= 'A'; $column++) {//列数是以A列开始
-                    $dataset[] = $sheet->getCell($column.$row)->getValue();
+                    $dataset[] = $sheet->getCell($column . $row)->getValue();
                 }
             }
             $result = Contraband::batchWord($dataset);
-            if($result['code'] == 0){//成功
+            if ($result['code'] == 0) {//成功
                 $this->redirect('/contraband/list');
             }
-        }
-        else{
+        } else {
             return $this->render('batch-word');
         }
     }
+
     //新增保存
-    public function actionAddSave(){
+    public function actionAddSave()
+    {
         $params = Yii::$app->request->post();
-        if(Contraband::addWord($params)){
-            $this->jsonReturnSuccess(0,'add success');
-        }
-        else{
-            $this->jsonReturnError(-1,'add fail');
+        if (Contraband::addWord($params)) {
+            $this->jsonReturnSuccess(0, 'add success');
+        } else {
+            $this->jsonReturnError(-1, 'add fail');
         }
     }
+
     //下载模板
-    public function actionDownloadTemplate(){
+    public function actionDownloadTemplate()
+    {
 
         $str = "违禁词\n";
         $title = "违禁词模板";
-        $queryTime = date('Y-m-d',$_SERVER['REQUEST_TIME']);
+        $queryTime = date('Y-m-d', $_SERVER['REQUEST_TIME']);
         header("Content-type:application/vnd.ms-excel");
         header("Content-Disposition:attachment;filename=" . $title . $queryTime . '.xls');
         header('Cache-Control:must-revalidate,post-check=0,pre-check=0');
@@ -122,13 +131,14 @@ class ContrabandController extends BaseController{
         echo $str;
         exit();
     }
+
     //刷新redis
-    public function actionRefresh(){
+    public function actionRefresh()
+    {
         $result = Contraband::refreshRedis();
-        if(isset($result) && $result['code'] == 0){
+        if (isset($result) && $result['code'] == 0) {
             $this->jsonReturnSuccess(0);
-        }
-        else{
+        } else {
             $this->jsonReturnError(-1);
         }
     }

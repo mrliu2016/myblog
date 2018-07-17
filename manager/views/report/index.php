@@ -18,10 +18,12 @@ $this->title = '举报管理';
                     <div class="s-gift-search-item" style="margin-left:11px">
                         <span>举报时间</span>
                         <input type="text" id="startTime" name="startTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off" >
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;"
+                               autocomplete="off">
                         —
                         <input type="text" id="endTime" name="endTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;"
+                               autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 
@@ -33,46 +35,46 @@ $this->title = '举报管理';
             <a class="c-a s-gift-setting" href="/report/set-type">设置举报类型</a>
         </div>
         <div class="s-gift-table-wrap" style="margin-top:20px;">
-        <table class="c-table s-gift-table">
-            <thead class="c-table-thead s-gift-thead">
-            <tr>
-                <th>序号</th>
-                <th>被举报人ID</th>
-                <th>被举报人昵称</th>
-                <th>举报人ID</th>
-                <th>举报人昵称</th>
-                <th>举报类型</th>
-                <th>举报时间</th>
-            </tr>
-            </thead>
-            <tbody class="c-table-tbody s-gift-tbody">
-            <?php foreach ($itemList as $key => $item): ?>
+            <table class="c-table s-gift-table">
+                <thead class="c-table-thead s-gift-thead">
                 <tr>
-                    <td>
-                        <?= $key+1 ?>
-                    </td>
-                    <td>
-                        <?= $item['reportedUserId'] ?>
-                    </td>
-                    <td>
-                        <?= $item['reportName'] ?>
-                    </td>
-                    <td>
-                        <?= $item['userId'] ?>
-                    </td>
-                    <td>
-                        <?= $item['nickName'] ?>
-                    </td>
-                    <td>
-                        <?= $item['content'] ?>
-                    </td>
-                    <td>
-                        <?= date('Y-m-d H:i',$item['created']) ?>
-                    </td>
+                    <th>序号</th>
+                    <th>被举报人ID</th>
+                    <th>被举报人昵称</th>
+                    <th>举报人ID</th>
+                    <th>举报人昵称</th>
+                    <th>举报类型</th>
+                    <th>举报时间</th>
                 </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="c-table-tbody s-gift-tbody">
+                <?php foreach ($itemList as $key => $item): ?>
+                    <tr>
+                        <td>
+                            <?= $key + 1 ?>
+                        </td>
+                        <td>
+                            <?= $item['reportedUserId'] ?>
+                        </td>
+                        <td>
+                            <?= $item['reportName'] ?>
+                        </td>
+                        <td>
+                            <?= $item['userId'] ?>
+                        </td>
+                        <td>
+                            <?= $item['nickName'] ?>
+                        </td>
+                        <td>
+                            <?= $item['content'] ?>
+                        </td>
+                        <td>
+                            <?= date('Y-m-d H:i', $item['created']) ?>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
 
         <div>

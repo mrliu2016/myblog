@@ -35,46 +35,48 @@ $this->title = '礼物管理';
             <a class="c-a s-gift-setting" href="/gift/setting">设置连击</a>
         </div>
         <div class="s-gift-table-wrap">
-        <table class="c-table s-gift-table">
-            <thead class="c-table-thead s-gift-thead">
-            <tr>
-                <th>序号</th>
-                <th>ID</th>
-                <th>礼物名称</th>
-                <th>草莓币</th>
-                <th>是否可以连发</th>
-                <th>注册时间</th>
-            </tr>
-            </thead>
-            <tbody class="c-table-tbody s-gift-tbody">
-            <?php foreach ($itemList as $key => $item): ?>
+            <table class="c-table s-gift-table">
+                <thead class="c-table-thead s-gift-thead">
                 <tr>
-                    <td>
-                        <?= $key+1 ?>
-                    </td>
-                    <td>
-                        <?= $item['id'] ?>
-                    </td>
-                    <td>
-                        <a href="/gift/detail?id=<?=$item['id']?>" class="s-page-font-color"><?= $item['name'] ?></a>
-                    </td>
-                    <td>
-                        <?= ceil($item['price']) ?>
-                    </td>
-                    <td>
-                        <?= (!empty($item['isFire']) && $item['isFire'] == 1)?'是':'否'?>
-                    </td>
-                    <td>
-                        <a href="/gift/gift-edit?id=<?= $item['id'] ?>" class="s-page-font-color">编辑</a>
-                        <a href="#" onclick="deleteGift(<?= $item['id'] ?>)" class="s-page-font-color">删除</a>
-                    </td>
+                    <th>序号</th>
+                    <th>ID</th>
+                    <th>礼物名称</th>
+                    <th>草莓币</th>
+                    <th>是否可以连发</th>
+                    <th>注册时间</th>
                 </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="c-table-tbody s-gift-tbody">
+                <?php foreach ($itemList as $key => $item): ?>
+                    <tr>
+                        <td>
+                            <?= $key + 1 ?>
+                        </td>
+                        <td>
+                            <?= $item['id'] ?>
+                        </td>
+                        <td>
+                            <a href="/gift/detail?id=<?= $item['id'] ?>"
+                               class="s-page-font-color"><?= $item['name'] ?></a>
+                        </td>
+                        <td>
+                            <?= ceil($item['price']) ?>
+                        </td>
+                        <td>
+                            <?= (!empty($item['isFire']) && $item['isFire'] == 1) ? '是' : '否' ?>
+                        </td>
+                        <td>
+                            <a href="/gift/gift-edit?id=<?= $item['id'] ?>" class="s-page-font-color">编辑</a>
+                            <a href="#" onclick="deleteGift(<?= $item['id'] ?>)" class="s-page-font-color">删除</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span>
+                条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>
@@ -109,35 +111,36 @@ $this->title = '礼物管理';
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
+
     //删除礼物
     function deleteGift(id) {
-        $("#confirm_frame").css("display","block");
+        $("#confirm_frame").css("display", "block");
         //点击确认
-        $(".s-banlive-confirm").unbind("click").bind("click",function () {
-            $("#confirm_frame").css("display","none");
+        $(".s-banlive-confirm").unbind("click").bind("click", function () {
+            $("#confirm_frame").css("display", "none");
             var params = {};
             params.id = id;
             $.ajax({
                 url: "/gift/gift-delete",
                 type: "post",
-                data:params,
+                data: params,
                 // cache: false,
                 dataType: "json",
                 success: function (data) {
-                    if(data.code == 0){
+                    if (data.code == 0) {
                         window.location.reload();
                     }
-                    else{
+                    else {
                         alert("删除失败");
                     }
                 }
             });
         });
-        $(".s-banlive-close").unbind('click').bind('click',function () {
-            $("#confirm_frame").css("display","none");
+        $(".s-banlive-close").unbind('click').bind('click', function () {
+            $("#confirm_frame").css("display", "none");
         });
-        $(".s-banlive-cancel").unbind('click').bind('click',function () {
-            $("#confirm_frame").css("display","none");
+        $(".s-banlive-cancel").unbind('click').bind('click', function () {
+            $("#confirm_frame").css("display", "none");
         });
     }
 </script>

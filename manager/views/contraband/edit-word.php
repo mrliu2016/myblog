@@ -23,34 +23,34 @@ $this->title = '违禁词编辑';
 </div>
 
 <script>
-    $(".cancel").unbind('click').bind('click',function () {
+    $(".cancel").unbind('click').bind('click', function () {
         $("#word").val("");
     });
 
-    $(".confirm").click(function(){
+    $(".confirm").click(function () {
         var id = $("#id").text();
         var word = $("#word").val();
-        if(word == undefined || word == '' || word == null){
+        if (word == undefined || word == '' || word == null) {
             alert('请输入正确的礼物名称.');
             return false;
         }
-        if(parseFloat(price).toString() == "NaN"){
+        if (parseFloat(price).toString() == "NaN") {
             alert('请输入正确的礼物价格.');
             return false;
         }
-        var params  = {};
-        params.id    = id;
-        params.word  = name;
+        var params = {};
+        params.id = id;
+        params.word = name;
         $.ajax({
             url: "/contraband/word-submit",
             type: "post",
             data: params,
             dataType: "json",
             success: function (data) {
-                if(data != undefined && data.code == 0){
-                    window.location.href='/contraband/list';
+                if (data != undefined && data.code == 0) {
+                    window.location.href = '/contraband/list';
                 }
-                else{
+                else {
                     alert('编辑失败！');
                 }
             }

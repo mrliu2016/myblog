@@ -5,17 +5,21 @@ $this->title = '用户管理';
     .switch-hover {
         color: #464646
     }
+
     .switch-list-def span {
         color: #ccc;
     }
+
     .switch-list-on span {
         color: #448AFF;
     }
+
     .switch-mod {
         display: inline-block;
         position: relative;
         margin-left: 25px;
     }
+
     .input-switch {
         opacity: 0;
         position: absolute;
@@ -185,7 +189,8 @@ $this->title = '用户管理';
                             <?= $item['id'] ?>
                         </td>
                         <td>
-                            <a href="/user/detail?id=<?= $item['id'] ?>"><?= $item['nickName'] ?></a>
+                            <a href="/user/detail?id=<?= $item['id'] ?>"
+                               class="s-page-font-color"><?= $item['nickName'] ?></a>
                         </td>
                         <td>
                             <?= (isset($item['sex']) && $item['sex'] == 1) ? '男' : '女' ?>
@@ -248,7 +253,7 @@ $this->title = '用户管理';
                                 <span class="s-basic_item-value">停用</span>
                             <?php endif; ?>
                         </td>
-                        <td><a href="#" onclick="recharge(<?= $item['id'] ?>)">充值</a></td>
+                        <td><a href="#" class="s-page-font-color" onclick="recharge(<?= $item['id'] ?>)">充值</a></td>
                         <td>
                             <?php if (empty($item['playType']) || $item['playType'] == 0): ?>
                                 <div class="switch-mod switch-mod-open switch-hover" style="margin-left:0px">
@@ -276,7 +281,8 @@ $this->title = '用户管理';
             </table>
         </div>
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <?= $count ?> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 20px;">共 <span class="s-page-font-color"><?= $count ?></span>
+                条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>

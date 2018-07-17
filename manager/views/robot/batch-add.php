@@ -13,7 +13,8 @@ $this->title = '机器人管理';
                         <div class="form-group">
                             <div class="col-sm-10">
                                 <div class="col-md-3">
-                                    <input type="file" class="form-control" id="selectTemplate" name="name" accept="*.xls">
+                                    <input type="file" class="form-control" id="selectTemplate" name="name"
+                                           accept="*.xls">
                                 </div>
                             </div>
                         </div>
@@ -54,28 +55,28 @@ $this->title = '机器人管理';
 <script>
     $("#upload").click(function () {
         var fileEl = $('#selectTemplate');
-        if (typeof(fileEl[0].files[0])=='undefined'){
+        if (typeof(fileEl[0].files[0]) == 'undefined') {
             fileEl[0].focus();
             // alert('请选择一个模板文件');
-            $("#confirm_frame").css("display","block");
+            $("#confirm_frame").css("display", "block");
             $(".s-banlive-confirm-text").text("请选择一个正确的模板文件!");
-            $(".s-banlive-confirm").unbind("click").bind("click",function () {
-                $("#confirm_frame").css("display","none");
+            $(".s-banlive-confirm").unbind("click").bind("click", function () {
+                $("#confirm_frame").css("display", "none");
             });
             event.preventDefault();
             return;
         }
 
         var filePath = $('#selectTemplate').val().toLowerCase().split(".");
-        var fileType =  filePath[filePath.length - 1];
-        if(fileType == "xls"){
+        var fileType = filePath[filePath.length - 1];
+        if (fileType == "xls") {
             $("#uploadForm").submit();
         }
-        else{
-            $("#confirm_frame").css("display","block");
+        else {
+            $("#confirm_frame").css("display", "block");
             $(".s-banlive-confirm-text").text("请选择.xls格式的文件!");
-            $(".s-banlive-confirm").unbind("click").bind("click",function () {
-                $("#confirm_frame").css("display","none");
+            $(".s-banlive-confirm").unbind("click").bind("click", function () {
+                $("#confirm_frame").css("display", "none");
             });
         }
 

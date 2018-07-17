@@ -30,24 +30,24 @@ $this->title = '违禁词管理';
     </div>
 </div>
 <script>
-$("#confirm").click(function(){
-    var word = $("#word").val();
-    if(word == undefined || word == '' || word == null || word.length >10){
-        tip('请输入正确的违禁词');
-        return false;
-    }
-    var params  = {};
-        params.word  = word;
+    $("#confirm").click(function () {
+        var word = $("#word").val();
+        if (word == undefined || word == '' || word == null || word.length > 10) {
+            tip('请输入正确的违禁词');
+            return false;
+        }
+        var params = {};
+        params.word = word;
         $.ajax({
             url: "/contraband/add-save",
             type: "post",
             data: params,
             dataType: "json",
             success: function (data) {
-                if(data != undefined && data.code == 0){
-                    window.location.href='/contraband/list';
+                if (data != undefined && data.code == 0) {
+                    window.location.href = '/contraband/list';
                 }
-                else{
+                else {
                     tip("新增违禁词失败！");
                 }
             }
@@ -56,11 +56,12 @@ $("#confirm").click(function(){
     $("#cancel").click(function () {
         $("#word").val("");
     });
+
     function tip(message) {
-        $("#tip_frame").css("display","block");
+        $("#tip_frame").css("display", "block");
         $(".s-banlive-confirm-text").text(message);
-        $(".s-banlive-confirm").unbind("click").bind("click",function () {
-            $("#tip_frame").css("display","none");
+        $(".s-banlive-confirm").unbind("click").bind("click", function () {
+            $("#tip_frame").css("display", "none");
         });
     }
 </script>

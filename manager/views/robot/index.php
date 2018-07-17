@@ -24,79 +24,81 @@ $this->title = '机器人管理';
             </form>
         </div>
         <div class="s-gitf-operate">
-            <a class="c-btn u-radius--circle c-btn-primary" href="/robot/add-robot" >新增</a>
+            <a class="c-btn u-radius--circle c-btn-primary" href="/robot/add-robot">新增</a>
             <a class="c-btn u-radius--circle c-btn-primary" href="/robot/batch-add">批量新增</a>
             <button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>
         </div>
         <div class="s-gift-table-wrap">
-        <table class="c-table s-gift-table">
-            <thead class="c-table-thead s-gift-thead">
-            <tr>
-                <th>序号</th>
-                <th>ID</th>
-                <th>昵称</th>
-                <th>房间号</th>
-                <th>性别</th>
-                <th>所在地</th>
-                <th>个性签名</th>
-                <th>关注数</th>
-                <th>粉丝数</th>
-                <th>收到礼物/币</th>
-                <th>送出礼物/豆</th>
-                <th>更新时间</th>
-                <th>操作</th>
-            </tr>
-            </thead>
-            <tbody class="c-table-tbody s-gift-tbody">
-            <?php foreach ($itemList as $key => $item): ?>
+            <table class="c-table s-gift-table">
+                <thead class="c-table-thead s-gift-thead">
                 <tr>
-                    <td>
-                        <?= $key+1 ?>
-                    </td>
-                    <td>
-                        <?= $item['id'] ?>
-                    </td>
-                    <td>
-                        <a href="/robot/detail?id=<?=$item['id']?>"><?= $item['nickName'] ?></a>
-                    </td>
-                    <td>
-                        <?= $item['roomId'] ?>
-                    </td>
-                    <td>
-                        <?= isset($item['sex'])&& $item['sex']==1?'男':'女' ?>
-                    </td>
-                    <td>
-                        <?= $item['province'].$item['city'] ?>
-                    </td>
-                    <td><!--个性签名-->
-                        <?= $item['description'] ?>
-                    </td>
-                    <td><!--关注数-->
-                        <?= $item['followees_cnt'] ?>
-                    </td>
-                    <td><!--粉丝数-->
-                        <?= $item['followers_cnt'] ?>
-                    </td>
-                    <td><!--收到礼物-->
-                        <?= $item['receiveValue'] ?>
-                    </td>
-                    <td><!--送出礼物-->
-                        <?= $item['sendValue'] ?>
-                    </td>
-                    <td>
-                        <?= date('Y-m-d H:i',$item['updated']) ?>
-                    </td>
-                    <td>
-                        <a href="/robot/edit-robot?id=<?= $item['id'] ?>" class="s-page-font-color">编辑</a>
-                        <a href="#" onclick="deleteRobot(<?=$item['id']?>)" class="s-page-font-color">删除</a>
-                    </td>
+                    <th>序号</th>
+                    <th>ID</th>
+                    <th>昵称</th>
+                    <th>房间号</th>
+                    <th>性别</th>
+                    <th>所在地</th>
+                    <th>个性签名</th>
+                    <th>关注数</th>
+                    <th>粉丝数</th>
+                    <th>收到礼物/币</th>
+                    <th>送出礼物/豆</th>
+                    <th>更新时间</th>
+                    <th>操作</th>
                 </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="c-table-tbody s-gift-tbody">
+                <?php foreach ($itemList as $key => $item): ?>
+                    <tr>
+                        <td>
+                            <?= $key + 1 ?>
+                        </td>
+                        <td>
+                            <?= $item['id'] ?>
+                        </td>
+                        <td>
+                            <a href="/robot/detail?id=<?= $item['id'] ?>"
+                               class="s-page-font-color"><?= $item['nickName'] ?></a>
+                        </td>
+                        <td>
+                            <?= $item['roomId'] ?>
+                        </td>
+                        <td>
+                            <?= isset($item['sex']) && $item['sex'] == 1 ? '男' : '女' ?>
+                        </td>
+                        <td>
+                            <?= $item['province'] . $item['city'] ?>
+                        </td>
+                        <td><!--个性签名-->
+                            <?= $item['description'] ?>
+                        </td>
+                        <td><!--关注数-->
+                            <?= $item['followees_cnt'] ?>
+                        </td>
+                        <td><!--粉丝数-->
+                            <?= $item['followers_cnt'] ?>
+                        </td>
+                        <td><!--收到礼物-->
+                            <?= $item['receiveValue'] ?>
+                        </td>
+                        <td><!--送出礼物-->
+                            <?= $item['sendValue'] ?>
+                        </td>
+                        <td>
+                            <?= date('Y-m-d H:i', $item['updated']) ?>
+                        </td>
+                        <td>
+                            <a href="/robot/edit-robot?id=<?= $item['id'] ?>" class="s-page-font-color">编辑</a>
+                            <a href="#" onclick="deleteRobot(<?= $item['id'] ?>)" class="s-page-font-color">删除</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count?></span> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span>
+                条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>
@@ -149,48 +151,49 @@ $this->title = '机器人管理';
     });
     //删除机器人
     function deleteRobot(id) {
-        $("#confirm_frame").css("display","block");
+        $("#confirm_frame").css("display", "block");
         //点击确认
-        $("#del-robot").unbind("click").bind("click",function () {
+        $("#del-robot").unbind("click").bind("click", function () {
             var params = {};
             params.id = id;
-            $("#confirm_frame").css("display","none");
+            $("#confirm_frame").css("display", "none");
             $.ajax({
                 url: "/robot/delete-robot",
                 type: "post",
-                data:params,
+                data: params,
                 // cache: false,
                 dataType: "json",
                 success: function (data) {
-                    if(data.code == 0){
+                    if (data.code == 0) {
                         window.location.reload();
                     }
-                    else{
+                    else {
                         tip("删除失败");
                     }
                     // window.location.reload();
                 }
             });
         });
-        $(".s-banlive-close").unbind('click').bind('click',function () {
-            $("#confirm_frame").css("display","none");
+        $(".s-banlive-close").unbind('click').bind('click', function () {
+            $("#confirm_frame").css("display", "none");
         });
-        $(".s-banlive-cancel").unbind('click').bind('click',function () {
-            $("#confirm_frame").css("display","none");
+        $(".s-banlive-cancel").unbind('click').bind('click', function () {
+            $("#confirm_frame").css("display", "none");
         });
     }
+
     //刷新redis
-    $("#refresh").unbind('click').bind('click',function () {
+    $("#refresh").unbind('click').bind('click', function () {
         $.ajax({
             url: "/robot/refresh",
             type: "post",
             // cache: false,
             dataType: "json",
             success: function (data) {
-                if(data.code == 0){
+                if (data.code == 0) {
                     tip("更新成功");
                 }
-                else{
+                else {
                     tip("更新失败");
                 }
             }
@@ -198,11 +201,11 @@ $this->title = '机器人管理';
     });
 
     function tip($message) {
-        $("#tip_frame").css("display","block");
+        $("#tip_frame").css("display", "block");
         $(".s-banlive-confirm-text2").text($message);
-        $("#close-tip").unbind("click").bind("click",function(){
-            $("#tip_frame").css("display","none");
+        $("#close-tip").unbind("click").bind("click", function () {
+            $("#tip_frame").css("display", "none");
         });
     }
-    
+
 </script>

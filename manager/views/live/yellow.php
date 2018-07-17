@@ -22,10 +22,12 @@ $this->title = '鉴黄管理';
                     <div class="s-gift-search-item">
                         <span>开始时间</span>
                         <input type="text" id="startTime" name="startTime"
-                                class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off" >
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;"
+                               autocomplete="off">
                         —
                         <input type="text" id="endTime" name="endTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;"
+                               autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
                 </div>
@@ -33,49 +35,50 @@ $this->title = '鉴黄管理';
         </div>
 
         <div class="s-gift-table-wrap" style="margin-top:40px;">
-        <table class="c-table s-gift-table">
-            <thead class="c-table-thead s-gift-thead">
-            <tr>
-                <th>序号</th>
-                <th>ID</th>
-                <th>昵称</th>
-                <th>房间号</th>
-                <th>开始时间</th>
-                <th>结束时间</th>
-                <th>截图</th>
-            </tr>
-            </thead>
-            <tbody class="c-table-tbody s-gift-tbody">
-            <?php foreach ($itemList as $key => $item): ?>
+            <table class="c-table s-gift-table">
+                <thead class="c-table-thead s-gift-thead">
                 <tr>
-                    <td>
-                        <?= $key+1 ?>
-                    </td>
-                    <td>
-                        <?= $item['id'] ?>
-                    </td>
-                    <td>
-                        <?= $item['nickName'] ?>
-                    </td>
-                    <td>
-                        <?= $item['roomId'] ?>
-                    </td>
-                    <td>
-                        <?= date('Y-m-d H:i',$item['startTime'])?>
-                    </td>
-                    <td>
-                        <?= date('Y-m-d H:i',$item['endTime'])?>
-                    </td>
-                    <td>
-                        <a href="/live/yellow-check?id=<?=$item['id']?>" class="s-page-font-color">查看</a>
-                    </td>
+                    <th>序号</th>
+                    <th>ID</th>
+                    <th>昵称</th>
+                    <th>房间号</th>
+                    <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>截图</th>
                 </tr>
-            <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="c-table-tbody s-gift-tbody">
+                <?php foreach ($itemList as $key => $item): ?>
+                    <tr>
+                        <td>
+                            <?= $key + 1 ?>
+                        </td>
+                        <td>
+                            <?= $item['id'] ?>
+                        </td>
+                        <td>
+                            <?= $item['nickName'] ?>
+                        </td>
+                        <td>
+                            <?= $item['roomId'] ?>
+                        </td>
+                        <td>
+                            <?= date('Y-m-d H:i', $item['startTime']) ?>
+                        </td>
+                        <td>
+                            <?= date('Y-m-d H:i', $item['endTime']) ?>
+                        </td>
+                        <td>
+                            <a href="/live/yellow-check?id=<?= $item['id'] ?>" class="s-page-font-color">查看</a>
+                        </td>
+                    </tr>
+                <?php endforeach; ?>
+                </tbody>
+            </table>
         </div>
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span>
+                条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>
@@ -122,7 +125,7 @@ $this->title = '鉴黄管理';
             }
         });
     }
-    
+
     function show(url) {
         alert(url);
     }
