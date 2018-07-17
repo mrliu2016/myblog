@@ -28,14 +28,10 @@ $this->title = '鉴黄管理';
                                class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
-
                 </div>
             </form>
         </div>
-        <!--<div class="s-gitf-operate">
-            <button class="c-btn u-radius--circle c-btn-primary">新增</button>
-            <a class="c-a s-gift-setting">设置连击</a>
-        </div>-->
+
         <div class="s-gift-table-wrap" style="margin-top:40px;">
         <table class="c-table s-gift-table">
             <thead class="c-table-thead s-gift-thead">
@@ -71,8 +67,7 @@ $this->title = '鉴黄管理';
                         <?= date('Y-m-d H:i',$item['endTime'])?>
                     </td>
                     <td>
-                        <!-- <img src="<?/*= $item['yellowurl'] */?>" width="150" height="85"></a>-->
-                        <a href="/live/yellow-check?id=<?=$item['id']?>">查看</a>
+                        <a href="/live/yellow-check?id=<?=$item['id']?>" class="s-page-font-color">查看</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -80,7 +75,7 @@ $this->title = '鉴黄管理';
         </table>
         </div>
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <?= $count ?> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span> 条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>
@@ -91,7 +86,6 @@ $this->title = '鉴黄管理';
             </nav>
         </div>
     </div>
-
 </div>
 
 <script type="text/javascript">
@@ -125,9 +119,6 @@ $this->title = '鉴黄管理';
                     area: ['1000px', '550px'], //宽高
                     content: html
                 });
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('get issue');
             }
         });
     }

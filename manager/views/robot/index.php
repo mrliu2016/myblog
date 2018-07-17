@@ -20,7 +20,6 @@ $this->title = '机器人管理';
                         <input class="c-input s-gift-search-input" type="text" name="roomId" autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
-
                 </div>
             </form>
         </div>
@@ -88,9 +87,8 @@ $this->title = '机器人管理';
                         <?= date('Y-m-d H:i',$item['updated']) ?>
                     </td>
                     <td>
-                        <a href="/robot/edit-robot?id=<?= $item['id'] ?>">编辑</a>
-                       <!-- <a href="/robot/delete-robot?id=<?/*= $item['id'] */?>">删除</a>-->
-                        <a href="#" onclick="deleteRobot(<?=$item['id']?>)">删除</a>
+                        <a href="/robot/edit-robot?id=<?= $item['id'] ?>" class="s-page-font-color">编辑</a>
+                        <a href="#" onclick="deleteRobot(<?=$item['id']?>)" class="s-page-font-color">删除</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -98,7 +96,7 @@ $this->title = '机器人管理';
         </table>
         </div>
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <?= $count ?> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count?></span> 条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>

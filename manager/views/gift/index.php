@@ -1,5 +1,4 @@
 <?php
-use yii\widgets\LinkPager;
 $this->title = '礼物管理';
 ?>
 
@@ -32,9 +31,7 @@ $this->title = '礼物管理';
             </form>
         </div>
         <div class="s-gitf-operate">
-            <!--<button class="c-btn u-radius--circle c-btn-primary" >新增</button>-->
             <a class="c-btn u-radius--circle c-btn-primary" href="/gift/create">新增</a>
-
             <a class="c-a s-gift-setting" href="/gift/setting">设置连击</a>
         </div>
         <div class="s-gift-table-wrap">
@@ -59,7 +56,7 @@ $this->title = '礼物管理';
                         <?= $item['id'] ?>
                     </td>
                     <td>
-                        <a href="/gift/detail?id=<?=$item['id']?>"><?= $item['name'] ?></a>
+                        <a href="/gift/detail?id=<?=$item['id']?>" class="s-page-font-color"><?= $item['name'] ?></a>
                     </td>
                     <td>
                         <?= ceil($item['price']) ?>
@@ -68,18 +65,16 @@ $this->title = '礼物管理';
                         <?= (!empty($item['isFire']) && $item['isFire'] == 1)?'是':'否'?>
                     </td>
                     <td>
-                        <a href="/gift/gift-edit?id=<?= $item['id'] ?>">编辑</a>
-                       <!-- <a href="/gift/gift-delete?id=<?/*= $item['id'] */?>">删除</a>-->
-                        <a href="#" onclick="deleteGift(<?= $item['id'] ?>)">删除</a>
+                        <a href="/gift/gift-edit?id=<?= $item['id'] ?>" class="s-page-font-color">编辑</a>
+                        <a href="#" onclick="deleteGift(<?= $item['id'] ?>)" class="s-page-font-color">删除</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
             </tbody>
         </table>
         </div>
-
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <?= $count ?> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span> 条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>
@@ -90,7 +85,6 @@ $this->title = '礼物管理';
             </nav>
         </div>
     </div>
-
 </div>
 
 <!--确认是否删除start-->
@@ -112,11 +106,9 @@ $this->title = '礼物管理';
 <!--确认是否删除end-->
 
 <script type="text/javascript">
-
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
-
     //删除礼物
     function deleteGift(id) {
         $("#confirm_frame").css("display","block");
@@ -138,10 +130,6 @@ $this->title = '礼物管理';
                     else{
                         alert("删除失败");
                     }
-                    // window.location.reload();
-                },
-                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                    alert('get issue');
                 }
             });
         });

@@ -209,11 +209,12 @@ $this->title = '机器人管理';
         $("#robotForm").submit();
     });
     $("#cancel").unbind('click').bind('click',function () {
-        $("#nickName").val("");
-        $("#followees_cnt").val("");
-        $("#followers_cnt").val("");
-        $("#receivedGift").val("");
-        $("#sendGift").val("");
+        // $("#nickName").val("");
+        // $("#followees_cnt").val("");
+        // $("#followers_cnt").val("");
+        // $("#receivedGift").val("");
+        // $("#sendGift").val("");
+        window.location.href = '/robot/index';
     });
 
     function getPath(obj, fileQuery, transImg) {

@@ -47,7 +47,6 @@ $this->title = '直播管理';
             </tr>
             </thead>
             <tbody class="c-table-tbody s-gift-tbody">
-
             <?php foreach ($itemList as $key=>$item): ?>
                 <tr>
                     <td><?=$key+1?></td>
@@ -78,9 +77,9 @@ $this->title = '直播管理';
                     </td>
                     <td>
                        <!--<a href="/live/check?id=<?/*=$item['id']*/?>">查看</a>-->
-                       <a href="#" onclick="watchVideo('<?=$item['liveUrl'] ?>')">查看</a>
+                       <a href="#" class="s-page-font-color" onclick="watchVideo('<?=$item['liveUrl'] ?>')">查看</a>
                         <?php if(empty($item['status']) || $item['status'] == 0): ?>
-                            <a href="#" onclick="noplay(<?=$item['userId']?>,<?=$item['roomId']?>,<?=$item['isLive']?>)">禁播</a>
+                            <a href="#" class="s-page-font-color" onclick="noplay(<?=$item['userId']?>,<?=$item['roomId']?>,<?=$item['isLive']?>)">禁播</a>
                         <?php elseif ($item['status'] == 1):?>
                             <a disabled class="c-btn s-gift-page" href="#" style="text-decoration: none;">禁播</a>
                         <?php endif; ?>
@@ -91,7 +90,7 @@ $this->title = '直播管理';
         </table>
         </div>
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <?= $count ?> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span> 条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>
@@ -158,13 +157,11 @@ $this->title = '直播管理';
         $(".s-video-m_close").unbind("click").bind("click",function () {
             $("#video_modal").css("display","none");
         });
-
     }
     //关闭
     $(".s-banlive-close").click(function () {
         $("#forbid_frame").css("display","none");
     });
-
     //取消
     $(".s-banlive-cancel").click(function () {
         $("#forbid_frame").css("display","none");
@@ -197,7 +194,6 @@ $this->title = '直播管理';
             }
         });
     }
-
     //查看
     function check(id) {
         var params = {};
@@ -215,7 +211,6 @@ $this->title = '直播管理';
             }
         });
     }
-
     //禁播
     function noplay(userId,roomId,isLive) {
         $("#forbid_frame").css("display","block");
@@ -234,7 +229,6 @@ $this->title = '直播管理';
             params.type = type;
 
             $("#forbid_frame").css("display","none");
-            // console.log(params);
             $.ajax({
                 url: '/live/noplay',
                 type: 'post',

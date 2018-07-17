@@ -102,9 +102,10 @@ $this->title = '礼物管理';
         $("#giftForm").submit();
     });
     $("#cancel").unbind('click').bind('click',function () {
-        $("#name").val("");
-        $("#price").val("");
-        $("input[name=fire]:eq(1)").attr("checked",'checked');
+        // $("#name").val("");
+        // $("#price").val("");
+        // $("input[name=fire]:eq(1)").attr("checked",'checked');
+        window.location.href = '/gift/index';
     });
     function getPath(obj, fileQuery, transImg) {
         var imgSrc = '', imgArr = [], strSrc = '';

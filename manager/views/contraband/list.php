@@ -47,9 +47,8 @@ $this->title = '违禁词管理';
                         <?= date('Y-m-d H:i:s',$item['updated']) ?>
                     </td>
                     <td>
-                        <a href="#" onclick="editWord(<?= $item['id'] ?>,'<?= $item['word'] ?>')">编辑</a>
-                      <!--  <a href="/contraband/delete-word?id=<?/*= $item['id'] */?>">删除</a>-->
-                        <a href="#" onclick="deleteWord(<?= $item['id'] ?>)">删除</a>
+                        <a href="#" class="s-page-font-color" onclick="editWord(<?= $item['id'] ?>,'<?= $item['word'] ?>')">编辑</a>
+                        <a href="#" class="s-page-font-color" onclick="deleteWord(<?= $item['id'] ?>)">删除</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -57,7 +56,7 @@ $this->title = '违禁词管理';
         </table>
         </div>
         <div>
-            <p class="s-gift-count" style="padding-top: 10px;">共 <?= $count ?> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span> 条记录</p>
             <nav class="text-center" style="margin-left:30%">
                 <table>
                     <tr>
@@ -88,7 +87,6 @@ $this->title = '违禁词管理';
     </div>
 </div>
 <!--编辑弹框end-->
-
 <!--确认是否删除start-->
 <div id="confirm_frame" style="display: none">
     <div class="c-modal-mask"></div>
@@ -106,7 +104,6 @@ $this->title = '违禁词管理';
 </div>
 </div>
 <!--确认是否删除start-->
-
 <!--确认是否删除start-->
 <div id="tip_frame" style="display: none">
     <div class="c-modal-mask"></div>
