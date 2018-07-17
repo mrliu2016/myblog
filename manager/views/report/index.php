@@ -16,7 +16,7 @@ $this->title = '举报管理';
                         <input class="c-input s-gift-search-input" type="text" name="nickName" autocomplete="off">
                     </div>
                     <div class="s-gift-search-item" style="margin-left:11px">
-                        <span>时间范围</span>
+                        <span>举报时间</span>
                         <input type="text" id="startTime" name="startTime"
                                class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off" >
                         —
