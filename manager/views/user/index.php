@@ -138,11 +138,11 @@ $this->title = '用户管理';
                     <div class="s-gift-search-item">
                         <span>注册时间</span>
                         <input class="c-input s-gift-search-input form-control datepicker-pop" type="text"
-                               id="startTime" name="startTime" autocomplete="off" style="width: 135px;">
+                               id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
                         —
                         <input type="text" id="endTime" name="endTime"
                                class="c-input s-gift-search-input form-control datepicker-pop" autocomplete="off"
-                               style="width: 135px;">
+                               style="width: 100px;">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn">查询</button>
 
@@ -348,7 +348,6 @@ $this->title = '用户管理';
     </div>
 </div>
 <!--编辑弹框end-->
-
 <!--提示框start-->
 <div style="display: none;" id="tip_frame">
     <div class="c-modal-mask"></div>
@@ -370,11 +369,10 @@ $this->title = '用户管理';
         todayHighlight: true,
         todayBtn: true,
         autoclose: true,
-        minView: 0,
-        format: 'yyyy-mm-dd hh:ii',
+        minView: 3,
+        format: 'yyyy-mm-dd',
         language: 'zh-CN'
     });
-
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
@@ -428,7 +426,6 @@ $this->title = '用户管理';
                 // timeout: 5000
             }).done(function (data) {
                 if (data.code == 0) {
-                    // alert('禁播成功');
                     window.location.reload();
                 }
                 else {

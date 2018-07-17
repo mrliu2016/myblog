@@ -22,10 +22,10 @@ $this->title = '鉴黄管理';
                     <div class="s-gift-search-item">
                         <span>时间范围</span>
                         <input type="text" id="startTime" name="startTime"
-                                class="c-input s-gift-search-input form-control datepicker-pop" style="width: 135px;" autocomplete="off" >
+                                class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off" >
                         —
                         <input type="text" id="endTime" name="endTime"
-                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 135px;" autocomplete="off">
+                               class="c-input s-gift-search-input form-control datepicker-pop" style="width: 100px;" autocomplete="off">
                     </div>
                     <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn" id="searchBtn">查询</button>
 
@@ -105,8 +105,8 @@ $this->title = '鉴黄管理';
         todayHighlight: true,
         todayBtn: true,
         autoclose: true,
-        minView: 0,
-        format: 'yyyy-mm-dd hh:ii',
+        minView: 3,
+        format: 'yyyy-mm-dd',
         language: 'zh-CN'
     });
 

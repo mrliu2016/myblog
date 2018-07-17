@@ -38,6 +38,9 @@ class LiveController extends BaseController
         $ip = Yii::$app->params['wsServer'][Constants::CODE_SUCCESS]['ip'];
         $redis = RedisClient::getInstance();
         $params['defaultPageSize'] = self::PAGE_SIZE;
+        if(!empty($params['endTime'])){
+            $params['endTime'] = date('Y-m-d',strtotime($params['endTime']) + 86400);
+        }
         $params['isLive'] = 1;
         $list = array();
         //通过昵称查询
@@ -84,6 +87,9 @@ class LiveController extends BaseController
     public function actionLiveRecord(){
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
+        if(!empty($params['endTime'])){
+            $params['endTime'] = date('Y-m-d',strtotime($params['endTime']) + 86400);
+        }
         $params['isLive'] = 2;
         $list = array();
         //通过昵称查询

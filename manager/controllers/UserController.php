@@ -30,9 +30,11 @@ class UserController extends BaseController
     {
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
+        if(!empty($params['endTime'])){
+            $params['endTime'] = date('Y-m-d',strtotime($params['endTime']) + 86400);
+        }
         $params['isDelete'] = 0;
         $result = User::queryUserInfo($params);
-//        print_r($result);die;
         if (empty($params['id'])) {
             unset($params['id']);
         }
