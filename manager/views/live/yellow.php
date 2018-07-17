@@ -36,7 +36,7 @@ $this->title = '鉴黄管理';
             <button class="c-btn u-radius--circle c-btn-primary">新增</button>
             <a class="c-a s-gift-setting">设置连击</a>
         </div>-->
-        <div class="s-gift-table-wrap">
+        <div class="s-gift-table-wrap" style="margin-top:40px;">
         <table class="c-table s-gift-table">
             <thead class="c-table-thead s-gift-thead">
             <tr>

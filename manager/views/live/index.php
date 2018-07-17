@@ -31,7 +31,7 @@ $this->title = '直播管理';
                 </div>
             </form>
         </div>
-        <div class="s-gift-table-wrap">
+        <div class="s-gift-table-wrap" style="margin-top:40px;">
         <table class="c-table s-gift-table">
             <thead class="c-table-thead s-gift-thead">
             <tr>
