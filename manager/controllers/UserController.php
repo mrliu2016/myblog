@@ -31,6 +31,7 @@ class UserController extends BaseController
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $params['isDelete'] = 0;
         $result = User::queryUserInfo($params);
+//        print_r($result);die;
         if(empty($params['id'])){
             unset($params['id']);
         }
@@ -48,7 +49,8 @@ class UserController extends BaseController
             $reportCount= Report::queryInfoNum($params);
             $val['reportCount'] = $reportCount;
             //收到礼物
-            $receiveValue = Order::queryReceiveGiftByUserId($val['id'],true);
+//            $receiveValue = Order::queryReceiveGiftByUserId($val['id'],true);
+            $receiveValue = Order::queryReceiveGiftByUserId($val['id'],false);
             if(empty($receiveValue) || empty($receiveValue['totalPrice'])){
                 $val['receiveValue'] = 0;
             }
@@ -56,7 +58,8 @@ class UserController extends BaseController
                 $val['receiveValue'] = $receiveValue['totalPrice'];
             }
             //送出礼物
-            $sendValue = Order::queryReceiveGiftByUserId($val['id'],false);
+//            $sendValue = Order::queryReceiveGiftByUserId($val['id'],false);
+            $sendValue = Order::queryReceiveGiftByUserId($val['id'],true);
             if(empty($sendValue) || empty($sendValue['totalPrice'])){
                 $val['sendValue'] = 0;
             }
