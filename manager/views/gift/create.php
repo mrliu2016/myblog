@@ -15,6 +15,18 @@ $this->title = '礼物管理';
         width: 100%;
         height: 100%;
     }
+   /* .c-form-input-placeholder{
+        color:#D9D9D9;
+        font-size: 12px;
+    }*/
+    input::-webkit-input-placeholder {
+        color: #D9D9D9;
+        /* placeholder字体大小  */
+        font-size: 12px;
+        /* placeholder位置  */
+        text-align: left;
+        line-height: 17px;
+    }
 </style>
 <div class="s-gift-manage">
     <div class="s-gift-manage_title">礼物管理</div>
@@ -28,13 +40,13 @@ $this->title = '礼物管理';
                     <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
                 </div>
                 <img class="s-robot-form_head-img"
-                     src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像"
+                     src="http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png" alt="用户头像"
                      name="img" id="headImg">
                 <div class="s-robot-form_headimg-close" style="display: none;"></div>
 
                 <div class="s-robot-form_img-tips">
                     <p>图片格式：JPG、JPEG、PNG</p>
-                    <p>图片大小：小于一M</p>
+                    <p>图片大小：小于1M</p>
                 </div>
             </div>
             <div class="s-robot-form-details">
@@ -79,6 +91,13 @@ $this->title = '礼物管理';
 </div>
 
 <script type="text/javascript">
+    //礼物名称聚焦与失去焦点
+    $("#name").focus(function () {
+        $(this).attr("placeholder","")
+    }).blur(function () {
+        $(this).attr("placeholder","0-10个字符长度")
+    });
+
     $("#confirm").unbind('click').bind('click', function () {
         var fileEl = $('#profileButton1');
         if (typeof(fileEl[0].files[0]) == 'undefined') {

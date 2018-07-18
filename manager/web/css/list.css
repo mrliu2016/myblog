@@ -1063,3 +1063,12 @@ input.s-message-select-checked{
 .s-page-font-color{
     color:#1AC2AD;
 }
+
+input::-webkit-input-placeholder {
+    color: #D9D9D9;
+    /* placeholder字体大小  */
+    font-size: 12px;
+    /* placeholder位置  */
+    text-align: left;
+    line-height: 17px;
+}

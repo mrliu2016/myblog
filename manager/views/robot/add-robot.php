@@ -31,12 +31,12 @@ $this->title = '机器人管理';
                     <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
                 </div>
                 <img class="s-robot-form_head-img"
-                     src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像"
+                     src="http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png" alt="用户头像"
                      name="img" id="headImg">
                 <div class="s-robot-form_headimg-close" style="display: none;"></div>
                 <div class="s-robot-form_img-tips">
                     <p>图片格式：JPG、JPEG、PNG</p>
-                    <p>图片大小：小于一M</p>
+                    <p>图片大小：小于1M</p>
                 </div>
             </div>
             <div class="s-robot-form-details">
@@ -167,6 +167,13 @@ $this->title = '机器人管理';
 </div>
 
 <script>
+    //礼物名称聚焦与失去焦点
+    $("#nickName").focus(function () {
+        $(this).attr("placeholder","")
+    }).blur(function () {
+        $(this).attr("placeholder","0-10个字符长度")
+    });
+
     function tip($message) {
         $("#confirm_frame").css("display", "block");
         $(".s-banlive-confirm-text").text($message);
