@@ -1121,8 +1121,6 @@ input::-webkit-input-placeholder {
     width: 284px;
     height: 35px;
     margin-left: 65px;
-    letter-spacing:-4px; /*实际情况下 -4这个值可能还要调整*/
-    word-spacing:-4px; /*实际情况下 -4这个值可能还要调整*/
 }
 
 .import-file input{
