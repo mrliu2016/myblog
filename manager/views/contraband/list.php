@@ -20,7 +20,7 @@ $this->title = '违禁词管理';
         <div class="s-gitf-operate">
             <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/add-word" style="margin-left:20px;">新增</a>
             <a class="c-btn u-radius--circle c-btn-primary" href="#" id="import-excel"
-               style="margin-left:20px;margin-right: 10px;">Excel导入</a>
+               style="margin-left:30px;">Excel导入</a>
             <!--<button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>-->
             <div class="download-excel">excel模板</div>
             <div class="download-file">
