@@ -22,7 +22,7 @@ $this->title = '违禁词管理';
             <a class="c-btn u-radius--circle c-btn-primary" href="#" id="import-excel"
                style="margin-left:20px;margin-right: 10px;">Excel导入</a>
             <!--<button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>-->
-            <a href="#" class="download-excel">excel模板</a>
+            <div class="download-excel">excel模板</div>
             <div class="download-file">
                 <form action="/contraband/download-template" id="downloadForm">
                     <!--<button type="submit" class="download">excel模板</button>-->

@@ -1203,3 +1203,16 @@ input::-webkit-input-placeholder {
     background-image: linear-gradient(75deg, rgba(0,237,168,0.80) 0%, #1AC2AD 100%);
     border-radius: 50px;
 }
+
+.download-excel{
+    font-size: 16px;
+    margin-top: 10px;
+    float:right;
+    margin-right: 860px;
+    color: #0e84b5;
+}
+.download-excel:hover{
+    cursor: pointer;
+    color: #0e84b5;
+    text-decoration: underline;
+}

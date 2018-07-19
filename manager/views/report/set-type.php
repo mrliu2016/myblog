@@ -90,9 +90,7 @@ $this->title = "举报管理";
             }
         });
     });
-    $(".s-accuse-report-cancel-btn").unbind('click').bind('click', function () {
-        window.location.href = "/report/index";
-    });
+
     //编辑
     $(".s-accuse-report-edit-btn").click(function () {
         //输入框可编辑
@@ -100,5 +98,10 @@ $this->title = "举报管理";
         $(".updateSave").css('display', 'block');
         $(this).attr("class","s-accuse-report-cancel-btn");
         $(this).text("取消");
+
+        //取消
+        $(".s-accuse-report-cancel-btn").unbind('click').bind('click', function () {
+            window.location.reload();
+        });
     });
 </script>
