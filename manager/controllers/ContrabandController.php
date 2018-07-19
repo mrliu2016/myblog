@@ -81,7 +81,6 @@ class ContrabandController extends BaseController
     public function actionBatchWord()
     {
         if (Yii::$app->request->isPost) {
-
             $filename = $_FILES['name']['tmp_name'];
             $reader = \PHPExcel_IOFactory::createReader('Excel5'); //设置以Excel5格式(Excel97-2003工作簿)
             $PHPExcel = $reader->load($filename); // 载入excel文件
@@ -100,7 +99,7 @@ class ContrabandController extends BaseController
                 $this->redirect('/contraband/list');
             }
         } else {
-            return $this->render('batch-word');
+            return $this->render('list');
         }
     }
 

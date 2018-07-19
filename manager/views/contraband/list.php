@@ -19,7 +19,8 @@ $this->title = '违禁词管理';
         </div>
         <div class="s-gitf-operate">
             <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/add-word">新增</a>
-            <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/batch-word">Excel导入</a>
+            <!--<a class="c-btn u-radius--circle c-btn-primary" href="/contraband/batch-word">Excel导入</a>-->
+            <a class="c-btn u-radius--circle c-btn-primary" href="#" id="import-excel">Excel导入</a>
             <button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>
         </div>
         <div class="s-gift-table-wrap">
@@ -123,7 +124,79 @@ $this->title = '违禁词管理';
     </div>
 </div>
 
+<!--导入违禁词start-->
+<div id="import_frame" style="display: none;">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-import-excel">
+        <div class="c-modal">
+            <div class="c-modal-close s-import-excel-close">关闭</div>
+            <div class="c-modal_header">Excel导入</div>
+            <div class="s-banword-content">
+                <form method="post" action="/contraband/batch-word" class="form-horizontal" id="importForm"
+                      name="importForm" enctype="multipart/form-data">
+                    <input type="file" class="filess" name="name" style="opacity: 0" accept="*.xls"/>
+                </form>
+                <div class="import-file">
+                    <input type="text" class="filetext" placeholder="文件昵称" disabled/>
+                    <button class="importBtn">选择文件</button>
+                </div>
+                <div class="download-file">
+                    <form action="/contraband/download-template" id="downloadForm">
+                        <button type="submit" class="download">点击下载模板文件</button>
+                    </form>
+                </div>
+
+            </div>
+            <div class="c-modal-footer s-import-excel-operate">
+                <button class="c-btn c-btn-primary c-btn--large s-import-excel-confirm">确认</button>
+                <button class="c-btn c-btn--large s-import-excel-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!---导入违禁词end-->
+
 <script type="text/javascript">
+
+    //导入excel
+    $(".importBtn").click(function () {
+        $(".filess").val("");
+        $(".filess").click();
+    });
+    $(".filess").on("change", function () {
+        var filePath = $(this).val();
+        var arr = filePath.split('\\');
+        var fileName = arr[arr.length - 1];
+        filePath = filePath.toLowerCase().split(".");
+        var fileType = filePath[filePath.length - 1];
+        if (fileType == "xls") {
+            $(".filetext").val(fileName);
+        }
+        else {
+            hide_import_excel();
+            tip("请选择.xls格式的文件!");
+        }
+    });
+    //点击下载模板文件
+    $("#download").click(function () {
+        $('#downloadForm').attr('action', '/contraband/download-template');
+        $("#downloadForm").submit()
+    });
+    //导入excel
+    $(".s-import-excel-confirm").unbind("click").bind("click", function () {
+        //先判断是否有文件
+        var filePath = $(".filess").val();
+        filePath = filePath.toLowerCase().split(".");
+        var fileType = filePath[filePath.length - 1];
+        if (fileType == "xls") {
+            $("#importForm").submit();
+        }
+        else {
+            return false;
+        }
+    });
+
+    //搜索
     $("#searchBtn").click(function () {
         $("#searchForm").submit()
     });
@@ -206,7 +279,6 @@ $this->title = '违禁词管理';
                     else {
                         tip("删除失败");
                     }
-                    // window.location.reload();
                 }
             });
         });
@@ -225,4 +297,22 @@ $this->title = '违禁词管理';
             $("#tip_frame").css("display", "none");
         });
     }
+
+    //隐藏违禁词导入框
+    function hide_import_excel() {
+        $(".filetext").val("");
+        $(".filess").val("");
+        $("#import_frame").css("display", "none");
+    }
+
+    //excel 导入违禁词
+    $("#import-excel").unbind("click").bind("click", function () {
+        $("#import_frame").css("display", "block");
+        $(".s-import-excel-cancel").unbind("click").bind("click", function () {
+            hide_import_excel();
+        });
+        $(".s-import-excel-close").unbind("click").bind("click", function () {
+            hide_import_excel();
+        });
+    });
 </script>
