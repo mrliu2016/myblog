@@ -334,14 +334,6 @@ $logoShow = ($_SERVER['HTTP_HOST']!=='3tlive.3ttech.cn')? false:true;
 <script type="text/javascript">
     $(".logout").unbind("click").bind("click",function () {
         window.location.href = "/index/logout";
-        // $("#logout_frame").css("display","block");
-        // $("#logout-confirm").unbind("click").bind("click",function(){
-        //     $("#logout_frame").css("display","none");
-        //     window.location.href = "/index/logout";
-        // });
-        // $("#logout-close").unbind("click").bind("click",function(){
-        //     $("#logout_frame").css("display","none");
-        // });
     });
 </script>
 </html>

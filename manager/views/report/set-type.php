@@ -18,8 +18,8 @@ $this->title = "举报管理";
                        value="<?= $val['content'] ?>" readOnly>
             <?php } ?>
             <div class="updateSave" style="display: none;">
-                <button class="c-btn s-accuse_confirm-btn">确认</button>
-                <button class="c-btn s-accuse_cancel-btn">取消</button>
+                <button class="c-btn s-accuse-report-save-btn">保存</button>
+                <!--<button class="c-btn s-accuse_cancel-btn">取消</button>-->
             </div>
         <?php else: ?>
             <input type="hidden" class="id" value="1">
@@ -34,8 +34,8 @@ $this->title = "举报管理";
             <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
             </div>
             <div class="s-accuse_operate">
-                <button class="c-btn s-accuse_confirm-btn">确认</button>
-                <button class="c-btn s-accuse_cancel-btn">取消</button>
+                <button class="c-btn s-accuse-report-save-btn">保存</button>
+                <!--<button class="c-btn s-accuse_cancel-btn">取消</button>-->
             </div>
         <?php endif ?>
     </div>
@@ -56,7 +56,7 @@ $this->title = "举报管理";
     </div>
 </div>
 <script>
-    $(".s-accuse_confirm-btn").unbind('click').bind('click', function () {
+    $(".s-accuse-report-save-btn").unbind('click').bind('click', function () {
         var id = '';
         $(".id").each(function () {
             id = id + $(this).val() + ',';
@@ -90,7 +90,7 @@ $this->title = "举报管理";
             }
         });
     });
-    $(".s-accuse_cancel-btn").unbind('click').bind('click', function () {
+    $(".s-accuse-report-cancel-btn").unbind('click').bind('click', function () {
         window.location.href = "/report/index";
     });
     //编辑
@@ -98,5 +98,7 @@ $this->title = "举报管理";
         //输入框可编辑
         $(".content").removeAttr('readOnly');
         $(".updateSave").css('display', 'block');
+        $(this).attr("class","s-accuse-report-cancel-btn");
+        $(this).text("取消");
     });
 </script>

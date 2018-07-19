@@ -18,10 +18,16 @@ $this->title = '违禁词管理';
             </form>
         </div>
         <div class="s-gitf-operate">
-            <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/add-word">新增</a>
-            <!--<a class="c-btn u-radius--circle c-btn-primary" href="/contraband/batch-word">Excel导入</a>-->
-            <a class="c-btn u-radius--circle c-btn-primary" href="#" id="import-excel">Excel导入</a>
-            <button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>
+            <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/add-word" style="margin-left:20px;">新增</a>
+            <a class="c-btn u-radius--circle c-btn-primary" href="#" id="import-excel"
+               style="margin-left:20px;margin-right: 10px;">Excel导入</a>
+            <!--<button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>-->
+            <a href="#" class="download-excel">excel模板</a>
+            <div class="download-file">
+                <form action="/contraband/download-template" id="downloadForm">
+                    <!--<button type="submit" class="download">excel模板</button>-->
+                </form>
+            </div>
         </div>
         <div class="s-gift-table-wrap">
             <table class="c-table s-gift-table">
@@ -130,7 +136,7 @@ $this->title = '违禁词管理';
     <div class="c-modal-wrap s-import-excel">
         <div class="c-modal">
             <div class="c-modal-close s-import-excel-close">关闭</div>
-            <div class="c-modal_header">Excel导入</div>
+            <div class="c-modal_header">导入违禁词</div>
             <div class="s-banword-content">
                 <form method="post" action="/contraband/batch-word" class="form-horizontal" id="importForm"
                       name="importForm" enctype="multipart/form-data">
@@ -140,12 +146,6 @@ $this->title = '违禁词管理';
                     <input type="text" class="filetext" placeholder="文件昵称" disabled/>
                     <button class="importBtn">选择文件</button>
                 </div>
-                <div class="download-file">
-                    <form action="/contraband/download-template" id="downloadForm">
-                        <button type="submit" class="download">点击下载模板文件</button>
-                    </form>
-                </div>
-
             </div>
             <div class="c-modal-footer s-import-excel-operate">
                 <button class="c-btn c-btn-primary c-btn--large s-import-excel-confirm">确认</button>
@@ -177,8 +177,7 @@ $this->title = '违禁词管理';
             tip("请选择.xls格式的文件!");
         }
     });
-    //点击下载模板文件
-    $("#download").click(function () {
+    $(".download-excel").click(function () {
         $('#downloadForm').attr('action', '/contraband/download-template');
         $("#downloadForm").submit()
     });
