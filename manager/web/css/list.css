@@ -774,6 +774,7 @@ input.s-message-select-checked{
     font-size: 16px;
     color: #364557;
     margin-bottom: 18px;
+
 }
 
 .s-accuse_back {
@@ -1187,3 +1188,12 @@ input::-webkit-input-placeholder {
     border-radius: 6px;
 }
 
+.s-accuse-report-edit-btn{
+    position: absolute;
+    top: 30px;
+    right: 100px;
+    font-size: 16px;
+    color: #364557;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -3,11 +3,12 @@ $this->title = "举报管理";
 ?>
 <div class="s-accuse">
     <div class="s-accuse_title">举报管理</div>
+    <a href="#" class="s-accuse-report-edit-btn">编辑</a>
     <a class="s-accuse_back" href="/report/index">返回</a>
     <div class="s-accuse_content">
         <h3 class="s-accuse_type-title">
             <span>举报类型</span>
-            <button class="c-btn s-accuse_type-edit-btn">编辑</button>
+            <!--<button class="c-btn s-accuse_type-edit-btn">编辑</button>-->
         </h3>
         <?php if (!empty($list)): ?>
             <div class="s-accuse_type-wrap">
@@ -18,6 +19,7 @@ $this->title = "举报管理";
             <?php } ?>
             <div class="updateSave" style="display: none;">
                 <button class="c-btn s-accuse_confirm-btn">确认</button>
+                <button class="c-btn s-accuse_cancel-btn">取消</button>
             </div>
         <?php else: ?>
             <input type="hidden" class="id" value="1">
@@ -76,7 +78,6 @@ $this->title = "举报管理";
             data: params,
             dataType: "json",
             success: function (data) {
-                console.log(data);
                 if (data.code == 0) {
                     window.location.reload();
                 }
@@ -90,11 +91,10 @@ $this->title = "举报管理";
         });
     });
     $(".s-accuse_cancel-btn").unbind('click').bind('click', function () {
-        $(".meaning").val("");
-        $(".number").val("");
+        window.location.href = "/report/index";
     });
     //编辑
-    $(".s-accuse_type-edit-btn").click(function () {
+    $(".s-accuse-report-edit-btn").click(function () {
         //输入框可编辑
         $(".content").removeAttr('readOnly');
         $(".updateSave").css('display', 'block');
