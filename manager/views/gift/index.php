@@ -30,7 +30,7 @@ $this->title = '礼物管理';
                 </div>
             </form>
         </div>
-        <div class="s-gitf-operate">
+        <div class="s-gitf-operate" style="margin-bottom: 30px;">
             <a class="c-btn u-radius--circle c-btn-primary" href="/gift/create">新增</a>
             <a class="c-a s-gift-setting" href="/gift/setting">设置连击</a>
         </div>

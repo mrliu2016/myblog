@@ -3,12 +3,13 @@ $this->title = "礼物管理";
 ?>
 <div class="s-gift-manage">
     <div class="s-gift-manage_title">礼物管理</div>
+    <a href="#" class="s-accuse-gift-edit-btn">编辑</a>
     <a class="s-gift-manage_back" href="/gift/index">返回</a>
     <div class="s-gift-manage_content">
         <h3 class="s-gift-manage_type-title">
             <span class="s-gift-manage_label">连发数量*</span>
             <span class="s-gift-manage_label">代表含义*</span>
-            <button class="c-btn s-gift-manage_type-edit-btn">编辑</button>
+            <!--<button class="c-btn s-gift-manage_type-edit-btn">编辑</button>-->
         </h3>
         <?php if (!empty($list)): ?>
             <?php foreach ($list as $key => $val) { ?>
@@ -133,12 +134,17 @@ $this->title = "礼物管理";
         $(".meaning").val("");
         $(".number").val("");
     });
-    //编辑
-    $(".s-gift-manage_type-edit-btn").click(function () {
 
+    //编辑
+    $(".s-accuse-gift-edit-btn").unbind("click").bind("click",function () {
         $(".number").removeAttr('readOnly');
         $(".meaning").removeAttr('readOnly');
         $(".updateSave").css('display', 'block');
+        $(this).attr("class","s-accuse-gift-cancel-btn");
+        $(this).text("取消");
 
+        $(".s-accuse-gift-cancel-btn").unbind("click").bind("click",function () {
+            window.location.reload();
+        });
     });
 </script>
