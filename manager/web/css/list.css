@@ -774,13 +774,13 @@ input.s-message-select-checked{
     font-size: 16px;
     color: #364557;
     margin-bottom: 18px;
-
+    font-weight: bold;
 }
 
 .s-accuse_back {
     position: absolute;
     top: 30px;
-    right: 30px;
+    right: 40px;
     font-size: 16px;
     color: #364557;
     text-decoration: none;
@@ -1174,11 +1174,10 @@ input::-webkit-input-placeholder {
     /*margin-right: 51px;*/
 }
 
-
 .s-accuse-report-edit-btn{
     position: absolute;
     top: 30px;
-    right: 100px;
+    right: 110px;
     font-size: 16px;
     color: #364557;
     text-decoration: none;
@@ -1188,7 +1187,7 @@ input::-webkit-input-placeholder {
 .s-accuse-report-cancel-btn{
     position: absolute;
     top: 30px;
-    right: 100px;
+    right: 110px;
     font-size: 16px;
     color: #364557;
     text-decoration: none;
@@ -1202,6 +1201,17 @@ input::-webkit-input-placeholder {
     text-align:center;
     background-image: linear-gradient(75deg, rgba(0,237,168,0.80) 0%, #1AC2AD 100%);
     border-radius: 50px;
+}
+
+.s-report-back {
+    position: absolute;
+    top: 30px;
+    right: 40px;
+    font-size: 16px;
+    color: #364557;
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: bold;
 }
 
 .download-excel{

@@ -1,46 +1,47 @@
 <?php
 $this->title = "举报管理";
 ?>
-<div class="s-accuse">
-    <div class="s-accuse_title">举报管理</div>
-    <a href="#" class="s-accuse-report-edit-btn">编辑</a>
-    <a class="s-accuse_back" href="/report/index">返回</a>
-    <div class="s-accuse_content">
-        <h3 class="s-accuse_type-title">
-            <span>举报类型</span>
-            <!--<button class="c-btn s-accuse_type-edit-btn">编辑</button>-->
-        </h3>
-        <?php if (!empty($list)): ?>
-            <div class="s-accuse_type-wrap">
-            <?php foreach ($list as $key => $val) { ?>
-                <input type="hidden" class="id" value="<?= $val['id'] ?>">
-                <input type="text" class="c-input c-form_item-input s-accuse_type-input content"
-                       value="<?= $val['content'] ?>" readOnly>
-            <?php } ?>
-            <div class="updateSave" style="display: none;">
-                <button class="c-btn s-accuse-report-save-btn">保存</button>
-                <!--<button class="c-btn s-accuse_cancel-btn">取消</button>-->
-            </div>
-        <?php else: ?>
-            <input type="hidden" class="id" value="1">
-            <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
-            <input type="hidden" class="id" value="1">
-            <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
-            <input type="hidden" class="id" value="1">
-            <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
-            <input type="hidden" class="id" value="1">
-            <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
-            <input type="hidden" class="id" value="1">
-            <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
-            </div>
-            <div class="s-accuse_operate">
-                <button class="c-btn s-accuse-report-save-btn">保存</button>
-                <!--<button class="c-btn s-accuse_cancel-btn">取消</button>-->
-            </div>
-        <?php endif ?>
+<div class="s-gift">
+    <div class="s-accuse">
+        <div class="s-accuse_title">举报管理</div>
+        <a href="#" class="s-accuse-report-edit-btn">编辑</a>
+        <a href="/report/index" class="s-report-back">返回</a>
+        <div class="s-accuse_content">
+            <h3 class="s-accuse_type-title">
+                <span>举报类型</span>
+                <!--<button class="c-btn s-accuse_type-edit-btn">编辑</button>-->
+            </h3>
+            <?php if (!empty($list)): ?>
+                <div class="s-accuse_type-wrap">
+                <?php foreach ($list as $key => $val) { ?>
+                    <input type="hidden" class="id" value="<?= $val['id'] ?>">
+                    <input type="text" class="c-input c-form_item-input s-accuse_type-input content"
+                           value="<?= $val['content'] ?>" readOnly>
+                <?php } ?>
+                <div class="updateSave" style="display: none;">
+                    <button class="c-btn s-accuse-report-save-btn">保存</button>
+                    <!--<button class="c-btn s-accuse_cancel-btn">取消</button>-->
+                </div>
+            <?php else: ?>
+                <input type="hidden" class="id" value="1">
+                <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
+                <input type="hidden" class="id" value="1">
+                <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
+                <input type="hidden" class="id" value="1">
+                <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
+                <input type="hidden" class="id" value="1">
+                <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
+                <input type="hidden" class="id" value="1">
+                <input class="c-input c-form_item-input s-accuse_type-input content" value="1"/>
+                </div>
+                <div class="s-accuse_operate">
+                    <button class="c-btn s-accuse-report-save-btn">保存</button>
+                    <!--<button class="c-btn s-accuse_cancel-btn">取消</button>-->
+                </div>
+            <?php endif ?>
+        </div>
     </div>
 </div>
-
 <!--确认是否删除start-->
 <div id="confirm_frame" style="display: none">
     <div class="c-modal-mask"></div>
@@ -98,7 +99,6 @@ $this->title = "举报管理";
         $(".updateSave").css('display', 'block');
         $(this).attr("class","s-accuse-report-cancel-btn");
         $(this).text("取消");
-
         //取消
         $(".s-accuse-report-cancel-btn").unbind('click').bind('click', function () {
             window.location.reload();
