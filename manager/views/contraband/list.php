@@ -18,9 +18,9 @@ $this->title = '违禁词管理';
             </form>
         </div>
         <div class="s-gitf-operate">
-            <a class="c-btn u-radius--circle c-btn-primary" href="/contraband/add-word" style="margin-left:20px;">新增</a>
+            <a class="c-btn u-radius--circle c-btn-primary" href="#" id="add-contraband" style="margin-left:20px;">新增</a>
             <a class="c-btn u-radius--circle c-btn-primary" href="#" id="import-excel"
-               style="margin-left:30px;">Excel导入</a>
+               style="margin-left:30px;margin-right: 15px">Excel导入</a>
             <!--<button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>-->
             <div class="download-excel">excel模板</div>
             <div class="download-file">
@@ -138,10 +138,13 @@ $this->title = '违禁词管理';
             <div class="c-modal-close s-import-excel-close">关闭</div>
             <div class="c-modal_header">导入违禁词</div>
             <div class="s-banword-content">
-                <form method="post" action="/contraband/batch-word" class="form-horizontal" id="importForm"
-                      name="importForm" enctype="multipart/form-data">
-                    <input type="file" class="filess" name="name" style="opacity: 0" accept="*.xls"/>
-                </form>
+                <div style="display: none;">
+                    <form method="post" action="/contraband/batch-word" class="form-horizontal" id="importForm"
+                          name="importForm" enctype="multipart/form-data">
+                        <input type="file" class="filess" name="name" style="opacity: 0" accept="*.xls"/>
+                    </form>
+                </div>
+
                 <div class="import-file">
                     <input type="text" class="filetext" placeholder="文件昵称" disabled/>
                     <button class="importBtn">选择文件</button>
@@ -155,6 +158,24 @@ $this->title = '违禁词管理';
     </div>
 </div>
 <!---导入违禁词end-->
+<!--新增违禁词start-->
+<div id="add_frame" style="display: none;">
+    <div class="c-modal-mask"></div>
+    <div class="c-modal-wrap s-banword">
+        <div class="c-modal">
+            <div class="c-modal-close s-add-contraband-close">关闭</div>
+            <div class="c-modal_header">新增违禁词</div>
+            <div class="s-banword-content">
+                <input class="c-input s-add-contraband-input" type="text" placeholder="0到10个字符长度" maxlength="10">
+            </div>
+            <div class="c-modal-footer s-banword-operate">
+                <button class="c-btn c-btn--large s-add-contraband-confirm">确认</button>
+                <button class="c-btn c-btn--large s-add-contraband-cancel">取消</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增违禁词end-->
 
 <script type="text/javascript">
 
@@ -312,6 +333,40 @@ $this->title = '违禁词管理';
         });
         $(".s-import-excel-close").unbind("click").bind("click", function () {
             hide_import_excel();
+        });
+    });
+    //新增违禁词
+    $("#add-contraband").unbind("click").bind("click",function () {
+        $("#add_frame").css("display","block");
+        $(".s-add-contraband-close").unbind("click").bind("click",function () {
+            $("#add_frame").css("display","none");
+        });
+        $(".s-add-contraband-cancel").unbind("click").bind("click",function () {
+            $("#add_frame").css("display","none");
+        });
+        //确定
+        $(".s-add-contraband-confirm").unbind("click").bind("click",function () {
+            var word = $(".s-add-contraband-input").val();
+            if (word == undefined || word == '' || word == null || word.length > 10) {
+                // tip('请输入正确的违禁词');
+                return false;
+            }
+            var params = {};
+            params.word = word;
+            $.ajax({
+                url: "/contraband/add-save",
+                type: "post",
+                data: params,
+                dataType: "json",
+                success: function (data) {
+                    if (data != undefined && data.code == 0) {
+                        window.location.reload();
+                    }
+                    else {
+                        tip("新增违禁词失败！");
+                    }
+                }
+            });
         });
     });
 </script>

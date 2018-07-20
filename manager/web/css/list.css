@@ -1207,12 +1207,58 @@ input::-webkit-input-placeholder {
 .download-excel{
     font-size: 16px;
     margin-top: 10px;
-    float:right;
-    margin-right: 70%;
-    color: #0e84b5;
+    /*float:right;*/
+    /*margin-right: 73%;*/
+    color: #1AC2AD;
 }
 .download-excel:hover{
     cursor: pointer;
-    color: #0e84b5;
+    color: #1AC2AD;
     text-decoration: underline;
+}
+
+.s-gitf-operate .c-btn-primary{
+    float: left;
+}
+
+/**新增违禁词*/
+.s-add-contraband-close {
+    font-size: 18px;
+    color: #24D4BD;
+    text-align: left;
+    margin: 17px;
+}
+.s-add-contraband-content {
+    box-sizing: border-box;
+    width: 400px;
+    color: #343434;
+    text-align: center;
+}
+.s-add-contraband-input {
+    margin: 20px 60px 10px;
+    width: 282px;
+}
+.s-add-contraband-operate {
+    margin-bottom: 10px;
+    text-align: center;
+}
+.s-add-contraband-confirm-text {
+    font-size: 18px;
+    color: #24D4BD;
+}
+.s-add-contraband-confirm,
+.s-add-contraband-cancel {
+    width: 100px;
+    height: 35px;
+    line-height: 35px;
+    margin: 0 40px;
+}
+.s-add-contraband-progress {
+    font-size: 48px;
+    font-weight: 900;
+    color: #24D4BD;
+    margin: 0;
+}
+.s-add-contraband-loading {
+    width: 80px;
 }
