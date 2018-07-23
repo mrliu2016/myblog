@@ -10,9 +10,9 @@ class BroadcastService{
         if($page>1){
             $pageBanner .= '<a class="c-btn s-gift-page s-gift-prepage" href="'.$url.'?page='.($page-1).'">.</a>';
         }
-        else{
-            $pageBanner .= '<a disabled class="c-btn s-gift-page s-gift-prepage" href="#">.</a>';
-        }
+//        else{
+//            $pageBanner .= '<a disabled class="c-btn s-gift-page s-gift-prepage" href="#">.</a>';
+//        }
         //计算偏移量
         $pageoffset=($showPage-1)/2;
         //初始化数据
@@ -116,5 +116,13 @@ class BroadcastService{
             $pageBanner.="<a class='c-btn s-gift-page ".$act."' href='javascript:".$method."(".$total_pages.")'><span>".$total_pages."</span></a>";
         }
         return $pageBanner;
+    }
+
+    //格式化数字
+    public static function formatNumbers($num){
+        if($num < 10){
+            return '0'.$num;
+        }
+        return $num;
     }
 }

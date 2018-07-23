@@ -19,7 +19,7 @@ class GiftController extends BaseController
         ];
     }
 
-    const PAGE_SIZE = 15;
+    const PAGE_SIZE = 10;
     public $enableCsrfValidation = false;
 
     public function actionIndex()

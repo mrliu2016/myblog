@@ -1,69 +1,70 @@
 <?php
 $this->title = "礼物管理";
 ?>
-<div class="s-gift-manage">
-    <div class="s-gift-manage_title">礼物管理</div>
-    <a href="#" class="s-accuse-gift-edit-btn">编辑</a>
-    <a class="s-gift-manage_back" href="/gift/index">返回</a>
-    <div class="s-gift-manage_content">
-        <h3 class="s-gift-manage_type-title">
-            <span class="s-gift-manage_label">连发数量*</span>
-            <span class="s-gift-manage_label">代表含义*</span>
-            <!--<button class="c-btn s-gift-manage_type-edit-btn">编辑</button>-->
-        </h3>
-        <?php if (!empty($list)): ?>
-            <?php foreach ($list as $key => $val) { ?>
-                <input type="hidden" class="id" value="<?= $val['id'] ?>">
-                <input type="text" class="c-input c-form_item-input s-gift-manage_type-input number"
-                       value="<?= $val['number'] ?>" readOnly>
-                <span> — </span>
-                <input type="text" class="c-input c-form_item-input s-gift-manage_type-input meaning"
-                       value="<?= $val['meaning'] ?>" readOnly>
-                <br/>
-            <?php } ?>
-            <div class="updateSave" style="display: none;">
-                <button class="c-btn s-gift-manage_confirm-btn">确认</button>
-            </div>
-        <?php else: ?>
-            <div class="s-gift-manage_type-wrap">
-                <input type="hidden" class="id" value="1">
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <span> — </span>
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <br>
-                <input type="hidden" class="id" value="1">
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <span> — </span>
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <br>
-                <input type="hidden" class="id" value="1">
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <span> — </span>
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <br>
-                <input type="hidden" class="id" value="1">
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <span> — </span>
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <br>
-                <input type="hidden" class="id" value="1">
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <span> — </span>
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <br>
-                <input type="hidden" class="id" value="1">
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-                <span> — </span>
-                <input class="c-input c-form_item-input s-gift-manage_type-input"/>
-            </div>
-            <div class="s-gift-manage_operate">
-                <button class="c-btn s-gift-manage_confirm-btn">确认</button>
-                <button class="c-btn s-gift-manage_cancel-btn">取消</button>
-            </div>
-        <?php endif ?>
+<div class="s-gift">
+    <div class="s-gift-manage">
+        <div class="s-gift-manage_title">礼物管理</div>
+        <a href="#" class="s-accuse-gift-edit-btn">编辑</a>
+        <a class="s-gift-manage_back" href="/gift/index">返回</a>
+        <div class="s-gift-manage_content">
+            <h3 class="s-gift-manage_type-title">
+                <span class="s-gift-manage_label">连发数量*</span>
+                <span class="s-gift-manage_label">代表含义*</span>
+                <!--<button class="c-btn s-gift-manage_type-edit-btn">编辑</button>-->
+            </h3>
+            <?php if (!empty($list)): ?>
+                <?php foreach ($list as $key => $val) { ?>
+                    <input type="hidden" class="id" value="<?= $val['id'] ?>">
+                    <input type="text" class="c-input c-form_item-input s-gift-manage_type-input number"
+                           value="<?= $val['number'] ?>" readOnly>
+                    <span> — </span>
+                    <input type="text" class="c-input c-form_item-input s-gift-manage_type-input meaning"
+                           value="<?= $val['meaning'] ?>" readOnly>
+                    <br/>
+                <?php } ?>
+                <div class="updateSave" style="display: none;">
+                    <button class="c-btn s-gift-manage_confirm-btn">确认</button>
+                </div>
+            <?php else: ?>
+                <div class="s-gift-manage_type-wrap">
+                    <input type="hidden" class="id" value="1">
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <span> — </span>
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <br>
+                    <input type="hidden" class="id" value="1">
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <span> — </span>
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <br>
+                    <input type="hidden" class="id" value="1">
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <span> — </span>
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <br>
+                    <input type="hidden" class="id" value="1">
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <span> — </span>
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <br>
+                    <input type="hidden" class="id" value="1">
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <span> — </span>
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <br>
+                    <input type="hidden" class="id" value="1">
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                    <span> — </span>
+                    <input class="c-input c-form_item-input s-gift-manage_type-input"/>
+                </div>
+                <div class="s-gift-manage_operate">
+                    <button class="c-btn s-gift-manage_confirm-btn">确认</button>
+                    <button class="c-btn s-gift-manage_cancel-btn">取消</button>
+                </div>
+            <?php endif ?>
+        </div>
     </div>
 </div>
-
 <!--确认是否删除start-->
 <div id="confirm_frame" style="display: none">
     <div class="c-modal-mask"></div>

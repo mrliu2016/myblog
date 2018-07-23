@@ -287,7 +287,7 @@ $this->title = '用户管理';
                 <table>
                     <tr>
                         <td class="page-space"> <?= $page ?></td>
-                        <td>共<?= $count ?> 条</td>
+                        <!--<td>共<?/*= $count */?> 条</td>-->
                     </tr>
                 </table>
             </nav>

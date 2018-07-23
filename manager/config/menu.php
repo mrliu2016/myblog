@@ -60,9 +60,9 @@ return [
         ],
     ],
     [
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '违禁词管理', 'icon' => 'weijinciguanli.png', 'href' => '/contraband/list'],
+        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '违禁词管理', 'icon' => 'weijinciguanli.png', 'href' => '/contraband/index'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '违禁词管理', 'href' => '/contraband/list'],
+            ['permissionId' => '/application/index', 'name' => '违禁词管理', 'href' => '/contraband/index'],
 //            ['permissionId' => '/application/index', 'name' => '赠送', 'href' => '/gift/order'],
         ],
     ],

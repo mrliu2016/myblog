@@ -5,7 +5,7 @@ $this->title = '违禁词管理';
     <div class="s-gift">
         <div class="s-gift-search">
             <p class="s-gift-search-title s-page-title">违禁词管理</p>
-            <form method="get" action="/contraband/list" id="searchForm" name="searchForm">
+            <form method="get" action="/contraband/index" id="searchForm" name="searchForm">
                 <div class="s-gift-search-content">
                     <div class="s-gift-search-item">
                         <span>违禁词</span>
@@ -72,7 +72,7 @@ $this->title = '违禁词管理';
                 <table>
                     <tr>
                         <td class="page-space"> <?= $page ?></td>
-                        <td>共<?= $count ?> 条</td>
+                        <!--<td>共<?/*= $count */?> 条</td>-->
                     </tr>
                 </table>
             </nav>

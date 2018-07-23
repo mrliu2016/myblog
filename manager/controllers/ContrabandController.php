@@ -14,7 +14,7 @@ class ContrabandController extends BaseController
     const PAGE_SIZE = 10;
 
     //违禁词管理
-    public function actionList()
+    public function actionIndex()
     {
 
         $params = Yii::$app->request->getQueryParams();
@@ -24,11 +24,11 @@ class ContrabandController extends BaseController
         $list = Contraband::queryInfo($params);
         $count = Contraband::queryInfoNum($params);
 
-        return $this->render('list', [
+        return $this->render('index', [
             'itemList' => $list,
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
-            'page' => BroadcastService::pageBanner('/contraband/list', $pageNo + 1, $count, self::PAGE_SIZE, 5, 's-gift-page-hover')
+            'page' => BroadcastService::pageBanner('/contraband/index', $pageNo + 1, $count, self::PAGE_SIZE, 5, 's-gift-page-hover')
         ]);
     }
 
