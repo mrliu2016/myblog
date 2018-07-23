@@ -79,7 +79,7 @@ $this->title = '举报管理';
 
         <div>
             <p class="s-gift-count">共 <?= $count ?> 条记录</p>
-            <nav class="text-center" style="margin-left:30%">
+            <nav class="text-center pagebanner-location">
                 <table>
                     <tr>
                         <td class="page-space"> <?= $page ?></td>

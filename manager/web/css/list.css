@@ -1301,3 +1301,8 @@ input::-webkit-input-placeholder {
     width: 200px;
     height: 200px;
 }
+
+/*分页位置*/
+.pagebanner-location {
+    margin-left:40%
+}

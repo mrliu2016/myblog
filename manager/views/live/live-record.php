@@ -80,7 +80,7 @@ $this->title = '直播记录';
         <div>
             <p class="s-gift-count" style="padding-top: 10px;">共 <span style="color:#1AC2AD;"><?= $count ?></span> 条记录
             </p>
-            <nav class="text-center" style="margin-left:30%">
+            <nav class="text-center pagebanner-location">
                 <table>
                     <tr>
                         <td class="page-space"> <?= $page ?></td>

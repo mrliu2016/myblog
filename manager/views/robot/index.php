@@ -99,7 +99,7 @@ $this->title = '机器人管理';
         <div>
             <p class="s-gift-count" style="padding-top: 10px;">共 <span class="s-page-font-color"><?= $count ?></span>
                 条记录</p>
-            <nav class="text-center" style="margin-left:30%">
+            <nav class="text-center pagebanner-location">
                 <table>
                     <tr>
                         <td class="page-space"> <?= $page ?></td>

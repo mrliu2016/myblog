@@ -21,7 +21,7 @@ class BroadcastService{
 
         if($total_pages>$showPage){
             if($page>$pageoffset+1){
-                $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$start.'">'.$start.'</a>';
+                $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$start.'">'.static::formatNumbers($start).'</a>';
                 $pageBanner.="<a>...</a>";
             }
             if($page>$pageoffset){
@@ -38,10 +38,10 @@ class BroadcastService{
         }
         for($i=$start;$i<=$end-1;$i++){
             if($page==$i){
-                $pageBanner .= '<a class="c-btn s-gift-page '.$act.'" href="'.$url.'?page='.$i.'">'.$i.'</a>';
+                $pageBanner .= '<a class="c-btn s-gift-page '.$act.'" href="'.$url.'?page='.$i.'">'.static::formatNumbers($i).'</a>';
             }
             else{
-                $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$i.'">'.$i.'</a>';
+                $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$i.'">'.static::formatNumbers($i).'</a>';
             }
         }
         //尾部省略
@@ -49,11 +49,11 @@ class BroadcastService{
             $pageBanner.="<a>...</a>";
         }
         if($page<$total_pages){
-            $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$total_pages.'">'.$total_pages.'</a>';
+            $pageBanner .= '<a class="c-btn s-gift-page" href="'.$url.'?page='.$total_pages.'">'.static::formatNumbers($total_pages).'</a>';
             $pageBanner .= '<a class="c-btn s-gift-page s-gift-nextpage" href="'.$url.'?page='.($page+1).'">.</a>';
         }
         if($page==$total_pages){
-            $pageBanner .= '<a class="c-btn s-gift-page '.$act.'" href="'.$url.'?page='.$total_pages.'">'.$total_pages.'</a>';
+            $pageBanner .= '<a class="c-btn s-gift-page '.$act.'" href="'.$url.'?page='.$total_pages.'">'.static::formatNumbers($total_pages).'</a>';
         }
         return $pageBanner;
     }
