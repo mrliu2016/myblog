@@ -23,7 +23,7 @@ $this->title = "礼物管理";
                     <br/>
                 <?php } ?>
                 <div class="updateSave" style="display: none;">
-                    <button class="c-btn s-gift-manage_confirm-btn">确认</button>
+                    <button class="c-btn s-gift-manage_confirm-btn">保存</button>
                 </div>
             <?php else: ?>
                 <div class="s-gift-manage_type-wrap">
@@ -58,8 +58,7 @@ $this->title = "礼物管理";
                     <input class="c-input c-form_item-input s-gift-manage_type-input"/>
                 </div>
                 <div class="s-gift-manage_operate">
-                    <button class="c-btn s-gift-manage_confirm-btn">确认</button>
-                    <button class="c-btn s-gift-manage_cancel-btn">取消</button>
+                    <button class="c-btn s-gift-manage_confirm-btn">保存</button>
                 </div>
             <?php endif ?>
         </div>
