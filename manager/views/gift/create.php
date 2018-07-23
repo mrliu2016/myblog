@@ -11,14 +11,12 @@ $this->title = '礼物管理';
         opacity: 0;
         width: 200px;
     }
+
     .cover-img img {
         width: 100%;
         height: 100%;
     }
-   /* .c-form-input-placeholder{
-        color:#D9D9D9;
-        font-size: 12px;
-    }*/
+
     input::-webkit-input-placeholder {
         color: #D9D9D9;
         /* placeholder字体大小  */
@@ -36,14 +34,10 @@ $this->title = '礼物管理';
             <div class="s-robot-form_upload">
                 <div class="s-robot-form_selectimg">
                     <div class="s-robot-form_selectimg-icon1"></div>
-                    <img src="" class="s-robot-form_selectimg-icon2" id="selectImg1">
-                    <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
+                    <div class="s-robot-form_selectimg-icon2"></div>
                 </div>
-                <img class="s-robot-form_head-img"
-                     src="http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png" alt="用户头像"
-                     name="img" id="headImg">
+                <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
                 <div class="s-robot-form_headimg-close" style="display: none;"></div>
-
                 <div class="s-robot-form_img-tips">
                     <p>图片格式：JPG、JPEG、PNG</p>
                     <p>图片大小：小于1M</p>
@@ -93,15 +87,15 @@ $this->title = '礼物管理';
 <script type="text/javascript">
     //礼物名称聚焦与失去焦点
     $("#name").focus(function () {
-        $(this).attr("placeholder","")
+        $(this).attr("placeholder", "")
     }).blur(function () {
-        $(this).attr("placeholder","0-10个字符长度")
+        $(this).attr("placeholder", "0-10个字符长度")
     });
 
     $("#confirm").unbind('click').bind('click', function () {
-        var fileEl = $('#profileButton1');
-        if (typeof(fileEl[0].files[0]) == 'undefined') {
-            fileEl[0].focus();
+
+        var headImg = $("#headImg").attr("src");
+        if (headImg == '' || headImg == undefined || headImg == null) {
             tip("请选择头像");
             event.preventDefault();
             return;
@@ -128,44 +122,63 @@ $this->title = '礼物管理';
         window.location.href = '/gift/index';
     });
 
-    function getPath(obj, fileQuery, transImg) {
+    function getPath(obj, fileQuery, headImg) {
         var imgSrc = '', imgArr = [], strSrc = '';
         var file = fileQuery.files[0];
         var reader = new FileReader();
-        if (file.size >= 1024 * 1024) {
-            // $(".delect-check").click();
-            tip("上传的图片大于1M");
-        } else {
-            // 在这里需要判断当前所有文件中
-            var fileExt = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();//获得文件后缀名
-            if (fileExt == ".png" || fileExt == ".jpg" || fileExt == ".jpeg") {
-                reader.onload = function (e) {
-                    imgSrc = fileQuery.value;
-                    imgArr = imgSrc.split('.');
-                    strSrc = imgArr[imgArr.length - 1].toLowerCase();
-                    obj.setAttribute("src", e.target.result);
-
-                };
-                reader.readAsDataURL(file);
+        if (headImg != undefined && file == undefined) {
+            $("#headImg").attr("src", headImg);
+            return;
+        }
+        else {
+            if (file.size >= 1024 * 1024) {
+                tip("上传的图片大于1M");
             } else {
-                tip("图片格式只能为：JPG、JPEG、PNG");
+                // 在这里需要判断当前所有文件中
+                var fileExt = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+                if (fileExt == ".png" || fileExt == ".jpg" || fileExt == ".jpeg") {
+                    reader.onload = function (e) {
+                        imgSrc = fileQuery.value;
+                        imgArr = imgSrc.split('.');
+                        strSrc = imgArr[imgArr.length - 1].toLowerCase();
+                        obj.setAttribute("src", e.target.result);
+
+                        // $("#profileButton1").attr("disabled",true);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    tip("图片格式只能为：JPG、JPEG、PNG");
+                }
             }
         }
     }
 
     function changepic() {
-        var file_img = document.getElementById("headImg");
         $(".s-robot-form_headimg-close").css('display', 'block');
+        var headImg = $("#headImg").attr("src");
         var iptfileupload = document.getElementById('profileButton1');
-        getPath(file_img, iptfileupload, file_img);
-        $(".profileButton1").css("font-size", "0px");
+        var str = '<img src="" alt="用户头像" name="imgSrc" id="headImg" class="s-headimg-size"/>';
+        $(".s-robot-form_selectimg").html(str);
+        var file_img = document.getElementById("headImg");
+        getPath(file_img, iptfileupload, headImg);
+        // $("#profileButton1").css("font-size", "0px");
     }
 
     $(".s-robot-form_headimg-close").unbind('click').bind("click", function () {
-        $("#profileButton1").outerHTML = $("#profileButton1").outerHTML;
-        $("#headImg").attr('src', 'http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png');
-        $(".s-robot-form_headimg-close").css("display", "none")
-    })
+        uploadHeadImg();
+    });
+
+    //上传头像控件
+    function uploadHeadImg() {
+
+        $(".s-robot-form_headimg-close").css("display", "none");
+        var str = '';
+        str += '<div class="s-robot-form_selectimg-icon1"></div>';
+        str += '<div class="s-robot-form_selectimg-icon2"></div>';
+        $(".s-robot-form_selectimg").html(str);
+        $("#profileButton1").removeAttr("disabled");
+        $("#profileButton1").val("");
+    }
 
     //提示框
     function tip(message) {

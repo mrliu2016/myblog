@@ -51,7 +51,6 @@ class RobotController extends BaseController
     //机器人详情
     public function actionDetail()
     {
-
         $params = Yii::$app->request->get();
         $id = intval($params['id']);
         $user = User::queryById($id);
@@ -145,7 +144,7 @@ class RobotController extends BaseController
             $PHPExcel = $reader->load($filename); // 载入excel文件
             $sheet = $PHPExcel->getSheet(0); // 读取第一個工作表
             $highestRow = $sheet->getHighestRow(); // 取得总行数
-            $highestColumm = $sheet->getHighestColumn(); // 取得总列数
+//            $highestColumm = $sheet->getHighestColumn(); // 取得总列数
             /** 循环读取每个单元格的数据 */
             for ($row = 2; $row <= $highestRow; $row++) {//行数是以第1行开始
                 for ($column = 'A'; $column <= 'J'; $column++) {//列数是以A列开始

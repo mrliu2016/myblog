@@ -1295,3 +1295,9 @@ input::-webkit-input-placeholder {
     text-decoration: none;
     cursor: pointer;
 }
+
+/*设置头像的大小*/
+.s-headimg-size{
+    width: 200px;
+    height: 200px;
+}

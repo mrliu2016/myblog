@@ -558,6 +558,7 @@ class User extends ActiveRecord
     {
 
         $model = new self();
+        $model->avatar = $params['imgSrc'];
         $model->nickName = trim($params['nickName']);
         $model->sex = intval($params['sex']);
         $model->description = trim($params['description']);

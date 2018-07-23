@@ -26,13 +26,9 @@ $this->title = '机器人管理';
             <div class="s-robot-form_upload">
                 <div class="s-robot-form_selectimg">
                     <div class="s-robot-form_selectimg-icon1"></div>
-                    <!--<div class="s-robot-form_selectimg-icon2"></div>-->
-                    <img src="" class="s-robot-form_selectimg-icon2" id="selectImg1">
-                    <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
+                    <div class="s-robot-form_selectimg-icon2"></div>
                 </div>
-                <img class="s-robot-form_head-img"
-                     src="http://userservice.oss-cn-beijing.aliyuncs.com/gift/2018/06/20/14/3410_3765.png" alt="用户头像"
-                     name="img" id="headImg">
+                <input type="file" name="imgSrc" id="profileButton1" onchange="changepic()">
                 <div class="s-robot-form_headimg-close" style="display: none;"></div>
                 <div class="s-robot-form_img-tips">
                     <p>图片格式：JPG、JPEG、PNG</p>
@@ -169,9 +165,9 @@ $this->title = '机器人管理';
 <script>
     //礼物名称聚焦与失去焦点
     $("#nickName").focus(function () {
-        $(this).attr("placeholder","")
+        $(this).attr("placeholder", "")
     }).blur(function () {
-        $(this).attr("placeholder","0-10个字符长度")
+        $(this).attr("placeholder", "0-10个字符长度")
     });
 
     function tip($message) {
@@ -192,13 +188,13 @@ $this->title = '机器人管理';
     }
 
     $("#confirm").click(function () {
-        var fileEl = $('#profileButton1');
-        if (typeof(fileEl[0].files[0]) == 'undefined') {
-            fileEl[0].focus();
+        var headImg = $("#headImg").attr("src");
+        if (headImg == '' || headImg == undefined || headImg == null) {
             tip("请选择头像");
             event.preventDefault();
             return;
         }
+
         var nickName = $("#nickName").val();
         var followees_cnt = $("#followees_cnt").val();
         var followers_cnt = $("#followers_cnt").val();
@@ -232,42 +228,61 @@ $this->title = '机器人管理';
         window.location.href = '/robot/index';
     });
 
-    function getPath(obj, fileQuery, transImg) {
+    function getPath(obj, fileQuery, headImg) {
         var imgSrc = '', imgArr = [], strSrc = '';
         var file = fileQuery.files[0];
         var reader = new FileReader();
-        if (file.size >= 1024 * 1024) {
-            $(".delect-check").click();
-        } else {
-            // 在这里需要判断当前所有文件中
-            var fileExt = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();//获得文件后缀名
-            if (fileExt == ".png" || fileExt == ".gif" || fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".bmp") {
-                reader.onload = function (e) {
-                    imgSrc = fileQuery.value;
-                    imgArr = imgSrc.split('.');
-                    strSrc = imgArr[imgArr.length - 1].toLowerCase();
-                    obj.setAttribute("src", e.target.result);
-                };
-                reader.readAsDataURL(file);
+        if (headImg != undefined && file == undefined) {
+            $("#headImg").attr("src", headImg);
+            return;
+        }
+        else {
+            if (file.size >= 1024 * 1024) {
+                $(".delect-check").click();
             } else {
-                $(".showintro").click();
+                // 在这里需要判断当前所有文件中
+                var fileExt = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();//获得文件后缀名
+                if (fileExt == ".png" || fileExt == ".gif" || fileExt == ".jpg" || fileExt == ".jpeg" || fileExt == ".bmp") {
+                    reader.onload = function (e) {
+                        imgSrc = fileQuery.value;
+                        imgArr = imgSrc.split('.');
+                        strSrc = imgArr[imgArr.length - 1].toLowerCase();
+                        obj.setAttribute("src", e.target.result);
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    $(".showintro").click();
+                }
             }
         }
     }
 
     function changepic() {
+        var headImg = $("#headImg").attr("src");
+        var iptfileupload = document.getElementById('profileButton1');
+        var str = '<img src="" alt="用户头像" name="imgSrc" id="headImg" class="s-headimg-size"/>';
+        $(".s-robot-form_selectimg").html(str);
+
         var file_img = document.getElementById("headImg");
         $(".s-robot-form_headimg-close").css('display', 'block');
-        var iptfileupload = document.getElementById('profileButton1');
-        getPath(file_img, iptfileupload, file_img);
-        $(".profileButton1").css("font-size", "0px");
+        getPath(file_img, iptfileupload, headImg);
+        // $(".profileButton1").css("font-size", "0px");
     }
 
     $(".s-robot-form_headimg-close").unbind('click').bind("click", function () {
-        $("#profileButton1").outerHTML = $("#profileButton1").outerHTML;
-        $("#headImg").attr('src', 'http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png');
-        $(".s-robot-form_headimg-close").css("display", "none")
+        uploadHeadImg();
     });
+
+    //上传头像控件
+    function uploadHeadImg() {
+        $(".s-robot-form_headimg-close").css("display", "none");
+        var str = '';
+        str += '<div class="s-robot-form_selectimg-icon1"></div>';
+        str += '<div class="s-robot-form_selectimg-icon2"></div>';
+        $(".s-robot-form_selectimg").html(str);
+        $("#profileButton1").removeAttr("disabled");
+        $("#profileButton1").val("");
+    }
 
 </script>
 
@@ -290,6 +305,7 @@ $this->title = '机器人管理';
             selectObj.options[0] = null;
         }
     }
+
     /*
     * @param {String || Object]} selectObj 目标下拉选框的名称或对象，必须
     * @param {Array} optionList 选项值设置 格式：[{txt:'北京', val:'010'}, {txt:'上海', val:'020'}] ，必须
