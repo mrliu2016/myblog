@@ -37,6 +37,7 @@ class GiftController extends BaseController
             'itemList' => $result,
             'params' => Yii::$app->request->getQueryParams(),
             'count' => $count,
+            'isFire' => isset($params['isFire'])?$params['isFire']:2,
             'page' => BroadcastService::pageBanner('/gift/index', $pageNo + 1, $count, self::PAGE_SIZE, 5, 's-gift-page-hover')
         ]);
     }

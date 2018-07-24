@@ -20,9 +20,20 @@ $this->title = '礼物管理';
                         <span>是否连发</span>
                         <span class="select-wrap">
                         <select class="c-input s-gift-search-select" name="isFire" id="borsts" default="0">
-                            <option value="">全部</option>
-                            <option value="0">否</option>
-                            <option value="1">是</option>
+                            <?php if($isFire == 2):?>
+                                <option value="">全部</option>
+                                <option value="0">否</option>
+                                <option value="1">是</option>
+                            <?php elseif($isFire == 0):?>
+                                <option value="0" selected>否</option>
+                                <option value="">全部</option>
+                                <option value="1">是</option>
+                            <?php elseif($isFire == 1):?>
+                                <option value="1">是</option>
+                                <option value="">全部</option>
+                                <option value="0">否</option>
+                            <?php endif;?>
+
                         </select>
                       </span>
                     </div>
