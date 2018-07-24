@@ -954,7 +954,10 @@ class LiveService
                     'role' => $roleId
                 ]
             ];
-            static::forwardingCloseCallLMPushMaster($server, null, $responseMessage, Constants::MESSAGE_TYPE_CLOSE_CALL_RES);
+            if ((time() - $latestHeartbeat[2]) > Constants::WS_HEARTBEAT_IDLE_TIME) {
+                static::forwardingCloseCallLMPushMaster($server, null, $responseMessage,
+                    Constants::MESSAGE_TYPE_CLOSE_CALL_RES);
+            }
         }
     }
 
