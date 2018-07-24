@@ -6,45 +6,44 @@ use app\common\models\ManagerUser;
 use app\common\services\Constants;
 use Yii;
 
-class IndexController extends BaseController{
+class IndexController extends BaseController
+{
     //首页
-    public function actionLogin(){
-//        print_r($_SERVER['HTTP_HOST']);die;
-//        $domain = $_SERVER['HTTP_HOST'];
+    public function actionLogin()
+    {
         $session = \Yii::$app->session;
-        $session->remove(Constants::COOKIE_UNIFIED_LOGIN.$_SERVER['HTTP_HOST']);
+        $session->remove(Constants::COOKIE_UNIFIED_LOGIN . $_SERVER['HTTP_HOST']);
 
         $redirect = Yii::$app->request->get("redirect");
-        return $this->render('login',[
-            'redirect'=>$redirect
+        return $this->render('login', [
+            'redirect' => $redirect
         ]);
     }
-    //登录验证
-    public function actionCheck(){
 
+    //登录验证
+    public function actionCheck()
+    {
         $params = Yii::$app->request->post();
         $user = ManagerUser::findOne($params);//通过用户输入的用户名重表中选出数据
-//        print_r($user);die;
-//        print_r($_SERVER['HTTP_HOST']);die;
-        if(!empty($user)){
+        if (!empty($user)) {
             $session = \Yii::$app->session;
-            $session->set(Constants::COOKIE_UNIFIED_LOGIN.$_SERVER['HTTP_HOST'],base64_encode(serialize($params['username'])));
+            $session->set(Constants::COOKIE_UNIFIED_LOGIN . $_SERVER['HTTP_HOST'], base64_encode(serialize($params['username'])));
             $redirect = $params['redirect'];
-            if(empty($redirect)){
-                $redirect = 'http://'.$_SERVER['HTTP_HOST']. '/user/index';
+            if (empty($redirect)) {
+                $redirect = 'http://' . $_SERVER['HTTP_HOST'] . '/user/index';
             }
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS,  ['redirect' => $redirect], '');
-        }else{
-            $this->jsonReturnError(-1,"用户名或者密码错误");
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, ['redirect' => $redirect], '');
+        } else {
+            $this->jsonReturnError(-1, "用户名或者密码错误");
         }
     }
 
     //注销
-    public function actionLogout(){
-
+    public function actionLogout()
+    {
         $loginUrl = "/index/login";
         $session = \Yii::$app->session;
-        $session->remove(Constants::COOKIE_UNIFIED_LOGIN.$_SERVER['HTTP_HOST']);
+        $session->remove(Constants::COOKIE_UNIFIED_LOGIN . $_SERVER['HTTP_HOST']);
         Yii::$app->getResponse()->redirect($loginUrl);
     }
 
