@@ -70,7 +70,7 @@ $this->title = "礼物管理";
     <div class="c-modal-wrap s-banlive">
         <div class="c-modal">
             <div class="s-banlive-content">
-                <span class="s-banlive-confirm-text">编辑失败！</span>
+                <span class="s-banlive-confirm-text"></span>
             </div>
             <div class="c-modal-footer s-banlive-operate">
                 <button class="c-btn c-btn-primary c-btn--large s-banlive-confirm">确认</button>
@@ -114,19 +114,17 @@ $this->title = "礼物管理";
             data: params,
             dataType: "json",
             success: function (data) {
-                console.log(data);
                 if (data.code == 0) {
-                    window.location.reload();
-                }
-                else if (data.code == -1) {
                     $("#confirm_frame").css("display", "block");
+                    $(".s-banlive-confirm-text").text("保存成功");
                     $(".s-banlive-confirm").unbind('click').bind('click', function () {
                         $("#confirm_frame").css("display", "none");
+                        window.location.reload();
                     });
                 }
-            },
-            error: function (XMLHttpRequest, textStatus, errorThrown) {
-                alert('error');
+                else if (data.code == -1) {
+                    tip("请输入正确信息！");
+                }
             }
         });
     });
@@ -136,15 +134,23 @@ $this->title = "礼物管理";
     });
 
     //编辑
-    $(".s-accuse-gift-edit-btn").unbind("click").bind("click",function () {
+    $(".s-accuse-gift-edit-btn").unbind("click").bind("click", function () {
         $(".number").removeAttr('readOnly');
         $(".meaning").removeAttr('readOnly');
         $(".updateSave").css('display', 'block');
-        $(this).attr("class","s-accuse-gift-cancel-btn");
+        $(this).attr("class", "s-accuse-gift-cancel-btn");
         $(this).text("取消");
 
-        $(".s-accuse-gift-cancel-btn").unbind("click").bind("click",function () {
+        $(".s-accuse-gift-cancel-btn").unbind("click").bind("click", function () {
             window.location.reload();
         });
     });
+
+    function tip(message) {
+        $("#confirm_frame").css("display", "block");
+        $(".s-banlive-confirm-text").text(message);
+        $(".s-banlive-confirm").unbind('click').bind('click', function () {
+            $("#confirm_frame").css("display", "none");
+        });
+    }
 </script>
