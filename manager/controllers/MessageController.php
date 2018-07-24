@@ -97,7 +97,6 @@ class MessageController extends BaseController
     //查询
     public function actionSearch()
     {
-
         $params = Yii::$app->request->post();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $page = $params['page'];

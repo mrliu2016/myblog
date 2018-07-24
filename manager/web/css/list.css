@@ -636,7 +636,7 @@ select.c-input {
 
 .s-message-push-m_close {
     font-size: 18px;
-    color: #24D4BD;
+    /*color: #24D4BD;*/
     text-align: left;
     margin: 17px;
 }
@@ -665,6 +665,7 @@ select.c-input {
     font-size: 12px;
     color: #999999;
     text-align: right;
+    margin-top: 10px;
 }
 
 
@@ -703,6 +704,11 @@ select.c-input {
 .s-message-push-m_confirm,
 .s-message-push-m_cancel {
     margin: 0 40px;
+}
+.s-message-push-m_confirm:hover,.s-message-push-m_cancel:hover{
+    color: #ffffff;
+    background-color: var(--main-color);
+    border-color: rgb(40, 230, 204);
 }
 .s-message-push-m_tbody tr td:first-child{
     height: 24px;
@@ -1332,4 +1338,68 @@ input::-webkit-input-placeholder {
 
 .s-robot-operate a{
     margin-right: 40px;
+}
+
+/*消息推送*/
+.s-message-push-m_header{
+    background: #ECF1F5;
+}
+.c-message-modal {
+    font-family: PingFangSC-Regular, system-ui;
+    font-size: 14px;
+    font-weight: 300;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #9B9B9B;
+    /*padding: 0 20px;*/
+    background: #FFFFFF;
+    border-radius: 6px;
+    width: 434px;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    height: -webkit-max-content;
+    height: -moz-max-content;
+    height: max-content;
+    z-index: 100
+}
+
+.c-message-header {
+    font-size: 18px;
+    color: #364557;
+    letter-spacing: 0;
+    padding: 15px 0;
+    padding-left: 20px;
+}
+
+.c-message-close {
+    cursor: pointer;
+    border: 0;
+    background: transparent;
+    position: absolute;
+    right: 0;
+    top: 0;
+    z-index: 10;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    -webkit-transition: color .3s;
+    transition: color .3s;
+    /*color: rgba(0, 0, 0, .45);*/
+    outline: 0;
+    padding: 0;
+}
+
+.s-message-page {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    margin-right: 4px;
+}
+.s-message-page:hover {
+    color: white;
+    background: #1AC2AD;
+    border-color: #1AC2AD
 }
