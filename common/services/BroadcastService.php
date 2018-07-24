@@ -7,12 +7,14 @@ class BroadcastService{
 
         $total_pages   = ceil($total/$pagesize);//总页数
         $pageBanner = '';
-        if($page>1){
-            $pageBanner .= '<a class="c-btn s-gift-page s-gift-prepage" href="'.$url.'?page='.($page-1).'">.</a>';
+        if($total_pages > 1){
+            if($page>1){
+                $pageBanner .= '<a class="c-btn s-gift-page s-gift-prepage" href="'.$url.'?page='.($page-1).'">.</a>';
+            }
+            else{
+                $pageBanner .= '<a disabled class="c-btn s-gift-page s-gift-prepage" href="#">.</a>';
+            }
         }
-//        else{
-//            $pageBanner .= '<a disabled class="c-btn s-gift-page s-gift-prepage" href="#">.</a>';
-//        }
         //计算偏移量
         $pageoffset=($showPage-1)/2;
         //初始化数据

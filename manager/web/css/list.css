@@ -68,10 +68,11 @@ select.c-input {
 }
 
 .s-gitf-operate {
-    padding: 40px 0 20px;
+    padding: 42px 0 20px;
 }
 .s-gift-setting {
     float: right;
+    margin-top: 5px;
 }
 
 .s-gift-table-wrap {
@@ -1305,4 +1306,30 @@ input::-webkit-input-placeholder {
 /*分页位置*/
 .pagebanner-location {
     margin-left:40%
+}
+
+/*用户中心的查询输入框*/
+.s-user-search-item {
+    /*margin: 20px 52px 0 0;*/
+    margin-top: 20px;
+    margin-left: 2%;
+    display: inline-block;
+    white-space: nowrap;
+}
+.s-user-search-item span{
+    padding-right: 5px;
+}
+
+.s-user-search-btn{
+    float: right;
+    margin-top: 20px;
+    right: 4%;
+}
+
+.s-robot-operate {
+    padding: 42px 0 20px;
+}
+
+.s-robot-operate a{
+    margin-right: 40px;
 }

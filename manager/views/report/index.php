@@ -76,20 +76,19 @@ $this->title = '举报管理';
                 </tbody>
             </table>
         </div>
-
         <div>
-            <p class="s-gift-count">共 <?= $count ?> 条记录</p>
+            <p class="s-gift-count" style="padding-top: 10px;">共<span class="s-page-font-color"><?= $count ?></span> 条记录
+            </p>
             <nav class="text-center pagebanner-location">
                 <table>
                     <tr>
                         <td class="page-space"> <?= $page ?></td>
-                        <!--<td>共<?/*= $count */?> 条</td>-->
+                        <!--<td>共<? /*= $count */ ?> 条</td>-->
                     </tr>
                 </table>
             </nav>
         </div>
     </div>
-
 </div>
 
 <script type="text/javascript">
@@ -105,5 +104,4 @@ $this->title = '举报管理';
         format: 'yyyy-mm-dd',
         language: 'zh-CN'
     });
-
 </script>
