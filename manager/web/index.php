@@ -4,7 +4,6 @@ if (strpos($_SERVER['REQUEST_URI'], '/server/i18n/site-en.json') !== false) {
     die;
 }
 
-error_reporting(E_ALL);
 if ($_SERVER['REQUEST_URI'] == '/favicon.ico') {
     die;
 }
