@@ -977,8 +977,8 @@ input.s-message-select-checked{
 
 .s-am_item-img {
     width: 100%;
-    padding-bottom: 68%;
-    background: url(http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png) center / cover;
+    /*padding-bottom: 68%;*/
+    /*background: url(http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png) center / cover;*/
     border-radius: 10px;
 }
 
@@ -988,6 +988,7 @@ input.s-message-select-checked{
 
 .s-am_item-scene {
     float: right;
+    /*margin-left: 20px;*/
 }
 
 .s-robot-form {

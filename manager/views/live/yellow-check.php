@@ -11,10 +11,11 @@ $this->title = '鉴黄管理';
             <li class="s-am_item">
                 <div class="s-am_item-img">
                     <?php if(!empty($yellowurl)):?>
-                        <img src="<?=$yellowurl?>"/></div>
+                        <img src="<?=$yellowurl?>" width="230px" height="230px"/></div>
                     <?php else:?>
-                        <img src=""/></div>
+                        <img src=""/>
                     <? endif;?>
+<!--                </div>-->
                 <div class="s-am_item-info">
 						<span class="s-am_item-tag">
 							<span>标签：</span>
@@ -25,6 +26,7 @@ $this->title = '鉴黄管理';
 							<span><?=$information['Scene']?></span>
 						</span>
                 </div>
+            </div>
             </li>
         </ul>
     </div>
