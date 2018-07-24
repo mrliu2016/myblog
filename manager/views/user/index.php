@@ -89,57 +89,23 @@ $this->title = '用户管理';
             <p class="s-gift-search-title s-page-title">用户管理</p>
             <form method="get" action="/user/index" id="searchForm" name="searchForm">
                 <div class="s-gift-search-content">
-                    <div class="s-gift-search-item">
+                    <div class="s-user-search-item" style="margin-left: 0px">
                         <span>ID</span>
                         <input class="c-input s-gift-search-input" type="text" name="id" autocomplete="off">
                     </div>
-                    <div class="s-gift-search-item">
+                    <div class="s-user-search-item">
                         <span>昵称</span>
                         <input class="c-input s-gift-search-input" type="text" name="nickName" autocomplete="off">
                     </div>
-                    <div class="s-gift-search-item">
+                    <div class="s-user-search-item">
                         <span>房间号</span>
                         <input class="c-input s-gift-search-input" type="text" name="roomId" autocomplete="off">
                     </div>
-                    <div class="s-gift-search-item">
+                    <div class="s-user-search-item">
                         <span>手机号</span>
                         <input class="c-input s-gift-search-input" type="text" name="mobile" autocomplete="off">
                     </div>
-                    <br/>
-                    <div class="s-gift-search-item">
-                        <span>是否认证</span>
-                        <span class="select-wrap">
-					<select class="c-input s-gift-search-select" name="isAuth" id="isAuth" default="0">
-
-                        <?php if (empty($isAuth) || $isAuth == 0) { ?>
-                            <option value="0" selected>全部</option>
-                            <option value="1">已认证</option>
-                            <option value="2">未认证</option>
-                        <?php } elseif ($isAuth == 1) { ?>
-                            <option value="0">全部</option>
-                            <option value="1" selected>已认证</option>
-                            <option value="2">未认证</option>
-                        <?php } elseif ($isAuth == 2) { ?>
-                            <option value="0">全部</option>
-                            <option value="1">已认证</option>
-                            <option value="2" selected>未认证</option>
-                        <?php } ?>
-					</select>
-				  </span>
-                    </div>
-                    <div class="s-gift-search-item">
-                        <span>状态</span>
-                        <span class="select-wrap">
-					<select class="c-input s-gift-search-select" name="playType" id="status" default="0">
-						<option value="0">全部</option>
-                        <option value="1">正常</option>
-                        <option value="2">禁播中</option>
-                        <option value="3">永久禁播</option>
-                        <option value="4">停用</option>
-					</select>
-				  </span>
-                    </div>
-                    <div class="s-gift-search-item">
+                    <div class="s-user-search-item">
                         <span>注册时间</span>
                         <input class="c-input s-gift-search-input form-control datepicker-pop" type="text"
                                id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
@@ -148,7 +114,49 @@ $this->title = '用户管理';
                                class="c-input s-gift-search-input form-control datepicker-pop" autocomplete="off"
                                style="width: 100px;">
                     </div>
-                    <button class="c-btn u-radius--circle c-btn-primary s-gift-search-btn">查询</button>
+                    <br/>
+                    <div class="s-user-search-item" style="margin-left: 0px;">
+                        <span>是否认证</span>
+                        <span class="select-wrap">
+                            <select class="c-input s-gift-search-select" name="isAuth" id="isAuth" default="0">
+                                <?php if (empty($isAuth) || $isAuth == 0) { ?>
+                                    <option value="0" selected>全部</option>
+                                    <option value="1">已认证</option>
+                                    <option value="2">未认证</option>
+                                <?php } elseif ($isAuth == 1) { ?>
+                                    <option value="0">全部</option>
+                                    <option value="1" selected>已认证</option>
+                                    <option value="2">未认证</option>
+                                <?php } elseif ($isAuth == 2) { ?>
+                                    <option value="0">全部</option>
+                                    <option value="1">已认证</option>
+                                    <option value="2" selected>未认证</option>
+                                <?php } ?>
+                            </select>
+				        </span>
+                    </div>
+                    <div class="s-user-search-item">
+                        <span>状态</span>
+                        <span class="select-wrap">
+                            <select class="c-input s-gift-search-select" name="playType" id="status" default="0">
+                                <option value="0">全部</option>
+                                <option value="1">正常</option>
+                                <option value="2">禁播中</option>
+                                <option value="3">永久禁播</option>
+                                <option value="4">停用</option>
+                            </select>
+                        </span>
+                    </div>
+                    <!--<div class="s-gift-search-item">
+                        <span>注册时间</span>
+                        <input class="c-input s-gift-search-input form-control datepicker-pop" type="text"
+                               id="startTime" name="startTime" autocomplete="off" style="width: 100px;">
+                        —
+                        <input type="text" id="endTime" name="endTime"
+                               class="c-input s-gift-search-input form-control datepicker-pop" autocomplete="off"
+                               style="width: 100px;">
+                    </div>-->
+                    <button class="c-btn u-radius--circle c-btn-primary s-user-search-btn">查询</button>
 
                 </div>
             </form>
@@ -283,11 +291,11 @@ $this->title = '用户管理';
         <div>
             <p class="s-gift-count" style="padding-top: 20px;">共 <span class="s-page-font-color"><?= $count ?></span>
                 条记录</p>
-            <nav class="text-center" style="margin-left:30%">
+            <nav class="text-center pagebanner-location">
                 <table>
                     <tr>
                         <td class="page-space"> <?= $page ?></td>
-                        <!--<td>共<?/*= $count */?> 条</td>-->
+                        <!--<td>共<? /*= $count */ ?> 条</td>-->
                     </tr>
                 </table>
             </nav>

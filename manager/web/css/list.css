@@ -1307,3 +1307,21 @@ input::-webkit-input-placeholder {
 .pagebanner-location {
     margin-left:40%
 }
+
+/*用户中心的查询输入框*/
+.s-user-search-item {
+    /*margin: 20px 52px 0 0;*/
+    margin-top: 20px;
+    margin-left: 2%;
+    display: inline-block;
+    white-space: nowrap;
+}
+.s-user-search-item span{
+    padding-right: 5px;
+}
+
+.s-user-search-btn{
+    float: right;
+    margin-top: 20px;
+    right: 4%;
+}

@@ -93,7 +93,6 @@ $this->title = '礼物管理';
     });
 
     $("#confirm").unbind('click').bind('click', function () {
-
         var headImg = $("#headImg").attr("src");
         if (headImg == '' || headImg == undefined || headImg == null) {
             tip("请选择头像");
@@ -122,7 +121,7 @@ $this->title = '礼物管理';
         window.location.href = '/gift/index';
     });
 
-    function getPath(obj, fileQuery, headImg) {
+    function getPath(fileQuery, headImg) {
         var imgSrc = '', imgArr = [], strSrc = '';
         var file = fileQuery.files[0];
         var reader = new FileReader();
@@ -141,12 +140,21 @@ $this->title = '礼物管理';
                         imgSrc = fileQuery.value;
                         imgArr = imgSrc.split('.');
                         strSrc = imgArr[imgArr.length - 1].toLowerCase();
-                        obj.setAttribute("src", e.target.result);
 
+                        var str = '<img src="" alt="用户头像" name="imgSrc" id="headImg" class="s-headimg-size"/>';
+                        $(".s-robot-form_selectimg").html(str);
+                        var file_img = document.getElementById("headImg");
+                        file_img.setAttribute("src", e.target.result);
                         // $("#profileButton1").attr("disabled",true);
                     };
                     reader.readAsDataURL(file);
                 } else {
+                    if(headImg != undefined){
+                        $("#headImg").attr("src", headImg);
+                    }
+                    else{
+                        uploadHeadImg();
+                    }
                     tip("图片格式只能为：JPG、JPEG、PNG");
                 }
             }
@@ -157,10 +165,11 @@ $this->title = '礼物管理';
         $(".s-robot-form_headimg-close").css('display', 'block');
         var headImg = $("#headImg").attr("src");
         var iptfileupload = document.getElementById('profileButton1');
-        var str = '<img src="" alt="用户头像" name="imgSrc" id="headImg" class="s-headimg-size"/>';
-        $(".s-robot-form_selectimg").html(str);
-        var file_img = document.getElementById("headImg");
-        getPath(file_img, iptfileupload, headImg);
+        // var str = '<img src="" alt="用户头像" name="imgSrc" id="headImg" class="s-headimg-size"/>';
+        // $(".s-robot-form_selectimg").html(str);
+        // var file_img = document.getElementById("headImg");
+        // getPath(file_img, iptfileupload, headImg);
+        getPath(iptfileupload, headImg);
         // $("#profileButton1").css("font-size", "0px");
     }
 
