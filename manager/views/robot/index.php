@@ -23,10 +23,10 @@ $this->title = '机器人管理';
                 </div>
             </form>
         </div>
-        <div class="s-gitf-operate">
+        <div class="s-robot-operate">
             <a class="c-btn u-radius--circle c-btn-primary" href="/robot/add-robot">新增</a>
             <a class="c-btn u-radius--circle c-btn-primary" href="/robot/batch-add">批量新增</a>
-            <button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>
+            <!--<button class="c-btn u-radius--circle c-btn-primary" id="refresh">更新缓存</button>-->
         </div>
         <div class="s-gift-table-wrap">
             <table class="c-table s-gift-table">
