@@ -44,7 +44,7 @@ class IndexController extends BaseController{
 
         $loginUrl = "/index/login";
         $session = \Yii::$app->session;
-        $session->remove(Constants::COOKIE_UNIFIED_LOGIN);
+        $session->remove(Constants::COOKIE_UNIFIED_LOGIN.$_SERVER['HTTP_HOST']);
         Yii::$app->getResponse()->redirect($loginUrl);
     }
 
