@@ -9,9 +9,10 @@ use Yii;
 class IndexController extends BaseController{
     //首页
     public function actionLogin(){
-
+//        print_r($_SERVER['HTTP_HOST']);die;
+//        $domain = $_SERVER['HTTP_HOST'];
         $session = \Yii::$app->session;
-        $session->remove(Constants::COOKIE_UNIFIED_LOGIN);
+        $session->remove(Constants::COOKIE_UNIFIED_LOGIN.$_SERVER['HTTP_HOST']);
 
         $redirect = Yii::$app->request->get("redirect");
         return $this->render('login',[
@@ -23,9 +24,11 @@ class IndexController extends BaseController{
 
         $params = Yii::$app->request->post();
         $user = ManagerUser::findOne($params);//通过用户输入的用户名重表中选出数据
+//        print_r($user);die;
+//        print_r($_SERVER['HTTP_HOST']);die;
         if(!empty($user)){
             $session = \Yii::$app->session;
-            $session->set(Constants::COOKIE_UNIFIED_LOGIN,base64_encode(serialize($params['username'])));
+            $session->set(Constants::COOKIE_UNIFIED_LOGIN.$_SERVER['HTTP_HOST'],base64_encode(serialize($params['username'])));
             $redirect = $params['redirect'];
             if(empty($redirect)){
                 $redirect = 'http://'.$_SERVER['HTTP_HOST']. '/user/index';
