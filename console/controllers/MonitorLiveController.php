@@ -47,7 +47,7 @@ class MonitorLiveController extends Controller
                 }
             }
 
-            while ($item = $redis->rpop('3TLive:dev:LiveHeartbeat:android')) {
+            while ($item = $redis->rpop('dev:LiveHeartbeat:android')) {
                 $item = json_decode(base64_decode($item), true);
                 $video = Video::queryById($item['streamId'], true);
                 if (!empty($video)) {
