@@ -318,7 +318,7 @@ $params = [
         ],
         'imageExt' => ['gif', 'jpg', 'jpeg', 'bmp', 'png', 'swf'],
         'liveUrl' => 'http://3tlivedemo.oss-cn-beijing.aliyuncs.com',
-        'pullDomain' => 'ali.live.cdn.3ttech.cn',
+        'pullDomain' => 'ali.3tlive.cdn.3ttech.cn',
         'appName' => '3tlive',
         'pushPullAuthorityKey' => '3tlive',
         'cdnFactory' => 'aLiYun',  //腾讯云qCloud，阿里云aLiYun，星域xyCDN，创世云CSY
