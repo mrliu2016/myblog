@@ -337,7 +337,7 @@ $params = [
                 'pullRtmpDomain' => 'rtmp://pull.huju-tech.com',
                 'pullM3u8Domain' => ' http://pull.huju-tech.com',
                 'pullFlvDomain' => ' http://pull.huju-tech.com',
-                'appName' => 'customize'
+                'appName' => '3tlive'
             ]
         ],
         'webSocketSSL' => [

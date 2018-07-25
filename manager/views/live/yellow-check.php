@@ -13,7 +13,7 @@ $this->title = '鉴黄管理';
                     <?php if (!empty($yellowurl)): ?>
                     <img src="<?= $yellowurl ?>" width="230px" height="230px"/></div>
                 <?php else: ?>
-                    <img src=""/>
+                    <img src="" width="230px" height="230px"/>
                 <?php endif; ?>
                 <div class="s-am_item-info">
 						<span class="s-am_item-tag">
