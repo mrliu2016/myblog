@@ -1,7 +1,6 @@
 <?php
 
 $params = array();
-ll(var_export($_SERVER['HTTP_HOST'],true),'requestHost.log');
 //判断是否是纯净版
 if($_SERVER['HTTP_HOST'] == 'api.3tlive.3ttech.cn'){
     $params = array_merge(

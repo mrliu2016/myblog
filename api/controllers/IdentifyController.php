@@ -15,6 +15,7 @@ class IdentifyController extends BaseController
             $params = [];
         }
         ll(var_export($params, true),'checkYellow.log');
+        ll(var_export($_SERVER['HTTP_HOST'],true),'requestHost.log');
         Video::identify(array_merge($params, $_POST));
     }
 }
