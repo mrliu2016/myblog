@@ -2,7 +2,7 @@
 
 $params = array();
 //判断是否是纯净版
-if($_SERVER['HTTP_HOST'] == 'api.3tlive.3ttch.cn'){
+if($_SERVER['HTTP_HOST'] == 'api.3tlive.3ttech.cn'){
     $params = array_merge(
         require(__DIR__ . '/../../common/config/params.php'),
         require(__DIR__ . '/params.php')
