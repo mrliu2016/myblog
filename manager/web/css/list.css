@@ -156,10 +156,19 @@ select.c-input {
     height: 30px;
     padding: 0;
 }
+.s-gift-page:first-child,
+.s-gift-page:last-child {
+    color: white;
+}
+.s-gift-page:first-child:hover,
+.s-gift-page:last-child:hover {
+    color: #1AC2AD;
+}
 .s-gift-page:hover {
     color: white;
     background: #1AC2AD;
-    border-color: #1AC2AD
+    border-color: #1AC2AD;
+
 }
 .s-gift-prepage:hover::after {
     background: #1AC2AD;
@@ -1409,7 +1418,7 @@ input::-webkit-input-placeholder {
 .s-gift-nextpage[disabled]:hover,
 .s-gift-nextpage[disabled]:active {
     cursor: not-allowed;
-    color: rgba(0,0,0,.25);
+    color: #ECECEC;
     background-color: #ECECEC;
     border-color: #d9d9d9;
 }
@@ -1419,6 +1428,6 @@ input::-webkit-input-placeholder {
     cursor: not-allowed;
     background-color: #ECECEC;
     border-color: rgba(0,0,0,.1);
-    border-right: 2px #ECECEC solid;
-    border-top: 2px #ECECEC solid;
+    border-right: 2px #dadada solid;
+    border-top: 2px #DADADA solid;
 }

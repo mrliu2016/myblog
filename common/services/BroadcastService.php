@@ -56,7 +56,7 @@ class BroadcastService{
         }
         if($page==$total_pages){
             $pageBanner .= '<a class="c-btn s-gift-page '.$act.'" href="'.$url.'?page='.$total_pages.'">'.static::formatNumbers($total_pages).'</a>';
-            $pageBanner .= '<a disabled class="c-btn s-gift-page s-gift-nextpage" href="'.$url.'?page='.($page+1).'">.</a>';
+            $pageBanner .= '<a disabled class="c-btn s-gift-page s-gift-nextpage" href="#">.</a>';
         }
         return $pageBanner;
     }
