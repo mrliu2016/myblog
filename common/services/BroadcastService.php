@@ -56,6 +56,7 @@ class BroadcastService{
         }
         if($page==$total_pages){
             $pageBanner .= '<a class="c-btn s-gift-page '.$act.'" href="'.$url.'?page='.$total_pages.'">'.static::formatNumbers($total_pages).'</a>';
+            $pageBanner .= '<a disabled class="c-btn s-gift-page s-gift-nextpage" href="'.$url.'?page='.($page+1).'">.</a>';
         }
         return $pageBanner;
     }
@@ -67,7 +68,6 @@ class BroadcastService{
         $pageBanner = '';
         if($total_pages > 1){
             if($page>1){
-                /*$pageBanner.= "<a class='c-btn s-gift-page' href='javascript:".$method."(".($page-1).")'>首页</a>";*/
                 $pageBanner.= "<a class='c-btn s-message-page s-gift-prepage' href='javascript:".$method."(".($page-1).")'>.</a>";
             }
             else{
@@ -83,7 +83,6 @@ class BroadcastService{
         if($total_pages>$showPage){
             if($page>$pageoffset+1){
                 $pageBanner.="<a class='c-btn s-message-page' href='javascript:".$method."(".$start.")'>".$start."</a>";
-                //$pageBanner.="<a href='javascript:".$method."(".$start.")'>".$start."</span>";
                 $pageBanner.="<a>...</a>";
             }
             if($page>$pageoffset){
@@ -113,11 +112,10 @@ class BroadcastService{
         if($page<$total_pages){
             $pageBanner.="<a class='c-btn s-message-page' href='javascript:".$method."(".$total_pages.")'>".$total_pages."</a>";
             $pageBanner.="<a class='c-btn s-message-page s-gift-nextpage' href='javascript:".$method."(".($page+1).")'>.</a>";
-            /*$pageBanner.="<a class='c-btn s-gift-page' href='javascript:".$method."(".$total_pages.")'>尾页</a>";*/
-
         }
         if($page==$total_pages){
             $pageBanner.="<a class='c-btn s-message-page ".$act."' href='javascript:".$method."(".$total_pages.")'><span>".$total_pages."</span></a>";
+            $pageBanner.="<a disabled class='c-btn s-message-page s-gift-nextpage' href='javascript:".$method."(".($page+1).")'>.</a>";
         }
         return $pageBanner;
     }

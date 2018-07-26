@@ -197,11 +197,16 @@ class VideoRecord extends ActiveRecord
         }
         $find = static::find();
         $find = self::buildParams($find, $params);
-        $result = $find->offset($offset)->select('id,userId,roomId,streamId,startTime,videoSrc,duration,watchTime,created,title,type')
-            ->limit($params['defaultPageSize'])
-            ->orderBy('startTime desc')
-            ->asArray()
-            ->all();
+        $find = $find->offset($offset)->select('id,userId,roomId,streamId,startTime,videoSrc,duration,watchTime,created,title,type')
+            ->limit($params['defaultPageSize']);
+        if(empty($params['type'])){
+            $find = $find->orderBy('watchTime desc');
+        }
+        else if($params['type'] == 1){
+            $find = $find->orderBy('startTime desc');
+        }
+        $result = $find->asArray()->all();
+
         foreach ($result as $key => $value) {
             $streamId .= $value['streamId'] . ',';
         }

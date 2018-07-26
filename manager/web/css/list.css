@@ -1404,3 +1404,21 @@ input::-webkit-input-placeholder {
     background: #1AC2AD;
     border-color: #1AC2AD
 }
+
+.s-gift-nextpage[disabled],
+.s-gift-nextpage[disabled]:hover,
+.s-gift-nextpage[disabled]:active {
+    cursor: not-allowed;
+    color: rgba(0,0,0,.25);
+    background-color: #ECECEC;
+    border-color: #d9d9d9;
+}
+.s-gift-nextpage[disabled]::after,
+.s-gift-nextpage[disabled]:hover::after,
+.s-gift-nextpage[disabled]:active::after {
+    cursor: not-allowed;
+    background-color: #ECECEC;
+    border-color: rgba(0,0,0,.1);
+    border-right: 2px #ECECEC solid;
+    border-top: 2px #ECECEC solid;
+}
