@@ -110,14 +110,18 @@ class LiveController extends BaseController
             unset($params['nickName']);
             foreach ($result as $k => $v) {
                 $params['userId'] = $v['id'];
+                $params['type'] = 1;
                 $list = VideoRecord::queryInfo($params);
+                unset($params['type']);
                 foreach ($list as &$elem) {
                     $elem['nickName'] = $v['nickName'];
                 }
             }
             $count = count($list);
         } else {
+            $params['type'] = 1;
             $list = VideoRecord::queryInfo($params);
+            unset($params['type']);
             foreach ($list as &$val) {
                 $userInfo = User::queryById($val['userId']);
                 $val['nickName'] = $userInfo['nickName'];
