@@ -686,6 +686,8 @@ select.c-input {
 }
 .s-message-push-m_thead {
     background: #ECF1F5;
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
 }
 .s-message-push-m_table th,
 .s-message-push-m_table td {
@@ -1407,6 +1409,14 @@ input::-webkit-input-placeholder {
     height: 30px;
     padding: 0;
     margin-right: 4px;
+}
+.s-message-page:first-child,
+.s-message-page:last-child {
+    color: white;
+}
+.s-message-page:first-child:hover,
+.s-message-page:last-child:hover {
+    color: #1AC2AD;
 }
 .s-message-page:hover {
     color: white;
