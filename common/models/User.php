@@ -726,6 +726,8 @@ class User extends ActiveRecord
         $model->balance = $model->balance + intval($params['balance']);
         $model->updated = $_SERVER['REQUEST_TIME'];
         $model->save();
+        $redis = RedisClient::getInstance();
+        $redis->hset(Constants::WS_USER_BALANCE, $params['userId'], $model->balance);
         return $model->id;
     }
 }
