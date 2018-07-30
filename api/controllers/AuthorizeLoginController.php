@@ -32,6 +32,6 @@ class AuthorizeLoginController extends BaseController
     public function actionWebOauth()
     {
         $params = Yii::$app->request->get();
-        $redirect = urlencode(Yii::$app->request->absoluteUrl);
+//        $redirect = urlencode(Yii::$app->request->absoluteUrl);
     }
 }
