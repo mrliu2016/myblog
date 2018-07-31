@@ -187,7 +187,7 @@ class LiveService
                     switch ($result['messageType']) {
                         case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_REQ: // 禁播24小时
                             static::webSocketLog($result, 'webSocketMessage.log', true);
-//                            LiveService::prohibitLiveOneDay($server, '', '', $result);
+                            LiveService::prohibitLiveOneDay($server, '', '', $result);
                             break;
                         case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_30_DAYS_REQ: // 禁播30天
                             LiveService::prohibitLive30Days($server, '', '', $result);
@@ -1247,7 +1247,7 @@ class LiveService
     public static function prohibitLiveOneDay($server, $request, $response, $message)
     {
         static::webSocketLog(4, 'webSocketMessage.log', true);
-        static::forwardingProhibit($server, $request, $response, $message, Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_RES);
+//        static::forwardingProhibit($server, $request, $response, $message, Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_RES);
     }
 
     /**
