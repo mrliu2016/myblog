@@ -78,9 +78,39 @@ class LiveController extends BaseController
     public function actionStartLive()
     {
         $params = Yii::$app->request->post();
+        $result = User::queryById($params['userId']);
+        if (empty($result)) {
+            $this->jsonReturnError(Constants::CODE_FAILED, '开播失败');
+        } else {
+            // 0：正常，1：禁播24h小时，2：禁播30天，3：永久禁播，4：封禁账号
+            switch ($result['playType']) {
+                case 1:
+                    $time = $result['playTime'] + (24 * 3600);
+                    if (time() <= $time) {
+                        $prohibitEndTime = date('Y-m-d H:i', $time);
+                        $this->jsonReturnError(Constants::CODE_FAILED, '你已被禁播24小时，截止' . $prohibitEndTime);
+                    }
+                    break;
+                case 2:
+                    $time = $result['playTime'] + (30 * 24 * 3600);
+                    if (time() <= $time) {
+                        $prohibitEndTime = date('Y-m-d H:i', $time);
+                        $this->jsonReturnError(Constants::CODE_FAILED, '你已被禁播30天，截止' . $prohibitEndTime);
+                    }
+                    break;
+                case 3:
+                    $this->jsonReturnError(Constants::CODE_FAILED, '你已被永久禁播');
+                    break;
+                case 4:
+                    $this->jsonReturnError(Constants::CODE_FAILED, '你已被封禁账号');
+                    break;
+                default:
+                    break;
+            }
+        }
         $result = Video::create($params['userId'], $params['roomId'], $params['title'], $params['imgSrc'],
             !empty($params['longitude']) ? $params['longitude'] : 0.0,
-            !empty($params['latitude']) ? $params['latitude'] : 0.0,isset($params['type'])?$params['type']:1);
+            !empty($params['latitude']) ? $params['latitude'] : 0.0, isset($params['type']) ? $params['type'] : 1);
         if (!$result) {
             $this->jsonReturnError(Constants::CODE_FAILED, '开播失败');
         }

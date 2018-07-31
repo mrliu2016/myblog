@@ -69,7 +69,7 @@ class UserController extends BaseController
         if (empty($result)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '手机号或密码错误');
         }
-        switch ($result['status']) {
+        switch ($result['playType']) {
             case 4:
                 $this->jsonReturnError(Constants::CODE_FAILED, '该账号已被封禁', []);
                 break;
