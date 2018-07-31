@@ -69,25 +69,32 @@ class UserController extends BaseController
         if (empty($result)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '手机号或密码错误');
         }
-        $token = Token::generateToken($result['id']);
-        $redisClient->set(Constants::TTT_TECH_TOKEN . ':' . $token, json_encode(['userId' => $result['id'], 'token' => $token]));
-        $redisClient->expire(Constants::TTT_TECH_TOKEN . ':' . $token, Constants::LOGIN_TOKEN_EXPIRES);
-        $redisClient->del($keyFrequency);
-        $this->jsonReturnSuccess(
-            Constants::CODE_SUCCESS,
-            '登录成功',
-            [
-                'userId' => intval($result['id']),
-                'nickName' => $result['nickName'],
-                'userName' => $result['userName'],
-                'token' => $token,
-                'avatar' => $result['avatar'],
-                'mobile' => $result['mobile'],
-                'roomId' => intval($result['roomId']),
-                'level' => $result['level'],
-                'balance' => intval(!empty($result['balance']) ? $result['balance'] : 0),
-            ]
-        );
+        switch ($result['status']) {
+            case 4:
+                $this->jsonReturnError(Constants::CODE_FAILED, '该账号已被封禁', []);
+                break;
+            default:
+                $token = Token::generateToken($result['id']);
+                $redisClient->set(Constants::TTT_TECH_TOKEN . ':' . $token, json_encode(['userId' => $result['id'], 'token' => $token]));
+                $redisClient->expire(Constants::TTT_TECH_TOKEN . ':' . $token, Constants::LOGIN_TOKEN_EXPIRES);
+                $redisClient->del($keyFrequency);
+                $this->jsonReturnSuccess(
+                    Constants::CODE_SUCCESS,
+                    '登录成功',
+                    [
+                        'userId' => intval($result['id']),
+                        'nickName' => $result['nickName'],
+                        'userName' => $result['userName'],
+                        'token' => $token,
+                        'avatar' => $result['avatar'],
+                        'mobile' => $result['mobile'],
+                        'roomId' => intval($result['roomId']),
+                        'level' => $result['level'],
+                        'balance' => intval(!empty($result['balance']) ? $result['balance'] : 0),
+                    ]
+                );
+                break;
+        }
     }
 
     /**
