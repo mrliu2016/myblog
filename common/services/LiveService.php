@@ -202,7 +202,7 @@ class LiveService
                             break;
                     }
                     static::webSocketLog(2, 'webSocketMessage.log', true);
-//                    $server->redis->hdel(Constants::WS_PERPETUAL_PROHIBIT, $roomId);
+                    $server->redis->hdel(Constants::WS_PERPETUAL_PROHIBIT, $roomId);
                 }
                 $server->redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
                     base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId, 'streamId' => $param['streamId']])));
