@@ -522,7 +522,8 @@ class LiveService
 //                $server->redis->hdel(Constants::WS_INCOME . $ip . ':' . $roomId, $info['userId']); // 主播接收礼物虚拟货币
 
             // 主播-本场直播收益
-//                $key = Constants::WS_MASTER_CURRENT_INCOME . $wsIp . ':' . $roomId;
+            $key = Constants::WS_MASTER_CURRENT_INCOME . $ip . ':' . $roomId;
+            $server->redis->hdel($key, $userId);
         }
         // 删除收益
         $server->redis->hdel(Constants::WS_SEND_GIFT_VIRTUAL_CURRENCY . $ip . ':' . $roomId, $userId);
