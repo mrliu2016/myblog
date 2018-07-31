@@ -179,14 +179,10 @@ class LiveService
         $userId = $param["userId"];
         if ($param['isMaster'] == Constants::WS_ROLE_MASTER) {
             try {
-                static::webSocketLog($server->redis->hexists(Constants::WS_PERPETUAL_PROHIBIT, $roomId) . __FUNCTION__, 'webSocketMessage.log', true);
                 if ($server->redis->hexists(Constants::WS_PERPETUAL_PROHIBIT, $roomId)) {
-                    static::webSocketLog($roomId, 'webSocketMessage.log', true);
                     $result = json_decode($server->redis->hget(Constants::WS_PERPETUAL_PROHIBIT, $roomId), true);
-                    static::webSocketLog(3, 'webSocketMessage.log', true);
                     switch ($result['messageType']) {
                         case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_REQ: // 禁播24小时
-                            static::webSocketLog($result, 'webSocketMessage.log', true);
                             LiveService::prohibitLiveOneDay($server, '', '', $result);
                             break;
                         case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_30_DAYS_REQ: // 禁播30天
@@ -201,7 +197,6 @@ class LiveService
                         default:
                             break;
                     }
-                    static::webSocketLog(2, 'webSocketMessage.log', true);
                     $server->redis->hdel(Constants::WS_PERPETUAL_PROHIBIT, $roomId);
                 }
                 $server->redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
@@ -1246,7 +1241,6 @@ class LiveService
      */
     public static function prohibitLiveOneDay($server, $request, $response, $message)
     {
-        static::webSocketLog(4, 'webSocketMessage.log', true);
         static::forwardingProhibit($server, $request, $response, $message, Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_RES);
     }
 
@@ -1301,12 +1295,10 @@ class LiveService
      */
     private static function forwardingProhibit($server, $request, $response, $message, $messageType = Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_RES)
     {
-        static::webSocketLog(5, 'webSocketMessage.log', true);
         $ip = static::getWsIp($message['data']['roomId']);
         $key = Constants::WS_ROOM_USER . $ip . '_' . $message['data']['roomId'];
         $userInfo = json_decode($server->redis->hget($key, $message['data']['userId']), true);
         if (!empty($userInfo)) {
-            static::webSocketLog(__FUNCTION__, 'webSocketMessage.log', true);
             $responseMessage = [
                 'messageType' => $messageType,
                 'data' => [
@@ -1315,8 +1307,7 @@ class LiveService
                     'message' => $message['data']['message']
                 ]
             ];
-            $result = $server->push(intval($userInfo['fd']), json_encode($responseMessage));
-            static::webSocketLog(($result ? '成功' : '失败'), 'webSocketMessage.log', true);
+            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
         }
     }
 
