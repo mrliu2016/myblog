@@ -179,14 +179,15 @@ class LiveService
         $userId = $param["userId"];
         if ($param['isMaster'] == Constants::WS_ROLE_MASTER) {
             try {
-                static::webSocketLog($server->redis->hexists(Constants::WS_PERPETUAL_PROHIBIT, $roomId), 'webSocketMessage.log', true);
+                static::webSocketLog($server->redis->hexists(Constants::WS_PERPETUAL_PROHIBIT, $roomId) . __FUNCTION__, 'webSocketMessage.log', true);
                 if ($server->redis->hexists(Constants::WS_PERPETUAL_PROHIBIT, $roomId)) {
+                    static::webSocketLog($roomId, 'webSocketMessage.log', true);
                     $result = json_decode($server->redis->hget(Constants::WS_PERPETUAL_PROHIBIT, $roomId), true);
                     static::webSocketLog(3, 'webSocketMessage.log', true);
                     switch ($result['messageType']) {
                         case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_REQ: // 禁播24小时
                             static::webSocketLog($result, 'webSocketMessage.log', true);
-                            LiveService::prohibitLiveOneDay($server, '', '', $result);
+//                            LiveService::prohibitLiveOneDay($server, '', '', $result);
                             break;
                         case Constants::MESSAGE_TYPE_PROHIBIT_LIVE_30_DAYS_REQ: // 禁播30天
                             LiveService::prohibitLive30Days($server, '', '', $result);
@@ -201,7 +202,7 @@ class LiveService
                             break;
                     }
                     static::webSocketLog(2, 'webSocketMessage.log', true);
-                    $server->redis->hdel(Constants::WS_PERPETUAL_PROHIBIT, $roomId);
+//                    $server->redis->hdel(Constants::WS_PERPETUAL_PROHIBIT, $roomId);
                 }
                 $server->redis->lpush(Constants::QUEUE_WS_HEARTBEAT,
                     base64_encode(json_encode(['userId' => $userId, 'roomId' => $roomId, 'streamId' => $param['streamId']])));
