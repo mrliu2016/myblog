@@ -17,13 +17,22 @@ class AuthorizeLoginController extends BaseController
         $params = Yii::$app->request->post();
         $result = User::authorizeLogin($params);
         if ($result) {
-            $redisClient = RedisClient::getInstance();
-            $redisClient->set(
-                Constants::TTT_TECH_TOKEN . ':' . $result['token'],
-                json_encode(['userId' => $result['userId'], 'token' => $result['token']])
-            );
-            $redisClient->expire(Constants::TTT_TECH_TOKEN . ':' . $result['token'], Constants::LOGIN_TOKEN_EXPIRES);
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '登录成功!', $result);
+            switch ($result['playType']) {
+                case 4:
+                    $this->jsonReturnError(Constants::CODE_FAILED, '该账号已被封禁', []);
+                    break;
+                default:
+                    unset($result['playType']);
+                    unset($result['playTime']);
+                    $redisClient = RedisClient::getInstance();
+                    $redisClient->set(
+                        Constants::TTT_TECH_TOKEN . ':' . $result['token'],
+                        json_encode(['userId' => $result['userId'], 'token' => $result['token']])
+                    );
+                    $redisClient->expire(Constants::TTT_TECH_TOKEN . ':' . $result['token'], Constants::LOGIN_TOKEN_EXPIRES);
+                    $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '登录成功!', $result);
+                    break;
+            }
         } else {
             $this->jsonReturnError(Constants::CODE_FAILED, '登录失败，请稍后重试!', []);
         }
