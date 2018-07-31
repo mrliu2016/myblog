@@ -1306,7 +1306,7 @@ class LiveService
         $key = Constants::WS_ROOM_USER . $ip . '_' . $message['data']['roomId'];
         $userInfo = json_decode($server->redis->hget($key, $message['data']['userId']), true);
         if (!empty($userInfo)) {
-            static::webSocketLog($message['data']['message'], 'webSocketMessage.log', true);
+            static::webSocketLog(__FUNCTION__, 'webSocketMessage.log', true);
             $responseMessage = [
                 'messageType' => $messageType,
                 'data' => [
@@ -1315,7 +1315,8 @@ class LiveService
                     'message' => $message['data']['message']
                 ]
             ];
-            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+            $result = $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+            static::webSocketLog(($result ? '成功' : '失败'), 'webSocketMessage.log', true);
         }
     }
 
