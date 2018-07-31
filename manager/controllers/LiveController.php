@@ -265,15 +265,19 @@ class LiveController extends BaseController
                         'message' => $message,
                     ),
                 );
-                $url = Yii::$app->params['shareUrl'] . '/server/location?roomId=' . $roomId;//http://dev.api.customize.3ttech.cn/server/location
-                $result = AHelper::curl_get($url);
-                $result = json_decode($result, true);
-                $roomServer = $result['data']['roomServer'];
-                $host = $roomServer['host'];
-                $port = $roomServer['port'];
-                $url = 'http://' . $host . ':' . $port;
-                $result = AHelper::curlPost($url, json_encode($data));
-                $this->jsonReturnSuccess(0);
+                $redis = RedisClient::getInstance();
+                $redis->hset(Constants::WS_PERPETUAL_PROHIBIT, $roomId, json_encode($data));
+                $redis->expire(Constants::WS_PERPETUAL_PROHIBIT, Constants::WS_DEFAULT_EXPIRE);
+//                $url = Yii::$app->params['shareUrl'] . '/server/location?roomId=' . $roomId;//http://dev.api.customize.3ttech.cn/server/location
+//                $result = AHelper::curl_get($url);
+//                $result = json_decode($result, true);
+//                ll($result, __FUNCTION__ . '.log');
+//                $roomServer = $result['data']['roomServer'];
+//                $host = $roomServer['host'];
+//                $port = $roomServer['port'];
+//                $url = 'http://' . $host . ':' . $port;
+//                $result = AHelper::curlPost($url, json_encode($data));
+                $this->jsonReturnSuccess(Constants::CODE_SUCCESS);
             } else {//发送系统消息
                 $this->jsonReturnError(-1);//只能直播才推送消息
             }
