@@ -178,6 +178,7 @@ class LiveService
         $roomId = $param["roomId"];
         $userId = $param["userId"];
         if ($param['isMaster'] == Constants::WS_ROLE_MASTER) {
+            static::webSocketLog($server->redis->hexists(Constants::WS_PERPETUAL_PROHIBIT, $roomId), 'webSocketMessage.log', true);
             if ($server->redis->hexists(Constants::WS_PERPETUAL_PROHIBIT, $roomId)) {
                 $result = json_decode($server->redis->hget(Constants::WS_PERPETUAL_PROHIBIT, $roomId), true);
                 switch ($result['messageType']) {
