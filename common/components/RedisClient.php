@@ -174,4 +174,9 @@ class RedisClient
     {
         return $this->redis->hIncrBy($key, $field, $value);
     }
+
+    public function ttl($key)
+    {
+        return $this->redis->ttl($key);
+    }
 }
