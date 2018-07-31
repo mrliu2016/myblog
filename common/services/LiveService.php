@@ -1302,21 +1302,21 @@ class LiveService
     private static function forwardingProhibit($server, $request, $response, $message, $messageType = Constants::MESSAGE_TYPE_PROHIBIT_LIVE_ONE_DAY_RES)
     {
         static::webSocketLog(5, 'webSocketMessage.log', true);
-        static::webSocketLog($message['data']['message'], 'webSocketMessage.log', true);
-//        $ip = static::getWsIp($message['data']['roomId']);
-//        $key = Constants::WS_ROOM_USER . $ip . '_' . $message['data']['roomId'];
-//        $userInfo = json_decode($server->redis->hget($key, $message['data']['userId']), true);
-//        if (!empty($userInfo)) {
-//            $responseMessage = [
-//                'messageType' => $messageType,
-//                'data' => [
-//                    'userId' => $message['data']['userId'],
-//                    'roomId' => $message['data']['roomId'],
-//                    'message' => $message['data']['message']
-//                ]
-//            ];
-//            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
-//        }
+        $ip = static::getWsIp($message['data']['roomId']);
+        $key = Constants::WS_ROOM_USER . $ip . '_' . $message['data']['roomId'];
+        $userInfo = json_decode($server->redis->hget($key, $message['data']['userId']), true);
+        if (!empty($userInfo)) {
+            static::webSocketLog($message['data']['message'], 'webSocketMessage.log', true);
+            $responseMessage = [
+                'messageType' => $messageType,
+                'data' => [
+                    'userId' => $message['data']['userId'],
+                    'roomId' => $message['data']['roomId'],
+                    'message' => $message['data']['message']
+                ]
+            ];
+            $server->push(intval($userInfo['fd']), json_encode($responseMessage));
+        }
     }
 
     /**
