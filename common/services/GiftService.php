@@ -38,7 +38,7 @@ class GiftService
         if (!empty($userId)) {
             $sql = 'select id,avatar,nickName,level,description,roomId from '
                 . User::tableName() . ' where id in(' . trim($userId, ',') . ')';
-            $userInfo = Order::queryBySQLCondition($sql);
+            $userInfo = User::queryBySQLCondition($sql);
         }
         foreach ($result as $key => $value) {
             $flag = true;
