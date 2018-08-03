@@ -23,7 +23,7 @@ class User extends ActiveRecord
                 ->where(['id' => $id])->one();
         } else {
             return static::find()
-                ->select('id as userId,userName,avatar,nickName,sex,birth,mobile,expenditure,
+                ->select('id as userId,userName,avatar,nickName,sex,height,hobby,speciality,birth,mobile,expenditure,
                 balance,level,description,isValid,idCard,realName,roomId,income,province,city,region,profession,followers_cnt,followees_cnt,created,playType,playTime,status')
                 ->where(['id' => $id])
                 ->orderBy('created desc')
@@ -426,12 +426,23 @@ class User extends ActiveRecord
             if (isset($params['sex'])) { //0:女 1:男
                 $field .= '`sex`=' . intval($params['sex']) . ',';
             }
+            if(isset($params['height'])){//身高
+                $field .= '`height`=' . intval($params['height']) . ',';
+            }
+            if(!empty($params['hobby'])){//爱好
+                $field .= '`hobby`="' . $params['hobby'] . '",';
+            }
+            if(!empty($params['speciality'])){//特长
+                $field .= '`speciality`="' . $params['speciality'] . '",';
+            }
             if (!empty($params['birth'])) {//生日 时间戳
                 $field .= '`birth`=' . intval($params['birth']) . ',';
             }
-            if (!empty($params['address'])) {//签名
-                $address = explode(',', $params['address']);
-                $field .= '`province`="' . $address[0] . '",`city`="' . $address[1] . '",`region`="' . $address[2] . '",';
+            if (!empty($params['address'])) {//地址
+                if(strpos($params['address'],',')){
+                    $address = explode(',', $params['address']);
+                    $field .= '`province`="' . $address[0] . '",`city`="' . $address[1] . '",`region`="' . $address[2] . '",';
+                }
             }
             if (!empty($params['description'])) {//签名
                 $field .= '`description`="' . $params['description'] . '",';

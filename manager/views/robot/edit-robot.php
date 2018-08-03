@@ -11,7 +11,6 @@ $this->title = '机器人管理';
         opacity: 0;
         width: 200px;
     }
-
     .cover-img img {
         width: 100%;
         height: 100%;
@@ -43,7 +42,7 @@ $this->title = '机器人管理';
             <!--<img class="s-robot-form_headimg" src="http://3tdoc.oss-cn-beijing.aliyuncs.com/img/2018/05/11/13/1835_6351.png" alt="用户头像">-->
             <div class="s-robot-form_img-tips">
                 <p>图片格式：JPG、JPEG、PNG</p>
-                <p>图片大小：小于一M</p>
+                <p>图片大小：小于1M</p>
             </div>
         </div>
         <div class="s-robot-form-details">

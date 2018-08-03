@@ -45,7 +45,7 @@ $this->title = '礼物管理';
                 <input type="hidden" id="uploadType" value="1" name="uploadType">
                 <div class="s-robot-form_img-tips">
                     <p>图片格式：JPG、JPEG、PNG</p>
-                    <p>图片大小：小于一M</p>
+                    <p>图片大小：小于1M</p>
                 </div>
             </div>
             <div class="s-robot-form-details">
