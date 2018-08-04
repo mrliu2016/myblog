@@ -1,10 +1,11 @@
 <?php
-
 namespace app\manager\controllers;
 
 use app\common\components\AHelper;
 use app\common\components\CdnUtils;
+use app\common\components\OSS;
 use app\common\components\RedisClient;
+use app\common\models\LiveImg;
 use app\common\models\User;
 use app\common\models\Video;
 use app\common\models\VideoRecord;
@@ -280,5 +281,65 @@ class LiveController extends BaseController
         } else {
             $this->jsonReturnError(-1);
         }
+    }
+
+    //直播管理上传图片
+    public function actionLiveImg()
+    {
+
+        $params = Yii::$app->request->getQueryParams();
+        $params['defaultPageSize'] = self::PAGE_SIZE;
+        $params['isDelete'] = 0;
+        $result = LiveImg::queryInfo($params);
+        $count = LiveImg::queryInfoNum($params);
+        $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
+        return $this->render('live-img', [
+            'itemList' => $result,
+            'params' => Yii::$app->request->getQueryParams(),
+            'count' => $count,
+            'page' => BroadcastService::pageBanner('/live/live-img', $pageNo + 1, $count, self::PAGE_SIZE, 5, 's-gift-page-hover')
+        ]);
+    }
+
+    //新增图片
+    public function actionAddImg()
+    {
+
+        if (Yii::$app->request->post()) {
+            if (!empty($_FILES['imgSrc']['tmp_name'])) {
+                $src = (new OSS())->upload($_FILES['imgSrc']['tmp_name'], $_FILES['imgSrc']['name'], 'gift');
+            }
+            $params = Yii::$app->request->post();
+            $params['imgSrc'] = $src;
+
+            if (LiveImg::created($params)) {
+                Yii::$app->getResponse()->redirect('/live/live-img');
+            }
+        } else {
+            return $this->render("add-img");
+        }
+    }
+
+    //上传图片删除
+    public function actionImgDelete()
+    {
+        $id = Yii::$app->request->post('id');
+        $id = LiveImg::deleteImg($id);
+        if ($id) {
+            $this->jsonReturnSuccess(0, '删除成功.');
+        } else {
+            $this->jsonReturnError(-1, '删除失败');
+        }
+    }
+
+    //上传图片详情
+    public function actionImgDetail()
+    {
+        $params = Yii::$app->request->getQueryParams();
+        $id = $params['id'];
+        $result = LiveImg::queryById($id, false);//通过id查询礼物的详情
+        return $this->render('img-detail', [
+            'item' => $result
+        ]);
     }
 }
