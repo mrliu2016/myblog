@@ -5,16 +5,6 @@
  * hidden=1表示该权限只用于验证，在菜单栏不显示
  */
 return [
-    /*[
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '设置', 'icon' => 'navicon.svg', 'href' => '#'],
-        'level2' => [
-            ['permissionId' => '/application/index', 'name' => '个人信息', 'href' => '/user/index'],
-            ['permissionId' => '/application/index', 'name' => '公共设置', 'href' => '/user/index'],
-            ['permissionId' => '/application/index', 'name' => '私密设置', 'href' => '/user/index'],
-            ['permissionId' => '/application/index', 'name' => '机器人设置', 'href' => '/user/index'],
-            ['permissionId' => '/application/index', 'name' => '清除缓存', 'href' => '/user/index'],
-        ],
-    ],*/
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '用户管理', 'icon' => 'yonghuguanli.png', 'href' => '/user/index'],
         'level2' => [
@@ -24,7 +14,7 @@ return [
     [
         'level1' => ['permissionId' => 'all-selection-manage', 'name' => '直播管理', 'icon' => 'zhiboguanli.png', 'href' => '/live/index'],
         'level2' => [
-            ['permissionId' => '/application/index', 'name' => '直播管理', 'href' => '/live/index'],
+            ['permissionId' => '/live/test', 'name' => '上传图片', 'href' => '/live/index'],
         ],
     ],
     [
@@ -72,11 +62,4 @@ return [
             ['permissionId' => '/application/index', 'name' => '机器人管理', 'href' => '/robot/list'],
         ],
     ],
-    /*[
-        'level1' => ['permissionId' => 'all-selection-manage', 'name' => '分享管理', 'icon' => 'navicon.svg', 'href' => '/share/index'],
-        'level2' => [
-            ['permissionId' => '/application/index', 'name' => '分享管理', 'href' => '/robot/list'],
-        ],
-    ],*/
-
 ];
