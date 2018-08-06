@@ -497,7 +497,7 @@ class LiveService
     }
 
     //处理离开房间
-    private static function leave($server, $fdId, $roomId)
+    private static function leave($server, $fdId, $roomId, $isEffective = false)
     {
         $ip = self::getWsIp($roomId);
         $keyWSRoomLocation = Constants::WS_ROOM_LOCATION . $ip;
@@ -510,8 +510,10 @@ class LiveService
         if (!empty($userId)) {
             $server->redis->hdel($keyWSRoomFD, $fdId);
             //删除房间用户头像
-            $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
-            $server->redis->hdel($keyWSRoomUser, $userId);
+            if (!$isEffective) {
+                $keyWSRoomUser = Constants::WS_ROOM_USER . $ip . '_' . $roomId;
+                $server->redis->hdel($keyWSRoomUser, $userId);
+            }
         }
         // 删除心跳
         $keyLatestHeartbeat = Constants::WS_LATEST_HEARTBEAT_TIME . ':' . $roomId;
@@ -948,11 +950,11 @@ class LiveService
 
             switch ($latestHeartbeat[1]) {
                 case 0: // 观众
-                    static::leave($server, $fd, $roomId);
+                    static::leave($server, $fd, $roomId, true);
                     break;
                 case 1: // 主播
                     if ((time() - $latestHeartbeat[2]) <= Constants::WS_HEARTBEAT_IDLE_TIME) {
-                        static::leave($server, $fd, $roomId);
+                        static::leave($server, $fd, $roomId, true);
                     }
                     break;
             }
