@@ -99,4 +99,13 @@ class LiveImg extends ActiveRecord
             return static::find()->where(['id' => $id])->asArray()->one();
         }
     }
+
+    public static function liveImg($params)
+    {
+        $result = static::queryInfo($params);
+        foreach ($result as $key => $value) {
+            return $value;
+        }
+        return [];
+    }
 }

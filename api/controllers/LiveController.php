@@ -4,6 +4,7 @@ namespace app\api\controllers;
 
 use app\common\components\CdnUtils;
 use app\common\models\Follow;
+use app\common\models\LiveImg;
 use app\common\models\User;
 use app\common\models\Video;
 use app\common\models\VideoRecord;
@@ -206,15 +207,20 @@ class LiveController extends BaseController
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'success', ['shareUrl' => $shareUrl]);
     }
 
+    /**
+     * 节目单背景图
+     */
     public function actionShowBackground()
     {
         $params['defaultPageSize'] = $size = self::PAGE_SIZE;
         $params['page'] = intval(true);
-        $result = VideoImg::queryInfo($params);
+        $result = LiveImg::liveImg($params);
         $this->jsonReturnSuccess(
             Constants::CODE_SUCCESS,
             '操作成功',
-            $result
+            [
+                'imgSrc' => !empty($result) ? $result['imgSrc'] : ''
+            ]
         );
     }
 }
