@@ -205,4 +205,16 @@ class LiveController extends BaseController
         $shareUrl = Yii::$app->params['domain'] . "/wap/index?streamId=" . $params['streamId'];
         $this->jsonReturnSuccess(Constants::CODE_SUCCESS, 'success', ['shareUrl' => $shareUrl]);
     }
+
+    public function actionShowBackground()
+    {
+        $params['defaultPageSize'] = $size = self::PAGE_SIZE;
+        $params['page'] = intval(true);
+        $result = VideoImg::queryInfo($params);
+        $this->jsonReturnSuccess(
+            Constants::CODE_SUCCESS,
+            '操作成功',
+            $result
+        );
+    }
 }
