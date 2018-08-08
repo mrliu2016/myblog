@@ -323,6 +323,7 @@ class UserController extends BaseController
                 $frequencyResult['sendTimes'] += 1;
                 $frequencyResult['latestTimes'] = $time;
                 $redis->set($keyFrequency, json_encode($frequencyResult));
+                $redis->expire($keyFrequency, $redis->ttl($keyFrequency));
             } else {
                 $redis->set($keyFrequency, json_encode(['firstTimes' => $time, 'latestTimes' => $time, 'failureTimes' => 0, 'sendTimes' => 1]));
                 $redis->expire($keyFrequency, Constants::VERIFY_CODE_LIMIT_FREQUENCY_EXPIRES);
