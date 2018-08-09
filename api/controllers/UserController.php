@@ -368,7 +368,7 @@ class UserController extends BaseController
         if (empty($dat)) {
             $this->jsonReturnError(Constants::CODE_FAILED, '该手机号未注册', []);
         } else {
-            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '可以', []);
+            $this->jsonReturnSuccess(Constants::CODE_SUCCESS, '', []);
         }
     }
 
