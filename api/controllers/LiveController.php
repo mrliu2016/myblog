@@ -157,6 +157,7 @@ class LiveController extends BaseController
         try {
             $params = Yii::$app->request->get();
             $params['defaultPageSize'] = $size = intval(!empty($params['size']) ? $params['size'] : self::PAGE_SIZE);
+            $params['queryCreated'] = true;
             $result = VideoRecord::queryInfo($params);
             $list = Video::processLiveInfo($result, true);
             if (!empty($params['type'])) {

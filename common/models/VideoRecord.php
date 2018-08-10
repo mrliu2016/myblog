@@ -199,10 +199,9 @@ class VideoRecord extends ActiveRecord
         $find = self::buildParams($find, $params);
         $find = $find->offset($offset)->select('id,userId,roomId,streamId,startTime,videoSrc,duration,watchTime,created,title,type')
             ->limit($params['defaultPageSize']);
-        if(empty($params['type'])){
+        if (empty($params['type'])) {
             $find = $find->orderBy('watchTime desc');
-        }
-        else if($params['type'] == 1){
+        } else if ($params['type'] == 1) {
             $find = $find->orderBy('startTime desc');
         }
         $result = $find->asArray()->all();
@@ -294,6 +293,11 @@ class VideoRecord extends ActiveRecord
         }
         if (!empty($params['roomId'])) {
             $find->andWhere(['roomId' => $params['roomId']]);
+        }
+        if (isset($params['queryCreated'])) {
+            $time = time();
+            $find->andWhere('created >= ' . strtotime(date('Y-m-d', strtotime("-2 day", $time)))
+                . ' and created < ' . strtotime(date('Y-m-d', strtotime("+1 day", $time))));
         }
         return $find;
     }
