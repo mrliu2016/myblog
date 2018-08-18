@@ -84,6 +84,10 @@ class Constants
     const WS_BANNED_WORD = self::PROJECT_NAME . 'WSBannedWord'; // 违禁词
     const WS_ROOM_USER_QUANTITY = self::PROJECT_NAME . 'WSRoomUserQuantity:'; // 房间用户人数
     const WS_PERPETUAL_PROHIBIT = self::PROJECT_NAME.':PerpetualProhibit'; // 禁播
+    const WS_SERVER_LOAD_AVG = YII_ENV . ':ServerLoadAvg'; // 服务器负载
+    const WS_REGISTER_SERVER = YII_ENV . ':RegisterServer'; // 注册服务器
+    const WS_SERVER_RESOURCES = YII_ENV . ':ServerResources'; // 服务器资源
+    const WS_SERVER_HEARTBEAT = YII_ENV . ':ServerHeartbeat'; // 服务器心跳
 
     const WS_HEARTBEAT_IDLE_TIME = 30; // TCP连接如果在30秒内
     const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
