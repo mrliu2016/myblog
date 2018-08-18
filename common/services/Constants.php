@@ -68,6 +68,14 @@ class Constants
     const MESSAGE_TYPE_MUTE_REQ = 'mute_req'; // 静音
     const MESSAGE_TYPE_MUTE_RES = 'mute_res';
 
+    const WS_SERVER_LOAD_AVG = YII_ENV . ':ServerLoadAvg'; // 服务器负载
+    const WS_REGISTER_SERVER = YII_ENV . ':RegisterServer'; // 注册服务器
+    const WS_SERVER_RESOURCES = YII_ENV . ':ServerResources'; // 服务器资源
+    const WS_SERVER_HEARTBEAT = YII_ENV . ':ServerHeartbeat'; // 服务器心跳
+    const WS_ROOM_SERVER_LIST = YII_ENV . ':RoomServerList'; // hset RoomServerList:appId:roomId ip port 房间用户服务器分布
+    const WS_APPLICATION_ID_ROOM_MAP = YII_ENV . ':AppIdRoomMap'; // hset AppIdRoomMap:appId:roomId roomId appId 房间、应用 映射关系
+    const WS_ROOM_USER_LOCATION = YII_ENV . ':RoomUserLocation'; // 应用下用户位置
+    const WS_API_ROOM_USER_LOCATION = YII_ENV . ':ApiRoomUserLocation'; // Api接口调用应用下用户位置
     const WS_ROOM_LOCATION = self::PROJECT_NAME . 'WSRoomLocation_';
     const WS_ROOM_FD = self::PROJECT_NAME . 'WSRoomFD_';
     const WS_ROOM_USER = self::PROJECT_NAME . 'WSRoomUser_';
@@ -85,10 +93,6 @@ class Constants
     const WS_BANNED_WORD = self::PROJECT_NAME . 'WSBannedWord'; // 违禁词
     const WS_ROOM_USER_QUANTITY = self::PROJECT_NAME . 'WSRoomUserQuantity:'; // 房间用户人数
     const WS_PERPETUAL_PROHIBIT = self::PROJECT_NAME.':PerpetualProhibit'; // 禁播
-    const WS_SERVER_LOAD_AVG = YII_ENV . ':ServerLoadAvg'; // 服务器负载
-    const WS_REGISTER_SERVER = YII_ENV . ':RegisterServer'; // 注册服务器
-    const WS_SERVER_RESOURCES = YII_ENV . ':ServerResources'; // 服务器资源
-    const WS_SERVER_HEARTBEAT = YII_ENV . ':ServerHeartbeat'; // 服务器心跳
 
     const WS_HEARTBEAT_IDLE_TIME = 30; // TCP连接如果在30秒内
     const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
