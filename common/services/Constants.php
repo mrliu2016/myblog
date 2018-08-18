@@ -18,6 +18,7 @@ class Constants
 
     // token 有限期
     const LOGIN_TOKEN_EXPIRES = 86400;
+    const WEB_SOCKET_MAX_CONNECTION = 100000;
 
     const DEFAULT_EXPIRES = 86400;
 
