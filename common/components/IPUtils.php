@@ -4,6 +4,8 @@ namespace app\common\components;
 
 class IPUtils
 {
+    public static $ip = null;
+
     public static function is_ip($ip)
     {
         $arr = explode('.', $ip);
@@ -51,5 +53,18 @@ class IPUtils
             }
         }
         return self::is_ip($local_ip) ? $local_ip : false;
+    }
+
+    /**
+     * 获取服务器 IP 地址
+     *
+     * @return null
+     */
+    public static function getServerIP()
+    {
+        if (empty(static::$ip)) {
+            static::$ip = static::get_local_ip();
+        }
+        return static::$ip;
     }
 }
