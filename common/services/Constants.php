@@ -116,6 +116,7 @@ class Constants
     const LOGIN_TYPE_QQ = 'QQ';
     const LOGIN_TYPE_WEI_BO = 'WEI_BO';
 
+    const SCRIPT_MONITOR = 'monitor';
 
     //统一登录相关
     const COOKIE_UNIFIED_LOGIN = 'unifiedLoginTicket';
