@@ -24,4 +24,24 @@ class Base64JsonConvert
     {
         return base64_encode(json_encode($params));
     }
+
+    /**
+     * json字符串解码，并检测json串合法性
+     *
+     * @param $string
+     * @param bool $isArray
+     * @return array|mixed
+     */
+    public static function jsonDecode($string, $isArray = true)
+    {
+        $result = json_decode($string, $isArray);
+        switch (json_last_error()) {
+            case JSON_ERROR_NONE:
+                break;
+            default:
+                $result = [];
+                break;
+        }
+        return $result;
+    }
 }
