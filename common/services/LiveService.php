@@ -656,7 +656,7 @@ class LiveService
         return [
             'roomServer' => [
                 'host' => $wsServer['domain'],
-                'port' => Constants::WEB_SOCKET_PORT,
+                'port' => Constants::WEB_SOCKET_PORT_WS,
             ],
             'roomServer-wss' => [
                 'host' => $wsServer['domain'],
