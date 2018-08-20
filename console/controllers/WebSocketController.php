@@ -29,7 +29,7 @@ class WebSocketController extends Controller
         ];
         $this->server->set($setConfig);
         //添加一个监听端口，继续支持ws方式进行连接
-        $this->server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT, SWOOLE_SOCK_TCP);
+        $this->server->addlistener(Constants::WEB_SOCKET_IP, Constants::WEB_SOCKET_PORT_WS, SWOOLE_SOCK_TCP);
         //必须在onWorkerStart回调中创建redis/mysql连接
         $this->server->on('workerstart', function ($server, $id) {
             $redis = new RedisClient('default');
