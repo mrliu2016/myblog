@@ -12,13 +12,7 @@ class ServerController extends BaseController
     public function actionLocation()
     {
         $params = Yii::$app->request->get();
-        if (YII_DEBUG) {
-            $this->jsonReturnSuccess(
-                Constants::CODE_SUCCESS,
-                '获取成功',
-                LiveService::serverInfo($params)
-            );
-        } else {
+        if (isset($params['appId'])) {
             $result = ServerResourcesService::getWebSocketServer($params, null, true);
             if ($result['code'] == Constants::CODE_SUCCESS) {
                 ServerResourcesService::roomServerList($params, $result);
@@ -40,8 +34,13 @@ class ServerController extends BaseController
                     ]
                 );
             }
+        } else {
+            $this->jsonReturnSuccess(
+                Constants::CODE_SUCCESS,
+                '获取成功',
+                LiveService::serverInfo($params)
+            );
         }
         $this->jsonReturnError(Constants::CODE_SYSTEM_BUSY, '系统繁忙，请稍后重试!');
-
     }
 }
