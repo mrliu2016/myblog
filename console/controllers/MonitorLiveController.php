@@ -30,18 +30,17 @@ class MonitorLiveController extends Controller
     {
         $redis = RedisClient::getInstance();
         try {
-            while ($item = $redis->rpop('dev:Queue:LiveHeartbeat')) {
+            while ($item = $redis->rpop(Constants::QUEUE_WS_HEARTBEAT_EX)) {
                 $item = json_decode(base64_decode($item), true);
                 $video = Video::queryById($item['streamId'], true);
                 if (!empty($video)) {
                     //更新观众人数
-//                    $wsIp = LiveService::getWsIp($item['roomId']);
-//                    $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $item['roomId'];
-//                    $viewerNum = $redis->hLen($keyWSRoomUser);
-//                    $viewerNum = ($viewerNum <= Constants::NUM_WS_ROOM_USER) ? $viewerNum : LiveService::roomMemberNum(null, $item['roomId']);
-//                    if ($viewerNum > $video->viewerNum) {
-//                        $video->viewerNum = $viewerNum;
-//                    }
+                    $count = $redis->get(Constants::WS_ROOM_USER_COUNT . ':' . $item['roomId']);
+                    $count = !empty($count) ? $count : intval(false);
+                    $viewerNum = ($count <= Constants::NUM_WS_ROOM_USER) ? $count : LiveService::roomMemberNum(null, $item['roomId']);
+                    if ($viewerNum > $video->viewerNum) {
+                        $video->viewerNum = $viewerNum;
+                    }
                     //更新直播结束时间
                     Video::updateEndTime($video);
                 }
