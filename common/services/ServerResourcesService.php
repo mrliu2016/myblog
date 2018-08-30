@@ -13,7 +13,7 @@ class ServerResourcesService
      */
     public static function registerServer()
     {
-        $redis = RedisClient::getInstance();
+        $redis = RedisClient::getInstance('im');
         $ip = IPUtils::getServerIP();
         if ($redis->hexists(Constants::WS_REGISTER_SERVER, $ip)) {
             return true;
@@ -65,7 +65,7 @@ class ServerResourcesService
     public static function getWebSocketServer($params, $server = null, $flag = false)
     {
         $serverList = [];
-        $redis = $server ? $server->redis : RedisClient::getInstance();
+        $redis = $server ? $server->redis : RedisClient::getInstance('im');
         if ($redis->exists(Constants::WS_REGISTER_SERVER)) {
             $server = $redis->hGetAll(Constants::WS_REGISTER_SERVER);
             foreach ($server as $key => $value) {
@@ -156,7 +156,7 @@ class ServerResourcesService
      */
     public static function serverResource($resource)
     {
-        $redis = RedisClient::getInstance();
+        $redis = RedisClient::getInstance('im');
         $redis->hset(
             Constants::WS_SERVER_RESOURCES,
             IPUtils::getServerIP(),
@@ -174,7 +174,7 @@ class ServerResourcesService
      */
     public static function serverHeartbeat($time)
     {
-        $redis = RedisClient::getInstance();
+        $redis = RedisClient::getInstance('im');
         $redis->hset(
             Constants::WS_SERVER_HEARTBEAT,
             IPUtils::getServerIP(),
@@ -258,7 +258,7 @@ class ServerResourcesService
     public
     static function roomServerList($params, $server, $webSocket = null)
     {
-        $redis = $webSocket ? $webSocket->redis : RedisClient::getInstance();
+        $redis = $webSocket ? $webSocket->redis : RedisClient::getInstance('im');
         $key = Constants::WS_ROOM_SERVER_LIST . ':' . $params['appId'] . ':' . $params['roomId'];
         if (!($redis->hexists($key, $server['ip']))) {
             $redis->hset($key, $server['ip'], $server['udpPort']);
@@ -279,7 +279,7 @@ class ServerResourcesService
      */
     public static function setAppIdRoomMap($server, $message, $webSocket = null)
     {
-        $redis = $webSocket ? $webSocket->redis : RedisClient::getInstance();
+        $redis = $webSocket ? $webSocket->redis : RedisClient::getInstance('im');
         $key = Constants::WS_APPLICATION_ID_ROOM_MAP;
         if (!($redis->hexists($key, $message['roomId']))) {
             $redis->hset($key, $message['roomId'], $message['appId']);
@@ -295,7 +295,7 @@ class ServerResourcesService
     public static function getServerResource()
     {
         $default = 0.0;
-        $redis = RedisClient::getInstance();
+        $redis = RedisClient::getInstance('im');
         $registerServer = static::getRegisterServer();
         foreach ($registerServer as $ip => $value) {
             $registerServer[$ip]['heartbeat'] = date('Y-m-d H:i:s', $redis->hget(Constants::WS_SERVER_HEARTBEAT, $value['ip']));
@@ -372,7 +372,7 @@ class ServerResourcesService
      */
     public static function openCloseDispatchLocation($params)
     {
-        $redis = RedisClient::getInstance();
+        $redis = RedisClient::getInstance('im');
         $key = Constants::WS_REGISTER_SERVER;
         if ($redis->hExists($key, $params['ip'])) {
             $result = json_decode($redis->hget($key, $params['ip']), true);
@@ -391,7 +391,7 @@ class ServerResourcesService
      */
     public static function resetLoadAvg($params)
     {
-        $redis = RedisClient::getInstance();
+        $redis = RedisClient::getInstance('im');
         $key = Constants::WS_REGISTER_SERVER;
         if ($redis->hExists($key, $params['ip'])) {
             $result = json_decode($redis->hget($key, $params['ip']), true);
@@ -420,7 +420,7 @@ class ServerResourcesService
     public static function script()
     {
         $result = [];
-        $redis = RedisClient::getInstance();
+        $redis = RedisClient::getInstance('im');
         $script = $redis->hGetAll(Constants::SCRIPT_MONITOR);
         foreach ($script as $key => $value) {
             $key = explode(':', $key);
