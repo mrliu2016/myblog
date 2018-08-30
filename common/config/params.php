@@ -10,6 +10,12 @@ $params = [
                 'database' => 0,
                 'pwd' => 'Lining123',
             ],
+            'im' => [
+                'host' => 'r-2ze3bebc302f4674.redis.rds.aliyuncs.com',
+                'port' => 6379,
+                'database' => 0,
+                'pwd' => 'Lining123',
+            ],
         ],
         'ucDomain' => "http://dev.usercenter.3ttech.cn",
         'liveDomain'=> 'http://dev.customize.3ttech.cn',
@@ -93,6 +99,12 @@ $params = [
             'default' => [
                 'host' => '47.94.92.113',
                 'port' => 52301,
+                'database' => 0,
+                'pwd' => 'Lining123',
+            ],
+            'im' => [
+                'host' => 'r-2ze3bebc302f4674.redis.rds.aliyuncs.com',
+                'port' => 6379,
                 'database' => 0,
                 'pwd' => 'Lining123',
             ],
@@ -182,6 +194,12 @@ $params = [
                 'database' => 0,
                 'pwd' => 'Lining123',
             ],
+            'im' => [
+                'host' => 'r-2zef58d46425cae4.redis.rds.aliyuncs.com',
+                'port' => 6379,
+                'database' => 0,
+                'pwd' => 'Lining123',
+            ],
         ],
         'ucDomain' => "http://pre.usercenter.3ttech.cn",
         'domain' => 'http://api.3tlive.3ttech.cn',
@@ -264,6 +282,12 @@ $params = [
         'redisServer' => [
             'default' => [
                 'host' => 'r-2ze622244eb20b94.redis.rds.aliyuncs.com',
+                'port' => 6379,
+                'database' => 0,
+                'pwd' => 'Lining123',
+            ],
+            'im' => [
+                'host' => 'r-2zef58d46425cae4.redis.rds.aliyuncs.com',
                 'port' => 6379,
                 'database' => 0,
                 'pwd' => 'Lining123',
