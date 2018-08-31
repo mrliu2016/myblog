@@ -13,26 +13,34 @@ class ServerController extends BaseController
     {
         $params = Yii::$app->request->get();
         if (isset($params['appId'])) {
-            $result = ServerResourcesService::getWebSocketServer($params, null, true);
-            if ($result['code'] == Constants::CODE_SUCCESS) {
-                ServerResourcesService::roomServerList($params, $result);
-                ServerResourcesService::setAppIdRoomMap($result, $params);
+            if ($params['appId'] == '555e189bf1278119c78f6b1753bfe4b5') {
                 $this->jsonReturnSuccess(
                     Constants::CODE_SUCCESS,
                     '获取成功',
-                    [
-                        'roomServer' => [
-                            'ip' => $result['ip'],
-                            'host' => $result['domain'],
-                            'port' => $result['wsPort'],
-                        ],
-                        'roomServer-wss' => [
-                            'ip' => $result['ip'],
-                            'host' => $result['domain'],
-                            'port' => $result['wssPort'],
-                        ]
-                    ]
+                    LiveService::serverInfo($params)
                 );
+            } else {
+                $result = ServerResourcesService::getWebSocketServer($params, null, true);
+                if ($result['code'] == Constants::CODE_SUCCESS) {
+                    ServerResourcesService::roomServerList($params, $result);
+                    ServerResourcesService::setAppIdRoomMap($result, $params);
+                    $this->jsonReturnSuccess(
+                        Constants::CODE_SUCCESS,
+                        '获取成功',
+                        [
+                            'roomServer' => [
+                                'ip' => $result['ip'],
+                                'host' => $result['domain'],
+                                'port' => $result['wsPort'],
+                            ],
+                            'roomServer-wss' => [
+                                'ip' => $result['ip'],
+                                'host' => $result['domain'],
+                                'port' => $result['wssPort'],
+                            ]
+                        ]
+                    );
+                }
             }
         } else {
             $this->jsonReturnSuccess(
