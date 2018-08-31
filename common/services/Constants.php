@@ -99,7 +99,7 @@ class Constants
     const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
     const WS_LATEST_HEARTBEAT_TIME = self::PROJECT_NAME . 'WSLatestHeartbeatTime'; // 最新的心跳时间
     const WS_CONNECTION = self::PROJECT_NAME . 'WSConnection';
-    const WS_DEFAULT_EXPIRE = 3600;
+    const WS_DEFAULT_EXPIRE = 7200;
     const WS_WEB_SOCKET_MAX_CONNECTION = 100000;
     const WS_WORKER_NUM = 8;
     const WS_TASK_WORKER_NUM = 8;
