@@ -71,6 +71,7 @@ class Constants
 
     const WS_SERVER_LOAD_AVG = YII_ENV . ':ServerLoadAvg'; // 服务器负载
     const WS_REGISTER_SERVER = YII_ENV . ':RegisterServer'; // 注册服务器
+    const WS_REGISTER_UDP_SERVER = YII_ENV . ':RegisterUdpServer'; // 注册UDP服务器
     const WS_SERVER_RESOURCES = YII_ENV . ':ServerResources'; // 服务器资源
     const WS_SERVER_HEARTBEAT = YII_ENV . ':ServerHeartbeat'; // 服务器心跳
     const WS_ROOM_SERVER_LIST = YII_ENV . ':RoomServerList'; // hset RoomServerList:appId:roomId ip port 房间用户服务器分布
