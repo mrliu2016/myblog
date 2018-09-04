@@ -94,7 +94,7 @@ class Constants
     const WS_ROBOT = self::PROJECT_NAME . 'WSRobot'; // 机器人
     const WS_BANNED_WORD = self::PROJECT_NAME . 'WSBannedWord'; // 违禁词
     const WS_ROOM_USER_QUANTITY = self::PROJECT_NAME . 'WSRoomUserQuantity:'; // 房间用户人数
-    const WS_PERPETUAL_PROHIBIT = self::PROJECT_NAME.':PerpetualProhibit'; // 禁播
+    const WS_PERPETUAL_PROHIBIT = self::PROJECT_NAME . ':PerpetualProhibit'; // 禁播
 
     const WS_HEARTBEAT_IDLE_TIME = 30; // TCP连接如果在30秒内
     const WS_HEARTBEAT_CHECK_INTERVAL = 10; // 每10秒侦测一次心跳
@@ -110,7 +110,7 @@ class Constants
 
     // 队列
     const QUEUE_WS_HEARTBEAT = self::PROJECT_NAME . 'WS_Heartbeat_Live';
-    const QUEUE_WS_GIFT_ORDER = self::PROJECT_NAME . 'WSGiftOrder';
+    const QUEUE_WS_GIFT_ORDER = YII_ENV . 'Queue:GiftOrderQueue';
     const QUEUE_WS_HEARTBEAT_EX = YII_ENV . ':Queue:LiveHeartbeat';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
