@@ -28,7 +28,7 @@ class MonitorLiveController extends Controller
      */
     public function actionHeartbeat()
     {
-        $redis = RedisClient::getInstance();
+        $redis = RedisClient::getInstance('im');
         try {
             while ($item = $redis->rpop(Constants::QUEUE_WS_HEARTBEAT_EX)) {
                 $item = json_decode(base64_decode($item), true);
@@ -81,7 +81,7 @@ class MonitorLiveController extends Controller
     public function actionMonitorGift()
     {
         try {
-            $redis = RedisClient::getInstance();
+            $redis = RedisClient::getInstance('im');
             while ($order = $redis->rpop(Constants::QUEUE_WS_GIFT_ORDER)) {
                 $itemList = json_decode(base64_decode($order), true);
                 // 支出
