@@ -110,7 +110,7 @@ class Constants
 
     // 队列
     const QUEUE_WS_HEARTBEAT = self::PROJECT_NAME . 'WS_Heartbeat_Live';
-    const QUEUE_WS_GIFT_ORDER = YII_ENV . 'Queue:GiftOrderQueue';
+    const QUEUE_WS_GIFT_ORDER = YII_ENV . ':Queue:GiftOrderQueue';
     const QUEUE_WS_HEARTBEAT_EX = YII_ENV . ':Queue:LiveHeartbeat';
 
     const LOGIN_TYPE_WEI_XIN = 'WEI_XIN';
