@@ -29,6 +29,7 @@ class MonitorLiveController extends Controller
     public function actionHeartbeat()
     {
         $redis = RedisClient::getInstance('im');
+        $defaultRedis = RedisClient::getInstance();
         try {
             while ($item = $redis->rpop(Constants::QUEUE_WS_HEARTBEAT_EX)) {
                 $item = json_decode(base64_decode($item), true);
@@ -45,14 +46,14 @@ class MonitorLiveController extends Controller
                     Video::updateEndTime($video);
                 }
             }
-            while ($item = $redis->rpop(Constants::QUEUE_WS_HEARTBEAT)) {
+            while ($item = $defaultRedis->rpop(Constants::QUEUE_WS_HEARTBEAT)) {
                 $item = json_decode(base64_decode($item), true);
                 $video = Video::queryById($item['streamId'], true);
                 if (!empty($video)) {
                     //更新观众人数
                     $wsIp = LiveService::getWsIp($item['roomId']);
                     $keyWSRoomUser = Constants::WS_ROOM_USER . $wsIp . '_' . $item['roomId'];
-                    $viewerNum = $redis->hLen($keyWSRoomUser);
+                    $viewerNum = $defaultRedis->hLen($keyWSRoomUser);
                     $viewerNum = ($viewerNum <= Constants::NUM_WS_ROOM_USER) ? $viewerNum : LiveService::roomMemberNum(null, $item['roomId']);
                     if ($viewerNum > $video->viewerNum) {
                         $video->viewerNum = $viewerNum;
