@@ -15,7 +15,7 @@ class ManagerUser extends ActiveRecord
     //根据用户名验证是否存在用户
     public static function findOne($params){
         return static::find()
-            ->select('id,username')
+            ->select('id,username,nickName')
             ->where(['username' => $params['username']])
             ->where(['password' => md5($params['password'])])
             ->asArray()

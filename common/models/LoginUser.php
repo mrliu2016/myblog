@@ -13,4 +13,5 @@ class LoginUser extends Object
     public $domain;
     public $role;
     public $environment;
+    public $nickName;
 }

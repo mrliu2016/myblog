@@ -1,7 +1,6 @@
 <?php
 namespace app\manager\controllers;
 
-use app\common\components\AHelper;
 use app\common\components\CdnUtils;
 use app\common\components\OSS;
 use app\common\components\RedisClient;
@@ -35,6 +34,9 @@ class LiveController extends BaseController
      */
     public function actionIndex()
     {
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
         $params = Yii::$app->request->getQueryParams();
         $ip = Yii::$app->params['wsServer'][Constants::CODE_SUCCESS]['ip'];
         $redis = RedisClient::getInstance();
@@ -92,6 +94,9 @@ class LiveController extends BaseController
     //直播记录
     public function actionLiveRecord()
     {
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         if (!empty($params['startTime']) && strtotime($params['startTime']) <= strtotime('1970-1-1')) {
@@ -141,6 +146,9 @@ class LiveController extends BaseController
 
     public function actionYellow()
     {
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         if (!empty($params['startTime']) && strtotime($params['startTime']) <= strtotime('1970-1-1')) {

@@ -24,6 +24,9 @@ class GiftController extends BaseController
 
     public function actionIndex()
     {
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $params['isDelete'] = 0;
@@ -67,6 +70,9 @@ class GiftController extends BaseController
                 Yii::$app->getResponse()->redirect('/gift/index');
             }
         } else {
+            if (empty(Yii::$app->controller->user)) {
+                return $this->redirect('/index/login');
+            }
             return $this->render('create');
         }
     }
@@ -74,6 +80,9 @@ class GiftController extends BaseController
     //礼物编辑
     public function actionGiftEdit()
     {
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
         $params = Yii::$app->request->getQueryParams();
         $id = $params['id'];
         $item = Gift::queryById($id);
@@ -83,6 +92,9 @@ class GiftController extends BaseController
     //礼物详情
     public function actionDetail()
     {
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
         $params = Yii::$app->request->getQueryParams();
         $id = $params['id'];
         $result = Gift::queryById($id, false);//通过id查询礼物的详情

@@ -33,9 +33,9 @@ $this->title = '直播管理';
                 </div>
             </form>
         </div>
-        <div class="s-gitf-operate" style="margin-bottom: 20px;">
+        <!--<div class="s-gitf-operate" style="margin-bottom: 20px;">
             <a class="c-a s-gift-setting" href="/live/live-img">上传图片</a>
-        </div>
+        </div>-->
         <div class="s-gift-table-wrap" style="margin-top:40px;">
             <table class="c-table s-gift-table">
                 <thead class="c-table-thead s-gift-thead">

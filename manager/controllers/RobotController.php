@@ -15,6 +15,9 @@ class RobotController extends BaseController
 
     public function actionIndex()
     {
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;
@@ -51,7 +54,10 @@ class RobotController extends BaseController
     //机器人详情
     public function actionDetail()
     {
-        $params = Yii::$app->request->get();
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
+        $params = Yii::$app->request->getQueryParams();
         $id = intval($params['id']);
         $user = User::queryById($id);
         //送出礼物
@@ -92,7 +98,10 @@ class RobotController extends BaseController
                 Yii::$app->getResponse()->redirect('/robot/index');
             }
         } else {
-            $params = Yii::$app->request->get();
+            if (empty(Yii::$app->controller->user)) {
+                return $this->redirect('/index/login');
+            }
+            $params = Yii::$app->request->getQueryParams();
             $id = $params['id'];
             $item = User::queryById($id);
             $sendGift = Order::queryReceiveGiftByUserId($id, true);//送出
@@ -131,6 +140,9 @@ class RobotController extends BaseController
                 Yii::$app->getResponse()->redirect('/robot/index');
             }
         } else {
+            if (empty(Yii::$app->controller->user)) {
+                return $this->redirect('/index/login');
+            }
             return $this->render('add-robot');
         }
     }

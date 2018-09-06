@@ -16,7 +16,9 @@ class ContrabandController extends BaseController
     //违禁词管理
     public function actionIndex()
     {
-
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         $pageNo = !empty($params['page']) ? $params['page'] - 1 : 0;

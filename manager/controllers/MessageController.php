@@ -36,6 +36,9 @@ class MessageController extends BaseController
     //消息推送首页
     public function actionIndex()
     {
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
         $user = User::queryAllUserId();
         $userStr = '';
         foreach ($user as $val) {

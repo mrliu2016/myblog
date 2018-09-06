@@ -28,6 +28,9 @@ class UserController extends BaseController
 
     public function actionIndex()
     {
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
         $params = Yii::$app->request->getQueryParams();
         $params['defaultPageSize'] = self::PAGE_SIZE;
         if (!empty($params['startTime']) && strtotime($params['startTime']) <= strtotime('1970-1-1')) {
@@ -107,7 +110,10 @@ class UserController extends BaseController
     //用户详情
     public function actionDetail()
     {
-        $params = Yii::$app->request->get();
+        if (empty(Yii::$app->controller->user)) {
+            return $this->redirect('/index/login');
+        }
+        $params = Yii::$app->request->getQueryParams();
         $id = intval($params['id']);
         $user = User::queryById($id);
         $user['isAuth'] = 0;
