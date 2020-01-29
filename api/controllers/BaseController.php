@@ -9,7 +9,7 @@ use yii\web\Response;
 class BaseController extends Controller
 {
     const PAGE_SIZE = 15;
-    public $enableCsrfValidation = false;
+    const SHOW_MESSAGE = '华航校训： 进德修业，精益求精！';
 
     protected function jsonReturn($return)
     {
@@ -40,6 +40,8 @@ class BaseController extends Controller
             'code' => $code,
             'message' => $message,
             'data' => $data,
+            'timing' => $code,
+            'showMessage' => self::SHOW_MESSAGE,
             'encodeOptions' => JSON_FORCE_OBJECT
         ]);
     }

@@ -1,0 +1,2878 @@
+2019-12-18 22:48:21 [127.0.0.1][-][-][error][yii\web\HttpException:404] yii\base\InvalidRouteException: Unable to resolve the request: index/main-list in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php:127
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('main-list', Array)
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/main-list', Array)
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#3 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#4 {main}
+
+Next yii\web\NotFoundHttpException: Page not found. in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php:114
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#1 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#2 {main}
+2019-12-18 22:48:21 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53425'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576680501.029
+    'REQUEST_TIME' => 1576680501
+]
+2019-12-18 22:48:55 [127.0.0.1][-][-][error][yii\web\HttpException:404] yii\base\InvalidRouteException: Unable to resolve the request: index/main-list in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php:127
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('main-list', Array)
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/main-list', Array)
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#3 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#4 {main}
+
+Next yii\web\NotFoundHttpException: Page not found. in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php:114
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#1 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#2 {main}
+2019-12-18 22:48:55 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53425'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576680535.1592
+    'REQUEST_TIME' => 1576680535
+]
+2019-12-18 22:49:52 [127.0.0.1][-][-][error][yii\web\HttpException:404] yii\base\InvalidRouteException: Unable to resolve the request: index/send-message in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php:127
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#3 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#4 {main}
+
+Next yii\web\NotFoundHttpException: Page not found. in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php:114
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#1 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#2 {main}
+2019-12-18 22:49:52 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53425'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576680592.4048
+    'REQUEST_TIME' => 1576680592
+]
+2019-12-18 22:56:33 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `weight` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight`, `created` DESC LIMIT 15
+2019-12-18 22:56:33 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 22:56:33 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-18 22:56:33 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53492'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576680993.6516
+    'REQUEST_TIME' => 1576680993
+]
+2019-12-18 22:56:54 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `weight` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` LIMIT 15
+2019-12-18 22:56:54 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 22:56:55 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-18 22:56:54 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53492'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681014.8937
+    'REQUEST_TIME' => 1576681014
+]
+2019-12-18 22:56:55 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `weight` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` LIMIT 15
+2019-12-18 22:56:55 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 22:56:55 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-18 22:56:55 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53492'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681015.9158
+    'REQUEST_TIME' => 1576681015
+]
+2019-12-18 22:56:56 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `weight` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` LIMIT 15
+2019-12-18 22:56:56 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 22:56:56 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-18 22:56:56 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53492'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681016.5078
+    'REQUEST_TIME' => 1576681016
+]
+2019-12-18 22:56:56 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `weight` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` LIMIT 15
+2019-12-18 22:56:56 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 22:56:57 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-18 22:56:56 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53492'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681016.9981
+    'REQUEST_TIME' => 1576681016
+]
+2019-12-18 22:57:05 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `weight` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-18 22:57:05 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 22:57:05 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-18 22:57:05 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53492'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681025.7661
+    'REQUEST_TIME' => 1576681025
+]
+2019-12-18 22:57:06 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `weight` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-18 22:57:06 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 22:57:06 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-18 22:57:06 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53492'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681026.8923
+    'REQUEST_TIME' => 1576681026
+]
+2019-12-18 22:57:07 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `weight` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-18 22:57:07 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 22:57:07 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-18 22:57:07 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53492'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681027.6334
+    'REQUEST_TIME' => 1576681027
+]
+2019-12-18 22:57:08 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `weight` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-18 22:57:08 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 22:57:08 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-18 22:57:08 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53492'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681028.1203
+    'REQUEST_TIME' => 1576681028
+]
+2019-12-18 23:07:07 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight` FROM `t_sticky_code` WHERE (isDelete=0) AND (code=1001)
+2019-12-18 23:07:07 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 23:07:07 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-18 23:07:07 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-18 23:07:07 [127.0.0.1][-][-][error][yii\base\ErrorException:8] yii\base\ErrorException: Undefined offset: 0 in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:330
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(330): yii\base\ErrorHandler->handleError(8, 'Undefined offse...', '/Users/liuhongz...', 330, Array)
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(434): yii\db\Command->bindValues(Array)
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(453): yii\db\Command->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#6 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(69): yii\db\BaseActiveRecord->save()
+#7 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(52): app\common\models\ReleaseInfo::insertInfo(Array)
+#8 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#13 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#14 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#15 {main}
+2019-12-18 23:07:07 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '1001'
+    'content' => '111111'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53552'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=1001&content=111111'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=1001&content=111111'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681627.1693
+    'REQUEST_TIME' => 1576681627
+]
+2019-12-18 23:07:27 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight` FROM `t_sticky_code` WHERE (isDelete=0) AND (code=1001)
+2019-12-18 23:07:27 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 23:07:27 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '1001'
+    'content' => '111111'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53552'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=1001&content=111111'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=1001&content=111111'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681647.3722
+    'REQUEST_TIME' => 1576681647
+]
+2019-12-18 23:09:22 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight` FROM `t_sticky_code` WHERE (isDelete=0) AND (code=1001)
+2019-12-18 23:09:22 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-18 23:09:22 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-18 23:09:22 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-18 23:09:22 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `created`, `updated`) VALUES ('111111', 90, 1576681762, 1576681762)
+2019-12-18 23:09:22 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '1001'
+    'content' => '111111'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53573'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=1001&content=111111'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=1001&content=111111'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576681762.7191
+    'REQUEST_TIME' => 1576681762
+]
+2019-12-19 09:16:05 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code=1001)
+2019-12-19 09:16:05 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 09:16:05 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-19 09:16:05 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-19 09:16:05 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `created`, `updated`) VALUES ('111111', 90, 1576718164, 1576718164)
+2019-12-19 09:16:05 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '1001'
+    'content' => '111111'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '49579'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=1001&content=111111'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=1001&content=111111'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576718164.8955
+    'REQUEST_TIME' => 1576718164
+]
+2019-12-19 09:20:09 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `weight` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-19 09:20:09 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 09:20:09 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-19 09:20:09 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '49665'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576718409.8027
+    'REQUEST_TIME' => 1576718409
+]
+2019-12-19 11:23:45 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_sticky_code`
+2019-12-19 11:23:45 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 11:23:46 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_sticky_code' AND kcu.table_name = 't_sticky_code'
+2019-12-19 11:23:46 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_sticky_code` (`code`, `weight`, `valid_time`, `isDelete`, `created`, `updated`) VALUES ('9ERWE', 20, 1576812226, 0, 1576725825, 1576725825)
+2019-12-19 11:23:45 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64756'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/get-stick'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576725825.8774
+    'REQUEST_TIME' => 1576725825
+]
+2019-12-19 15:42:33 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code=1001)
+2019-12-19 15:42:33 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:42:32 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '1001'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=1001&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=1001&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741352.8693
+    'REQUEST_TIME' => 1576741352
+]
+2019-12-19 15:42:44 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code=42XHW)
+2019-12-19 15:42:44 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:42:44 [127.0.0.1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column '42XHW' in 'where clause' in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:902
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(902): PDOStatement->execute()
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(376): yii\db\Command->queryInternal('fetch', NULL)
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Query.php(253): yii\db\Command->queryOne()
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveQuery.php(295): yii\db\Query->one(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/common/models/StickyCode.php(27): yii\db\ActiveQuery->one()
+#5 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(57): app\common\models\StickyCode::getWeightByCode('42XHW')
+#6 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#7 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#13 {main}
+
+Next yii\db\Exception: SQLSTATE[42S22]: Column not found: 1054 Unknown column '42XHW' in 'where clause'
+The SQL being executed was: SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code=42XHW) in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php:636
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(917): yii\db\Schema->convertException(Object(PDOException), 'SELECT `weight`...')
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(376): yii\db\Command->queryInternal('fetch', NULL)
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Query.php(253): yii\db\Command->queryOne()
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveQuery.php(295): yii\db\Query->one(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/common/models/StickyCode.php(27): yii\db\ActiveQuery->one()
+#5 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(57): app\common\models\StickyCode::getWeightByCode('42XHW')
+#6 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#7 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#12 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#13 {main}
+Additional Information:
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column '42XHW' in 'where clause'
+)
+
+2019-12-19 15:42:44 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741364.2602
+    'REQUEST_TIME' => 1576741364
+]
+2019-12-19 15:43:48 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:43:48 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:43:48 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-19 15:43:48 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-19 15:43:48 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558430, 1576741428, 1576741428)
+2019-12-19 15:43:48 [127.0.0.1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1 in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:846
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(846): PDOStatement->execute()
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1
+The SQL being executed was: INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558430, 1576741428, 1576741428) in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php:636
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `t_...')
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 22003
+    [1] => 1264
+    [2] => Out of range value for column 'valid_time' at row 1
+)
+
+2019-12-19 15:43:48 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741428.1056
+    'REQUEST_TIME' => 1576741428
+]
+2019-12-19 15:43:50 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:43:50 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:43:50 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-19 15:43:50 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-19 15:43:50 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558432, 1576741430, 1576741430)
+2019-12-19 15:43:50 [127.0.0.1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1 in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:846
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(846): PDOStatement->execute()
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1
+The SQL being executed was: INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558432, 1576741430, 1576741430) in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php:636
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `t_...')
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 22003
+    [1] => 1264
+    [2] => Out of range value for column 'valid_time' at row 1
+)
+
+2019-12-19 15:43:50 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741430.2753
+    'REQUEST_TIME' => 1576741430
+]
+2019-12-19 15:44:30 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:44:30 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:44:30 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-19 15:44:30 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-19 15:44:30 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558472, 1576741470, 1576741470)
+2019-12-19 15:44:30 [127.0.0.1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1 in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:846
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(846): PDOStatement->execute()
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1
+The SQL being executed was: INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558472, 1576741470, 1576741470) in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php:636
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `t_...')
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 22003
+    [1] => 1264
+    [2] => Out of range value for column 'valid_time' at row 1
+)
+
+2019-12-19 15:44:30 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741470.1758
+    'REQUEST_TIME' => 1576741470
+]
+2019-12-19 15:44:31 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:44:31 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:44:31 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-19 15:44:31 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-19 15:44:31 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558473, 1576741471, 1576741471)
+2019-12-19 15:44:31 [127.0.0.1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1 in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:846
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(846): PDOStatement->execute()
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1
+The SQL being executed was: INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558473, 1576741471, 1576741471) in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php:636
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `t_...')
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 22003
+    [1] => 1264
+    [2] => Out of range value for column 'valid_time' at row 1
+)
+
+2019-12-19 15:44:31 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741471.3458
+    'REQUEST_TIME' => 1576741471
+]
+2019-12-19 15:45:26 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:45:26 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:45:26 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-19 15:45:26 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-19 15:45:26 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558528, 1576741526, 1576741526)
+2019-12-19 15:45:26 [127.0.0.1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1 in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:846
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(846): PDOStatement->execute()
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1
+The SQL being executed was: INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558528, 1576741526, 1576741526) in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php:636
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `t_...')
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 22003
+    [1] => 1264
+    [2] => Out of range value for column 'valid_time' at row 1
+)
+
+2019-12-19 15:45:26 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741526.8278
+    'REQUEST_TIME' => 1576741526
+]
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558531, 1576741529, 1576741529)
+2019-12-19 15:45:29 [127.0.0.1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1 in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:846
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(846): PDOStatement->execute()
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1
+The SQL being executed was: INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558531, 1576741529, 1576741529) in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php:636
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `t_...')
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 22003
+    [1] => 1264
+    [2] => Out of range value for column 'valid_time' at row 1
+)
+
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741529.2106
+    'REQUEST_TIME' => 1576741529
+]
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558531, 1576741529, 1576741529)
+2019-12-19 15:45:29 [127.0.0.1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1 in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:846
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(846): PDOStatement->execute()
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1
+The SQL being executed was: INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558531, 1576741529, 1576741529) in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php:636
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `t_...')
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 22003
+    [1] => 1264
+    [2] => Out of range value for column 'valid_time' at row 1
+)
+
+2019-12-19 15:45:29 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741529.4751
+    'REQUEST_TIME' => 1576741529
+]
+2019-12-19 15:45:30 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:45:30 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:45:30 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-19 15:45:30 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-19 15:45:30 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558532, 1576741530, 1576741530)
+2019-12-19 15:45:30 [127.0.0.1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1 in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:846
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(846): PDOStatement->execute()
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[22003]: Numeric value out of range: 1264 Out of range value for column 'valid_time' at row 1
+The SQL being executed was: INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 3153558532, 1576741530, 1576741530) in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php:636
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(856): yii\db\Schema->convertException(Object(PDOException), 'INSERT INTO `t_...')
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php(454): yii\db\Command->execute()
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(494): yii\db\Schema->insert('t_release_info', Array)
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveRecord.php(461): yii\db\ActiveRecord->insertInternal(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/BaseActiveRecord.php(635): yii\db\ActiveRecord->insert(true, NULL)
+#5 /Users/liuhongzhen2/gsws/myBlog/common/models/ReleaseInfo.php(74): yii\db\BaseActiveRecord->save()
+#6 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(65): app\common\models\ReleaseInfo::insertInfo(Array, '1576817002')
+#7 [internal function]: app\api\controllers\IndexController->actionSendMessage()
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): yii\base\Controller->runAction('send-message', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/send-mess...', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 22003
+    [1] => 1264
+    [2] => Out of range value for column 'valid_time' at row 1
+)
+
+2019-12-19 15:45:30 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741530.1588
+    'REQUEST_TIME' => 1576741530
+]
+2019-12-19 15:45:45 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:45:45 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:45:45 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741545.9272
+    'REQUEST_TIME' => 1576741545
+]
+2019-12-19 15:46:01 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:46:01 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:46:01 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741561.4362
+    'REQUEST_TIME' => 1576741561
+]
+2019-12-19 15:46:02 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:46:02 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:46:02 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741562.2402
+    'REQUEST_TIME' => 1576741562
+]
+2019-12-19 15:46:26 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:46:26 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:46:26 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741586.0538
+    'REQUEST_TIME' => 1576741586
+]
+2019-12-19 15:46:35 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `weight`, `valid_time`, `created` FROM `t_sticky_code` WHERE (isDelete=0) AND (code="42XHW")
+2019-12-19 15:46:35 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-19 15:46:35 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_release_info`
+2019-12-19 15:46:35 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_release_info' AND kcu.table_name = 't_release_info'
+2019-12-19 15:46:35 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_release_info` (`content`, `weight`, `top`, `valid_time`, `created`, `updated`) VALUES ('111112', 20, 0, 1576817002, 1576741595, 1576741595)
+2019-12-19 15:46:35 [127.0.0.1][-][-][info][application] $_GET = [
+    'code' => '42XHW'
+    'content' => '111112'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '64980'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/send-message?code=42XHW&content=111112'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'code=42XHW&content=111112'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576741595.5492
+    'REQUEST_TIME' => 1576741595
+]
+2019-12-20 17:30:06 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-20 17:30:06 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-20 17:30:06 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-20 17:30:05 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '51794'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576834205.4848
+    'REQUEST_TIME' => 1576834205
+]
+2019-12-20 17:30:19 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `id`, `name` FROM `t_category` WHERE isDelete=0 ORDER BY `created` DESC LIMIT 15
+2019-12-20 17:30:19 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-20 17:30:19 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_category` WHERE isDelete=0
+2019-12-20 17:30:19 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.79 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '51794'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/category-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576834219.1933
+    'REQUEST_TIME' => 1576834219
+]
+2019-12-21 10:07:10 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 10:07:10 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 10:07:10 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-21 10:07:10 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '50153'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576894030.0365
+    'REQUEST_TIME' => 1576894030
+]
+2019-12-21 10:38:26 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 10:38:26 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 10:38:26 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-21 10:38:26 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '50546'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576895906.6957
+    'REQUEST_TIME' => 1576895906
+]
+2019-12-21 10:38:27 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 10:38:27 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 10:38:27 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-21 10:38:27 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '50546'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576895907.5391
+    'REQUEST_TIME' => 1576895907
+]
+2019-12-21 17:19:58 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 17:19:58 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 17:19:58 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-21 17:19:58 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54904'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576919998.1477
+    'REQUEST_TIME' => 1576919998
+]
+2019-12-21 17:20:11 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 17:20:11 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 17:20:11 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-21 17:20:10 [127.0.0.1][-][-][info][application] $_GET = [
+    'categoryId' => '0'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54904'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list?categoryId=0'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'categoryId=0'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576920010.9763
+    'REQUEST_TIME' => 1576920010
+]
+2019-12-21 17:20:13 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0) ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 17:20:13 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 17:20:14 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0)
+2019-12-21 17:20:13 [127.0.0.1][-][-][info][application] $_GET = [
+    'categoryId' => '1'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54904'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list?categoryId=1'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'categoryId=1'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576920013.8651
+    'REQUEST_TIME' => 1576920013
+]
+2019-12-21 17:21:08 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0) ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 17:21:08 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 17:21:08 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0)
+2019-12-21 17:21:08 [127.0.0.1][-][-][info][application] $_GET = [
+    'categoryId' => '1'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54904'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list?categoryId=1'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'categoryId=1'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576920068.5953
+    'REQUEST_TIME' => 1576920068
+]
+2019-12-21 17:21:09 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0) ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 17:21:09 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 17:21:09 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0)
+2019-12-21 17:21:09 [127.0.0.1][-][-][info][application] $_GET = [
+    'categoryId' => '1'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54904'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list?categoryId=1'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'categoryId=1'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576920069.7853
+    'REQUEST_TIME' => 1576920069
+]
+2019-12-21 17:21:10 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0) ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 17:21:10 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 17:21:10 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0)
+2019-12-21 17:21:10 [127.0.0.1][-][-][info][application] $_GET = [
+    'categoryId' => '1'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54904'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list?categoryId=1'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'categoryId=1'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576920070.2835
+    'REQUEST_TIME' => 1576920070
+]
+2019-12-21 17:21:10 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `created` FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0) ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 17:21:10 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 17:21:10 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0)
+2019-12-21 17:21:10 [127.0.0.1][-][-][info][application] $_GET = [
+    'categoryId' => '1'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54904'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list?categoryId=1'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'categoryId=1'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576920070.6123
+    'REQUEST_TIME' => 1576920070
+]
+2019-12-21 17:52:45 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `categoryId`, `created` FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0) ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 17:52:45 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 17:52:45 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE (categoryId="1") AND (isDelete=0)
+2019-12-21 17:52:45 [127.0.0.1][-][-][info][application] $_GET = [
+    'categoryId' => '1'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '63672'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list?categoryId=1'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'categoryId=1'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576921965.2466
+    'REQUEST_TIME' => 1576921965
+]
+2019-12-21 17:52:49 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `content`, `top`, `categoryId`, `created` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-21 17:52:49 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 17:52:49 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `id`, `name` FROM `t_category` WHERE isDelete=0
+2019-12-21 17:52:49 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-21 17:52:49 [127.0.0.1][-][-][info][application] $_GET = [
+    'categoryId' => '0'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '63672'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list?categoryId=0'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'categoryId=0'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576921969.0116
+    'REQUEST_TIME' => 1576921969
+]
+2019-12-21 21:09:45 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT * FROM `t_user` WHERE (isDelete=0) AND (phone="18515601525")
+2019-12-21 21:09:45 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 21:09:45 [127.0.0.1][-][-][info][application] $_GET = [
+    'phone' => '18515601525'
+    'time' => '3'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '54591'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/get-stick?phone=18515601525&time=3'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'phone=18515601525&time=3'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576933785.1025
+    'REQUEST_TIME' => 1576933785
+]
+2019-12-21 21:11:57 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT * FROM `t_user` WHERE (isDelete=0) AND (phone="18515601525")
+2019-12-21 21:11:57 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 21:11:57 [127.0.0.1][-][-][info][application] $_GET = [
+    'phone' => '18515601525'
+    'time' => '3'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '55161'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/get-stick?phone=18515601525&time=3'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'phone=18515601525&time=3'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576933917.5142
+    'REQUEST_TIME' => 1576933917
+]
+2019-12-21 21:12:34 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT * FROM `t_user` WHERE (isDelete=0) AND (phone="18515601525")
+2019-12-21 21:12:34 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 21:12:34 [127.0.0.1][-][-][error][yii\db\Exception] PDOException: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'isDelete' in 'where clause' in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php:902
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(902): PDOStatement->execute()
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(376): yii\db\Command->queryInternal('fetch', NULL)
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Query.php(253): yii\db\Command->queryOne()
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveQuery.php(295): yii\db\Query->one(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/common/models/UserInfo.php(20): yii\db\ActiveQuery->one()
+#5 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(96): app\common\models\UserInfo::verifyPhone('18515601525')
+#6 [internal function]: app\api\controllers\IndexController->actionGetStick()
+#7 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(22): yii\base\Controller->runAction('get-stick', Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): app\api\controllers\IndexController->runAction('get-stick', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/get-stick', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+
+Next yii\db\Exception: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'isDelete' in 'where clause'
+The SQL being executed was: SELECT * FROM `t_user` WHERE (isDelete=0) AND (phone="18515601525") in /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Schema.php:636
+Stack trace:
+#0 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(917): yii\db\Schema->convertException(Object(PDOException), 'SELECT * FROM `...')
+#1 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Command.php(376): yii\db\Command->queryInternal('fetch', NULL)
+#2 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/Query.php(253): yii\db\Command->queryOne()
+#3 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/db/ActiveQuery.php(295): yii\db\Query->one(NULL)
+#4 /Users/liuhongzhen2/gsws/myBlog/common/models/UserInfo.php(20): yii\db\ActiveQuery->one()
+#5 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(96): app\common\models\UserInfo::verifyPhone('18515601525')
+#6 [internal function]: app\api\controllers\IndexController->actionGetStick()
+#7 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/InlineAction.php(57): call_user_func_array(Array, Array)
+#8 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Controller.php(156): yii\base\InlineAction->runWithParams(Array)
+#9 /Users/liuhongzhen2/gsws/myBlog/api/controllers/IndexController.php(22): yii\base\Controller->runAction('get-stick', Array)
+#10 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Module.php(523): app\api\controllers\IndexController->runAction('get-stick', Array)
+#11 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/web/Application.php(102): yii\base\Module->runAction('index/get-stick', Array)
+#12 /Users/liuhongzhen2/gsws/myBlog/vendor/yiisoft/yii2/base/Application.php(380): yii\web\Application->handleRequest(Object(yii\web\Request))
+#13 /Users/liuhongzhen2/gsws/myBlog/api/web/index.php(19): yii\base\Application->run()
+#14 {main}
+Additional Information:
+Array
+(
+    [0] => 42S22
+    [1] => 1054
+    [2] => Unknown column 'isDelete' in 'where clause'
+)
+
+2019-12-21 21:12:34 [127.0.0.1][-][-][info][application] $_GET = [
+    'phone' => '18515601525'
+    'time' => '3'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '55161'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/get-stick?phone=18515601525&time=3'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'phone=18515601525&time=3'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576933954.3715
+    'REQUEST_TIME' => 1576933954
+]
+2019-12-21 21:13:48 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT * FROM `t_user` WHERE (isDelete=0) AND (phone="18515601525")
+2019-12-21 21:13:48 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-21 21:13:48 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_user`
+2019-12-21 21:13:49 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_user' AND kcu.table_name = 't_user'
+2019-12-21 21:13:49 [127.0.0.1][-][-][info][yii\db\Command::query] SHOW FULL COLUMNS FROM `t_sticky_code`
+2019-12-21 21:13:49 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT
+    kcu.constraint_name,
+    kcu.column_name,
+    kcu.referenced_table_name,
+    kcu.referenced_column_name
+FROM information_schema.referential_constraints AS rc
+JOIN information_schema.key_column_usage AS kcu ON
+    (
+        kcu.constraint_catalog = rc.constraint_catalog OR
+        (kcu.constraint_catalog IS NULL AND rc.constraint_catalog IS NULL)
+    ) AND
+    kcu.constraint_schema = rc.constraint_schema AND
+    kcu.constraint_name = rc.constraint_name
+WHERE rc.constraint_schema = database() AND kcu.table_schema = database()
+AND rc.table_name = 't_sticky_code' AND kcu.table_name = 't_sticky_code'
+2019-12-21 21:13:49 [127.0.0.1][-][-][info][yii\db\Command::execute] INSERT INTO `t_sticky_code` (`code`, `weight`, `valid_time`, `isDelete`, `created`, `updated`) VALUES ('8wmKK', 20, 1577193229, 0, 1576934028, 1576934028)
+2019-12-21 21:13:48 [127.0.0.1][-][-][info][application] $_GET = [
+    'phone' => '18515601525'
+    'time' => '3'
+]
+
+$_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CACHE_CONTROL' => 'max-age=0'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '55628'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/get-stick?phone=18515601525&time=3'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => 'phone=18515601525&time=3'
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1576934028.5582
+    'REQUEST_TIME' => 1576934028
+]
+2019-12-23 15:17:18 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `id`, `content`, `top`, `categoryId`, `created` FROM `t_release_info` WHERE isDelete=0 ORDER BY `weight` DESC, `created` DESC LIMIT 15
+2019-12-23 15:17:18 [127.0.0.1][-][-][info][yii\db\Connection::open] Opening DB connection: mysql:host=188.131.170.220;dbname=small_program
+2019-12-23 15:17:18 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT `id`, `name` FROM `t_category` WHERE isDelete=0
+2019-12-23 15:17:18 [127.0.0.1][-][-][info][yii\db\Command::query] SELECT COUNT(*) FROM `t_release_info` WHERE isDelete=0
+2019-12-23 15:17:18 [127.0.0.1][-][-][info][application] $_SERVER = [
+    'USER' => '_www'
+    'HOME' => '/Library/WebServer'
+    'HTTP_ACCEPT_LANGUAGE' => 'zh-CN,zh;q=0.9'
+    'HTTP_ACCEPT_ENCODING' => 'gzip, deflate'
+    'HTTP_ACCEPT' => 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'
+    'HTTP_USER_AGENT' => 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.88 Safari/537.36'
+    'HTTP_UPGRADE_INSECURE_REQUESTS' => '1'
+    'HTTP_CONNECTION' => 'keep-alive'
+    'HTTP_HOST' => 'lhz.api.myblog.com'
+    'APPLICATION_ENV' => 'local'
+    'SCRIPT_FILENAME' => '/Users/liuhongzhen2/gsws/myBlog/api/web/index.php'
+    'REDIRECT_STATUS' => '200'
+    'SERVER_NAME' => 'lhz.api.myblog.com'
+    'SERVER_PORT' => '80'
+    'SERVER_ADDR' => '127.0.0.1'
+    'REMOTE_PORT' => '53479'
+    'REMOTE_ADDR' => '127.0.0.1'
+    'SERVER_SOFTWARE' => 'nginx/1.15.9'
+    'GATEWAY_INTERFACE' => 'CGI/1.1'
+    'REQUEST_SCHEME' => 'http'
+    'SERVER_PROTOCOL' => 'HTTP/1.1'
+    'DOCUMENT_ROOT' => '/Users/liuhongzhen2/gsws/myBlog/api/web'
+    'DOCUMENT_URI' => '/index.php'
+    'REQUEST_URI' => '/index/main-list'
+    'SCRIPT_NAME' => '/index.php'
+    'CONTENT_LENGTH' => ''
+    'CONTENT_TYPE' => ''
+    'REQUEST_METHOD' => 'GET'
+    'QUERY_STRING' => ''
+    'FCGI_ROLE' => 'RESPONDER'
+    'PHP_SELF' => '/index.php'
+    'REQUEST_TIME_FLOAT' => 1577085438.012
+    'REQUEST_TIME' => 1577085438
+]

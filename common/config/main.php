@@ -26,6 +26,11 @@ return [
         'oss' => [
             'class' => 'app\common\components\OSS',
         ],
+        'session' => [
+            'class' => 'yii\web\DbSession', //session 操作对象
+            'db' => 'db',   //指定数据库操作组件是上面的组件db
+            'sessionTable' => 'yii_session' //session 数据库表名称
+        ]
     ],
     'timeZone' => 'Asia/Shanghai',
 ];
