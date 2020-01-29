@@ -1,13 +1,5 @@
 <?php
 
-//$db = array();
-////判断是否是纯净版
-//if($_SERVER['HTTP_HOST']=='3tlive.3ttech.cn'){
-//    $db = require(__DIR__ . '/db.php');
-//}
-//else{
-//    $db = require(__DIR__ . '/dbPure.php');
-//}
 $db = require(__DIR__ . '/db.php');
 
 return [
@@ -34,6 +26,11 @@ return [
         'oss' => [
             'class' => 'app\common\components\OSS',
         ],
+        'session' => [
+            'class' => 'yii\web\DbSession', //session 操作对象
+            'db' => 'db',   //指定数据库操作组件是上面的组件db
+            'sessionTable' => 'yii_session' //session 数据库表名称
+        ]
     ],
     'timeZone' => 'Asia/Shanghai',
 ];

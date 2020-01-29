@@ -51,4 +51,14 @@ class ParseUtils
         }
         return $host;
     }
+
+    //移除域名中的端口
+    public static function removePort($host)
+    {
+        $index = strpos($host, ':', 0);
+        if ($index > 1) {
+            $host = substr($host, 0, $index);
+        }
+        return $host;
+    }
 }
